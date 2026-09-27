@@ -1,1 +1,16 @@
 .DS_Store
+
+# --- APM ---------------------------------------------------------------------
+# apm's own package cache/staging area.
+apm_modules/
+
+# APM-generated deploy outputs, treated like node_modules: reproducible from
+# apm.yml + apm.lock.yaml via `apm install --frozen`.
+#
+# Do NOT add .apm/ here -- that is the AUTHORED source of the skills this repo
+# publishes, and it must stay tracked. Only the *generated* trees are ignored.
+.agents/
+.claude/skills/
+
+# npm is used only for changesets (version bookkeeping); nothing is published.
+node_modules/
