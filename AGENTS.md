@@ -67,58 +67,19 @@ If workspace registration is missing, fix it before continuing.
 ## New Branch Workflow
 
 A new branch is created **only** by adding a worktree — never with `git checkout -b` / `git switch -c`
-in the current directory.
-
-1. **Create the worktree** from within any existing worktree (or from the parent directory, dropping the
-   `../`):
-   ```bash
-   git worktree add -b branch-name ../branch-name   # branch does not exist yet
-   git worktree add ../branch-name                  # local branch already exists
-   git worktree add ../branch-name origin/branch-name   # existing remote branch
-   ```
-
-2. **Register in the VS Code workspace** — edit `../katana-sdlc-skills.code-workspace` and add the folder:
-   ```jsonc
-   { "name": "branch-name", "path": "branch-name" }
-   ```
-
-Both steps are **mandatory** — never skip the workspace registration.
+in the current directory. The procedure, including the mandatory workspace registration, is the
+**`bare-clone-workflow`** skill (`.claude/skills/bare-clone-workflow/`) — this repo installs its own
+copy, so follow it here rather than improvising.
 
 ## Branch Shutdown
 
-When a branch is merged or no longer needed, clean it up in this order:
+Retiring a branch is the **`branch-shutdown`** skill (`.claude/skills/branch-shutdown/`). Run it from
+the `main` worktree: it fetches from the remote, proves the work survives on `main` (including
+squash-merges), and only then removes the worktree, the workspace entry, the local branch and the
+remote branch.
 
-1. **Remove the worktree** — from any *other* worktree (you cannot remove the one you're in):
-   ```bash
-   git worktree remove ../branch-name
-   ```
-   This unregisters the worktree from git and deletes the directory, including any untracked files in it.
-   Confirm anything durable was committed before the PR merged; after this step it is gone.
-
-2. **Remove from the VS Code workspace** — edit `../katana-sdlc-skills.code-workspace` and delete the
-   folder entry:
-   ```jsonc
-   { "name": "branch-name", "path": "branch-name" }  // ← remove this line
-   ```
-
-3. **Delete the directory** (if still present) — `git worktree remove` should handle this, but if the
-   directory lingers:
-   ```bash
-   rm -rf ../branch-name
-   ```
-
-4. **Delete the local branch:**
-   ```bash
-   git branch -d branch-name
-   ```
-   Use `-D` instead of `-d` if the branch was not fully merged.
-
-5. **Delete the remote branch:**
-   ```bash
-   git push origin --delete branch-name
-   ```
-
-All steps are **mandatory** — incomplete cleanup leaves stale worktrees, branches, or workspace entries.
+**Deleting a branch without that gate orphans its commits** — it has already cost this project a
+skill once. Do not hand-roll the sequence.
 
 ## Skills and dependencies (APM)
 
@@ -148,7 +109,7 @@ apm self-update        # or: brew upgrade apm
 ### Layout
 
 Authored skills live at **`src/skills/<name>/SKILL.md`**. Nesting under a category directory is
-allowed (`src/skills/sdlc/<name>/SKILL.md`), and no per-skill `apm.yml` is needed — apm synthesises
+allowed (`src/skills/<category>/<name>/SKILL.md`), and no per-skill `apm.yml` is needed — apm synthesises
 the metadata.
 
 Consumers install each skill **by its subpath** at a tag, which is what allows the source to live in
@@ -161,7 +122,7 @@ line per skill instead of one line for the whole repo: a repo-root reference onl
 ```yaml
 devDependencies:
   apm:
-    - ./src/skills/sdlc/branch-shutdown
+    - ./src/skills/branch-shutdown
 ```
 
 Without it the skill still publishes to consumers, but `apm install` does **not** deploy it into this
@@ -229,9 +190,9 @@ One entry per skill, referencing its subpath:
 # consumer apm.yml
 dependencies:
   apm:
-    - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/bare-clone-workflow
+    - git: Meito-ai/katana-sdlc-skills/src/skills/bare-clone-workflow
       ref: v0.1.0                    # or "^0.1.0" on apm >= 0.16
-    - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/branch-shutdown
+    - git: Meito-ai/katana-sdlc-skills/src/skills/branch-shutdown
       ref: v0.1.0
 ```
 
@@ -266,9 +227,9 @@ skill name in both places.
 ## Re-creating this layout from scratch
 
 ```bash
-mkdir -p katana-sdlc-skills && cd katana-sdlc-skills
-git clone --bare git@github.com:Meito-ai/katana-sdlc-skills.git .bare
-git --git-dir=.bare config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
-echo 'gitdir: ./.bare' > .git
-git worktree add main
+.claude/skills/bare-clone-workflow/scripts/bare-clone-init.sh \
+  git@github.com:Meito-ai/katana-sdlc-skills.git ~/projects/sdlc/katana-sdlc-skills
 ```
+
+The `bare-clone-workflow` skill documents what the script does, the by-hand equivalent, and the
+in-place conversion of an existing clone.
