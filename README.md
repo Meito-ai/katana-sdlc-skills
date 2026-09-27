@@ -14,8 +14,10 @@ Reference each skill you want by its subpath:
 ```yaml
 dependencies:
   apm:
-    - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/bare-clone-workflow
-      ref: v0.1.0        # or "^0.1.0" on apm >= 0.16.0
+    - git: Meito-ai/katana-sdlc-skills/src/skills/bare-clone-workflow
+      ref: v0.2.0        # or "^0.2.0" on apm >= 0.16.0
+    - git: Meito-ai/katana-sdlc-skills/src/skills/branch-shutdown
+      ref: v0.2.0
 ```
 
 ```bash
@@ -35,8 +37,16 @@ skills you want explicitly.
 
 ## Skills
 
-Each skill lives at [`src/skills/`](./src/skills). None are published yet — this repo currently
-carries the distribution plumbing only.
+Each skill lives at [`src/skills/`](./src/skills).
+
+| Skill | What it does |
+|---|---|
+| [`bare-clone-workflow`](./src/skills/bare-clone-workflow) | Git bare-clone worktree layouts: a container directory holding `.bare`, one sibling worktree per branch, no primary checkout. Clones into the layout, converts an existing clone, adds worktrees. |
+| [`branch-shutdown`](./src/skills/branch-shutdown) | Retires a merged or abandoned branch. Fetches from the remote and proves the work survives on the default branch — including squash-merges — before deleting the worktree, the local branch or the remote branch. |
+
+The two are designed as a pair but each works installed alone. Both are repo-agnostic: they detect
+the default branch, detect the VS Code workspace file if the repo uses one, and defer to the host
+repo's own `AGENTS.md` for its install command and untracked files.
 
 > Some skills declare upstream dependencies (e.g. on
 > [`mattpocock/skills`](https://github.com/mattpocock/skills)). APM installs those transitively, but

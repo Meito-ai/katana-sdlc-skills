@@ -1,6 +1,44 @@
 lockfile_version: '2'
 apm_version: 0.32.0
 dependencies:
+- repo_url: _local/bare-clone-workflow
+  name: bare-clone-workflow
+  version: unknown
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/bare-clone-workflow
+  - .agents/skills/bare-clone-workflow/SKILL.md
+  - .agents/skills/bare-clone-workflow/reference.md
+  - .agents/skills/bare-clone-workflow/scripts/bare-clone-init.sh
+  - .claude/skills/bare-clone-workflow
+  - .claude/skills/bare-clone-workflow/SKILL.md
+  - .claude/skills/bare-clone-workflow/reference.md
+  - .claude/skills/bare-clone-workflow/scripts/bare-clone-init.sh
+  deployed_file_hashes:
+    .agents/skills/bare-clone-workflow/SKILL.md: sha256:afcceedce3b80843f52fead9b0e77128807d33b34a4be4b3841b4164ced794d8
+    .agents/skills/bare-clone-workflow/reference.md: sha256:c97530c3ab2c69a6f34df9daa1fddfe2762f77c21b482ab725ca385744d48a39
+    .agents/skills/bare-clone-workflow/scripts/bare-clone-init.sh: sha256:fad95e80c4976e6c100a45b966d3efb9e121c0e0febcf13d6b052772ecb726d7
+    .claude/skills/bare-clone-workflow/SKILL.md: sha256:afcceedce3b80843f52fead9b0e77128807d33b34a4be4b3841b4164ced794d8
+    .claude/skills/bare-clone-workflow/reference.md: sha256:c97530c3ab2c69a6f34df9daa1fddfe2762f77c21b482ab725ca385744d48a39
+    .claude/skills/bare-clone-workflow/scripts/bare-clone-init.sh: sha256:fad95e80c4976e6c100a45b966d3efb9e121c0e0febcf13d6b052772ecb726d7
+  source: local
+  local_path: ./src/skills/bare-clone-workflow
+  is_dev: true
+- repo_url: _local/branch-shutdown
+  name: branch-shutdown
+  version: unknown
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/branch-shutdown
+  - .agents/skills/branch-shutdown/SKILL.md
+  - .claude/skills/branch-shutdown
+  - .claude/skills/branch-shutdown/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/branch-shutdown/SKILL.md: sha256:cf039ab8fea4831d58b3feb32e7dbacef2bc7c69b4cc18db3da64e3df170996e
+    .claude/skills/branch-shutdown/SKILL.md: sha256:cf039ab8fea4831d58b3feb32e7dbacef2bc7c69b4cc18db3da64e3df170996e
+  source: local
+  local_path: ./src/skills/branch-shutdown
+  is_dev: true
 - repo_url: mattpocock/skills
   name: mattpocock-skills
   host: github.com
@@ -85,6 +123,60 @@ dependencies:
   resolved_at: '2026-09-27T05:33:24+00:00'
   declared_license: MIT
 deployments:
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/bare-clone-workflow
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/bare-clone-workflow
+  active_owner: ./src/skills/bare-clone-workflow
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/bare-clone-workflow/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/bare-clone-workflow
+  active_owner: ./src/skills/bare-clone-workflow
+  content_hash: sha256:afcceedce3b80843f52fead9b0e77128807d33b34a4be4b3841b4164ced794d8
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/bare-clone-workflow/reference.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/bare-clone-workflow
+  active_owner: ./src/skills/bare-clone-workflow
+  content_hash: sha256:c97530c3ab2c69a6f34df9daa1fddfe2762f77c21b482ab725ca385744d48a39
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/bare-clone-workflow/scripts/bare-clone-init.sh
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/bare-clone-workflow
+  active_owner: ./src/skills/bare-clone-workflow
+  content_hash: sha256:fad95e80c4976e6c100a45b966d3efb9e121c0e0febcf13d6b052772ecb726d7
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/branch-shutdown
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/branch-shutdown
+  active_owner: ./src/skills/branch-shutdown
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/branch-shutdown/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/branch-shutdown
+  active_owner: ./src/skills/branch-shutdown
+  content_hash: sha256:cf039ab8fea4831d58b3feb32e7dbacef2bc7c69b4cc18db3da64e3df170996e
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/code-review
@@ -247,6 +339,60 @@ deployments:
   - mattpocock/skills
   active_owner: mattpocock/skills
   content_hash: sha256:eacb24b2a618cfb81dacb0416f4fdd75ddf3a8060f8ddb99aae1b1e301907e4b
+- kind: project-relative
+  target: claude
+  value: .claude/skills/bare-clone-workflow
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/bare-clone-workflow
+  active_owner: ./src/skills/bare-clone-workflow
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/bare-clone-workflow/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/bare-clone-workflow
+  active_owner: ./src/skills/bare-clone-workflow
+  content_hash: sha256:afcceedce3b80843f52fead9b0e77128807d33b34a4be4b3841b4164ced794d8
+- kind: project-relative
+  target: claude
+  value: .claude/skills/bare-clone-workflow/reference.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/bare-clone-workflow
+  active_owner: ./src/skills/bare-clone-workflow
+  content_hash: sha256:c97530c3ab2c69a6f34df9daa1fddfe2762f77c21b482ab725ca385744d48a39
+- kind: project-relative
+  target: claude
+  value: .claude/skills/bare-clone-workflow/scripts/bare-clone-init.sh
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/bare-clone-workflow
+  active_owner: ./src/skills/bare-clone-workflow
+  content_hash: sha256:fad95e80c4976e6c100a45b966d3efb9e121c0e0febcf13d6b052772ecb726d7
+- kind: project-relative
+  target: claude
+  value: .claude/skills/branch-shutdown
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/branch-shutdown
+  active_owner: ./src/skills/branch-shutdown
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/branch-shutdown/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/branch-shutdown
+  active_owner: ./src/skills/branch-shutdown
+  content_hash: sha256:cf039ab8fea4831d58b3feb32e7dbacef2bc7c69b4cc18db3da64e3df170996e
 - kind: project-relative
   target: claude
   value: .claude/skills/code-review
