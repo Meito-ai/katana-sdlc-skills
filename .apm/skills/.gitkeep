@@ -1,0 +1,6 @@
+Authored skills live here, one directory per skill: .apm/skills/<name>/SKILL.md
+
+Two constraints, both measured against apm 0.32.0 (see AGENTS.md):
+  1. FLAT ONLY. .apm/skills/<category>/<name>/ silently publishes NOTHING.
+  2. EVERYTHING HERE SHIPS. There is no opt-out; a .claude-plugin/plugin.json
+     allowlist is ignored for this package shape. Keep drafts in ../../drafts/.

@@ -120,6 +120,134 @@ When a branch is merged or no longer needed, clean it up in this order:
 
 All steps are **mandatory** — incomplete cleanup leaves stale worktrees, branches, or workspace entries.
 
+## Skills and dependencies (APM)
+
+This repo is both an APM **producer** and an APM **consumer**:
+
+- **Producer** — the skills under `.apm/skills/` are what this repo ships. Consumers (`meito`, and
+  eventually the public) install them by pinning a git tag.
+- **Consumer** — `devDependencies` in `apm.yml` are the upstream skills agents use *while working
+  here*.
+
+### Requires apm >= 0.32.0
+
+`apm.yml` pins upstream by **semver range** (`ref: "^1.2.0"`). The range resolver does not exist
+before apm **0.16.0**, so an older CLI fails outright. CI pins `v0.32.0`; keep them in step.
+
+```bash
+apm --version          # must report 0.32.x
+apm self-update        # or: brew upgrade apm
+```
+
+> **Note on `meito`:** its CI currently pins apm **v0.14.2**. That version predates the semver
+> resolver *and* silently strips newer lockfile fields on write (dropping the `deployments`
+> ownership ledger, `declared_license`, `resolved_tag`, …). **`meito` must move to 0.32.x before it
+> can consume this repo by version range**, and until it does, running `apm install` there will
+> churn its lockfile.
+
+### Layout — two rules, both measured
+
+Skills live at **`.apm/skills/<name>/SKILL.md`**, one directory per skill.
+
+1. **Flat only.** `.apm/skills/<category>/<name>/` publishes **nothing at all** — no error, no
+   warning. apm scans one level deep.
+2. **Everything in `.apm/skills/` ships.** There is no opt-out. A `.claude-plugin/plugin.json`
+   `skills` allowlist is *ignored* for this package shape (an `apm.yml` carrying a dependencies
+   key), so listing a subset does not exclude the rest. **Keep work-in-progress outside
+   `.apm/skills/`.**
+
+Both failures are invisible, so `scripts/validate-skills.mjs` fails CI on them. Run it locally
+before pushing: `npm run validate-skills`.
+
+Why `.apm/skills/` and not the more common `skills/<category>/<name>/`: the moment this repo's
+`apm.yml` gained a dependencies key, the `skills/` layout stopped publishing anything. `.apm/skills/`
+is the only layout that works through both `apm pack` and `apm install` for a package that also has
+dependencies.
+
+### `dependencies` vs `devDependencies` — load-bearing
+
+| Key | Reaches consumers? | Use for |
+|---|---|---|
+| `dependencies:` | **Yes**, transitively | upstream skills that **our published skills invoke** |
+| `devDependencies:` | No | authoring-time helpers only |
+
+A consumer that installs only `katana-sdlc-skills` gets everything under `dependencies:`
+automatically — verified. Put an upstream skill there the moment one of ours delegates to it, or
+the consumer receives a skill that cannot work.
+
+**Two traps:**
+
+- **Never list the same upstream repo under both keys.** apm dedupes by repo and silently drops one
+  subset — no error, no warning.
+- **A consumer's own pin wins, silently.** If a consumer already depends on `mattpocock/skills` at
+  an older ref, that ref is what gets installed; our `^1.2.0` is ignored with no diagnostic. So
+  every published skill must **also state its upstream requirement in prose in its own `SKILL.md`**
+  (e.g. "Requires the `grilling` skill from `mattpocock/skills` >= v1.2.0"). The declaration
+  automates the happy path; the prose is what makes the degraded path legible.
+
+### Adding a skill
+
+```bash
+mkdir -p .apm/skills/<name>
+$EDITOR .apm/skills/<name>/SKILL.md     # frontmatter `name:` MUST equal <name>, ASCII only
+npm run validate-skills
+apm install                             # deploys it locally so you can use it
+npm run changeset                       # describe the change for the changelog
+```
+
+If the new skill delegates to an upstream skill, move that upstream entry from `devDependencies:`
+to `dependencies:` **and** say so in the skill's own `SKILL.md`.
+
+### Releasing
+
+`package.json` holds the source-of-truth version (changesets owns it); `scripts/sync-apm-version.mjs`
+copies it into `apm.yml`, and CI fails on drift. Nothing is published to npm — `package.json` exists
+only because apm mandates a semver `version:` and consumers pin the matching tag.
+
+```bash
+npm run version        # consume changesets: bump package.json + apm.yml, write CHANGELOG.md
+git commit -am "release v$(node -p "require('./package.json').version")"
+git tag "v$(node -p "require('./package.json').version")"
+git push --follow-tags
+```
+
+### How consumers install this repo
+
+```yaml
+# consumer apm.yml
+dependencies:
+  apm:
+    - git: Meito-ai/katana-sdlc-skills
+      ref: v0.1.0                    # or "^0.1.0" on apm >= 0.16
+      # optional: take only some skills
+      # skills: [bare-clone-workflow]
+```
+
+### Generated vs authored — do not confuse them
+
+| Path | State | Why |
+|---|---|---|
+| `.apm/skills/` | **tracked** | authored source of what we publish |
+| `apm.yml`, `apm.lock.yaml` | **tracked** | the manifest and its resolved pins |
+| `.agents/`, `.claude/skills/` | **gitignored** | apm-generated; reproducible via `apm install --frozen` |
+| `apm_modules/`, `node_modules/` | **gitignored** | caches |
+
+`AGENTS.md` and `CLAUDE.md` stay **hand-authored**. `apm install` never writes them (only
+`apm compile` does, and this repo does not run it) — confirmed for both configured targets.
+
+`targets: [agent-skills, claude]`: `agent-skills` writes the canonical `.agents/skills/` tree, and
+`claude` is what populates `.claude/skills/`, which is where Claude Code actually reads from.
+`agent-skills` **alone** creates no `.claude/` directory at all, so dropping `claude` would leave
+agents here with none of the installed skills.
+
+### Note on duplicate skills
+
+Several of these skills are probably already installed **user-globally** on your machine by a
+different manager (the `skills` CLI, via `~/.agents/.skill-lock.json`, symlinked into
+`~/.claude/skills/`). Project scope is deliberately the source of truth *here*: a repo whose product
+is skills cannot have its toolchain depend on an unpinned global installer. Expect to see the same
+skill name in both places.
+
 ## Re-creating this layout from scratch
 
 ```bash

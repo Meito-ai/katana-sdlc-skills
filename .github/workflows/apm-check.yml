@@ -1,0 +1,96 @@
+name: APM Check
+
+# Two things this must catch, both of which are silent failures otherwise:
+#
+#  1. Dependency drift -- `apm install --frozen` refuses to install when
+#     apm.lock.yaml is missing or out of sync with apm.yml. Because apm.yml
+#     pins by semver RANGE, this is what stops a new upstream tag entering a
+#     build without a lockfile diff visible in the PR.
+#  2. Published skills that silently do not ship -- see scripts/validate-skills.mjs.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+
+concurrency:
+  group: apm-check-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  apm:
+    name: apm install --frozen + audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      # Must match the version documented in AGENTS.md. This repo's apm.yml uses
+      # `ref:` semver ranges, which do not exist before apm 0.16.0.
+      APM_VERSION: v0.32.0
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install APM CLI (pinned + checksum-verified)
+        run: |
+          set -euo pipefail
+          TAR="apm-linux-x86_64.tar.gz"
+          BASE="https://github.com/microsoft/apm/releases/download/${APM_VERSION}"
+          curl -sSLf -o "$TAR" "${BASE}/${TAR}"
+          curl -sSLf -o "${TAR}.sha256" "${BASE}/${TAR}.sha256"
+          sha256sum -c "${TAR}.sha256"
+          mkdir -p apm-bin && tar -xzf "$TAR" -C apm-bin
+          BIN="$(find apm-bin -name apm -type f -perm -u+x | head -1)"
+          if [ -z "$BIN" ]; then echo "::error::apm binary not found in tarball"; exit 1; fi
+          echo "$(pwd)/$(dirname "$BIN")" >> "$GITHUB_PATH"
+
+      - name: Verify CLI version matches the pin
+        run: |
+          set -euo pipefail
+          OUT="$(apm --version)"; echo "$OUT"
+          case "$OUT" in
+            *"${APM_VERSION#v}"*) ;;
+            *) echo "::error::apm --version did not contain ${APM_VERSION#v}: $OUT"; exit 1 ;;
+          esac
+
+      - name: Cache apm_modules
+        uses: actions/cache@v4
+        with:
+          path: apm_modules
+          key: apm-modules-${{ runner.os }}-${{ hashFiles('apm.lock.yaml') }}
+          restore-keys: apm-modules-${{ runner.os }}-
+
+      - name: apm install --frozen
+        run: apm install --frozen
+
+      - name: apm audit
+        # Content-integrity scan: hidden Unicode / bidi-override characters
+        # across deployed files, including this repo's own .apm/ content. A
+        # SKILL.md is instructions an agent obeys, so an invisible-character
+        # injection is a prompt-injection vector, not a typo.
+        run: apm audit
+
+      - name: Assert generated output stayed out of git
+        # .agents/ and .claude/skills/ are gitignored and reproducible. If a
+        # deploy path ever escapes .gitignore, fail here rather than let
+        # vendored copies of upstream skills get committed.
+        run: |
+          set -euo pipefail
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::apm install dirtied the working tree:"
+            git status --porcelain
+            exit 1
+          fi
+
+  manifest:
+    name: version sync + skill layout
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # Both scripts are dependency-free, so there is deliberately no npm install.
+      - run: node scripts/sync-apm-version.mjs --check
+      - run: node scripts/validate-skills.mjs
