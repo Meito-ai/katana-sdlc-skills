@@ -9,10 +9,12 @@ Agent skills, distributed with [APM](https://github.com/microsoft/apm) so consum
 
 Add to your `apm.yml`:
 
+Reference each skill you want by its subpath:
+
 ```yaml
 dependencies:
   apm:
-    - git: Meito-ai/katana-sdlc-skills
+    - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/bare-clone-workflow
       ref: v0.1.0        # or "^0.1.0" on apm >= 0.16.0
 ```
 
@@ -22,13 +24,8 @@ apm install
 
 Skills deploy to `.agents/skills/` and, if you target `claude`, `.claude/skills/`.
 
-Take a subset instead of everything:
-
-```yaml
-    - git: Meito-ai/katana-sdlc-skills
-      ref: v0.1.0
-      skills: [bare-clone-workflow]
-```
+A bare repo-root reference (`- git: Meito-ai/katana-sdlc-skills`) installs **nothing** — pick the
+skills you want explicitly.
 
 ### Requirements
 
@@ -38,7 +35,7 @@ Take a subset instead of everything:
 
 ## Skills
 
-Each skill lives at `.apm/skills/<name>/SKILL.md`. None are published yet — this repo currently
+Each skill lives at [`src/skills/`](./src/skills). None are published yet — this repo currently
 carries the distribution plumbing only.
 
 > Some skills declare upstream dependencies (e.g. on
@@ -52,8 +49,10 @@ See [AGENTS.md](./AGENTS.md) — it documents the repo layout, the two non-obvio
 silently fail to publish, and the release flow. In short:
 
 ```bash
-mkdir -p .apm/skills/<name> && $EDITOR .apm/skills/<name>/SKILL.md
-npm run validate-skills     # catches layout + frontmatter mistakes CI would reject
+mkdir -p src/skills/<category>/<name>
+$EDITOR src/skills/<category>/<name>/SKILL.md
+$EDITOR apm.yml             # add: - ./src/skills/<category>/<name>   (so it loads locally)
+npm run validate-skills     # catches frontmatter + wiring mistakes CI would reject
 apm install                 # deploy locally and try it
 npm run changeset           # describe the change
 ```

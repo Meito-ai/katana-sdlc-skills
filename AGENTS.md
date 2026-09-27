@@ -124,7 +124,7 @@ All steps are **mandatory** — incomplete cleanup leaves stale worktrees, branc
 
 This repo is both an APM **producer** and an APM **consumer**:
 
-- **Producer** — the skills under `.apm/skills/` are what this repo ships. Consumers (`meito`, and
+- **Producer** — the skills under `src/skills/` are what this repo ships. Consumers (`meito`, and
   eventually the public) install them by pinning a git tag.
 - **Consumer** — `devDependencies` in `apm.yml` are the upstream skills agents use *while working
   here*.
@@ -145,24 +145,32 @@ apm self-update        # or: brew upgrade apm
 > can consume this repo by version range**, and until it does, running `apm install` there will
 > churn its lockfile.
 
-### Layout — two rules, both measured
+### Layout
 
-Skills live at **`.apm/skills/<name>/SKILL.md`**, one directory per skill.
+Authored skills live at **`src/skills/<name>/SKILL.md`**. Nesting under a category directory is
+allowed (`src/skills/sdlc/<name>/SKILL.md`), and no per-skill `apm.yml` is needed — apm synthesises
+the metadata.
 
-1. **Flat only.** `.apm/skills/<category>/<name>/` publishes **nothing at all** — no error, no
-   warning. apm scans one level deep.
-2. **Everything in `.apm/skills/` ships.** There is no opt-out. A `.claude-plugin/plugin.json`
-   `skills` allowlist is *ignored* for this package shape (an `apm.yml` carrying a dependencies
-   key), so listing a subset does not exclude the rest. **Keep work-in-progress outside
-   `.apm/skills/`.**
+Consumers install each skill **by its subpath** at a tag, which is what allows the source to live in
+an obvious place rather than in apm's own `.apm/skills/`. The tradeoff is that a consumer writes one
+line per skill instead of one line for the whole repo: a repo-root reference only auto-discovers
+`.apm/skills/<name>/` once `apm.yml` carries a dependencies key, and this repo's does.
 
-Both failures are invisible, so `scripts/validate-skills.js` fails CI on them. Run it locally
-before pushing: `npm run validate-skills`.
+**Every skill needs a self-reference** under `devDependencies` in the root `apm.yml`:
 
-Why `.apm/skills/` and not the more common `skills/<category>/<name>/`: the moment this repo's
-`apm.yml` gained a dependencies key, the `skills/` layout stopped publishing anything. `.apm/skills/`
-is the only layout that works through both `apm pack` and `apm install` for a package that also has
-dependencies.
+```yaml
+devDependencies:
+  apm:
+    - ./src/skills/sdlc/branch-shutdown
+```
+
+Without it the skill still publishes to consumers, but `apm install` does **not** deploy it into this
+repo's `.claude/skills/` — so you cannot use or test your own skill while writing it, and nothing
+tells you why.
+
+`scripts/validate-skills.js` fails CI on a missing or stale self-reference, on a frontmatter `name:`
+that does not match its directory, on non-ASCII frontmatter, and on a missing or oversized
+`description:`. Run it locally with `npm run validate-skills`.
 
 ### `dependencies` vs `devDependencies` — load-bearing
 
@@ -188,15 +196,17 @@ the consumer receives a skill that cannot work.
 ### Adding a skill
 
 ```bash
-mkdir -p .apm/skills/<name>
-$EDITOR .apm/skills/<name>/SKILL.md     # frontmatter `name:` MUST equal <name>, ASCII only
+mkdir -p src/skills/<category>/<name>
+$EDITOR src/skills/<category>/<name>/SKILL.md   # frontmatter `name:` MUST equal <name>, ASCII only
+$EDITOR apm.yml                                 # add: - ./src/skills/<category>/<name>
 npm run validate-skills
-apm install                             # deploys it locally so you can use it
-npm run changeset                       # describe the change for the changelog
+apm install                                     # deploys it locally so you can use it
+npm run changeset                               # describe the change for the changelog
 ```
 
 If the new skill delegates to an upstream skill, move that upstream entry from `devDependencies:`
-to `dependencies:` **and** say so in the skill's own `SKILL.md`.
+to `dependencies:` **and** say so in the skill's own `SKILL.md`. (The self-reference above always
+stays in `devDependencies:` — it exists only so the skill loads locally.)
 
 ### Releasing
 
@@ -213,21 +223,26 @@ git push --follow-tags
 
 ### How consumers install this repo
 
+One entry per skill, referencing its subpath:
+
 ```yaml
 # consumer apm.yml
 dependencies:
   apm:
-    - git: Meito-ai/katana-sdlc-skills
+    - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/bare-clone-workflow
       ref: v0.1.0                    # or "^0.1.0" on apm >= 0.16
-      # optional: take only some skills
-      # skills: [bare-clone-workflow]
+    - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/branch-shutdown
+      ref: v0.1.0
 ```
+
+A bare repo-root reference deploys **nothing**: apm only auto-discovers `.apm/skills/<name>/` for a
+package whose `apm.yml` has dependencies, and this repo authors under `src/skills/` instead.
 
 ### Generated vs authored — do not confuse them
 
 | Path | State | Why |
 |---|---|---|
-| `.apm/skills/` | **tracked** | authored source of what we publish |
+| `src/skills/` | **tracked** | authored source of what we publish |
 | `apm.yml`, `apm.lock.yaml` | **tracked** | the manifest and its resolved pins |
 | `.agents/`, `.claude/skills/` | **gitignored** | apm-generated; reproducible via `apm install --frozen` |
 | `apm_modules/`, `node_modules/` | **gitignored** | caches |

@@ -4,8 +4,8 @@
 # supports both (every claim here was verified against apm 0.32.0 -- see
 # AGENTS.md "APM design constraints" for the experiments):
 #
-#   Producer -- the skills under .apm/skills/ are published to consumers
-#               (meito et al.) at a git tag.
+#   Producer -- the skills under src/skills/ are published to consumers
+#               (meito et al.), who reference each one by subpath at a git tag.
 #   Consumer -- the dependencies below are the skills agents use *here*.
 #
 # Requires apm >= 0.16.0 for the `ref:` semver ranges below; pinned to 0.32.0
@@ -39,7 +39,7 @@ targets:
 #                     gets a working install.
 #   devDependencies:  stay here. Authoring-time helpers only.
 #
-# Nothing is published from .apm/skills/ yet, so every entry is dev-only for
+# Nothing is published from src/skills/ yet, so every entry is dev-only for
 # now. When a published skill starts delegating to an upstream skill, that
 # entry MOVES to `dependencies:` and the skill's SKILL.md states the
 # requirement in prose as well -- a consumer that already pins this repo at an
@@ -50,6 +50,12 @@ targets:
 # ---------------------------------------------------------------------------
 devDependencies:
   apm:
+    # --- Own skills, self-referenced so `apm install` deploys them locally.
+    # Without an entry here a skill under src/skills/ is still published to
+    # consumers, but is NOT installed into this repo's .claude/skills/, so you
+    # cannot use it while authoring. One line per skill; CI enforces the pairing.
+    # (none yet)
+
     # Pinned by semver range; the resolved tag + commit land in apm.lock.yaml,
     # which is committed. CI runs `apm install --frozen`, so a new upstream tag
     # can never enter a build without a lockfile diff in the PR.
