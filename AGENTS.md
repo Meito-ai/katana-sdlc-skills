@@ -2,6 +2,22 @@
 
 Operating contract for agents working in `katana-sdlc-skills`.
 
+## Agent scope: stay in your worktree
+
+**An agent never switches the branch of the worktree it was started in.** One worktree = one branch, for
+the whole session. `git checkout <branch>`, `git switch <branch>`, `git checkout -b` and `git switch -c`
+are all off-limits inside a worktree — they hijack a directory another agent or editor window may be using.
+
+In particular, an agent working in `main`:
+
+- **Does** commit small in-place changes that belong to `main` itself: agent rules, `AGENTS.md`,
+  `CLAUDE.md`, workspace registration.
+- **Does** create a *worktree* for new work (see [New Branch Workflow](#new-branch-workflow)) and hand the
+  directory over — it does not start working in it.
+- **Does not** check out, create, or switch to any other branch in the `main` directory.
+
+Asked to "create branch X": create the worktree + workspace entry, then report the path. Stay on `main`.
+
 ## Repository layout (bare-clone worktrees)
 
 This repo uses a bare-clone worktree layout. The parent directory holds the git metadata; every branch
@@ -50,13 +66,16 @@ If workspace registration is missing, fix it before continuing.
 
 ## New Branch Workflow
 
+A new branch is created **only** by adding a worktree — never with `git checkout -b` / `git switch -c`
+in the current directory.
+
 1. **Create the worktree** from within any existing worktree (or from the parent directory, dropping the
    `../`):
    ```bash
-   git worktree add ../branch-name
+   git worktree add -b branch-name ../branch-name   # branch does not exist yet
+   git worktree add ../branch-name                  # local branch already exists
+   git worktree add ../branch-name origin/branch-name   # existing remote branch
    ```
-   Use `git worktree add -b branch-name ../branch-name` when the branch does not exist yet, or
-   `git worktree add ../branch-name origin/branch-name` to check out an existing remote branch.
 
 2. **Register in the VS Code workspace** — edit `../katana-sdlc-skills.code-workspace` and add the folder:
    ```jsonc
