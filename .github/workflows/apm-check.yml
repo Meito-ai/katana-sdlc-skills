@@ -32,6 +32,10 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install APM CLI (pinned + checksum-verified)
+        # Staged in RUNNER_TEMP, deliberately outside the checkout: anything
+        # downloaded into the workspace would show up as untracked files and
+        # trip the "generated output stayed out of git" assert below.
+        working-directory: ${{ runner.temp }}
         run: |
           set -euo pipefail
           TAR="apm-linux-x86_64.tar.gz"
@@ -77,7 +81,7 @@ jobs:
         run: |
           set -euo pipefail
           if [ -n "$(git status --porcelain)" ]; then
-            echo "::error::apm install dirtied the working tree:"
+            echo "::error::working tree dirty after apm install -- a deploy path escaped .gitignore, or a CI step wrote into the checkout:"
             git status --porcelain
             exit 1
           fi
