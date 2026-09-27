@@ -156,7 +156,7 @@ Skills live at **`.apm/skills/<name>/SKILL.md`**, one directory per skill.
    key), so listing a subset does not exclude the rest. **Keep work-in-progress outside
    `.apm/skills/`.**
 
-Both failures are invisible, so `scripts/validate-skills.mjs` fails CI on them. Run it locally
+Both failures are invisible, so `scripts/validate-skills.js` fails CI on them. Run it locally
 before pushing: `npm run validate-skills`.
 
 Why `.apm/skills/` and not the more common `skills/<category>/<name>/`: the moment this repo's
@@ -200,7 +200,7 @@ to `dependencies:` **and** say so in the skill's own `SKILL.md`.
 
 ### Releasing
 
-`package.json` holds the source-of-truth version (changesets owns it); `scripts/sync-apm-version.mjs`
+`package.json` holds the source-of-truth version (changesets owns it); `scripts/sync-apm-version.js`
 copies it into `apm.yml`, and CI fails on drift. Nothing is published to npm — `package.json` exists
 only because apm mandates a semver `version:` and consumers pin the matching tag.
 

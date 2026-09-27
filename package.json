@@ -2,6 +2,7 @@
   "name": "katana-sdlc-skills",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "Skills to power up your repo with AI-driven SDLC",
   "repository": {
     "type": "git",
@@ -10,9 +11,9 @@
   "license": "MIT",
   "scripts": {
     "changeset": "changeset",
-    "version": "changeset version && node scripts/sync-apm-version.mjs",
-    "check-version": "node scripts/sync-apm-version.mjs --check",
-    "validate-skills": "node scripts/validate-skills.mjs"
+    "version": "changeset version && node scripts/sync-apm-version.js",
+    "check-version": "node scripts/sync-apm-version.js --check",
+    "validate-skills": "node scripts/validate-skills.js"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.7.0",

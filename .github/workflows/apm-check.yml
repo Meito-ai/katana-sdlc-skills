@@ -6,7 +6,7 @@ name: APM Check
 #     apm.lock.yaml is missing or out of sync with apm.yml. Because apm.yml
 #     pins by semver RANGE, this is what stops a new upstream tag entering a
 #     build without a lockfile diff visible in the PR.
-#  2. Published skills that silently do not ship -- see scripts/validate-skills.mjs.
+#  2. Published skills that silently do not ship -- see scripts/validate-skills.js.
 
 on:
   pull_request:
@@ -96,5 +96,5 @@ jobs:
         with:
           node-version: 22
       # Both scripts are dependency-free, so there is deliberately no npm install.
-      - run: node scripts/sync-apm-version.mjs --check
-      - run: node scripts/validate-skills.mjs
+      - run: node scripts/sync-apm-version.js --check
+      - run: node scripts/validate-skills.js

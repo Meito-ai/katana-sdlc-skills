@@ -39,7 +39,7 @@ if (found[1] === version) {
 if (CHECK) {
   console.error(
     `✗ version drift: package.json is ${version}, ${APM_YML} is ${found[1]}.\n` +
-      `  Run: npm run version   (or: node scripts/sync-apm-version.mjs)`
+      `  Run: npm run version   (or: node scripts/sync-apm-version.js)`
   );
   process.exit(1);
 }
