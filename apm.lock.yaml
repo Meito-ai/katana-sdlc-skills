@@ -15,10 +15,10 @@ dependencies:
   - .claude/skills/bare-clone-workflow/reference.md
   - .claude/skills/bare-clone-workflow/scripts/bare-clone-init.sh
   deployed_file_hashes:
-    .agents/skills/bare-clone-workflow/SKILL.md: sha256:afcceedce3b80843f52fead9b0e77128807d33b34a4be4b3841b4164ced794d8
+    .agents/skills/bare-clone-workflow/SKILL.md: sha256:967b33a7453f7b362388c047cb2a949742926ab41a8abd01436a8b15d92be092
     .agents/skills/bare-clone-workflow/reference.md: sha256:c97530c3ab2c69a6f34df9daa1fddfe2762f77c21b482ab725ca385744d48a39
     .agents/skills/bare-clone-workflow/scripts/bare-clone-init.sh: sha256:fad95e80c4976e6c100a45b966d3efb9e121c0e0febcf13d6b052772ecb726d7
-    .claude/skills/bare-clone-workflow/SKILL.md: sha256:afcceedce3b80843f52fead9b0e77128807d33b34a4be4b3841b4164ced794d8
+    .claude/skills/bare-clone-workflow/SKILL.md: sha256:967b33a7453f7b362388c047cb2a949742926ab41a8abd01436a8b15d92be092
     .claude/skills/bare-clone-workflow/reference.md: sha256:c97530c3ab2c69a6f34df9daa1fddfe2762f77c21b482ab725ca385744d48a39
     .claude/skills/bare-clone-workflow/scripts/bare-clone-init.sh: sha256:fad95e80c4976e6c100a45b966d3efb9e121c0e0febcf13d6b052772ecb726d7
   source: local
@@ -38,6 +38,60 @@ dependencies:
     .claude/skills/branch-shutdown/SKILL.md: sha256:cf039ab8fea4831d58b3feb32e7dbacef2bc7c69b4cc18db3da64e3df170996e
   source: local
   local_path: ./src/skills/branch-shutdown
+  is_dev: true
+- repo_url: _local/review-visual
+  name: review-visual
+  version: unknown
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/review-visual
+  - .agents/skills/review-visual/SKILL.md
+  - .agents/skills/review-visual/scripts/cli.mjs
+  - .agents/skills/review-visual/scripts/comment.mjs
+  - .agents/skills/review-visual/scripts/contract.mjs
+  - .claude/skills/review-visual
+  - .claude/skills/review-visual/SKILL.md
+  - .claude/skills/review-visual/scripts/cli.mjs
+  - .claude/skills/review-visual/scripts/comment.mjs
+  - .claude/skills/review-visual/scripts/contract.mjs
+  deployed_file_hashes:
+    .agents/skills/review-visual/SKILL.md: sha256:15424e3e839f8594ee005f5bf365c9cbb11d6195719fc1bb7ada00106a4560af
+    .agents/skills/review-visual/scripts/cli.mjs: sha256:d35c1cd392921809f7a53a57f959c17dc47899bb666bdc76a5913256fe621e55
+    .agents/skills/review-visual/scripts/comment.mjs: sha256:6a85dd6092986375413c949cba8d3865b13aa27bea6e7915009e4100e2bcd127
+    .agents/skills/review-visual/scripts/contract.mjs: sha256:0ba3519a6d06046113417cabc9db78726713e915140ba5d87e21fe4c3b89c2c0
+    .claude/skills/review-visual/SKILL.md: sha256:15424e3e839f8594ee005f5bf365c9cbb11d6195719fc1bb7ada00106a4560af
+    .claude/skills/review-visual/scripts/cli.mjs: sha256:d35c1cd392921809f7a53a57f959c17dc47899bb666bdc76a5913256fe621e55
+    .claude/skills/review-visual/scripts/comment.mjs: sha256:6a85dd6092986375413c949cba8d3865b13aa27bea6e7915009e4100e2bcd127
+    .claude/skills/review-visual/scripts/contract.mjs: sha256:0ba3519a6d06046113417cabc9db78726713e915140ba5d87e21fe4c3b89c2c0
+  source: local
+  local_path: ./src/skills/review-visual
+  is_dev: true
+- repo_url: _local/setup-katana-skills
+  name: setup-katana-skills
+  version: unknown
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/setup-katana-skills
+  - .agents/skills/setup-katana-skills/SKILL.md
+  - .agents/skills/setup-katana-skills/agents-block.md
+  - .agents/skills/setup-katana-skills/katana-bare-clone-workflow.md
+  - .agents/skills/setup-katana-skills/katana-review-visual.md
+  - .claude/skills/setup-katana-skills
+  - .claude/skills/setup-katana-skills/SKILL.md
+  - .claude/skills/setup-katana-skills/agents-block.md
+  - .claude/skills/setup-katana-skills/katana-bare-clone-workflow.md
+  - .claude/skills/setup-katana-skills/katana-review-visual.md
+  deployed_file_hashes:
+    .agents/skills/setup-katana-skills/SKILL.md: sha256:124ae50720366cfe26b8baa98cac0875030b5571748b09442445748892b5f7f0
+    .agents/skills/setup-katana-skills/agents-block.md: sha256:48dfc080fea8fbd39f4ed674af4b4b4fc21380d552f451463e9aae7dc969b788
+    .agents/skills/setup-katana-skills/katana-bare-clone-workflow.md: sha256:794282632246f09450127ca792f28094c740c03727573d903dd2976267ed4dc7
+    .agents/skills/setup-katana-skills/katana-review-visual.md: sha256:de7a9075961ae2f68cfb0e7d99a7a4648cb9eecf52fe68e7ed410d373f3e69a7
+    .claude/skills/setup-katana-skills/SKILL.md: sha256:124ae50720366cfe26b8baa98cac0875030b5571748b09442445748892b5f7f0
+    .claude/skills/setup-katana-skills/agents-block.md: sha256:48dfc080fea8fbd39f4ed674af4b4b4fc21380d552f451463e9aae7dc969b788
+    .claude/skills/setup-katana-skills/katana-bare-clone-workflow.md: sha256:794282632246f09450127ca792f28094c740c03727573d903dd2976267ed4dc7
+    .claude/skills/setup-katana-skills/katana-review-visual.md: sha256:de7a9075961ae2f68cfb0e7d99a7a4648cb9eecf52fe68e7ed410d373f3e69a7
+  source: local
+  local_path: ./src/skills/setup-katana-skills
   is_dev: true
 - repo_url: mattpocock/skills
   name: mattpocock-skills
@@ -140,7 +194,7 @@ deployments:
   owners:
   - ./src/skills/bare-clone-workflow
   active_owner: ./src/skills/bare-clone-workflow
-  content_hash: sha256:afcceedce3b80843f52fead9b0e77128807d33b34a4be4b3841b4164ced794d8
+  content_hash: sha256:967b33a7453f7b362388c047cb2a949742926ab41a8abd01436a8b15d92be092
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/bare-clone-workflow/reference.md
@@ -305,6 +359,96 @@ deployments:
   content_hash: sha256:1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b
 - kind: project-relative
   target: agent-skills
+  value: .agents/skills/review-visual
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/review-visual
+  active_owner: ./src/skills/review-visual
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/review-visual/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/review-visual
+  active_owner: ./src/skills/review-visual
+  content_hash: sha256:15424e3e839f8594ee005f5bf365c9cbb11d6195719fc1bb7ada00106a4560af
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/review-visual/scripts/cli.mjs
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/review-visual
+  active_owner: ./src/skills/review-visual
+  content_hash: sha256:d35c1cd392921809f7a53a57f959c17dc47899bb666bdc76a5913256fe621e55
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/review-visual/scripts/comment.mjs
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/review-visual
+  active_owner: ./src/skills/review-visual
+  content_hash: sha256:6a85dd6092986375413c949cba8d3865b13aa27bea6e7915009e4100e2bcd127
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/review-visual/scripts/contract.mjs
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/review-visual
+  active_owner: ./src/skills/review-visual
+  content_hash: sha256:0ba3519a6d06046113417cabc9db78726713e915140ba5d87e21fe4c3b89c2c0
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/setup-katana-skills
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/setup-katana-skills
+  active_owner: ./src/skills/setup-katana-skills
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/setup-katana-skills/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/setup-katana-skills
+  active_owner: ./src/skills/setup-katana-skills
+  content_hash: sha256:124ae50720366cfe26b8baa98cac0875030b5571748b09442445748892b5f7f0
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/setup-katana-skills/agents-block.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/setup-katana-skills
+  active_owner: ./src/skills/setup-katana-skills
+  content_hash: sha256:48dfc080fea8fbd39f4ed674af4b4b4fc21380d552f451463e9aae7dc969b788
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/setup-katana-skills/katana-bare-clone-workflow.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/setup-katana-skills
+  active_owner: ./src/skills/setup-katana-skills
+  content_hash: sha256:794282632246f09450127ca792f28094c740c03727573d903dd2976267ed4dc7
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/setup-katana-skills/katana-review-visual.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/setup-katana-skills
+  active_owner: ./src/skills/setup-katana-skills
+  content_hash: sha256:de7a9075961ae2f68cfb0e7d99a7a4648cb9eecf52fe68e7ed410d373f3e69a7
+- kind: project-relative
+  target: agent-skills
   value: .agents/skills/writing-for-agents
   runtime: null
   scope: project
@@ -356,7 +500,7 @@ deployments:
   owners:
   - ./src/skills/bare-clone-workflow
   active_owner: ./src/skills/bare-clone-workflow
-  content_hash: sha256:afcceedce3b80843f52fead9b0e77128807d33b34a4be4b3841b4164ced794d8
+  content_hash: sha256:967b33a7453f7b362388c047cb2a949742926ab41a8abd01436a8b15d92be092
 - kind: project-relative
   target: claude
   value: .claude/skills/bare-clone-workflow/reference.md
@@ -519,6 +663,96 @@ deployments:
   - mattpocock/skills
   active_owner: mattpocock/skills
   content_hash: sha256:1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b
+- kind: project-relative
+  target: claude
+  value: .claude/skills/review-visual
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/review-visual
+  active_owner: ./src/skills/review-visual
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/review-visual/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/review-visual
+  active_owner: ./src/skills/review-visual
+  content_hash: sha256:15424e3e839f8594ee005f5bf365c9cbb11d6195719fc1bb7ada00106a4560af
+- kind: project-relative
+  target: claude
+  value: .claude/skills/review-visual/scripts/cli.mjs
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/review-visual
+  active_owner: ./src/skills/review-visual
+  content_hash: sha256:d35c1cd392921809f7a53a57f959c17dc47899bb666bdc76a5913256fe621e55
+- kind: project-relative
+  target: claude
+  value: .claude/skills/review-visual/scripts/comment.mjs
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/review-visual
+  active_owner: ./src/skills/review-visual
+  content_hash: sha256:6a85dd6092986375413c949cba8d3865b13aa27bea6e7915009e4100e2bcd127
+- kind: project-relative
+  target: claude
+  value: .claude/skills/review-visual/scripts/contract.mjs
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/review-visual
+  active_owner: ./src/skills/review-visual
+  content_hash: sha256:0ba3519a6d06046113417cabc9db78726713e915140ba5d87e21fe4c3b89c2c0
+- kind: project-relative
+  target: claude
+  value: .claude/skills/setup-katana-skills
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/setup-katana-skills
+  active_owner: ./src/skills/setup-katana-skills
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/setup-katana-skills/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/setup-katana-skills
+  active_owner: ./src/skills/setup-katana-skills
+  content_hash: sha256:124ae50720366cfe26b8baa98cac0875030b5571748b09442445748892b5f7f0
+- kind: project-relative
+  target: claude
+  value: .claude/skills/setup-katana-skills/agents-block.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/setup-katana-skills
+  active_owner: ./src/skills/setup-katana-skills
+  content_hash: sha256:48dfc080fea8fbd39f4ed674af4b4b4fc21380d552f451463e9aae7dc969b788
+- kind: project-relative
+  target: claude
+  value: .claude/skills/setup-katana-skills/katana-bare-clone-workflow.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/setup-katana-skills
+  active_owner: ./src/skills/setup-katana-skills
+  content_hash: sha256:794282632246f09450127ca792f28094c740c03727573d903dd2976267ed4dc7
+- kind: project-relative
+  target: claude
+  value: .claude/skills/setup-katana-skills/katana-review-visual.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/setup-katana-skills
+  active_owner: ./src/skills/setup-katana-skills
+  content_hash: sha256:de7a9075961ae2f68cfb0e7d99a7a4648cb9eecf52fe68e7ed410d373f3e69a7
 - kind: project-relative
   target: claude
   value: .claude/skills/writing-for-agents

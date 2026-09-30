@@ -81,6 +81,13 @@ remote branch.
 **Deleting a branch without that gate orphans its commits** — it has already cost this project a
 skill once. Do not hand-roll the sequence.
 
+## Pull request review comments
+
+**Skip any PR comment whose body contains `katana:review-visual`.** It is a generated behavioral-delta
+visual for human reviewers, not review feedback — never action it or reply to it. It is posted with the
+author's own token, so the marker is the only reliable signal. The **`review-visual`** skill posts and
+refreshes it.
+
 ## Skills and dependencies (APM)
 
 This repo is both an APM **producer** and an APM **consumer**:
@@ -132,6 +139,17 @@ tells you why.
 `scripts/validate-skills.js` fails CI on a missing or stale self-reference, on a frontmatter `name:`
 that does not match its directory, on non-ASCII frontmatter, and on a missing or oversized
 `description:`. Run it locally with `npm run validate-skills`.
+
+### Scripts shipped inside a skill
+
+apm deploys a skill's whole directory, so its scripts run inside the **consumer's** tree (verified:
+including repos with no `package.json` at all). Two rules follow:
+
+- **Node scripts in a skill are `.mjs` and dependency-free.** A `.js` file's module type comes from the
+  nearest `package.json` — the consumer's, not ours — so an ESM `.js` breaks in a CommonJS repo. The
+  repo's own tooling under `scripts/` stays `.js`.
+- **Specs live in `test/<skill>/`, never in the skill directory**, or they ship to every consumer.
+  `npm test` runs them and CI runs `npm test`.
 
 ### `dependencies` vs `devDependencies` — load-bearing
 
@@ -198,6 +216,14 @@ dependencies:
 
 A bare repo-root reference deploys **nothing**: apm only auto-discovers `.apm/skills/<name>/` for a
 package whose `apm.yml` has dependencies, and this repo authors under `src/skills/` instead.
+
+Installing is half the job: most skills also need **wiring** into the consumer's `AGENTS.md` /
+`CLAUDE.md` (the always-on rules, the repo-specific commands a skill defers to). That is
+**`setup-katana-skills`**, which detects the skills already installed, offers the rest, and writes one
+marker-delimited `## Katana skills` block. **When a skill is added, removed, or changes what it needs
+from its host repo, update `setup-katana-skills`** (its skill table, `agents-block.md`, and the
+`katana-<skill>.md` seed if the skill has repo-specific facts) — otherwise consumers install a skill
+nothing tells their agents to use.
 
 ### Generated vs authored — do not confuse them
 

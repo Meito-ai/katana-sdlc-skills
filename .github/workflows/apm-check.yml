@@ -87,7 +87,7 @@ jobs:
           fi
 
   manifest:
-    name: version sync + skill layout
+    name: version sync + skill layout + script specs
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -98,3 +98,5 @@ jobs:
       # Both scripts are dependency-free, so there is deliberately no npm install.
       - run: node scripts/sync-apm-version.js --check
       - run: node scripts/validate-skills.js
+      # Specs for the scripts that ship inside skills (e.g. review-visual).
+      - run: npm test
