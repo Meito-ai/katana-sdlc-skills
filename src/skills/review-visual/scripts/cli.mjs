@@ -13,9 +13,11 @@ import { buildReviewVisualComment, renderNoOpComment } from './contract.mjs';
 
 // `promisify(execFile)` silently drops an `input` option, which would leave
 // `gh api --input -` waiting on a stdin that never closes. Spawn and write it.
+// Only commands given `input` get a stdin pipe: writing to the pipe of a child
+// that already exited raises EPIPE, which crashes the process when unhandled.
 function run(command, args, input) {
   return new Promise((resolve, reject) => {
-    const child = spawn(command, args, { stdio: ['pipe', 'pipe', 'pipe'] });
+    const child = spawn(command, args, { stdio: [input === undefined ? 'ignore' : 'pipe', 'pipe', 'pipe'] });
     let stdout = '';
     let stderr = '';
 
@@ -36,7 +38,12 @@ function run(command, args, input) {
       reject(new Error(`${command} ${args[0]} failed (exit ${code}): ${stderr.trim() || 'no stderr'}`));
     });
 
-    child.stdin.end(input ?? '');
+    if (input !== undefined) {
+      // A child that exits without draining stdin reports through its exit
+      // code and stderr; the EPIPE on our side adds nothing.
+      child.stdin.on('error', () => {});
+      child.stdin.end(input);
+    }
   });
 }
 
