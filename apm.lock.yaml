@@ -56,11 +56,11 @@ dependencies:
   - .claude/skills/review-visual/scripts/contract.mjs
   deployed_file_hashes:
     .agents/skills/review-visual/SKILL.md: sha256:15424e3e839f8594ee005f5bf365c9cbb11d6195719fc1bb7ada00106a4560af
-    .agents/skills/review-visual/scripts/cli.mjs: sha256:d35c1cd392921809f7a53a57f959c17dc47899bb666bdc76a5913256fe621e55
+    .agents/skills/review-visual/scripts/cli.mjs: sha256:334673923aefe02ae0f6720711d2427a49340f5e15ea870ef4a0fc4758b0ae72
     .agents/skills/review-visual/scripts/comment.mjs: sha256:6a85dd6092986375413c949cba8d3865b13aa27bea6e7915009e4100e2bcd127
     .agents/skills/review-visual/scripts/contract.mjs: sha256:0ba3519a6d06046113417cabc9db78726713e915140ba5d87e21fe4c3b89c2c0
     .claude/skills/review-visual/SKILL.md: sha256:15424e3e839f8594ee005f5bf365c9cbb11d6195719fc1bb7ada00106a4560af
-    .claude/skills/review-visual/scripts/cli.mjs: sha256:d35c1cd392921809f7a53a57f959c17dc47899bb666bdc76a5913256fe621e55
+    .claude/skills/review-visual/scripts/cli.mjs: sha256:334673923aefe02ae0f6720711d2427a49340f5e15ea870ef4a0fc4758b0ae72
     .claude/skills/review-visual/scripts/comment.mjs: sha256:6a85dd6092986375413c949cba8d3865b13aa27bea6e7915009e4100e2bcd127
     .claude/skills/review-visual/scripts/contract.mjs: sha256:0ba3519a6d06046113417cabc9db78726713e915140ba5d87e21fe4c3b89c2c0
   source: local
@@ -383,7 +383,7 @@ deployments:
   owners:
   - ./src/skills/review-visual
   active_owner: ./src/skills/review-visual
-  content_hash: sha256:d35c1cd392921809f7a53a57f959c17dc47899bb666bdc76a5913256fe621e55
+  content_hash: sha256:334673923aefe02ae0f6720711d2427a49340f5e15ea870ef4a0fc4758b0ae72
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/review-visual/scripts/comment.mjs
@@ -689,7 +689,7 @@ deployments:
   owners:
   - ./src/skills/review-visual
   active_owner: ./src/skills/review-visual
-  content_hash: sha256:d35c1cd392921809f7a53a57f959c17dc47899bb666bdc76a5913256fe621e55
+  content_hash: sha256:334673923aefe02ae0f6720711d2427a49340f5e15ea870ef4a0fc4758b0ae72
 - kind: project-relative
   target: claude
   value: .claude/skills/review-visual/scripts/comment.mjs

@@ -136,6 +136,10 @@ Without it the skill still publishes to consumers, but `apm install` does **not*
 repo's `.claude/skills/` — so you cannot use or test your own skill while writing it, and nothing
 tells you why.
 
+The self-reference also puts a hash of **every file** of the skill into `apm.lock.yaml`. After editing
+anything under `src/skills/`, run `apm install` and commit the lockfile change with it; otherwise CI's
+`apm install --frozen` rewrites the lockfile and fails on the dirty tree.
+
 `scripts/validate-skills.js` fails CI on a missing or stale self-reference, on a frontmatter `name:`
 that does not match its directory, on non-ASCII frontmatter, and on a missing or oversized
 `description:`. Run it locally with `npm run validate-skills`.
