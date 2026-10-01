@@ -78,9 +78,9 @@ dependencies:
   - .claude/skills/setup-katana-skills/SKILL.md
   - .claude/skills/setup-katana-skills/agents-block.md
   deployed_file_hashes:
-    .agents/skills/setup-katana-skills/SKILL.md: sha256:357294575b74fd88932fd1a1d098ec1d5b67618bbb13a53186054dc857294161
+    .agents/skills/setup-katana-skills/SKILL.md: sha256:fd22cc5a05aefe038e90fdb322e280318774f0d9c7aef12c350fbe3b192a86f8
     .agents/skills/setup-katana-skills/agents-block.md: sha256:f9fcdf3ee858d2f58d6b98ae22eb6cc00d6987d69b36a352ecfc7573bdb38088
-    .claude/skills/setup-katana-skills/SKILL.md: sha256:357294575b74fd88932fd1a1d098ec1d5b67618bbb13a53186054dc857294161
+    .claude/skills/setup-katana-skills/SKILL.md: sha256:fd22cc5a05aefe038e90fdb322e280318774f0d9c7aef12c350fbe3b192a86f8
     .claude/skills/setup-katana-skills/agents-block.md: sha256:f9fcdf3ee858d2f58d6b98ae22eb6cc00d6987d69b36a352ecfc7573bdb38088
   source: local
   local_path: ./src/skills/setup-katana-skills
@@ -411,7 +411,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:357294575b74fd88932fd1a1d098ec1d5b67618bbb13a53186054dc857294161
+  content_hash: sha256:fd22cc5a05aefe038e90fdb322e280318774f0d9c7aef12c350fbe3b192a86f8
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/setup-katana-skills/agents-block.md
@@ -699,7 +699,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:357294575b74fd88932fd1a1d098ec1d5b67618bbb13a53186054dc857294161
+  content_hash: sha256:fd22cc5a05aefe038e90fdb322e280318774f0d9c7aef12c350fbe3b192a86f8
 - kind: project-relative
   target: claude
   value: .claude/skills/setup-katana-skills/agents-block.md

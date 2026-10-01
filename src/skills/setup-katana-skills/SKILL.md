@@ -38,7 +38,10 @@ Read the repo's actual state; assume nothing.
 - **Installed katana skills**: `apm.yml` entries under `Meito-ai/katana-sdlc-skills/src/skills/`, and
   deployed copies in `.claude/skills/<name>/` or `.agents/skills/<name>/`. These arrive pre-selected.
 - **Layout**: `git worktree list`. A first line ending in `(bare)` means the repo is already a bare
-  clone, so there is nothing to convert. Otherwise note `git status --porcelain`.
+  clone, so there is nothing to convert. Otherwise classify `git status --porcelain`: untracked files
+  (`??`) never block, since the conversion inventories and restores them. A tracked change blocks
+  unless it is **install residue**: a change to `apm.yml`, `apm.lock.yaml` or `.gitignore`, which is
+  what adding setup and running `apm install` leaves behind.
 - **Agent instructions**: `CLAUDE.md`, `AGENTS.md`, and an existing `<!-- katana-skills:start -->`
   block from an earlier run.
 - **Bootstrap signals** (for `bare-clone-workflow`): lockfiles and manifests (`pnpm-lock.yaml`,
@@ -63,7 +66,8 @@ recommended answer so the user can accept it in a word. Skip a question explorat
    whether to install it anyway.
 2. **Conversion** (`bare-clone-workflow` picked, repo not yet bare). Recommend converting this clone to
    the bare-clone layout now: the wiring describes that layout. It moves every file in the repo, so get
-   an explicit yes. A dirty tree blocks it: the user commits or discards first, then re-runs.
+   an explicit yes. A tracked change other than install residue blocks it: name the files, and the
+   user commits or discards them first, then re-runs.
 3. **Workspace file** (converting). Recommend yes when the user works in VS Code or Cursor, else no.
 4. **Bootstrap** (`bare-clone-workflow` picked). Propose the install command, the files to copy from a
    sibling worktree, and a verify command (build or test), from the bootstrap signals.
@@ -93,6 +97,11 @@ deployed yet, fetch the procedure without touching the repo: in a scratch direct
 setup's ref (targets: `agent-skills`), run `apm install`, and read
 `.agents/skills/bare-clone-workflow/reference.md` there.
 
+Its precondition asks for a clean tree; setup relaxes that to "no tracked change except install
+residue" (step 1), and carries the residue across: the reference's step 5 checks out the default
+branch from `HEAD`, so right after it, copy each residue file from the backup directory into the new
+worktree. They stay uncommitted changes there, for the user to review with the rest of setup's output.
+
 Run it to the end, including its bootstrap-and-verify step with the commands confirmed in step 2, the
 `git remote set-head origin --auto` check, and the workspace file when the user wanted one. Keep the
 backup directory until verification passes.
@@ -100,8 +109,8 @@ backup directory until verification passes.
 From here on, the working tree is `<container>/<default-branch>/`. The session's own directory is now
 the container, so address every later file by absolute path inside the new worktree.
 
-Done when `git worktree list` starts with a `(bare)` line and the verify command passed in the new
-worktree.
+Done when `git worktree list` starts with a `(bare)` line, `git status` in the new worktree shows the
+same residue changes as before the conversion, and the verify command passed there.
 
 ## 5. Install
 
