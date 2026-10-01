@@ -10,13 +10,17 @@ Install the katana skills the user picks and **wire** each one into this repo: t
 agent must see every session, plus the repo-specific facts a skill defers to the host repo for. A skill
 that is installed but not wired is dead weight; wiring is the point.
 
+Keep the footprint minimal: setup writes `apm.yml` and one marker-delimited block in `CLAUDE.md` or
+`AGENTS.md`, plus one optional line in a PR workflow doc. Whatever a skill's own `SKILL.md` already
+says stays out of the block.
+
 The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/skills/<name>`:
 
 | Skill | Wiring it needs | Available when |
 |---|---|---|
 | `bare-clone-workflow` | worktree rules, bootstrap commands, the layout itself | always |
 | `branch-shutdown` | one rule naming the default branch | always |
-| `review-visual` | the marker-skip rule, the post command | `origin` is on GitHub |
+| `review-visual` | the marker-skip rule | `origin` is on GitHub |
 
 This is a prompt-driven skill. Explore, present, confirm, then write. Nothing is committed: the user
 reviews and commits the result.
@@ -35,8 +39,8 @@ Read the repo's actual state; assume nothing.
   deployed copies in `.claude/skills/<name>/` or `.agents/skills/<name>/`. These arrive pre-selected.
 - **Layout**: `git worktree list`. A first line ending in `(bare)` means the repo is already a bare
   clone, so there is nothing to convert. Otherwise note `git status --porcelain`.
-- **Agent instructions**: `CLAUDE.md`, `AGENTS.md`, an existing `<!-- katana-skills:start -->` block,
-  and `docs/agents/katana-*.md` from an earlier run.
+- **Agent instructions**: `CLAUDE.md`, `AGENTS.md`, and an existing `<!-- katana-skills:start -->`
+  block from an earlier run.
 - **Bootstrap signals** (for `bare-clone-workflow`): lockfiles and manifests (`pnpm-lock.yaml`,
   `package-lock.json`, `uv.lock`, `poetry.lock`, `go.mod`, `Cargo.toml`, `Gemfile.lock`, `Makefile`),
   setup sections of `README.md` / `CONTRIBUTING.md`, and ignored files a fresh worktree would lack
@@ -72,9 +76,8 @@ Show the user, and let them edit before anything is written:
 
 - the `apm.yml` entries to add and remove;
 - the `## Katana skills` block, from [agents-block.md](agents-block.md), keeping only the subsections
-  of the chosen skills;
-- each `docs/agents/katana-<skill>.md` from the seeds [katana-bare-clone-workflow.md](katana-bare-clone-workflow.md)
-  and [katana-review-visual.md](katana-review-visual.md), placeholders filled;
+  of the chosen skills, placeholders filled (with no files to copy, drop the "copy ... from a sibling
+  worktree" clause);
 - the PR workflow line, if any.
 
 Read every file in this skill folder before step 4: conversion moves this folder along with the rest of
@@ -124,12 +127,9 @@ there; never create the other alongside it.
 replace an existing block in place, or append a new one at the end of the file. Everything outside the
 markers is the user's; leave it byte-for-byte.
 
-**Write the docs.** `docs/agents/katana-<skill>.md` for each chosen skill that has a seed; delete the
-file of each unselected skill. Add the PR workflow line if the user wanted it, and remove it when
-`review-visual` was unselected.
+**Write the PR workflow line** if the user wanted it; remove it when `review-visual` was unselected.
 
-Done when the block lists exactly the chosen skills, every pointer in it resolves to a file that
-exists, and no `{{` is left in any written file.
+Done when the block lists exactly the chosen skills and no `{{` is left in it.
 
 ## 7. Report
 
@@ -138,5 +138,5 @@ exists, and no `{{` is left in any written file.
 - After a conversion: the new worktree path, and that the session must be restarted there, since the
   old directory is now the container. Undoing it is the Rollback section of `bare-clone-workflow`'s
   `reference.md`.
-- Re-running `/setup-katana-skills` adds or removes skills and rewrites the block in place. The
-  `docs/agents/katana-*.md` files can be edited directly.
+- Re-running `/setup-katana-skills` adds or removes skills and rewrites the block in place, so edits
+  belong outside the markers.

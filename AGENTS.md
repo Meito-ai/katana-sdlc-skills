@@ -225,9 +225,9 @@ Installing is half the job: most skills also need **wiring** into the consumer's
 `CLAUDE.md` (the always-on rules, the repo-specific commands a skill defers to). That is
 **`setup-katana-skills`**, which detects the skills already installed, offers the rest, and writes one
 marker-delimited `## Katana skills` block. **When a skill is added, removed, or changes what it needs
-from its host repo, update `setup-katana-skills`** (its skill table, `agents-block.md`, and the
-`katana-<skill>.md` seed if the skill has repo-specific facts) — otherwise consumers install a skill
-nothing tells their agents to use.
+from its host repo, update `setup-katana-skills`** (its skill table and `agents-block.md`) —
+otherwise consumers install a skill nothing tells their agents to use. Keep the block to what the skill
+itself cannot say: always-on rules and facts about the host repo.
 
 ### Generated vs authored — do not confuse them
 

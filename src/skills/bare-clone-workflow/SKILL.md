@@ -94,7 +94,7 @@ Glob `"$CONTAINER"/*.code-workspace`:
 A new worktree has only tracked files. Whatever the repo keeps untracked is absent: `.env` files,
 generated clients, `node_modules/`, local caches. The install command and the untracked files a
 worktree needs are properties of the host repo, documented in its own `AGENTS.md` or `README.md`
-(`setup-katana-skills` writes them to `docs/agents/katana-bare-clone-workflow.md`).
+(`setup-katana-skills` writes them into its `## Katana skills` block).
 Read that, then run it — for example `pnpm install --frozen-lockfile` plus copying `.env` from a
 sibling worktree. Finish by running the repo's build or test command once, so the worktree is known
 good before work starts.

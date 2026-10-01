@@ -13,4 +13,4 @@ from meito, whose `meito:review-visual:v1` marker it replaces.
 `setup-katana-skills` (user-invoked) detects the katana skills a repo already has, offers the rest,
 installs the picks with apm at its own `ref`, converts the clone to the bare-clone layout when
 `bare-clone-workflow` is picked, and wires each skill into `CLAUDE.md` / `AGENTS.md` as one
-marker-delimited `## Katana skills` block plus `docs/agents/katana-*.md`. It never commits.
+marker-delimited `## Katana skills` block. It never commits.
