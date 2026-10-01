@@ -56,6 +56,8 @@ devDependencies:
     # cannot use it while authoring. One line per skill; CI enforces the pairing.
     - ./src/skills/bare-clone-workflow
     - ./src/skills/branch-shutdown
+    - ./src/skills/review-visual
+    - ./src/skills/setup-katana-skills
 
     # Pinned by semver range; the resolved tag + commit land in apm.lock.yaml,
     # which is committed. CI runs `apm install --frozen`, so a new upstream tag

@@ -7,7 +7,32 @@ Agent skills, distributed with [APM](https://github.com/microsoft/apm) so consum
 
 ## Install
 
-Add to your `apm.yml`:
+Each skill is installed on its own by its subpath, so you cherry-pick what you want. Most skills also
+need **wiring** into your repo's `AGENTS.md` / `CLAUDE.md` before agents use them; `setup-katana-skills`
+does both.
+
+### Recommended: let setup pick, install and wire
+
+Add the setup skill to your `apm.yml`, install, then run it:
+
+```yaml
+dependencies:
+  apm:
+    - git: Meito-ai/katana-sdlc-skills/src/skills/setup-katana-skills
+      ref: v0.2.0        # or "^0.2.0" on apm >= 0.16.0
+```
+
+```bash
+apm install
+# then, in Claude Code:  /setup-katana-skills
+```
+
+It detects the katana skills you already have, offers the rest, installs your picks at the same `ref`,
+and writes one `## Katana skills` block into `AGENTS.md` / `CLAUDE.md` — nothing else. Picking
+`bare-clone-workflow` also converts your clone to the bare-clone layout (after asking). Nothing is
+committed. Re-run it to add or remove skills.
+
+### By hand
 
 Reference each skill you want by its subpath:
 
@@ -15,7 +40,7 @@ Reference each skill you want by its subpath:
 dependencies:
   apm:
     - git: Meito-ai/katana-sdlc-skills/src/skills/bare-clone-workflow
-      ref: v0.2.0        # or "^0.2.0" on apm >= 0.16.0
+      ref: v0.2.0
     - git: Meito-ai/katana-sdlc-skills/src/skills/branch-shutdown
       ref: v0.2.0
 ```
@@ -23,6 +48,8 @@ dependencies:
 ```bash
 apm install
 ```
+
+Then run `/setup-katana-skills` to wire them, or write the wiring yourself.
 
 Skills deploy to `.agents/skills/` and, if you target `claude`, `.claude/skills/`.
 
@@ -43,10 +70,12 @@ Each skill lives at [`src/skills/`](./src/skills).
 |---|---|
 | [`bare-clone-workflow`](./src/skills/bare-clone-workflow) | Git bare-clone worktree layouts: a container directory holding `.bare`, one sibling worktree per branch, no primary checkout. Clones into the layout, converts an existing clone, adds worktrees. |
 | [`branch-shutdown`](./src/skills/branch-shutdown) | Retires a merged or abandoned branch. Fetches from the remote and proves the work survives on the default branch — including squash-merges — before deleting the worktree, the local branch or the remote branch. |
+| [`review-visual`](./src/skills/review-visual) | Posts a sticky PR comment showing the change's *behavioral delta* — a Mermaid diagram or control-flow diff for the human reviewer — stamped with the PR head sha. GitHub only; needs `gh` and Node.js >= 20 on the machine, but not a Node repo. |
+| [`setup-katana-skills`](./src/skills/setup-katana-skills) | User-invoked (`/setup-katana-skills`). Picks which of the above this repo uses, installs them with apm, and wires each into `AGENTS.md` / `CLAUDE.md`. |
 
-The two are designed as a pair but each works installed alone. Both are repo-agnostic: they detect
-the default branch, detect the VS Code workspace file if the repo uses one, and defer to the host
-repo's own `AGENTS.md` for its install command and untracked files.
+`bare-clone-workflow` and `branch-shutdown` are designed as a pair but each works installed alone.
+Both are repo-agnostic: they detect the default branch, detect the VS Code workspace file if the repo
+uses one, and defer to the host repo's own `AGENTS.md` for its install command and untracked files.
 
 > Some skills declare upstream dependencies (e.g. on
 > [`mattpocock/skills`](https://github.com/mattpocock/skills)). APM installs those transitively, but
