@@ -1,0 +1,180 @@
+# Template for .github/workflows/infra.yml, written by step 6 of SKILL.md.
+#
+# Fill every %%...%% placeholder; `${{ ... }}` is GitHub Actions syntax and stays as it is. A line
+# ending in `# [if <condition>]` stays only when the condition holds; strip the marker when it does.
+# Delete this header block. Placeholders:
+#   %%project%%            the Pulumi project name
+#   %%infra-dir%%          the infra directory, e.g. packages/infra
+#   %%watch-paths%%        one `- '<path>/**'` line per path the infra depends on: %%infra-dir%%,
+#                          plus the host project's package.json in folder mode
+#   %%node-version%%       the repo's engines major, else 24
+#   %%cache%%              npm | pnpm | yarn (omit the `cache:` line for bun)
+#   %%install%%            npm ci | pnpm install --frozen-lockfile | yarn install --immutable |
+#                          bun install --frozen-lockfile
+#   %%typecheck%%          the command type-checking the infra program from the repo root
+#   %%unit-tests%%         the command running the unit tests from the repo root
+#   %%preview-test%%       the command running integration/preview.spec.ts from the repo root
+#   %%provider-env%%       one `NAME: ${{ secrets.NAME }}` line per credential in the card
+#   %%provider-check%%     the same names joined as `[ -n "$NAME" ] && ...`
+#   %%auto-stack%%         the stack deployed on merge (the first stack); drop the deploy-auto job
+#                          when there is only one stack
+#   %%manual-stacks%%      the remaining stacks, as a YAML list: ['prod']
+#   %%default-branch%%     the repo's default branch
+# Conditions: pnpm, bun, bridged (the card's provider is bridged: Hostinger).
+
+name: Infra (Pulumi)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      %%watch-paths%%
+      - '.github/workflows/infra.yml'
+  push:
+    branches: ['%%default-branch%%']
+    paths:
+      %%watch-paths%%
+  workflow_dispatch:
+    inputs:
+      stack:
+        description: 'Stack to deploy'
+        required: true
+        type: choice
+        options: %%manual-stacks%%
+
+# Deploys never cancel each other half-way.
+concurrency:
+  group: infra-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+  %%provider-env%%
+  # The public key the servers accept. The program reads it from this variable, so it never lands in
+  # committed stack config. A secret for uniformity with the credentials, not for confidentiality.
+  SSH_PUBLIC_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
+  # `<org>/<project>`, the prefix of every stack. A repository variable (Settings -> Secrets and
+  # variables -> Actions -> Variables), not an environment one: it is read here at the top level.
+  PULUMI_STACK_BASE: ${{ vars.PULUMI_STACK_BASE }}
+
+jobs:
+  # PR gate: unit tests and a preview of a throwaway stack. Both block merge.
+  gate:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Require PULUMI_STACK_BASE
+        if: vars.PULUMI_STACK_BASE == ''
+        run: |
+          echo "::error::Set the PULUMI_STACK_BASE repository variable, e.g. my-org/%%project%%."
+          exit 1
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6 # [if pnpm]
+      - uses: oven-sh/setup-bun@v2 # [if bun]
+      - uses: actions/setup-node@v7
+        with:
+          node-version: %%node-version%%
+          cache: '%%cache%%'
+      # The preview shells out to the pulumi CLI, so it must be on PATH.
+      - uses: pulumi/setup-pulumi@v2
+      - name: Generate bridged provider SDKs # [if bridged]
+        working-directory: %%infra-dir%% # [if bridged]
+        run: pulumi install # [if bridged]
+      - name: Install dependencies
+        run: %%install%%
+      - name: Typecheck
+        run: %%typecheck%%
+      - name: Unit tests
+        run: %%unit-tests%%
+      # The preview test skips itself without credentials, which would report green on a PR that
+      # cannot see the secrets (Dependabot, forks). Decide here instead, so a skip is never silent.
+      - name: Check preview credentials
+        id: creds
+        run: |
+          if [ -n "$PULUMI_ACCESS_TOKEN" ] && %%provider-check%%; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Preview a throwaway stack
+        if: steps.creds.outputs.available == 'true'
+        run: %%preview-test%%
+        env:
+          PULUMI_PREVIEW_STACK: ${{ env.PULUMI_STACK_BASE }}/ci-${{ github.run_id }}
+      - name: Report a skipped preview
+        if: steps.creds.outputs.available != 'true'
+        run: |
+          MSG="Pulumi preview did NOT run: credentials unavailable to this run."
+          echo "### Pulumi preview skipped" >> "$GITHUB_STEP_SUMMARY"
+          echo "$MSG This job's green status covers unit tests only." >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ github.actor }}" = "dependabot[bot]" ]; then
+            echo "::warning title=Pulumi preview skipped::$MSG Expected on Dependabot PRs."
+          else
+            echo "::error title=Pulumi preview skipped::$MSG Check the repository secrets."
+            exit 1
+          fi
+
+  # Merge to %%default-branch%%: deploy %%auto-stack%% automatically (the gate already ran on the PR).
+  deploy-auto:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: %%auto-stack%%
+    steps:
+      - name: Require PULUMI_STACK_BASE
+        if: vars.PULUMI_STACK_BASE == ''
+        run: |
+          echo "::error::Set the PULUMI_STACK_BASE repository variable, e.g. my-org/%%project%%."
+          exit 1
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6 # [if pnpm]
+      - uses: oven-sh/setup-bun@v2 # [if bun]
+      - uses: actions/setup-node@v7
+        with:
+          node-version: %%node-version%%
+          cache: '%%cache%%'
+      - uses: pulumi/setup-pulumi@v2 # [if bridged]
+      - name: Generate bridged provider SDKs # [if bridged]
+        working-directory: %%infra-dir%% # [if bridged]
+        run: pulumi install # [if bridged]
+      - name: Install dependencies
+        run: %%install%%
+      - name: Deploy %%auto-stack%%
+        uses: pulumi/actions@v7
+        with:
+          command: up
+          stack-name: ${{ env.PULUMI_STACK_BASE }}/%%auto-stack%%
+          work-dir: %%infra-dir%%
+
+  # Manual only, gated by the chosen stack's GitHub Environment (give production a required reviewer).
+  deploy-manual:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: ${{ inputs.stack }}
+    steps:
+      - name: Require PULUMI_STACK_BASE
+        if: vars.PULUMI_STACK_BASE == ''
+        run: |
+          echo "::error::Set the PULUMI_STACK_BASE repository variable, e.g. my-org/%%project%%."
+          exit 1
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6 # [if pnpm]
+      - uses: oven-sh/setup-bun@v2 # [if bun]
+      - uses: actions/setup-node@v7
+        with:
+          node-version: %%node-version%%
+          cache: '%%cache%%'
+      - uses: pulumi/setup-pulumi@v2 # [if bridged]
+      - name: Generate bridged provider SDKs # [if bridged]
+        working-directory: %%infra-dir%% # [if bridged]
+        run: pulumi install # [if bridged]
+      - name: Install dependencies
+        run: %%install%%
+      - name: Deploy ${{ inputs.stack }}
+        uses: pulumi/actions@v7
+        with:
+          command: up
+          stack-name: ${{ env.PULUMI_STACK_BASE }}/${{ inputs.stack }}
+          work-dir: %%infra-dir%%

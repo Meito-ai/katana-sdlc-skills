@@ -31,21 +31,20 @@ targets:
   - claude
 
 # ---------------------------------------------------------------------------
-# dependencies vs devDependencies -- this distinction is load-bearing.
+# Where dependencies go -- load-bearing.
 #
-#   dependencies:     travel transitively to anyone who installs this package.
-#                     Use for upstream skills that OUR published skills invoke,
-#                     so a consumer importing only katana-sdlc-skills still
-#                     gets a working install.
-#   devDependencies:  stay here. Authoring-time helpers only.
+#   devDependencies:  stay here. Authoring-time helpers and self-references.
 #
-# The published skills under src/skills/ invoke no upstream skill, so every
-# entry is dev-only. When a published skill starts delegating to an upstream
-# skill, that entry MOVES to `dependencies:` and the skill's SKILL.md states the
-# requirement in prose as well -- a consumer that already pins this repo at an
-# older ref silently wins the version resolution, with no warning from apm.
+# Upstream skills that a PUBLISHED skill invokes do not go here at all:
+# consumers install each skill by subpath, and a subpath install reads the
+# apm.yml in that skill's directory, not this one (verified with apm 0.32.0).
+# Such a skill carries its own apm.yml with a `dependencies:` key, e.g.
+# src/skills/paas/paas-pulumi-infra-setup/apm.yml, and its SKILL.md states the
+# requirement in prose as well -- a consumer's own pin of the same upstream
+# repo silently wins the version resolution, with no warning from apm.
 #
-# HARD RULE: never list the same upstream repo under both keys. apm dedupes by
+# HARD RULE: never declare the same upstream repo twice with different subsets
+# in one install graph (here and in a skill's apm.yml included). apm dedupes by
 # repo and silently drops one subset -- no error, no warning.
 # ---------------------------------------------------------------------------
 devDependencies:
@@ -58,6 +57,7 @@ devDependencies:
     - ./src/skills/branch-shutdown
     - ./src/skills/review-visual
     - ./src/skills/setup-katana-skills
+    - ./src/skills/paas/paas-pulumi-infra-setup
 
     # Pinned by semver range; the resolved tag + commit land in apm.lock.yaml,
     # which is committed. CI runs `apm install --frozen`, so a new upstream tag

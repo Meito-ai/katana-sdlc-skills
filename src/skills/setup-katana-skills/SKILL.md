@@ -14,13 +14,14 @@ Keep the footprint minimal: setup writes `apm.yml` and one marker-delimited bloc
 `AGENTS.md`, plus one optional line in a PR workflow doc. Whatever a skill's own `SKILL.md` already
 says stays out of the block.
 
-The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/skills/<name>`:
+The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/skills/<path>`:
 
-| Skill | Wiring it needs | Available when |
-|---|---|---|
-| `bare-clone-workflow` | worktree rules, bootstrap commands, the layout itself | always |
-| `branch-shutdown` | one rule naming the default branch | always |
-| `review-visual` | the marker-skip rule | `origin` is on GitHub |
+| Skill | `<path>` | Wiring it needs | Available when |
+|---|---|---|---|
+| `bare-clone-workflow` | `bare-clone-workflow` | worktree rules, bootstrap commands, the layout itself | always |
+| `branch-shutdown` | `branch-shutdown` | one rule naming the default branch | always |
+| `review-visual` | `review-visual` | the marker-skip rule | `origin` is on GitHub |
+| `paas-pulumi-infra-setup` | `paas/paas-pulumi-infra-setup` | none: a one-time, user-run scaffold that writes its own pointer line when run | always |
 
 This is a prompt-driven skill. Explore, present, confirm, then write. Nothing is committed: the user
 reviews and commits the result.
@@ -60,7 +61,7 @@ Done when every bullet has an answer.
 Summarise what exploration found. Then take the questions in order, one answer each, leading with the
 recommended answer so the user can accept it in a word. Skip a question exploration already settled.
 
-1. **Skills.** List the three skills with their state (installed / not installed / unavailable, with the
+1. **Skills.** List the skills with their state (installed / not installed / unavailable, with the
    reason). Installed skills are pre-selected. The user picks any subset; unselecting an installed skill
    removes it. When `review-visual` is picked but `node` or `gh` failed its check, say which and ask
    whether to install it anyway.
@@ -116,11 +117,11 @@ same residue changes as before the conversion, and the verify command passed the
 
 1. Add each newly chosen skill to `apm.yml` under `dependencies.apm`, next to the setup entry:
    ```yaml
-   - git: Meito-ai/katana-sdlc-skills/src/skills/<name>
+   - git: Meito-ai/katana-sdlc-skills/src/skills/<path>
      ref: <setup's ref, verbatim>
    ```
    Leave the ref of an already-installed skill as it is.
-2. Remove each unselected skill with `apm uninstall Meito-ai/katana-sdlc-skills/src/skills/<name>`.
+2. Remove each unselected skill with `apm uninstall Meito-ai/katana-sdlc-skills/src/skills/<path>`.
 3. Run `apm install`.
 
 Done when every chosen skill has a `SKILL.md` under `.claude/skills/<name>/` or `.agents/skills/<name>/`
@@ -138,12 +139,14 @@ markers is the user's; leave it byte-for-byte.
 
 **Write the PR workflow line** if the user wanted it; remove it when `review-visual` was unselected.
 
-Done when the block lists exactly the chosen skills and no `{{` is left in it.
+Done when the block has a subsection for exactly the chosen skills that have one in
+[agents-block.md](agents-block.md), and no `{{` is left in it.
 
 ## 7. Report
 
 - The skills installed, removed and wired, and the files changed (`git status --short`).
 - Nothing is committed; the user reviews and commits.
+- `paas-pulumi-infra-setup` installed: run `/paas-pulumi-infra-setup` to scaffold the infrastructure.
 - After a conversion: the new worktree path, and that the session must be restarted there, since the
   old directory is now the container. Undoing it is the Rollback section of `bare-clone-workflow`'s
   `reference.md`.

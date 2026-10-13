@@ -39,6 +39,86 @@ dependencies:
   source: local
   local_path: ./src/skills/branch-shutdown
   is_dev: true
+- repo_url: _local/paas-pulumi-infra-setup
+  name: paas-pulumi-infra-setup
+  version: 0.1.0
+  package_type: hybrid
+  deployed_files:
+  - .agents/skills/paas-pulumi-infra-setup
+  - .agents/skills/paas-pulumi-infra-setup/SKILL.md
+  - .agents/skills/paas-pulumi-infra-setup/apm.yml
+  - .agents/skills/paas-pulumi-infra-setup/providers/alibaba.md
+  - .agents/skills/paas-pulumi-infra-setup/providers/aws.md
+  - .agents/skills/paas-pulumi-infra-setup/providers/azure.md
+  - .agents/skills/paas-pulumi-infra-setup/providers/digitalocean.md
+  - .agents/skills/paas-pulumi-infra-setup/providers/gcp.md
+  - .agents/skills/paas-pulumi-infra-setup/providers/hetzner.md
+  - .agents/skills/paas-pulumi-infra-setup/providers/hostinger.md
+  - .agents/skills/paas-pulumi-infra-setup/providers/linode.md
+  - .agents/skills/paas-pulumi-infra-setup/providers/ovhcloud.md
+  - .agents/skills/paas-pulumi-infra-setup/providers/upcloud.md
+  - .agents/skills/paas-pulumi-infra-setup/reference-design.md
+  - .agents/skills/paas-pulumi-infra-setup/scripts/detect.mjs
+  - .agents/skills/paas-pulumi-infra-setup/templates/infra-workflow.yml
+  - .agents/skills/paas-pulumi-infra-setup/templates/mcp-entry.yml
+  - .agents/skills/paas-pulumi-infra-setup/templates/runbook.md
+  - .claude/skills/paas-pulumi-infra-setup
+  - .claude/skills/paas-pulumi-infra-setup/SKILL.md
+  - .claude/skills/paas-pulumi-infra-setup/apm.yml
+  - .claude/skills/paas-pulumi-infra-setup/providers/alibaba.md
+  - .claude/skills/paas-pulumi-infra-setup/providers/aws.md
+  - .claude/skills/paas-pulumi-infra-setup/providers/azure.md
+  - .claude/skills/paas-pulumi-infra-setup/providers/digitalocean.md
+  - .claude/skills/paas-pulumi-infra-setup/providers/gcp.md
+  - .claude/skills/paas-pulumi-infra-setup/providers/hetzner.md
+  - .claude/skills/paas-pulumi-infra-setup/providers/hostinger.md
+  - .claude/skills/paas-pulumi-infra-setup/providers/linode.md
+  - .claude/skills/paas-pulumi-infra-setup/providers/ovhcloud.md
+  - .claude/skills/paas-pulumi-infra-setup/providers/upcloud.md
+  - .claude/skills/paas-pulumi-infra-setup/reference-design.md
+  - .claude/skills/paas-pulumi-infra-setup/scripts/detect.mjs
+  - .claude/skills/paas-pulumi-infra-setup/templates/infra-workflow.yml
+  - .claude/skills/paas-pulumi-infra-setup/templates/mcp-entry.yml
+  - .claude/skills/paas-pulumi-infra-setup/templates/runbook.md
+  deployed_file_hashes:
+    .agents/skills/paas-pulumi-infra-setup/SKILL.md: sha256:535a9bdd2d65dd5ad3371a0bd3434a6de88150b2a6be83642dfbb77c24c40313
+    .agents/skills/paas-pulumi-infra-setup/apm.yml: sha256:84bbeccd6a8479d0cf2832bda63461f32f11d222b694985e1035aea3830ffb4e
+    .agents/skills/paas-pulumi-infra-setup/providers/alibaba.md: sha256:46f29c9ea10370faa3554d58aca77af76482a5777ee3b7a55289f24bb6c4a80d
+    .agents/skills/paas-pulumi-infra-setup/providers/aws.md: sha256:f4c71a4ff4c27d3af28f8f06e906aee253474d9867329e8f325dacec1af96115
+    .agents/skills/paas-pulumi-infra-setup/providers/azure.md: sha256:25958012c170cad7a4b0c23597ec27676c538a1a5b065b9d7bb0fcd5bde476d6
+    .agents/skills/paas-pulumi-infra-setup/providers/digitalocean.md: sha256:7c1c166b242066f71560f84e1bea00ac2d6dee71698ad375b3debf89a65758cf
+    .agents/skills/paas-pulumi-infra-setup/providers/gcp.md: sha256:acb05561733a76b8541d820f3c366675246f9905172601ad519524eefcc53c7f
+    .agents/skills/paas-pulumi-infra-setup/providers/hetzner.md: sha256:0256a9ae688937a71ec50048d95e03c7c4ab517af535f0c73a39715fd9040bd9
+    .agents/skills/paas-pulumi-infra-setup/providers/hostinger.md: sha256:3677225abc6e25aa8e38bcc812319233b69195fd5d51febc1fb7a32daecb10e1
+    .agents/skills/paas-pulumi-infra-setup/providers/linode.md: sha256:e1aa3888d146d17b18f70a12c667b133f933b04ae85b54da2d193dc85a3c7edb
+    .agents/skills/paas-pulumi-infra-setup/providers/ovhcloud.md: sha256:70b4cc5e4f4485cda917199684fc6da0fc4ca5ccce8279324c00241cd45a0bbd
+    .agents/skills/paas-pulumi-infra-setup/providers/upcloud.md: sha256:c381667a79a4102a71849ff10d8e734bf1d5c39f99d632f42479abba05676c35
+    .agents/skills/paas-pulumi-infra-setup/reference-design.md: sha256:cc0bb5577796ad168f94ca6784df39f6d3cbc21db6e5d17d77ed0f8cb7c9717e
+    .agents/skills/paas-pulumi-infra-setup/scripts/detect.mjs: sha256:bc8e86f99fdfeb147aafe0531e3ea55898ab251a162504deae20c62bdac0648d
+    .agents/skills/paas-pulumi-infra-setup/templates/infra-workflow.yml: sha256:3fc8b5a67b38d72f9570c0dbc43456c5e0c7643a04571d6fc9992b06a86e3151
+    .agents/skills/paas-pulumi-infra-setup/templates/mcp-entry.yml: sha256:3eaf58d9159e9548594ce0cede5c2c4727d611364c4e5a686730a2c68f15f896
+    .agents/skills/paas-pulumi-infra-setup/templates/runbook.md: sha256:209d68e2246fb16790642144df8f94d8513808d231b831e040110ddabb6a1f56
+    .claude/skills/paas-pulumi-infra-setup/SKILL.md: sha256:535a9bdd2d65dd5ad3371a0bd3434a6de88150b2a6be83642dfbb77c24c40313
+    .claude/skills/paas-pulumi-infra-setup/apm.yml: sha256:84bbeccd6a8479d0cf2832bda63461f32f11d222b694985e1035aea3830ffb4e
+    .claude/skills/paas-pulumi-infra-setup/providers/alibaba.md: sha256:46f29c9ea10370faa3554d58aca77af76482a5777ee3b7a55289f24bb6c4a80d
+    .claude/skills/paas-pulumi-infra-setup/providers/aws.md: sha256:f4c71a4ff4c27d3af28f8f06e906aee253474d9867329e8f325dacec1af96115
+    .claude/skills/paas-pulumi-infra-setup/providers/azure.md: sha256:25958012c170cad7a4b0c23597ec27676c538a1a5b065b9d7bb0fcd5bde476d6
+    .claude/skills/paas-pulumi-infra-setup/providers/digitalocean.md: sha256:7c1c166b242066f71560f84e1bea00ac2d6dee71698ad375b3debf89a65758cf
+    .claude/skills/paas-pulumi-infra-setup/providers/gcp.md: sha256:acb05561733a76b8541d820f3c366675246f9905172601ad519524eefcc53c7f
+    .claude/skills/paas-pulumi-infra-setup/providers/hetzner.md: sha256:0256a9ae688937a71ec50048d95e03c7c4ab517af535f0c73a39715fd9040bd9
+    .claude/skills/paas-pulumi-infra-setup/providers/hostinger.md: sha256:3677225abc6e25aa8e38bcc812319233b69195fd5d51febc1fb7a32daecb10e1
+    .claude/skills/paas-pulumi-infra-setup/providers/linode.md: sha256:e1aa3888d146d17b18f70a12c667b133f933b04ae85b54da2d193dc85a3c7edb
+    .claude/skills/paas-pulumi-infra-setup/providers/ovhcloud.md: sha256:70b4cc5e4f4485cda917199684fc6da0fc4ca5ccce8279324c00241cd45a0bbd
+    .claude/skills/paas-pulumi-infra-setup/providers/upcloud.md: sha256:c381667a79a4102a71849ff10d8e734bf1d5c39f99d632f42479abba05676c35
+    .claude/skills/paas-pulumi-infra-setup/reference-design.md: sha256:cc0bb5577796ad168f94ca6784df39f6d3cbc21db6e5d17d77ed0f8cb7c9717e
+    .claude/skills/paas-pulumi-infra-setup/scripts/detect.mjs: sha256:bc8e86f99fdfeb147aafe0531e3ea55898ab251a162504deae20c62bdac0648d
+    .claude/skills/paas-pulumi-infra-setup/templates/infra-workflow.yml: sha256:3fc8b5a67b38d72f9570c0dbc43456c5e0c7643a04571d6fc9992b06a86e3151
+    .claude/skills/paas-pulumi-infra-setup/templates/mcp-entry.yml: sha256:3eaf58d9159e9548594ce0cede5c2c4727d611364c4e5a686730a2c68f15f896
+    .claude/skills/paas-pulumi-infra-setup/templates/runbook.md: sha256:209d68e2246fb16790642144df8f94d8513808d231b831e040110ddabb6a1f56
+  source: local
+  local_path: ./src/skills/paas/paas-pulumi-infra-setup
+  is_dev: true
+  declared_license: MIT
 - repo_url: _local/review-visual
   name: review-visual
   version: unknown
@@ -78,9 +158,9 @@ dependencies:
   - .claude/skills/setup-katana-skills/SKILL.md
   - .claude/skills/setup-katana-skills/agents-block.md
   deployed_file_hashes:
-    .agents/skills/setup-katana-skills/SKILL.md: sha256:fd22cc5a05aefe038e90fdb322e280318774f0d9c7aef12c350fbe3b192a86f8
+    .agents/skills/setup-katana-skills/SKILL.md: sha256:4cd0293dd2071224068d46bbd6bb75a494cf1373476b137bb1191f978efed423
     .agents/skills/setup-katana-skills/agents-block.md: sha256:f9fcdf3ee858d2f58d6b98ae22eb6cc00d6987d69b36a352ecfc7573bdb38088
-    .claude/skills/setup-katana-skills/SKILL.md: sha256:fd22cc5a05aefe038e90fdb322e280318774f0d9c7aef12c350fbe3b192a86f8
+    .claude/skills/setup-katana-skills/SKILL.md: sha256:4cd0293dd2071224068d46bbd6bb75a494cf1373476b137bb1191f978efed423
     .claude/skills/setup-katana-skills/agents-block.md: sha256:f9fcdf3ee858d2f58d6b98ae22eb6cc00d6987d69b36a352ecfc7573bdb38088
   source: local
   local_path: ./src/skills/setup-katana-skills
@@ -88,10 +168,10 @@ dependencies:
 - repo_url: mattpocock/skills
   name: mattpocock-skills
   host: github.com
-  resolved_commit: 6acc160e4e0cd062dbbbd7a1b26ae92855edf07e
-  resolved_ref: v1.2.3
-  version: 1.2.3
-  package_type: apm_package
+  resolved_commit: 24fe0ef7737efae15c87225755e9f6f5965e4888
+  resolved_ref: v1.3.1
+  version: 1.3.1
+  package_type: marketplace_plugin
   deployed_files:
   - .agents/skills/code-review
   - .agents/skills/code-review/SKILL.md
@@ -130,33 +210,33 @@ dependencies:
   - .claude/skills/writing-for-agents/SKILL.md
   - .claude/skills/writing-for-agents/agents/openai.yaml
   deployed_file_hashes:
-    .agents/skills/code-review/SKILL.md: sha256:9cf46653dd9c710ea1e6c22423caf31a794c88773bc94bdaa23140277f470442
+    .agents/skills/code-review/SKILL.md: sha256:47f4e52c21694def9c7c11cbfbf891ca35eac7a93e395797515be3c8a409ae50
     .agents/skills/code-review/agents/openai.yaml: sha256:8229ca854e11dc8e6aef2131ee03f31fb1561cf905fab9ccc325180cf3331352
-    .agents/skills/codebase-design/DEEPENING.md: sha256:125e6b77413ad2bc7cf7a772bc74336d580a50f9e797db2178ed133d62333d06
-    .agents/skills/codebase-design/DESIGN-IT-TWICE.md: sha256:09f9948ea7636a4d3704c5ab909762e876c0b39849eefb14d2e03a398cc9c7e7
-    .agents/skills/codebase-design/SKILL.md: sha256:a8d50abac5a4018f60e1d911d4b6f4e36454ca14d6c390c0695a578c7de65dad
+    .agents/skills/codebase-design/DEEPENING.md: sha256:f3dd099ce99289bd213914d8ee3e2429b78309c3957ca4583f7659551b1d53c1
+    .agents/skills/codebase-design/DESIGN-IT-TWICE.md: sha256:52b52e75655a27aea59c6966b410bac82448968ad46ef1ebb9f07c274e3ae010
+    .agents/skills/codebase-design/SKILL.md: sha256:2c20617f87ec8af6a434859f381b2f061a69b530444e74eb39e78bb016a6d1e2
     .agents/skills/codebase-design/agents/openai.yaml: sha256:edebc9e4fcfe102114012575eaa9600b9b5fd08c311664f389c36e7bc717740f
-    .agents/skills/grill-me/SKILL.md: sha256:6189dfceb7304a6e5558f75d87e68fa3bc7fcf7ba120e44f21f8a61fe01eba54
+    .agents/skills/grill-me/SKILL.md: sha256:caaf8b8de1684f96e26b28f3c29189db5c89cce4b73e1c93d86164f66ef88637
     .agents/skills/grill-me/agents/openai.yaml: sha256:c061e39c3e0f9d865fb1b97556d485704af2a8a58f4b8221a8917a5c2074a32b
-    .agents/skills/grilling/SKILL.md: sha256:fa5c1e5ee76b1c8f1ae56101f52c9e239de75d5c578adc61227b92d10b7e52ef
+    .agents/skills/grilling/SKILL.md: sha256:10ff989e7498b23b5acb49d5048f11dcd906757d2f79c5cdf8a00001381296f2
     .agents/skills/grilling/agents/openai.yaml: sha256:1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b
-    .agents/skills/writing-for-agents/SKILL-MECHANICS.md: sha256:b4c54a0aaad3f6eddefde6d06770a0e401fbb8fc6a8f49ce18af816bd144d14d
-    .agents/skills/writing-for-agents/SKILL.md: sha256:a842323e664e5af104eac5c97ad22fda929ebeb62d81c501161ac1f6f482db58
+    .agents/skills/writing-for-agents/SKILL-MECHANICS.md: sha256:c768e6307c7c10728c401c213f2c4ba71c542127eeb7ad2956aabd15a0fa0059
+    .agents/skills/writing-for-agents/SKILL.md: sha256:551adca942227b44192edba88acd4e8db911f0121ce58ad16944ccf6a896a74a
     .agents/skills/writing-for-agents/agents/openai.yaml: sha256:eacb24b2a618cfb81dacb0416f4fdd75ddf3a8060f8ddb99aae1b1e301907e4b
-    .claude/skills/code-review/SKILL.md: sha256:9cf46653dd9c710ea1e6c22423caf31a794c88773bc94bdaa23140277f470442
+    .claude/skills/code-review/SKILL.md: sha256:47f4e52c21694def9c7c11cbfbf891ca35eac7a93e395797515be3c8a409ae50
     .claude/skills/code-review/agents/openai.yaml: sha256:8229ca854e11dc8e6aef2131ee03f31fb1561cf905fab9ccc325180cf3331352
-    .claude/skills/codebase-design/DEEPENING.md: sha256:125e6b77413ad2bc7cf7a772bc74336d580a50f9e797db2178ed133d62333d06
-    .claude/skills/codebase-design/DESIGN-IT-TWICE.md: sha256:09f9948ea7636a4d3704c5ab909762e876c0b39849eefb14d2e03a398cc9c7e7
-    .claude/skills/codebase-design/SKILL.md: sha256:a8d50abac5a4018f60e1d911d4b6f4e36454ca14d6c390c0695a578c7de65dad
+    .claude/skills/codebase-design/DEEPENING.md: sha256:f3dd099ce99289bd213914d8ee3e2429b78309c3957ca4583f7659551b1d53c1
+    .claude/skills/codebase-design/DESIGN-IT-TWICE.md: sha256:52b52e75655a27aea59c6966b410bac82448968ad46ef1ebb9f07c274e3ae010
+    .claude/skills/codebase-design/SKILL.md: sha256:2c20617f87ec8af6a434859f381b2f061a69b530444e74eb39e78bb016a6d1e2
     .claude/skills/codebase-design/agents/openai.yaml: sha256:edebc9e4fcfe102114012575eaa9600b9b5fd08c311664f389c36e7bc717740f
-    .claude/skills/grill-me/SKILL.md: sha256:6189dfceb7304a6e5558f75d87e68fa3bc7fcf7ba120e44f21f8a61fe01eba54
+    .claude/skills/grill-me/SKILL.md: sha256:caaf8b8de1684f96e26b28f3c29189db5c89cce4b73e1c93d86164f66ef88637
     .claude/skills/grill-me/agents/openai.yaml: sha256:c061e39c3e0f9d865fb1b97556d485704af2a8a58f4b8221a8917a5c2074a32b
-    .claude/skills/grilling/SKILL.md: sha256:fa5c1e5ee76b1c8f1ae56101f52c9e239de75d5c578adc61227b92d10b7e52ef
+    .claude/skills/grilling/SKILL.md: sha256:10ff989e7498b23b5acb49d5048f11dcd906757d2f79c5cdf8a00001381296f2
     .claude/skills/grilling/agents/openai.yaml: sha256:1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b
-    .claude/skills/writing-for-agents/SKILL-MECHANICS.md: sha256:b4c54a0aaad3f6eddefde6d06770a0e401fbb8fc6a8f49ce18af816bd144d14d
-    .claude/skills/writing-for-agents/SKILL.md: sha256:a842323e664e5af104eac5c97ad22fda929ebeb62d81c501161ac1f6f482db58
+    .claude/skills/writing-for-agents/SKILL-MECHANICS.md: sha256:c768e6307c7c10728c401c213f2c4ba71c542127eeb7ad2956aabd15a0fa0059
+    .claude/skills/writing-for-agents/SKILL.md: sha256:551adca942227b44192edba88acd4e8db911f0121ce58ad16944ccf6a896a74a
     .claude/skills/writing-for-agents/agents/openai.yaml: sha256:eacb24b2a618cfb81dacb0416f4fdd75ddf3a8060f8ddb99aae1b1e301907e4b
-  content_hash: sha256:24f1330cd410d84bbddbca8fcc754ac8ce08a1bd52fac097444e11616e9eaf9e
+  content_hash: sha256:127ccf2bbbf1442907b12581be5aba13ed034344e290714172f0a4a1b72942f8
   is_dev: true
   skill_subset:
   - engineering/code-review
@@ -165,9 +245,68 @@ dependencies:
   - productivity/grilling
   - productivity/writing-for-agents
   constraint: ^1.2.0
-  resolved_tag: v1.2.3
-  resolved_at: '2026-09-27T05:33:24+00:00'
+  resolved_tag: v1.3.1
+  resolved_at: '2026-10-13T09:39:15+00:00'
   declared_license: MIT
+- repo_url: pulumi/agent-skills
+  name: pulumi
+  host: github.com
+  resolved_commit: 99abfdac0ef8180e7723b3b5f30bb11171e3e4e3
+  resolved_ref: v2.0.7
+  version: 2.0.7
+  depth: 2
+  resolved_by: _local/paas-pulumi-infra-setup
+  package_type: apm_package
+  deployed_files:
+  - .agents/skills/pulumi-best-practices
+  - .agents/skills/pulumi-best-practices/SKILL.md
+  - .agents/skills/pulumi-best-practices/agents/openai.yaml
+  - .agents/skills/pulumi-best-practices/use_cases.yaml
+  - .agents/skills/pulumi-component
+  - .agents/skills/pulumi-component/SKILL.md
+  - .agents/skills/pulumi-component/agents/openai.yaml
+  - .agents/skills/pulumi-component/use_cases.yaml
+  - .agents/skills/pulumi-overview
+  - .agents/skills/pulumi-overview/SKILL.md
+  - .agents/skills/pulumi-overview/use_cases.yaml
+  - .claude/skills/pulumi-best-practices
+  - .claude/skills/pulumi-best-practices/SKILL.md
+  - .claude/skills/pulumi-best-practices/agents/openai.yaml
+  - .claude/skills/pulumi-best-practices/use_cases.yaml
+  - .claude/skills/pulumi-component
+  - .claude/skills/pulumi-component/SKILL.md
+  - .claude/skills/pulumi-component/agents/openai.yaml
+  - .claude/skills/pulumi-component/use_cases.yaml
+  - .claude/skills/pulumi-overview
+  - .claude/skills/pulumi-overview/SKILL.md
+  - .claude/skills/pulumi-overview/use_cases.yaml
+  deployed_file_hashes:
+    .agents/skills/pulumi-best-practices/SKILL.md: sha256:701bf94433f77f7851ed979ea74700a50dc69f958a20327f13da53d6a1468765
+    .agents/skills/pulumi-best-practices/agents/openai.yaml: sha256:2026466b871f83c3a00164eea9c20e3e913712faf56f76241be9d9fbd40bdf88
+    .agents/skills/pulumi-best-practices/use_cases.yaml: sha256:e3de56d96bd00a3c3a146e40a021ad03ca3d2e16319b00225deb4a8d708a0980
+    .agents/skills/pulumi-component/SKILL.md: sha256:eef36cb66dfcaf062ac2ef97b4ce050b04afa680f3c76c4e536659a686481cac
+    .agents/skills/pulumi-component/agents/openai.yaml: sha256:daee5038b424cc3d912bc2645f512359e5623b470ffe78560228d3bef13ec536
+    .agents/skills/pulumi-component/use_cases.yaml: sha256:6d4931a0901ae1c12f77330d0ad4e6f90c29880dcf7e9d486609c32656422508
+    .agents/skills/pulumi-overview/SKILL.md: sha256:273d233d7ffc3739d5c38b1d2b536bb1b57b0f706f7b7c3c763ce44a7835a905
+    .agents/skills/pulumi-overview/use_cases.yaml: sha256:eb7058582acbe0cc874468704d977d9832afc5a914581fa6b859a6c2552cb95e
+    .claude/skills/pulumi-best-practices/SKILL.md: sha256:701bf94433f77f7851ed979ea74700a50dc69f958a20327f13da53d6a1468765
+    .claude/skills/pulumi-best-practices/agents/openai.yaml: sha256:2026466b871f83c3a00164eea9c20e3e913712faf56f76241be9d9fbd40bdf88
+    .claude/skills/pulumi-best-practices/use_cases.yaml: sha256:e3de56d96bd00a3c3a146e40a021ad03ca3d2e16319b00225deb4a8d708a0980
+    .claude/skills/pulumi-component/SKILL.md: sha256:eef36cb66dfcaf062ac2ef97b4ce050b04afa680f3c76c4e536659a686481cac
+    .claude/skills/pulumi-component/agents/openai.yaml: sha256:daee5038b424cc3d912bc2645f512359e5623b470ffe78560228d3bef13ec536
+    .claude/skills/pulumi-component/use_cases.yaml: sha256:6d4931a0901ae1c12f77330d0ad4e6f90c29880dcf7e9d486609c32656422508
+    .claude/skills/pulumi-overview/SKILL.md: sha256:273d233d7ffc3739d5c38b1d2b536bb1b57b0f706f7b7c3c763ce44a7835a905
+    .claude/skills/pulumi-overview/use_cases.yaml: sha256:eb7058582acbe0cc874468704d977d9832afc5a914581fa6b859a6c2552cb95e
+  content_hash: sha256:aca20703a49590198a7cb8fa1f3c03c27a8697057747b21f3c57e876786892e8
+  is_dev: true
+  skill_subset:
+  - pulumi/pulumi-best-practices
+  - pulumi/pulumi-component
+  - pulumi/pulumi-overview
+  constraint: ^2.0.0
+  resolved_tag: v2.0.7
+  resolved_at: '2026-10-13T09:39:01+00:00'
+  declared_license: Apache-2.0
 deployments:
 - kind: project-relative
   target: agent-skills
@@ -240,7 +379,7 @@ deployments:
   owners:
   - mattpocock/skills
   active_owner: mattpocock/skills
-  content_hash: sha256:9cf46653dd9c710ea1e6c22423caf31a794c88773bc94bdaa23140277f470442
+  content_hash: sha256:47f4e52c21694def9c7c11cbfbf891ca35eac7a93e395797515be3c8a409ae50
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/code-review/agents/openai.yaml
@@ -267,7 +406,7 @@ deployments:
   owners:
   - mattpocock/skills
   active_owner: mattpocock/skills
-  content_hash: sha256:125e6b77413ad2bc7cf7a772bc74336d580a50f9e797db2178ed133d62333d06
+  content_hash: sha256:f3dd099ce99289bd213914d8ee3e2429b78309c3957ca4583f7659551b1d53c1
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/codebase-design/DESIGN-IT-TWICE.md
@@ -276,7 +415,7 @@ deployments:
   owners:
   - mattpocock/skills
   active_owner: mattpocock/skills
-  content_hash: sha256:09f9948ea7636a4d3704c5ab909762e876c0b39849eefb14d2e03a398cc9c7e7
+  content_hash: sha256:52b52e75655a27aea59c6966b410bac82448968ad46ef1ebb9f07c274e3ae010
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/codebase-design/SKILL.md
@@ -285,7 +424,7 @@ deployments:
   owners:
   - mattpocock/skills
   active_owner: mattpocock/skills
-  content_hash: sha256:a8d50abac5a4018f60e1d911d4b6f4e36454ca14d6c390c0695a578c7de65dad
+  content_hash: sha256:2c20617f87ec8af6a434859f381b2f061a69b530444e74eb39e78bb016a6d1e2
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/codebase-design/agents/openai.yaml
@@ -312,7 +451,7 @@ deployments:
   owners:
   - mattpocock/skills
   active_owner: mattpocock/skills
-  content_hash: sha256:6189dfceb7304a6e5558f75d87e68fa3bc7fcf7ba120e44f21f8a61fe01eba54
+  content_hash: sha256:caaf8b8de1684f96e26b28f3c29189db5c89cce4b73e1c93d86164f66ef88637
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/grill-me/agents/openai.yaml
@@ -339,7 +478,7 @@ deployments:
   owners:
   - mattpocock/skills
   active_owner: mattpocock/skills
-  content_hash: sha256:fa5c1e5ee76b1c8f1ae56101f52c9e239de75d5c578adc61227b92d10b7e52ef
+  content_hash: sha256:10ff989e7498b23b5acb49d5048f11dcd906757d2f79c5cdf8a00001381296f2
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/grilling/agents/openai.yaml
@@ -349,6 +488,267 @@ deployments:
   - mattpocock/skills
   active_owner: mattpocock/skills
   content_hash: sha256:1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/paas-pulumi-infra-setup
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/paas-pulumi-infra-setup/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:535a9bdd2d65dd5ad3371a0bd3434a6de88150b2a6be83642dfbb77c24c40313
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/paas-pulumi-infra-setup/apm.yml
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:84bbeccd6a8479d0cf2832bda63461f32f11d222b694985e1035aea3830ffb4e
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/paas-pulumi-infra-setup/providers/alibaba.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:46f29c9ea10370faa3554d58aca77af76482a5777ee3b7a55289f24bb6c4a80d
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/paas-pulumi-infra-setup/providers/aws.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:f4c71a4ff4c27d3af28f8f06e906aee253474d9867329e8f325dacec1af96115
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/paas-pulumi-infra-setup/providers/azure.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:25958012c170cad7a4b0c23597ec27676c538a1a5b065b9d7bb0fcd5bde476d6
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/paas-pulumi-infra-setup/providers/digitalocean.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:7c1c166b242066f71560f84e1bea00ac2d6dee71698ad375b3debf89a65758cf
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/paas-pulumi-infra-setup/providers/gcp.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:acb05561733a76b8541d820f3c366675246f9905172601ad519524eefcc53c7f
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/paas-pulumi-infra-setup/providers/hetzner.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:0256a9ae688937a71ec50048d95e03c7c4ab517af535f0c73a39715fd9040bd9
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/paas-pulumi-infra-setup/providers/hostinger.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:3677225abc6e25aa8e38bcc812319233b69195fd5d51febc1fb7a32daecb10e1
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/paas-pulumi-infra-setup/providers/linode.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:e1aa3888d146d17b18f70a12c667b133f933b04ae85b54da2d193dc85a3c7edb
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/paas-pulumi-infra-setup/providers/ovhcloud.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:70b4cc5e4f4485cda917199684fc6da0fc4ca5ccce8279324c00241cd45a0bbd
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/paas-pulumi-infra-setup/providers/upcloud.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:c381667a79a4102a71849ff10d8e734bf1d5c39f99d632f42479abba05676c35
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/paas-pulumi-infra-setup/reference-design.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:cc0bb5577796ad168f94ca6784df39f6d3cbc21db6e5d17d77ed0f8cb7c9717e
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/paas-pulumi-infra-setup/scripts/detect.mjs
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:bc8e86f99fdfeb147aafe0531e3ea55898ab251a162504deae20c62bdac0648d
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/paas-pulumi-infra-setup/templates/infra-workflow.yml
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:3fc8b5a67b38d72f9570c0dbc43456c5e0c7643a04571d6fc9992b06a86e3151
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/paas-pulumi-infra-setup/templates/mcp-entry.yml
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:3eaf58d9159e9548594ce0cede5c2c4727d611364c4e5a686730a2c68f15f896
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/paas-pulumi-infra-setup/templates/runbook.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:209d68e2246fb16790642144df8f94d8513808d231b831e040110ddabb6a1f56
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/pulumi-best-practices
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/pulumi-best-practices/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: sha256:701bf94433f77f7851ed979ea74700a50dc69f958a20327f13da53d6a1468765
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/pulumi-best-practices/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: sha256:2026466b871f83c3a00164eea9c20e3e913712faf56f76241be9d9fbd40bdf88
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/pulumi-best-practices/use_cases.yaml
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: sha256:e3de56d96bd00a3c3a146e40a021ad03ca3d2e16319b00225deb4a8d708a0980
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/pulumi-component
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/pulumi-component/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: sha256:eef36cb66dfcaf062ac2ef97b4ce050b04afa680f3c76c4e536659a686481cac
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/pulumi-component/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: sha256:daee5038b424cc3d912bc2645f512359e5623b470ffe78560228d3bef13ec536
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/pulumi-component/use_cases.yaml
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: sha256:6d4931a0901ae1c12f77330d0ad4e6f90c29880dcf7e9d486609c32656422508
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/pulumi-overview
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/pulumi-overview/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: sha256:273d233d7ffc3739d5c38b1d2b536bb1b57b0f706f7b7c3c763ce44a7835a905
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/pulumi-overview/use_cases.yaml
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: sha256:eb7058582acbe0cc874468704d977d9832afc5a914581fa6b859a6c2552cb95e
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/review-visual
@@ -411,7 +811,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:fd22cc5a05aefe038e90fdb322e280318774f0d9c7aef12c350fbe3b192a86f8
+  content_hash: sha256:4cd0293dd2071224068d46bbd6bb75a494cf1373476b137bb1191f978efed423
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/setup-katana-skills/agents-block.md
@@ -438,7 +838,7 @@ deployments:
   owners:
   - mattpocock/skills
   active_owner: mattpocock/skills
-  content_hash: sha256:b4c54a0aaad3f6eddefde6d06770a0e401fbb8fc6a8f49ce18af816bd144d14d
+  content_hash: sha256:c768e6307c7c10728c401c213f2c4ba71c542127eeb7ad2956aabd15a0fa0059
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/writing-for-agents/SKILL.md
@@ -447,7 +847,7 @@ deployments:
   owners:
   - mattpocock/skills
   active_owner: mattpocock/skills
-  content_hash: sha256:a842323e664e5af104eac5c97ad22fda929ebeb62d81c501161ac1f6f482db58
+  content_hash: sha256:551adca942227b44192edba88acd4e8db911f0121ce58ad16944ccf6a896a74a
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/writing-for-agents/agents/openai.yaml
@@ -528,7 +928,7 @@ deployments:
   owners:
   - mattpocock/skills
   active_owner: mattpocock/skills
-  content_hash: sha256:9cf46653dd9c710ea1e6c22423caf31a794c88773bc94bdaa23140277f470442
+  content_hash: sha256:47f4e52c21694def9c7c11cbfbf891ca35eac7a93e395797515be3c8a409ae50
 - kind: project-relative
   target: claude
   value: .claude/skills/code-review/agents/openai.yaml
@@ -555,7 +955,7 @@ deployments:
   owners:
   - mattpocock/skills
   active_owner: mattpocock/skills
-  content_hash: sha256:125e6b77413ad2bc7cf7a772bc74336d580a50f9e797db2178ed133d62333d06
+  content_hash: sha256:f3dd099ce99289bd213914d8ee3e2429b78309c3957ca4583f7659551b1d53c1
 - kind: project-relative
   target: claude
   value: .claude/skills/codebase-design/DESIGN-IT-TWICE.md
@@ -564,7 +964,7 @@ deployments:
   owners:
   - mattpocock/skills
   active_owner: mattpocock/skills
-  content_hash: sha256:09f9948ea7636a4d3704c5ab909762e876c0b39849eefb14d2e03a398cc9c7e7
+  content_hash: sha256:52b52e75655a27aea59c6966b410bac82448968ad46ef1ebb9f07c274e3ae010
 - kind: project-relative
   target: claude
   value: .claude/skills/codebase-design/SKILL.md
@@ -573,7 +973,7 @@ deployments:
   owners:
   - mattpocock/skills
   active_owner: mattpocock/skills
-  content_hash: sha256:a8d50abac5a4018f60e1d911d4b6f4e36454ca14d6c390c0695a578c7de65dad
+  content_hash: sha256:2c20617f87ec8af6a434859f381b2f061a69b530444e74eb39e78bb016a6d1e2
 - kind: project-relative
   target: claude
   value: .claude/skills/codebase-design/agents/openai.yaml
@@ -600,7 +1000,7 @@ deployments:
   owners:
   - mattpocock/skills
   active_owner: mattpocock/skills
-  content_hash: sha256:6189dfceb7304a6e5558f75d87e68fa3bc7fcf7ba120e44f21f8a61fe01eba54
+  content_hash: sha256:caaf8b8de1684f96e26b28f3c29189db5c89cce4b73e1c93d86164f66ef88637
 - kind: project-relative
   target: claude
   value: .claude/skills/grill-me/agents/openai.yaml
@@ -627,7 +1027,7 @@ deployments:
   owners:
   - mattpocock/skills
   active_owner: mattpocock/skills
-  content_hash: sha256:fa5c1e5ee76b1c8f1ae56101f52c9e239de75d5c578adc61227b92d10b7e52ef
+  content_hash: sha256:10ff989e7498b23b5acb49d5048f11dcd906757d2f79c5cdf8a00001381296f2
 - kind: project-relative
   target: claude
   value: .claude/skills/grilling/agents/openai.yaml
@@ -637,6 +1037,267 @@ deployments:
   - mattpocock/skills
   active_owner: mattpocock/skills
   content_hash: sha256:1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b
+- kind: project-relative
+  target: claude
+  value: .claude/skills/paas-pulumi-infra-setup
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/paas-pulumi-infra-setup/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:535a9bdd2d65dd5ad3371a0bd3434a6de88150b2a6be83642dfbb77c24c40313
+- kind: project-relative
+  target: claude
+  value: .claude/skills/paas-pulumi-infra-setup/apm.yml
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:84bbeccd6a8479d0cf2832bda63461f32f11d222b694985e1035aea3830ffb4e
+- kind: project-relative
+  target: claude
+  value: .claude/skills/paas-pulumi-infra-setup/providers/alibaba.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:46f29c9ea10370faa3554d58aca77af76482a5777ee3b7a55289f24bb6c4a80d
+- kind: project-relative
+  target: claude
+  value: .claude/skills/paas-pulumi-infra-setup/providers/aws.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:f4c71a4ff4c27d3af28f8f06e906aee253474d9867329e8f325dacec1af96115
+- kind: project-relative
+  target: claude
+  value: .claude/skills/paas-pulumi-infra-setup/providers/azure.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:25958012c170cad7a4b0c23597ec27676c538a1a5b065b9d7bb0fcd5bde476d6
+- kind: project-relative
+  target: claude
+  value: .claude/skills/paas-pulumi-infra-setup/providers/digitalocean.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:7c1c166b242066f71560f84e1bea00ac2d6dee71698ad375b3debf89a65758cf
+- kind: project-relative
+  target: claude
+  value: .claude/skills/paas-pulumi-infra-setup/providers/gcp.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:acb05561733a76b8541d820f3c366675246f9905172601ad519524eefcc53c7f
+- kind: project-relative
+  target: claude
+  value: .claude/skills/paas-pulumi-infra-setup/providers/hetzner.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:0256a9ae688937a71ec50048d95e03c7c4ab517af535f0c73a39715fd9040bd9
+- kind: project-relative
+  target: claude
+  value: .claude/skills/paas-pulumi-infra-setup/providers/hostinger.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:3677225abc6e25aa8e38bcc812319233b69195fd5d51febc1fb7a32daecb10e1
+- kind: project-relative
+  target: claude
+  value: .claude/skills/paas-pulumi-infra-setup/providers/linode.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:e1aa3888d146d17b18f70a12c667b133f933b04ae85b54da2d193dc85a3c7edb
+- kind: project-relative
+  target: claude
+  value: .claude/skills/paas-pulumi-infra-setup/providers/ovhcloud.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:70b4cc5e4f4485cda917199684fc6da0fc4ca5ccce8279324c00241cd45a0bbd
+- kind: project-relative
+  target: claude
+  value: .claude/skills/paas-pulumi-infra-setup/providers/upcloud.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:c381667a79a4102a71849ff10d8e734bf1d5c39f99d632f42479abba05676c35
+- kind: project-relative
+  target: claude
+  value: .claude/skills/paas-pulumi-infra-setup/reference-design.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:cc0bb5577796ad168f94ca6784df39f6d3cbc21db6e5d17d77ed0f8cb7c9717e
+- kind: project-relative
+  target: claude
+  value: .claude/skills/paas-pulumi-infra-setup/scripts/detect.mjs
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:bc8e86f99fdfeb147aafe0531e3ea55898ab251a162504deae20c62bdac0648d
+- kind: project-relative
+  target: claude
+  value: .claude/skills/paas-pulumi-infra-setup/templates/infra-workflow.yml
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:3fc8b5a67b38d72f9570c0dbc43456c5e0c7643a04571d6fc9992b06a86e3151
+- kind: project-relative
+  target: claude
+  value: .claude/skills/paas-pulumi-infra-setup/templates/mcp-entry.yml
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:3eaf58d9159e9548594ce0cede5c2c4727d611364c4e5a686730a2c68f15f896
+- kind: project-relative
+  target: claude
+  value: .claude/skills/paas-pulumi-infra-setup/templates/runbook.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/paas/paas-pulumi-infra-setup
+  active_owner: ./src/skills/paas/paas-pulumi-infra-setup
+  content_hash: sha256:209d68e2246fb16790642144df8f94d8513808d231b831e040110ddabb6a1f56
+- kind: project-relative
+  target: claude
+  value: .claude/skills/pulumi-best-practices
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/pulumi-best-practices/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: sha256:701bf94433f77f7851ed979ea74700a50dc69f958a20327f13da53d6a1468765
+- kind: project-relative
+  target: claude
+  value: .claude/skills/pulumi-best-practices/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: sha256:2026466b871f83c3a00164eea9c20e3e913712faf56f76241be9d9fbd40bdf88
+- kind: project-relative
+  target: claude
+  value: .claude/skills/pulumi-best-practices/use_cases.yaml
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: sha256:e3de56d96bd00a3c3a146e40a021ad03ca3d2e16319b00225deb4a8d708a0980
+- kind: project-relative
+  target: claude
+  value: .claude/skills/pulumi-component
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/pulumi-component/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: sha256:eef36cb66dfcaf062ac2ef97b4ce050b04afa680f3c76c4e536659a686481cac
+- kind: project-relative
+  target: claude
+  value: .claude/skills/pulumi-component/agents/openai.yaml
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: sha256:daee5038b424cc3d912bc2645f512359e5623b470ffe78560228d3bef13ec536
+- kind: project-relative
+  target: claude
+  value: .claude/skills/pulumi-component/use_cases.yaml
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: sha256:6d4931a0901ae1c12f77330d0ad4e6f90c29880dcf7e9d486609c32656422508
+- kind: project-relative
+  target: claude
+  value: .claude/skills/pulumi-overview
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/pulumi-overview/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: sha256:273d233d7ffc3739d5c38b1d2b536bb1b57b0f706f7b7c3c763ce44a7835a905
+- kind: project-relative
+  target: claude
+  value: .claude/skills/pulumi-overview/use_cases.yaml
+  runtime: null
+  scope: project
+  owners:
+  - pulumi/agent-skills
+  active_owner: pulumi/agent-skills
+  content_hash: sha256:eb7058582acbe0cc874468704d977d9832afc5a914581fa6b859a6c2552cb95e
 - kind: project-relative
   target: claude
   value: .claude/skills/review-visual
@@ -699,7 +1360,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:fd22cc5a05aefe038e90fdb322e280318774f0d9c7aef12c350fbe3b192a86f8
+  content_hash: sha256:4cd0293dd2071224068d46bbd6bb75a494cf1373476b137bb1191f978efed423
 - kind: project-relative
   target: claude
   value: .claude/skills/setup-katana-skills/agents-block.md
@@ -726,7 +1387,7 @@ deployments:
   owners:
   - mattpocock/skills
   active_owner: mattpocock/skills
-  content_hash: sha256:b4c54a0aaad3f6eddefde6d06770a0e401fbb8fc6a8f49ce18af816bd144d14d
+  content_hash: sha256:c768e6307c7c10728c401c213f2c4ba71c542127eeb7ad2956aabd15a0fa0059
 - kind: project-relative
   target: claude
   value: .claude/skills/writing-for-agents/SKILL.md
@@ -735,7 +1396,7 @@ deployments:
   owners:
   - mattpocock/skills
   active_owner: mattpocock/skills
-  content_hash: sha256:a842323e664e5af104eac5c97ad22fda929ebeb62d81c501161ac1f6f482db58
+  content_hash: sha256:551adca942227b44192edba88acd4e8db911f0121ce58ad16944ccf6a896a74a
 - kind: project-relative
   target: claude
   value: .claude/skills/writing-for-agents/agents/openai.yaml

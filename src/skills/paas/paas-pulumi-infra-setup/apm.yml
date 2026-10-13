@@ -1,0 +1,22 @@
+# Per-skill manifest: consumers install this skill by its subpath, and a
+# subpath install reads THIS file, not the repo root's. Verified with apm
+# 0.32.0: the root apm.yml's `dependencies:` did not reach a consumer that
+# installed a skill by subpath, while a dependency declared here did.
+#
+# `version:` is kept equal to package.json by scripts/sync-apm-version.js.
+name: paas-pulumi-infra-setup
+version: 0.1.0
+description: Scaffold the infra layer of a home-grown PaaS with Pulumi
+license: MIT
+
+# The skill delegates to these while writing the program; SKILL.md states the
+# same requirement in prose, because a consumer's own pin of
+# pulumi/agent-skills wins silently.
+dependencies:
+  apm:
+    - git: pulumi/agent-skills
+      ref: "^2.0.0"
+      skills:
+        - pulumi/pulumi-overview
+        - pulumi/pulumi-best-practices
+        - pulumi/pulumi-component

@@ -116,8 +116,8 @@ apm self-update        # or: brew upgrade apm
 ### Layout
 
 Authored skills live at **`src/skills/<name>/SKILL.md`**. Nesting under a category directory is
-allowed (`src/skills/<category>/<name>/SKILL.md`), and no per-skill `apm.yml` is needed — apm synthesises
-the metadata.
+allowed (`src/skills/<category>/<name>/SKILL.md`). A skill needs no `apm.yml` of its own — apm
+synthesises the metadata — unless it declares upstream dependencies (see below).
 
 Consumers install each skill **by its subpath** at a tag, which is what allows the source to live in
 an obvious place rather than in apm's own `.apm/skills/`. The tradeoff is that a consumer writes one
@@ -155,21 +155,26 @@ including repos with no `package.json` at all). Two rules follow:
 - **Specs live in `test/<skill>/`, never in the skill directory**, or they ship to every consumer.
   `npm test` runs them and CI runs `npm test`.
 
-### `dependencies` vs `devDependencies` — load-bearing
+### Upstream dependencies — load-bearing
 
-| Key | Reaches consumers? | Use for |
+| Where | Reaches consumers? | Use for |
 |---|---|---|
-| `dependencies:` | **Yes**, transitively | upstream skills that **our published skills invoke** |
-| `devDependencies:` | No | authoring-time helpers only |
+| `dependencies:` in the **skill's own** `apm.yml` | **Yes**, with that skill | upstream skills **that skill invokes** |
+| `devDependencies:` in the root `apm.yml` | No | authoring-time helpers and self-references |
 
-A consumer that installs only `katana-sdlc-skills` gets everything under `dependencies:`
-automatically — verified. Put an upstream skill there the moment one of ours delegates to it, or
-the consumer receives a skill that cannot work.
+Consumers install a skill **by its subpath**, and a subpath install reads the `apm.yml` in that
+directory, never the root one: the root `dependencies:` do not reach them (verified with apm 0.32.0
+on a local-path subpath install; a per-skill `apm.yml` did carry its dependencies). So the moment a
+published skill delegates to an upstream skill, give that skill its own `apm.yml` declaring it —
+`src/skills/paas/paas-pulumi-infra-setup/apm.yml` is the example — or the consumer receives a skill
+that cannot work. Its `version:` is kept equal to `package.json` by `scripts/sync-apm-version.js`,
+which CI checks.
 
 **Two traps:**
 
-- **Never list the same upstream repo under both keys.** apm dedupes by repo and silently drops one
-  subset — no error, no warning.
+- **Never declare the same upstream repo twice with different subsets** in one install graph (the
+  root `devDependencies:` and a skill's `apm.yml` included). apm dedupes by repo and silently drops
+  one subset — no error, no warning.
 - **A consumer's own pin wins, silently.** If a consumer already depends on `mattpocock/skills` at
   an older ref, that ref is what gets installed; our `^1.2.0` is ignored with no diagnostic. So
   every published skill must **also state its upstream requirement in prose in its own `SKILL.md`**
@@ -187,9 +192,10 @@ apm install                                     # deploys it locally so you can 
 npm run changeset                               # describe the change for the changelog
 ```
 
-If the new skill delegates to an upstream skill, move that upstream entry from `devDependencies:`
-to `dependencies:` **and** say so in the skill's own `SKILL.md`. (The self-reference above always
-stays in `devDependencies:` — it exists only so the skill loads locally.)
+If the new skill delegates to an upstream skill, declare it under `dependencies:` in an `apm.yml`
+in the skill's own directory (`name`, `version` equal to `package.json`, `description`, `license`)
+**and** say so in the skill's own `SKILL.md`. (The self-reference above always stays in the root
+`devDependencies:` — it exists only so the skill loads locally.)
 
 ### Releasing
 
