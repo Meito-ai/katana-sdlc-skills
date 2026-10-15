@@ -14,7 +14,7 @@
 #   %%typecheck%%          the command type-checking the infra program from the repo root
 #   %%unit-tests%%         the command running the unit tests from the repo root
 #   %%preview-test%%       the command running integration/preview.spec.ts from the repo root
-#   %%provider-env%%       one `NAME: ${{ secrets.NAME }}` line per credential in the card
+#   %%provider-env%%       one `NAME: ${{ secrets.NAME }}` line per provider credential variable
 #   %%provider-check%%     the same names joined as `[ -n "$NAME" ] && ...`
 #   %%auto-stack%%         the stack deployed on merge (the first stack); drop the deploy-auto job
 #                          when there is only one stack

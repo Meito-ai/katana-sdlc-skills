@@ -318,13 +318,14 @@ single source; children inherit it through `parent`. Data-source calls inside co
 Each one is a lesson from running this shape in production. They hold on every provider.
 
 1. **One config read point.** `loadConfig` is the only reader of `pulumi.Config` and `process.env`.
-2. **Secrets come from the environment.** Provider credentials (named in the card) and
-   `SSH_PUBLIC_KEY` are exported locally and stored as CI secrets. Stack files hold only non-secret
-   values.
+2. **Secrets come from the environment.** Provider credentials (the variables retrieved for the
+   card's credential method) and `SSH_PUBLIC_KEY` are exported locally and stored as CI secrets.
+   Stack files hold only non-secret values.
 3. **First-boot inputs are ignored after creation.** Put the server's user-data and SSH-key fields
-   (named in the card) in `ignoreChanges`. They take effect only at creation, and many providers
-   treat a change as replace: diffing them would rebuild a live server to apply what only a rebuild
-   can. A new server still gets both. Apply changes to running servers over SSH.
+   (found in its type definitions) in `ignoreChanges`, plus any the card adds. They take effect only
+   at creation, and many providers treat a change as replace: diffing them would rebuild a live
+   server to apply what only a rebuild can. A new server still gets both. Apply changes to running
+   servers over SSH.
 4. **Static IPs outlive servers.** A static IP is its own resource, never deleted with its server.
    Attach it with the provider's association resource where one exists. When the IP can only be
    bound through a server input that forces replacement, mark the server `deleteBeforeReplace: true`:
@@ -383,7 +384,7 @@ Add the test runner's types when it needs them (`"jest"` for jest globals).
 repo's linter on this directory, `test` -> the unit tests, and `test:integ` -> the preview test when
 CI is set up. Folder mode prefixes each with `infra:` and points it at `<infra-dir>`.
 
-**Dependencies.** `@pulumi/pulumi` and the card's package, at the current version range
+**Dependencies.** `@pulumi/pulumi` and the provider's npm package, at the current version range
 (`npm view <package> version`); `tsx`, which runs the program (see `Pulumi.yaml`); `typescript` and
 `@types/node` at the versions the repo already uses. The test runner's own packages only when the
 repo lacks them.

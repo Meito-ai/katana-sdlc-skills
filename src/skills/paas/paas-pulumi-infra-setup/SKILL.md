@@ -22,16 +22,18 @@ This skill writes files and runs local checks. **A person deploys.** It runs no 
 - **A Node.js repo** managed with apm. Other languages are planned, not supported.
 - **Pulumi CLI** only for Hostinger (its SDK is generated) and for the optional `stack init` /
   `preview` in step 7.
-- **Web access** for the live catalog (step 2), plus the provider's credentials or CLI where the
-  card's catalog needs them.
+- **Web access**, to retrieve what the cards leave out (step 2), plus the provider's credentials or
+  CLI where the card's catalog needs them.
 - **Pulumi MCP server**, optional: when connected, its registry tools are the quickest schema lookup.
 
 `<skill-dir>` below is the directory holding this `SKILL.md`. Its files:
 
 - [reference-design.md](reference-design.md): the provider-neutral program every run writes.
-- `providers/<provider>.md`, the **card**: what rarely changes about one provider (its package,
-  credentials, building blocks and quirks) and where its **live catalog** is. The card fills every
-  `card:` slot of the reference design; the catalog fills every `catalog:` slot.
+- `providers/<provider>.md`, the **card**: what rarely changes about one provider (its Registry
+  package, credential method, building blocks by the vendor's product names, and quirks) and where
+  its **live catalog** is. Everything a vendor renames, reprices or retires is retrieved during the
+  run (step 2). The card fills every `card:` slot of the reference design; the catalog fills every
+  `catalog:` slot.
 - `templates/`: the CI workflow, the runbook and the MCP entry.
 - `scripts/detect.mjs`: reads the repo's shape.
 
@@ -74,7 +76,8 @@ a word, and skip a question the report already settled. Record each answer: step
    | UpCloud | `providers/upcloud.md` |
    | Hostinger (Terraform provider through Pulumi's bridge) | `providers/hostinger.md` |
 
-   Then read the card in full; every later question draws on it. Asked for Equinix or Cloudflare:
+   Then read the card in full, and retrieve its package and credential variables (below): every
+   later question draws on them. Asked for Equinix or Cloudflare:
    Equinix's server product (Equinix Metal) was retired, and Cloudflare runs no servers, so neither
    fits a server-group setup. Hostinger with no Pulumi CLI (`pulumi.cli.version` is null): install the
    CLI first, or pick another provider.
@@ -107,13 +110,26 @@ a word, and skip a question the report already settled. Record each answer: step
 
 Done when every question has an answer.
 
-### The live catalog
+### Retrieving what the card leaves out
 
-Regions, server types, prices and images change too often to ship with this skill, so every run
-looks them up. The card's "Live catalog" names the sources; use the first that answers:
+A card holds only what rarely changes. Retrieve the rest during the run:
 
-1. **Authenticated**, when the card's credentials are set in this session's environment (test with
-   `[ -n "$VAR" ]`) or its CLI is logged in. It shows what this account can actually buy in each
+| What | Where | When |
+|---|---|---|
+| The npm package, and the credential variables for the card's credential method | the package's Registry page, `https://www.pulumi.com/registry/packages/<registry package>/installation-configuration/`, or the MCP registry tools; Hostinger: its card | after question 1 |
+| Regions, server types, prices, images | the card's live catalog (below) | before question 5 |
+| Resource types, their arguments and outputs | the installed type definitions, or the MCP registry tools | step 5 |
+| Product behaviour, limits and defaults | the vendor's documentation | when the card says **verify**, or a quirk is in doubt |
+
+The card names products by the vendor's names, and states each quirk as it was when written. When
+the vendor's documentation or the installed package now says otherwise, they win: follow them, and
+tell the user. A source the card names that has moved or no longer answers is the vendor's to
+replace: find its successor on the vendor's site.
+
+**The live catalog.** Use the first source that answers:
+
+1. **Authenticated**, when the provider's credentials are set in this session's environment (test
+   with `[ -n "$VAR" ]`) or its CLI is logged in. It shows what this account can actually buy in each
    region. Read-only calls only, and pass credentials by variable name, never by value.
 2. **Public**: the card's public API or pages.
 3. **Neither answers**: say so, and ask the user for the exact values from the provider's console.
@@ -132,7 +148,8 @@ Show, and let the user edit before anything is written:
 - each `Pulumi.<stack>.yaml` in full, with the catalog source and date behind its region, image and
   sizes;
 - the dependencies to add, with versions (`npm view <package> version`);
-- the credentials and variables the user will need (from the card), and where each comes from;
+- the credentials the user will need (the card's method, the variable names retrieved for it), and
+  where each comes from;
 - the card's billing warning, when it has one (Hostinger).
 
 Done when the user approves the plan. Write only what it lists.
@@ -157,9 +174,10 @@ Done when the user approves the plan. Write only what it lists.
 
    With the MCP server chosen, copy [templates/mcp-entry.yml](templates/mcp-entry.yml) under
    `dependencies.mcp`, comment included. Run `apm install`.
-2. **Packages.** Add `@pulumi/pulumi`, the card's package and `tsx` (Pulumi runs the program through
-   it), plus the test runner's packages only when the repo lacks them. Package mode: the infra
-   `package.json`. Folder mode: the host's `devDependencies`. Run the repo's install command.
+2. **Packages.** Add `@pulumi/pulumi`, the provider's npm package and `tsx` (Pulumi runs the
+   program through it), plus the test runner's packages only when the repo lacks them. Package
+   mode: the infra `package.json`. Folder mode: the host's `devDependencies`. Run the repo's install
+   command.
 3. **Bridged provider** (Hostinger): run the card's `pulumi package add` in `<infra-dir>`, and add
    `sdks/` to `<infra-dir>/.gitignore`.
 
@@ -173,10 +191,10 @@ every file of the reference design's layout, filling each `card:` slot from the 
 
 Check every resource's arguments and outputs against the installed type definitions
 (`node_modules/<package>/<resource>.d.ts`, or `sdks/` for a bridged provider) or the MCP registry
-tools, never from memory: provider APIs drift, and the card names the building blocks, not their
-fields. When the installed package marks a card's resource deprecated or no longer has it, use the
-successor its documentation names, and tell the user. Where the card says **verify**, check before
-relying on it, and tell the user what you found.
+tools, never from memory: provider APIs drift, and the card names the vendor's products, not the
+resources or their fields. Where a product maps to several resources, or one resource has a
+deprecated successor, follow the package documentation's current recommendation. Where the card
+says **verify**, check before relying on it, and tell the user what you found.
 
 Then run the typecheck and the unit tests, and fix the code until both are **green**. A test that
 encodes a wrong assumption about the provider is fixed, and the change named in the report; a test
@@ -195,7 +213,7 @@ Done when no `%%` placeholder and no `[if` marker is left, and the unit tests ar
 ## 7. Create the stacks (optional)
 
 Offer it only when the backend is reachable (Pulumi Cloud: `PULUMI_ACCESS_TOKEN` set or
-`pulumi whoami` succeeds; a bucket: `pulumi login <url>` works) and the card's credentials and
+`pulumi whoami` succeeds; a bucket: `pulumi login <url>` works) and the provider's credentials and
 `SSH_PUBLIC_KEY` are exported. With the user's yes, from `<infra-dir>`: `pulumi stack init` for each
 stack (`<org>/<project>/<stack>` on Pulumi Cloud), then `pulumi preview --stack <first stack>`.
 Report the preview's plan. A failed preview is a finding to fix in step 5's code, not a reason to

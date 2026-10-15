@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| Package | `@pulumi/digitalocean` |
-| Credentials | `DIGITALOCEAN_TOKEN`: a read & write personal access token |
+| Registry package | `digitalocean` |
+| Credentials | a personal access token with read & write scope |
 | `region` | a region slug |
 | `size` | a droplet size slug |
 | `image` | a distribution image slug |
@@ -12,44 +12,42 @@
 
 ## Live catalog
 
-- **Authenticated**: `GET https://api.digitalocean.com/v2/regions`, `/v2/sizes` and
-  `/v2/images?type=distribution`, with `Authorization: Bearer $DIGITALOCEAN_TOKEN` (or `doctl compute
-  region list`, `size list`, `image list-distribution` with `-o json`). Each size lists the regions
-  that sell it and whether it is available.
-- **Public**: https://slugs.do-api.dev/ (slugs) and https://www.digitalocean.com/pricing/droplets
-  (prices).
+- **Authenticated**: the API's regions, sizes and distribution images
+  (`https://api.digitalocean.com/v2/regions`, `/v2/sizes`, `/v2/images?type=distribution`), with the
+  token as a bearer token. Each size lists the regions that sell it and whether it is available.
+- **Public**: the slug list in DigitalOcean's API documentation, and the Droplet pricing on
+  digitalocean.com.
 
 ## Building blocks
 
-| Concept | Resource |
+| Concept | DigitalOcean product |
 |---|---|
-| SSH key | `SshKey`; droplets take its `fingerprint` |
-| Private network | `Vpc` |
-| Firewall | a `Tag` and a `Firewall` per rule set |
-| Server | `Droplet` |
-| Static IP | `ReservedIp` + `ReservedIpAssignment`: the assignment is its own resource, so no `deleteBeforeReplace` |
+| SSH key | an SSH key; droplets reference it by fingerprint |
+| Private network | a VPC |
+| Firewall | a tag and a Cloud Firewall per rule set |
+| Server | a Droplet |
+| Static IP | a Reserved IP and its assignment, a resource of its own, so no `deleteBeforeReplace` |
 
 ## Quirks
 
 - **Ids are numeric**: inputs typed `number` take `Number(droplet.id)` inside an `apply`.
-- **Leave the VPC's `ipRange` unset**: DigitalOcean assigns a free range, and a fixed one collides
-  with the account's other VPCs in the region (staging and prod). Use `vpc.ipRange`, not
-  `PRIVATE_CIDR`, wherever a rule names the private range.
+- **Leave the VPC's IP range unset**: DigitalOcean assigns a free one, and a fixed range collides
+  with the account's other VPCs in the region (staging and prod). Wherever a rule names the private
+  range, use the range the VPC reports, not `PRIVATE_CIDR`.
 - **Firewalls select droplets by tag**: one tag per rule set (`<project>-<stack>-ingress` /
   `-internal`) that the firewall targets and the droplets carry, so the firewall never waits on them.
-- **Firewalls deny anything not allowed, outbound included**: allow outbound TCP and UDP
-  `1-65535` and ICMP to `0.0.0.0/0` and `::/0`, or the bootstrap cannot download Docker. Private
-  traffic: TCP, UDP and ICMP from `vpc.ipRange`.
-- **`resizeDisk: false`** on droplets keeps a resize reversible: a grown disk can never shrink back.
-- `ignoreChanges: ['userData', 'sshKeys']` (rule 3). Labels are tags, plain strings (letters,
-  digits, `:`, `-`, `_`): `<project>`, `<project>-<stack>`, `<project>-<stack>-<group>`.
+- **Firewalls deny anything not allowed, outbound included**: allow outbound TCP and UDP on all
+  ports and ICMP to every IPv4 and IPv6 address, or the bootstrap cannot download Docker. Private
+  traffic: TCP, UDP and ICMP from the VPC's range.
+- **Resize CPU and RAM only**, never the disk: a grown disk can never shrink back.
+- Labels are tags, plain strings within DigitalOcean's tag rules: `<project>`, `<project>-<stack>`,
+  `<project>-<stack>-<group>`.
 
 `ServerInfo`: `publicIp` and `privateIp` from the droplet, `staticIp` from the reserved IP. Mocks: ids
-are numeric strings, and the VPC needs an `ipRange` (`10.110.0.0/20`).
+are numeric strings, and the VPC reports a range (`10.110.0.0/20`).
 
 ## For the runbook
 
 - Inbound traffic to a reserved IP reaches the droplet; **outbound** traffic still leaves from the
   droplet's own public IP.
-- A `size` change powers the droplet off, resizes it and boots it again (CPU and RAM only, because of
-  `resizeDisk: false`).
+- A `size` change powers the droplet off, resizes its CPU and RAM, and boots it again.

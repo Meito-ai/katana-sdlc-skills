@@ -2,32 +2,31 @@
 
 | | |
 |---|---|
-| Package | `@pulumi/hcloud` |
-| Credentials | `HCLOUD_TOKEN`: a read & write API token of the Hetzner Cloud project |
+| Registry package | `hcloud` |
+| Credentials | an API token of the Hetzner Cloud project, with read & write access |
 | `region` | a location name |
 | `size` | a server type name |
-| `image` | a system image name (`ubuntu-<version>`) |
+| `image` | a system image name |
 | Private network | when more than one server |
 | SSH user | `root` |
 
 ## Live catalog
 
-- **Authenticated**: `GET https://api.hetzner.cloud/v1/locations`, `/server_types` and
-  `/images?type=system`, with `Authorization: Bearer $HCLOUD_TOKEN` (or the `hcloud` CLI's `list`
-  commands with `-o json`). Server types report their deprecation and the locations that sell them.
-- **Public**: https://docs.hetzner.com/cloud/servers/overview/ (types) and
-  https://www.hetzner.com/cloud (prices).
+- **Authenticated**: the Cloud API's locations, server types and system images
+  (`https://api.hetzner.cloud/v1/locations`, `/server_types`, `/images?type=system`), with the token
+  as a bearer token. Server types report their deprecation and the locations that sell them.
+- **Public**: the server types in Hetzner's Cloud documentation, and the prices on hetzner.com.
 
 ## Building blocks
 
-| Concept | Resource |
+| Concept | Hetzner product |
 |---|---|
-| SSH key | `SshKey`, one per environment |
-| Private network | `Network` (`PRIVATE_CIDR`) + `NetworkSubnet` (type `cloud`, `SUBNET_CIDR`) |
-| Firewall | `Firewall`, one per rule set |
-| Server | `Server` |
-| Private attachment | `ServerNetwork`, `dependsOn` the subnet |
-| Static IP | `PrimaryIp`, bound through the server's `publicNets` |
+| SSH key | an SSH key, one per environment |
+| Private network | a Network with one cloud subnet |
+| Firewall | a Firewall per rule set |
+| Server | a Server |
+| Private attachment | the server's network attachment, as a resource of its own |
+| Static IP | a Primary IP, bound through the server's public network settings |
 
 ## Quirks
 
@@ -44,23 +43,23 @@
   }
   ```
 
-- The subnet's **network zone** follows the location: take it from the location's `network_zone` in
-  the catalog.
+- The subnet's **network zone** follows the location: the catalog's location entry names it.
 - **Firewalls filter public interfaces only**: private-network traffic already passes, so skip the
   `PRIVATE_CIDR` rule. With no outbound rules, all egress is allowed.
-- **Attach the private network with `ServerNetwork`**, not the server's inline `networks` input,
-  which detaches and reattaches on every update.
-- **The primary IP**: `autoDelete: false`, and `assigneeType` unset (the server's `publicNets`
-  attaches it). Ingress servers take `deleteBeforeReplace: true` (rule 4).
-- `ignoreChanges: ['userData', 'sshKeys']` (rule 3). Labels are a `{ [key]: value }` record.
+- **Attach the private network with its own resource**, not the server's inline network list, which
+  detaches and reattaches on every update.
+- **The primary IP outlives its server**: turn its auto-delete off, and leave its assignee unset (the
+  server's public network settings attach it). Ingress servers take `deleteBeforeReplace: true`
+  (rule 4).
+- Labels are a key-value record.
 
 `ServerInfo`: `publicIp` from the server, `staticIp` from the primary IP, `privateIp` from the
-`ServerNetwork`. Mocks: ids are numeric strings (a counter).
+network attachment. Mocks: ids are numeric strings (a counter).
 
 ## For the runbook
 
-- **A `size` change is a resize, not a rebuild**: the provider powers the server off, changes the
-  type, and leaves it **powered off**. Start it again in the console or with `hcloud server poweron`.
+- **A `size` change is a resize, not a rebuild**: Hetzner powers the server off, changes the type,
+  and leaves it **powered off**. Start it again from the console or the CLI.
 - **`image` or `region` replaces the server**: with a primary IP attached that is delete-first, so
   expect downtime and a wiped host.
-- The primary IP survives every replacement (`autoDelete: false`), so DNS keeps pointing at it.
+- The primary IP survives every replacement, so DNS keeps pointing at it.
