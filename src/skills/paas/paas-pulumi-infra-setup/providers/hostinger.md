@@ -6,30 +6,25 @@ Hostinger has no native Pulumi package. Pulumi bridges its official Terraform pr
 | | |
 |---|---|
 | Package | generated: run `pulumi package add terraform-provider hostinger/hostinger` in `<infra-dir>`. It writes `sdks/hostinger`, adds a `packages:` entry to `Pulumi.yaml`, and prints the dependency line and import name to use |
-| Credentials | `HOSTINGER_API_TOKEN`: hPanel -> Account -> API |
+| Credentials | `HOSTINGER_API_TOKEN`: an API token from hPanel's account settings |
 | `region` | a numeric **data center id**, stored as a string |
-| `image` | a numeric OS **template id** (Ubuntu 24.04), stored as a string |
+| `size` | a plan **price id**, which carries the currency and billing period |
+| `image` | a numeric OS **template id**, stored as a string |
 | Private network | none: the API has no private networking, so `privateNetworkId` is always null |
 | SSH user | `root` |
 
-Look the ids up with the token during the interview:
+## Live catalog
 
-```bash
-curl -s -H "Authorization: Bearer $HOSTINGER_API_TOKEN" https://developers.hostinger.com/api/vps/v1/data-centers
-curl -s -H "Authorization: Bearer $HOSTINGER_API_TOKEN" https://developers.hostinger.com/api/vps/v1/templates
-curl -s -H "Authorization: Bearer $HOSTINGER_API_TOKEN" https://developers.hostinger.com/api/billing/v1/catalog
-```
+- **Authenticated** only: the ids need the token. When it is not in this session's environment,
+  ask the user to run these calls and paste the output (it holds no secret).
 
-## Sizes (checked 2026-10-13)
+  ```bash
+  curl -s -H "Authorization: Bearer $HOSTINGER_API_TOKEN" https://developers.hostinger.com/api/vps/v1/data-centers
+  curl -s -H "Authorization: Bearer $HOSTINGER_API_TOKEN" https://developers.hostinger.com/api/vps/v1/templates
+  curl -s -H "Authorization: Bearer $HOSTINGER_API_TOKEN" https://developers.hostinger.com/api/billing/v1/catalog
+  ```
 
-`size` holds a plan **price id**, which carries the currency and billing period
-(`hostingercom-vps-kvm2-usd-1m`: KVM 2, USD, monthly). Take the exact ids from the catalog call.
-
-| Tier | Plan | Spec |
-|---|---|---|
-| S | KVM 2 | 2 vCPU / 8 GB / 100 GB (nearest; KVM 1 is 1 vCPU / 4 GB) |
-| M | KVM 4 | 4 vCPU / 16 GB / 200 GB |
-| L | KVM 8 | 8 vCPU / 32 GB / 400 GB |
+- **Public**: https://www.hostinger.com/vps-hosting shows the plans and prices, not the ids.
 
 ## Billing: say this before the plan is confirmed
 
@@ -37,38 +32,37 @@ curl -s -H "Authorization: Bearer $HOSTINGER_API_TOKEN" https://developers.hosti
 cancels the subscription. A **plan change replaces the VPS**: a new purchase and a wiped server. A
 **template change reinstalls the OS** in place, wiping the disk. The runbook repeats all three.
 
-## Resources
+## Building blocks
 
-Names below are the Terraform resource names; the generated SDK exposes them in camelCase (check
-`sdks/hostinger` for the exact class names).
+The generated SDK exposes the Terraform resources in camelCase: check `sdks/hostinger` for the class
+names.
 
-- **SSH key**: `VpsSshKey` `{ name: <rule-5 name>, key: sshPublicKey }`; servers take
-  `sshKeyIds: [key.id]`.
-- **Bootstrap**: `VpsPostInstallScript` `{ name: <rule-5 name>-<group>, content }`, one per group;
-  servers take `postInstallScriptId`. `content` must start with a shebang; the bootstrap script does.
-- **Firewall**: the provider has no firewall resource, so the firewall is **ufw inside the
-  bootstrap**, per group: `ufw default deny incoming`, `ufw default allow outgoing`, `ufw allow <port>/tcp`
-  for each of the group's `publicPorts`, `ufw --force enable`. Add these lines to the group's
-  post-install script even when the bootstrap is `none`. Two caveats for the runbook: with no private
-  network, servers reach each other over public IPs, which ufw must allow by hand once the IPs exist
-  (`ufw allow from <peer ip>`); and ports Docker publishes bypass ufw.
-- **Server**: `Vps` `{ plan: size, dataCenterId: Number(region), templateId: Number(image), hostname:
-  <rule-5 name>, sshKeyIds, postInstallScriptId }`. Options: `ignoreChanges: ['sshKeyIds',
-  'postInstallScriptId']`.
-- **Static IP**: none as a resource. A VPS keeps its IPv4 for the subscription's life, so an ingress
-  server's `staticIp` is its own `ipv4Address`.
-- **Labels**: none.
+| Concept | Resource |
+|---|---|
+| SSH key | `VpsSshKey` (rule-5 name); servers take its id |
+| Bootstrap | `VpsPostInstallScript`, one per group; servers take its id |
+| Firewall | none: **ufw inside the bootstrap**, see below |
+| Server | `Vps`: `plan` = `size`, data center and template ids as numbers, `hostname` = the rule-5 name |
+| Static IP | none: a VPS keeps its IPv4 for the subscription's life, so an ingress server's `staticIp` is its own address |
 
-`ServerInfo`: `publicIp` = `vps.ipv4Address`, `privateIp` = `null`, `staticIp` = `vps.ipv4Address`
-on ingress servers.
+## Quirks
 
-## Generated SDK
+- **The firewall is ufw**, per group, in that group's post-install script even when the bootstrap is
+  `none`: `ufw default deny incoming`, `ufw default allow outgoing`, `ufw allow <port>/tcp` for each
+  of the group's `publicPorts`, `ufw --force enable`. With no private network, servers reach each
+  other over public IPs, which ufw must allow by hand once they exist (`ufw allow from <peer ip>`);
+  and ports Docker publishes bypass ufw. The runbook says both.
+- A post-install script's content must start with a shebang; the bootstrap script does.
+- `ignoreChanges` on the SSH key ids and the post-install script id (rule 3). No labels.
+- **Generated SDK**: `sdks/` is gitignored (`<infra-dir>/.gitignore`), and `pulumi install`
+  regenerates it from the `packages:` entry in `Pulumi.yaml`. Run it in `<infra-dir>` **before** the
+  repo's own install on a fresh clone and in CI: the dependency on `sdks/hostinger` does not resolve
+  until it exists. The runbook and the CI workflow both carry this step.
 
-`sdks/` is gitignored (`<infra-dir>/.gitignore`), and `pulumi install` regenerates it from the
-`packages:` entry in `Pulumi.yaml`. Run `pulumi install` in `<infra-dir>` **before** the repo's own
-install on a fresh clone and in CI: the dependency on `sdks/hostinger` does not resolve until it
-exists. The runbook and the CI workflow both carry this step.
+`ServerInfo`: `publicIp` from the VPS, `privateIp` = `null`, `staticIp` = the VPS's address on ingress
+servers.
 
-## Mocks
+## For the runbook
 
-Mock state: `ipv4Address: '203.0.113.10'`. `privateNetworkId` is always null.
+- The three billing facts above.
+- The two ufw caveats above.

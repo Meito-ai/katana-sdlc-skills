@@ -22,13 +22,16 @@ This skill writes files and runs local checks. **A person deploys.** It runs no 
 - **A Node.js repo** managed with apm. Other languages are planned, not supported.
 - **Pulumi CLI** only for Hostinger (its SDK is generated) and for the optional `stack init` /
   `preview` in step 7.
+- **Web access** for the live catalog (step 2), plus the provider's credentials or CLI where the
+  card's catalog needs them.
 - **Pulumi MCP server**, optional: when connected, its registry tools are the quickest schema lookup.
 
 `<skill-dir>` below is the directory holding this `SKILL.md`. Its files:
 
 - [reference-design.md](reference-design.md): the provider-neutral program every run writes.
-- `providers/<provider>.md`, the **card**: one provider's packages, credentials, sizes, resources,
-  quirks. The card fills every `card:` slot of the reference design.
+- `providers/<provider>.md`, the **card**: what rarely changes about one provider (its package,
+  credentials, building blocks and quirks) and where its **live catalog** is. The card fills every
+  `card:` slot of the reference design; the catalog fills every `catalog:` slot.
 - `templates/`: the CI workflow, the runbook and the MCP entry.
 - `scripts/detect.mjs`: reads the repo's shape.
 
@@ -85,21 +88,39 @@ a word, and skip a question the report already settled. Record each answer: step
    `pulumi.cli.user` when logged in). Alternative: a self-managed bucket URL (`s3://`, `gs://`,
    `azblob://`); warn that the Pulumi MCP server and this skill's CI workflow need Pulumi Cloud.
    Local files only for a quick try-out.
-5. **Servers.** Show the card's size table. Then ask for the server groups: a name (`app`, `worker`,
-   `db`, ...), whether it is an **ingress** group (static IP, public 80/443), and per stack a count
-   and a size (a tier or an exact type). Recommend one ingress group `app`, 1 x S in every stack.
-   Then per stack the region (propose one near the user from the card's list) and the image (the
-   card's default), plus the card's extra config keys.
-6. **First boot.** `none` or `docker`; recommend `docker`.
-7. **CI workflow.** Offer only when `git.github` and the backend is Pulumi Cloud, and recommend it.
+5. **Region and image.** Look up the live catalog first (below). Propose a region near the user, the
+   same for every stack unless they want otherwise, and the newest Ubuntu LTS image the region
+   offers. Then the card's extra config keys.
+6. **Servers.** Resolve the size tiers against the region's catalog (reference design, "Size
+   tiers") and show each pick with its spec and monthly price. Then ask for the server groups: a
+   name (`app`, `worker`, `db`, ...), whether it is an **ingress** group (static IP, public 80/443),
+   and per stack a count and a size (a tier, or an exact type from the catalog). Recommend one
+   ingress group `app`, 1 x S in every stack.
+7. **First boot.** `none` or `docker`; recommend `docker`.
+8. **CI workflow.** Offer only when `git.github` and the backend is Pulumi Cloud, and recommend it.
    Otherwise say which condition failed.
-8. **Pulumi MCP server.** Offer only with Pulumi Cloud and no entry yet (`apm.pulumiMcp` is false);
+9. **Pulumi MCP server.** Offer only with Pulumi Cloud and no entry yet (`apm.pulumiMcp` is false);
    recommend it.
-9. **Extra Pulumi skills**, any of: `pulumi-esc` (secrets and config as environments),
-   `pulumi-automation-api` (programs that drive Pulumi), `provider-upgrade` (safe provider bumps).
-   Default none; skip the ones already deployed.
+10. **Extra Pulumi skills**, any of: `pulumi-esc` (secrets and config as environments),
+    `pulumi-automation-api` (programs that drive Pulumi), `provider-upgrade` (safe provider bumps).
+    Default none; skip the ones already deployed.
 
 Done when every question has an answer.
+
+### The live catalog
+
+Regions, server types, prices and images change too often to ship with this skill, so every run
+looks them up. The card's "Live catalog" names the sources; use the first that answers:
+
+1. **Authenticated**, when the card's credentials are set in this session's environment (test with
+   `[ -n "$VAR" ]`) or its CLI is logged in. It shows what this account can actually buy in each
+   region. Read-only calls only, and pass credentials by variable name, never by value.
+2. **Public**: the card's public API or pages.
+3. **Neither answers**: say so, and ask the user for the exact values from the provider's console.
+
+Take from it the regions, then for the chosen region: each server type's vCPUs, memory, disk,
+architecture, monthly price and deprecation; and the identifier of the newest Ubuntu LTS image for
+x86, in the form the card's `image` row gives. Note the source and today's date for step 3.
 
 ## 3. Confirm the plan
 
@@ -108,7 +129,8 @@ Show, and let the user edit before anything is written:
 - the files to create, as a tree, and every existing file to edit with the change: the infra or host
   `package.json`, the host's build and test config (folder mode: exclude `<infra-dir>`), `turbo.json`
   / `nx.json` only when they list per-package entries, `apm.yml`, the agent file, `.gitignore`;
-- each `Pulumi.<stack>.yaml` in full;
+- each `Pulumi.<stack>.yaml` in full, with the catalog source and date behind its region, image and
+  sizes;
 - the dependencies to add, with versions (`npm view <package> version`);
 - the credentials and variables the user will need (from the card), and where each comes from;
 - the card's billing warning, when it has one (Hostinger).
@@ -151,8 +173,10 @@ every file of the reference design's layout, filling each `card:` slot from the 
 
 Check every resource's arguments and outputs against the installed type definitions
 (`node_modules/<package>/<resource>.d.ts`, or `sdks/` for a bridged provider) or the MCP registry
-tools, never from memory: provider APIs drift, and the card names the resources, not every field.
-Where the card says **verify**, check before relying on it, and tell the user what you found.
+tools, never from memory: provider APIs drift, and the card names the building blocks, not their
+fields. When the installed package marks a card's resource deprecated or no longer has it, use the
+successor its documentation names, and tell the user. Where the card says **verify**, check before
+relying on it, and tell the user what you found.
 
 Then run the typecheck and the unit tests, and fix the code until both are **green**. A test that
 encodes a wrong assumption about the provider is fixed, and the change named in the report; a test

@@ -1,8 +1,9 @@
 # Reference design
 
 The provider-neutral shape of every program this skill writes. The chosen provider's card
-(`providers/<provider>.md`) fills each `card:` slot below with that provider's resources; everything
-else is written as shown. When the card and this file disagree, the card wins for its provider.
+(`providers/<provider>.md`) fills each `card:` slot below with that provider's resources, and the
+live catalog (SKILL.md, step 2) each `catalog:` slot; everything else is written as shown. When the
+card and this file disagree, the card wins for its provider.
 
 Placeholders: `<infra-dir>` is the directory chosen in the interview, `<project>` the Pulumi project
 name, `<stack>` each stack name.
@@ -69,13 +70,13 @@ One `Pulumi.<stack>.yaml` per stack, committed. Only non-secret values; secrets 
 
 ```yaml
 config:
-  <project>:region: <card default or the user's pick>
-  <project>:image: <card image value>
+  <project>:region: <catalog: the chosen region>
+  <project>:image: <catalog: the newest Ubuntu LTS, in the card's image form>
   <project>:bootstrap: docker          # none | docker
   <project>:serverGroups:
     app:
       count: 1
-      size: <card S type>
+      size: <catalog: the type the tier resolved to>
 ```
 
 Every group in `SERVER_GROUPS` (below) appears under `serverGroups` in every stack. A group a stack
@@ -338,14 +339,19 @@ Each one is a lesson from running this shape in production. They hold on every p
 
 ## Size tiers
 
-The interview offers sizes as tiers; the stack file stores the card's exact type, so a later change
-is an edit to that string.
+The interview offers sizes as tiers, resolved against the live catalog for the stack's region; the
+stack file stores the exact type, so a later change is an edit to that string.
 
-| Tier | Target | Notes |
-|---|---|---|
-| S | 2 vCPU / 4 GB | shared or burstable where the provider offers it |
-| M | 4 vCPU / 8 GB | |
-| L | 8 vCPU / 16 GB | nearest match where no exact type exists |
+| Tier | Target |
+|---|---|
+| S | 2 vCPU / 4 GB |
+| M | 4 vCPU / 8 GB |
+| L | 8 vCPU / 16 GB |
+
+For each tier, pick the **cheapest** type that meets both targets among those the region sells (a
+type with no price there is not for sale) and the catalog shows as current (not deprecated, no
+successor). No GPUs; x86, matching the image, unless the user asks for Arm; shared or burstable
+vCPUs are fine. When no type meets a target, take the closest by memory and say so.
 
 ## Package wiring
 
@@ -414,9 +420,10 @@ pulumi.runtime.setMocks(
     newResource: (args) => ({
       // card: some providers need numeric ids
       id: `${args.name}-id`,
-      state: { ...args.inputs, /* card: the IP output attributes, with documentation addresses */ },
+      // plus every output attribute the components read for ServerInfo, with documentation addresses
+      state: { ...args.inputs },
     }),
-    // card: fixtures for the data-source calls the card's code makes
+    // a fixture for each data-source call the program makes (the card's lookups)
     call: (args) => args.inputs,
   },
   '<project>',

@@ -2,68 +2,59 @@
 
 | | |
 |---|---|
-| Package | `@pulumi/azure-native` (import per module: `import * as compute from '@pulumi/azure-native/compute'`, `.../network`, `.../resources`) |
-| Credentials | a service principal: `ARM_CLIENT_ID`, `ARM_CLIENT_SECRET`, `ARM_TENANT_ID`, `ARM_SUBSCRIPTION_ID`. OIDC (`azure/login` with federated credentials) is the recommended CI upgrade, noted in the runbook |
-| `region` | a location: `westeurope`, `northeurope`, `germanywestcentral`, `swedencentral`, `eastus`, `eastus2`, `westus2` |
-| `image` | an image URN `Canonical:ubuntu-24_04-lts:server:latest` (publisher:offer:sku:version) |
+| Package | `@pulumi/azure-native`, imported per module (`@pulumi/azure-native/compute`, `/network`, `/resources`); not the classic `@pulumi/azure` |
+| Credentials | a service principal: `ARM_CLIENT_ID`, `ARM_CLIENT_SECRET`, `ARM_TENANT_ID`, `ARM_SUBSCRIPTION_ID` |
+| `region` | a location name |
+| `size` | a VM size name |
+| `image` | a Canonical image URN, `publisher:offer:sku:version` with version `latest` |
 | Private network | always: a virtual network is the scaffolding a VM needs |
 | SSH user | `azureuser` |
 
-Use `azure-native`, not the classic `@pulumi/azure`.
+## Live catalog
 
-## Sizes (checked 2026-10-13)
+- **Authenticated** (`az` CLI): `az account list-locations`; `az vm list-skus --location <region>
+  --resource-type virtualMachines`, whose `restrictions` show the sizes this subscription cannot use
+  there (common on new subscriptions); `az vm image list-offers --location <region> --publisher
+  Canonical` and `az vm image list-skus` for the Ubuntu URN.
+- **Public**: `GET https://prices.azure.com/api/retail/prices?$filter=serviceName eq 'Virtual
+  Machines' and armRegionName eq '<region>' and priceType eq 'Consumption'` (Linux rows have no
+  "Windows" in `productName`); specs at https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/overview;
+  images at https://cloud-images.ubuntu.com/locator/.
 
-| Tier | Size | Spec |
-|---|---|---|
-| S | `Standard_B2ls_v2` | 2 burstable vCPU / 4 GB |
-| M | `Standard_F4als_v6` | 4 vCPU / 8 GB |
-| L | `Standard_F8als_v6` | 8 vCPU / 16 GB |
-
-New subscriptions often have a vCPU quota of a few cores per family: check
-`az vm list-usage --location <region>` before the first `up`.
-
-## Resources
+## Building blocks
 
 All resources take `resourceGroupName: group.name` and `location: region`.
 
-- **Network**: `resources.ResourceGroup` (one per stack: deleting it removes everything), and
-  `network.VirtualNetwork` `{ addressSpace: { addressPrefixes: [PRIVATE_CIDR] }, subnets: [{ name:
-  'servers', addressPrefix: SUBNET_CIDR }] }`. Define the subnet **inline** and read its id from
-  `vnet.subnets`; a separate `network.Subnet` fights the VNet over the subnet list.
-- **Firewall**: one `network.NetworkSecurityGroup` per rule set, `securityRules` of `{ name, priority:
-  100 + i, direction: 'Inbound', access: 'Allow', protocol: 'Tcp', sourcePortRange: '*',
-  destinationPortRange: port, sourceAddressPrefix: '*', destinationAddressPrefix: '*' }`. The
-  built-in default rules already allow traffic within the VNet and all outbound, so there is no
-  private or egress rule to add. Attach it to the NIC.
-- **Public IPs**: every server needs one for SSH. `network.PublicIPAddress` `{ sku: { name:
-  'Standard' }, publicIPAllocationMethod: 'Static' }` (Standard IPs are always static and closed until
-  an NSG opens them). On ingress servers it is the static IP.
-- **NIC**: `network.NetworkInterface` `{ ipConfigurations: [{ name: 'primary', subnet: { id },
-  publicIPAddress: { id: publicIp.id }, privateIPAllocationMethod: 'Dynamic' }],
-  networkSecurityGroup: { id: group.id } }`.
-- **Server**: `compute.VirtualMachine` `{ hardwareProfile: { vmSize: size }, networkProfile: {
-  networkInterfaces: [{ id: nic.id, primary: true }] }, osProfile: { computerName: <rule-5 name>,
-  adminUsername: 'azureuser', customData: <base64 bootstrap>, linuxConfiguration: {
-  disablePasswordAuthentication: true, ssh: { publicKeys: [{ path:
-  '/home/azureuser/.ssh/authorized_keys', keyData: sshPublicKey }] } } }, storageProfile: {
-  imageReference: { publisher, offer, sku, version }, osDisk: { createOption: 'FromImage',
-  managedDisk: { storageAccountType: 'StandardSSD_LRS' }, deleteOption: 'Delete' } }, tags }`.
-  - `customData` must be **base64**: `Buffer.from(script).toString('base64')`.
-  - Options: `ignoreChanges: ['osProfile']` (it holds both the custom data and the keys, and is
-    create-only), and `deleteBeforeReplace: true`: a NIC belongs to one VM at a time (rule 4).
-- **Labels**: `tags`, a record.
+| Concept | Resource |
+|---|---|
+| Resource group | `resources.ResourceGroup`, one per stack: deleting it removes everything |
+| Private network | `network.VirtualNetwork` (`PRIVATE_CIDR`), with the subnet (`SUBNET_CIDR`) **inline** |
+| Firewall | `network.NetworkSecurityGroup`, one per rule set, attached to the NIC |
+| Public IP | `network.PublicIPAddress`, Standard SKU, one per server (SSH needs it); the static IP on ingress servers |
+| NIC | `network.NetworkInterface` |
+| Server | `compute.VirtualMachine` |
 
-`ServerInfo`: `publicIp` = `publicIp.ipAddress`, `privateIp` =
-`nic.ipConfigurations[0].privateIPAddress`, `staticIp` = `publicIp.ipAddress` on ingress servers.
+## Quirks
 
-## Mocks
+- **Define the subnet inline** and read its id from the VNet's `subnets`: a separate subnet resource
+  fights the VNet over the subnet list.
+- **The built-in NSG rules** already allow traffic within the VNet and all outbound, so there is no
+  private or egress rule to add. Inbound rules need distinct priorities (`100 + i`).
+- Standard public IPs are always static, and closed until an NSG opens them.
+- **`customData` must be base64**: `Buffer.from(script).toString('base64')`. SSH: password login
+  disabled, the key at `/home/azureuser/.ssh/authorized_keys`.
+- OS disk: `StandardSSD_LRS`, deleted with the VM.
+- `ignoreChanges: ['osProfile']`: it holds both the custom data and the keys, and is create-only.
+  `deleteBeforeReplace: true` on every VM: a NIC belongs to one VM at a time (rule 4).
+- Labels are `tags`, a record.
 
-Mock state: `ipAddress: '203.0.113.10'`; for a NIC, `ipConfigurations` with `privateIPAddress:
-'10.0.1.4'` added to the first entry; for the VNet, `subnets` with an `id` added to the first entry.
-`privateNetworkId` is always set.
+`ServerInfo`: `publicIp` from the public IP resource, `privateIp` from the NIC's first IP
+configuration, `staticIp` = the public IP on ingress servers. Mocks: the NIC's first IP
+configuration carries a private address, and the VNet's first subnet an `id`.
 
-## Behaviour to put in the runbook
+## For the runbook
 
-- A `vmSize` change deallocates and restarts the VM when the new size needs other hardware.
-- The service principal needs the Contributor role on the subscription (or on a pre-made resource
-  group, if the program is changed to use one).
+- A size change deallocates and restarts the VM when the new size needs other hardware.
+- The service principal needs the Contributor role on the subscription.
+- New subscriptions often have a vCPU quota of a few cores per family: check
+  `az vm list-usage --location <region>` before the first `up`.

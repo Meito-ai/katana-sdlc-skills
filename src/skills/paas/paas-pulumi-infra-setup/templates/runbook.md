@@ -4,8 +4,10 @@ Template for the infra runbook, written by step 8 of SKILL.md. Delete this comme
 Fill every %%...%% placeholder. A line or section marked [if <condition>] stays only when the
 condition holds; strip the marker when it does. Conditions: cloud (Pulumi Cloud backend), bucket
 (self-managed backend), local (local backend), ci (the workflow was written), bridged (Hostinger),
-hyperscaler (AWS, Azure, GCP). Add the card's "Behaviour to put in the runbook" / "Prerequisites for
-the runbook" items where marked. Every command must run as written: real paths, real stack names.
+hyperscaler (AWS, Azure, GCP). Add the card's "For the runbook" items where marked.
+%%catalog-source%% is where the user lists current server types later: the card's "Live catalog"
+command or URL that answered in the interview. Every command must run as written: real paths, real
+stack names.
 -->
 
 # Infrastructure runbook
@@ -104,7 +106,8 @@ All inputs are read in one place: `%%infra-dir%%/src/config.ts` (`loadConfig`).
 ## Changing it later
 
 - **More servers in a group**: raise its `count` in the stack file, then preview and up.
-- **A bigger server**: change its group's `size`. %%resize-behaviour%%
+- **A bigger server**: change its group's `size` to a current type from %%catalog-source%%.
+  %%resize-behaviour%%
 - **A new group**: add it to `SERVER_GROUPS` in `src/config.ts`, then give it a `count` and `size`
   in **every** stack file (`count: 0` where it should not run). The unit tests fail until both agree.
 - **`image` or `region`**: replaces the servers: a new, empty host. Expect downtime, and run the
