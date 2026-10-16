@@ -18,7 +18,8 @@
   compute images list --project ubuntu-os-cloud` for the Ubuntu families.
 - **Public**: the regions and zones and the machine families pages in Google Cloud's Compute
   docs, and its OS details page for the Ubuntu image families. The VM pricing pages render with
-  JavaScript: ask the user for prices, or use a named third-party mirror, as estimates.
+  JavaScript: ask the user for prices, or use a named third-party mirror, as estimates. The VPC
+  network pricing page is plain HTML and carries the external IPv4 charge every server pays.
 
 ## Building blocks
 

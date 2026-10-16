@@ -487,7 +487,8 @@ const CONFIG_FILE = path.join(WORK_DIR, `Pulumi.${SHORT_NAME}.yaml`);
 const HAS_CREDS = Boolean(STACK_NAME && process.env.PULUMI_ACCESS_TOKEN /* && card credentials */);
 
 // jest: (HAS_CREDS ? describe : describe.skip)('preview', ...)
-// node:test: describe('preview', { skip: !HAS_CREDS }, ...), with after() and node:assert
+// node:test: describe('preview', { skip: !HAS_CREDS }, ...), with after() and node:assert, and the
+// timeout as an option: it('...', { timeout: 300_000 }, async () => ...)
 describe.skipIf(!HAS_CREDS)('preview', () => {
   let stack: pulumi.automation.Stack | undefined;
 
