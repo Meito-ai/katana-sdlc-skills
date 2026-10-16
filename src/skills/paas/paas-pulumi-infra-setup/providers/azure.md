@@ -20,6 +20,8 @@
   Virtual Machines, the region and consumption prices; skip the Windows rows), the VM size
   documentation on learn.microsoft.com, and Ubuntu's machine-readable image index on
   cloud-images.ubuntu.com (`releases/streams/v1/`, the `azure` product) for the current LTS release.
+  Each build lists only the regions it was published to, so take the latest build that lists the
+  region.
 
 ## Building blocks
 

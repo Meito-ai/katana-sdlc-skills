@@ -358,7 +358,8 @@ For each tier, pick the **cheapest** type that meets both targets among those th
 type with no price there is not for sale) and the catalog shows as current (not deprecated, no
 successor). No GPUs; x86, matching the image, unless the user asks for Arm; shared or burstable
 vCPUs are fine, but take the provider's general-purpose line over one it positions for development
-or testing. When no type meets a target, take the closest by memory and say so.
+or testing. Between types within a cent an hour of each other, take the newer generation. When no
+type meets a target, take the closest by memory and say so.
 
 ## Package wiring
 

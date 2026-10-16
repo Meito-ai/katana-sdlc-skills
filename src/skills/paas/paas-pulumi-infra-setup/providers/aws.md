@@ -17,11 +17,17 @@
   sells) and `describe-instance-types` (vCPUs, memory, architecture); `aws ec2 describe-images
   --owners 099720109477 --region <region>` for the current Ubuntu image names (`099720109477` is
   Canonical's account).
-- **Public**: the EC2 instance types pages on aws.amazon.com for specs; the Price List bulk API for
-  prices (`https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/current/region_index.json`
-  links each region's file, hundreds of MB, so stream and filter it), since the pricing pages carry
-  no per-region data; and Ubuntu's machine-readable image index on cloud-images.ubuntu.com
-  (`releases/streams/v1/`, the `aws` product) for the current LTS release in the region.
+- **Public**:
+  - AWS's Regions page on docs.aws.amazon.com: each region's opt-in status.
+  - The EC2 instance types pages on aws.amazon.com: specs.
+  - The Price List bulk API: prices, since the pricing pages carry no per-region data.
+    `https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonEC2/current/region_index.json`
+    links each region's file; the same path ending in `.csv` streams line by line, where the JSON
+    is hundreds of MB. The public IPv4 charge every server carries is in the `AmazonVPC` offer of
+    the same API.
+  - Ubuntu's machine-readable image index on cloud-images.ubuntu.com (`releases/streams/v1/`, the
+    `aws` product): the current LTS release in the region. Each build lists only the regions it
+    was published to, so take the latest build that lists the region.
 
 ## Building blocks
 
