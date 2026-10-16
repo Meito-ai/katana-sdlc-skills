@@ -44,7 +44,7 @@ there with an `infra:` prefix. The folder still gets its own `tsconfig.json`, an
 
 ```yaml
 name: <project>
-description: <one line: what this infrastructure is>
+description: "<one line: what this infrastructure is; quoted, since a colon breaks the YAML>"
 runtime:
   name: nodejs
   options:
@@ -275,7 +275,9 @@ export class Environment extends pulumi.ComponentResource {
 ```
 
 - **`Network`**: creates the private network (and subnet) when `needsPrivateNetwork(groups)`, or
-  always when the card says the provider needs one. CIDRs from `PRIVATE_CIDR` / `SUBNET_CIDR`. On the
+  under the card's own "Private network" rule when it differs (always, or OVHcloud's ingress
+  condition). Express a card's rule in `environment.ts`; `topology.ts` stays as written above. CIDRs
+  from `PRIVATE_CIDR` / `SUBNET_CIDR`. On the
   hyperscalers it also holds the scaffolding a VM needs to exist (VPC, subnet, internet gateway or
   route, resource group): a fresh network per stack, never the account's default.
 - **`Firewall`**: two rule sets from `publicPorts(true)` (ingress groups) and `publicPorts(false)`
@@ -311,7 +313,8 @@ export const privateNetworkId = env.privateNetworkId;
 When the card's provider sets its region on the provider (AWS, GCP, Alibaba), create one explicit
 provider from `cfg.region` here and pass it as `{ providers: [provider] }`, so `region` stays the
 single source; children inherit it through `parent`. Data-source calls inside components pass
-`{ parent: this }` to inherit it too.
+`{ parent: this }` to inherit it too. An explicit provider reads none of the provider's own keys in
+stack config (`aws:*`, `gcp:*`, ...): any option it needs goes on the provider itself.
 
 ## Rules
 
@@ -359,12 +362,18 @@ vCPUs are fine. When no type meets a target, take the closest by memory and say 
 **Module mode** follows the `package.json` in effect (the infra package's, or the host's in folder
 mode). `"type": "module"`: relative imports end in `.js` (`from './config.js'`). Otherwise (CommonJS,
 the default for a new package): extensionless static imports. A dynamic `import()` takes the `.js`
-extension in **both** modes: under `nodenext` it is always an ECMAScript import. `tsconfig.json`, in
-both modes:
+extension in **both** modes: under `nodenext` it is always an ECMAScript import.
+
+The infra `tsconfig.json`, in both modes. Its `extends` names a **shared base only**: a
+`tsconfig.base.json` or a shared tsconfig package that sets no `include`, `exclude`, `files`,
+`rootDir` or `outDir`; with none, drop the line. Never extend a project's own build tsconfig, even
+when it is the repo's only `tsconfig.json` (`detect.mjs` lists it among `bases.files` all the same):
+in folder mode it excludes `<infra-dir>`, and an inherited `exclude` or `rootDir` empties or breaks
+the infra program.
 
 ```json
 {
-  "extends": "<repo base tsconfig, when there is one>",
+  "extends": "<the shared base, when there is one>",
   "compilerOptions": {
     "strict": true,
     "module": "nodenext",
@@ -392,16 +401,23 @@ repo lacks them.
 ## Tests
 
 Unit tests run with no credentials and no network. Use the repo's test runner; with none, use
-`node:test` through the `tsx` loader: `node --import tsx --test "src/**/*.spec.ts"`. The unit run
-never picks up `integration/`.
+`node:test` through the `tsx` loader: `node --import tsx --test "src/**/*.spec.ts"`.
+
+The unit run and the preview test are separate commands that select by directory, so the unit run
+never picks up `integration/`. With vitest: `vitest run --root <infra-dir> src` and
+`vitest run --root <infra-dir> integration`. `<infra-dir>` gets its own runner config, named
+`vitest.config.mts` so it loads as ESM whatever the package's module type, and in folder mode the
+host's runner config excludes `<infra-dir>`.
 
 ### What they cover
 
 - `topology.spec.ts`: `resolveGroups` (an unknown group, a missing group, a negative or fractional
   count, an empty size each throw), `publicPorts`, `needsPrivateNetwork`, `serverName`.
 - `bootstrap.spec.ts`: `none` gives `undefined`; `docker` gives a script starting `#!/bin/bash`.
-- `config.spec.ts`: `loadConfig` throws without `SSH_PUBLIC_KEY`, and `parseBootstrap` rejects an
-  unknown value. Set config with `pulumi.runtime.setAllConfig({ '<project>:region': ... })`.
+- `config.spec.ts`: `loadConfig` throws without `SSH_PUBLIC_KEY`, reads a full stack, and
+  `parseBootstrap` rejects an unknown value. Call `setMocks` (below) first: `new pulumi.Config()`
+  reads the project name from the runtime, which is `project` until `setMocks` names it. Then set
+  config with `pulumi.runtime.setAllConfig({ '<project>:region': ... })`.
 - `environment.spec.ts`, through the component's outputs only, never provider type tokens:
   - each group has `count` servers;
   - every ingress server has a `staticIp` and no other server does;
@@ -424,7 +440,8 @@ pulumi.runtime.setMocks(
       // plus every output attribute the components read for ServerInfo, with documentation addresses
       state: { ...args.inputs },
     }),
-    // a fixture for each data-source call the program makes (the card's lookups)
+    // card: a fixture per data-source token the program calls (its lookups); echoing the inputs
+    // only suits a program that makes no calls
     call: (args) => args.inputs,
   },
   '<project>',

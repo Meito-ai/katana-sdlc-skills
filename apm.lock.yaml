@@ -81,40 +81,40 @@ dependencies:
   - .claude/skills/paas-pulumi-infra-setup/templates/mcp-entry.yml
   - .claude/skills/paas-pulumi-infra-setup/templates/runbook.md
   deployed_file_hashes:
-    .agents/skills/paas-pulumi-infra-setup/SKILL.md: sha256:8db183c4960f2854452e9df1b59354abc0bc23cb8e781379d1caf23c53d1cb5b
+    .agents/skills/paas-pulumi-infra-setup/SKILL.md: sha256:774589e4efcec6038bee77d195dedc9f4b92a8300de926129297b678039c7735
     .agents/skills/paas-pulumi-infra-setup/apm.yml: sha256:84bbeccd6a8479d0cf2832bda63461f32f11d222b694985e1035aea3830ffb4e
     .agents/skills/paas-pulumi-infra-setup/providers/alibaba.md: sha256:2d16a3b9001ce38de2dba8aeae2f99f50ac605835d2a01f5479addb7dcd33b07
-    .agents/skills/paas-pulumi-infra-setup/providers/aws.md: sha256:664a96a055cc00281a0d7f4e1db053f4c5c98e01d7f14fe51b4f65b574edde55
-    .agents/skills/paas-pulumi-infra-setup/providers/azure.md: sha256:3389a2363073debc240c8dd407f34621d2945ae8d11bd8e55c19a9f7a17252c7
+    .agents/skills/paas-pulumi-infra-setup/providers/aws.md: sha256:7a8b28bf6244da2fbe28d228ff2709d7990db20489e2a20298aff7738ef77927
+    .agents/skills/paas-pulumi-infra-setup/providers/azure.md: sha256:72c755b57bcbca49eb86c5f4ecebae7146da46119e849e70b67a28e8467635fc
     .agents/skills/paas-pulumi-infra-setup/providers/digitalocean.md: sha256:0e46ad75c7d0a79a8096a54cd7d0dd14930f8277bf161ee41d884773bdcd8357
-    .agents/skills/paas-pulumi-infra-setup/providers/gcp.md: sha256:e3d85f40432f614e0a61d5f85c82930201c113ed8d83a72daaab2a29100cfca6
-    .agents/skills/paas-pulumi-infra-setup/providers/hetzner.md: sha256:38e9d29d6d7461688cb1012399d71a078c8ff950b6cb5b406a25d4fdb0c71f8a
+    .agents/skills/paas-pulumi-infra-setup/providers/gcp.md: sha256:5a973b2daf514855cac78e2ce48d28909796471a180c2c7f07c86ba667434276
+    .agents/skills/paas-pulumi-infra-setup/providers/hetzner.md: sha256:b33fef90cad99363cd22b88361f29d7283ac982b98b1ad435f9c0e0e03579878
     .agents/skills/paas-pulumi-infra-setup/providers/hostinger.md: sha256:028a560957e14a0a4a2b3c9fa1134d7882ec9303360a2f6adb9c7dbe2e0cad76
-    .agents/skills/paas-pulumi-infra-setup/providers/linode.md: sha256:2a046776f49c5f84cec188ade166e172af90f3dce87d5287860eeb280f61c02e
-    .agents/skills/paas-pulumi-infra-setup/providers/ovhcloud.md: sha256:a63cfe4267463cf1b8b25d874c000037e501ca0477cd81d8fafbb4b6054a9a31
+    .agents/skills/paas-pulumi-infra-setup/providers/linode.md: sha256:356553f680b7c3dd075056966fb95e4e8b0cc41e0a4899750932b1a31bd32f1f
+    .agents/skills/paas-pulumi-infra-setup/providers/ovhcloud.md: sha256:ae913d5881ebd6e1acd83427ea2a002a9d97bc13990268d9e0379bd9da89eb31
     .agents/skills/paas-pulumi-infra-setup/providers/upcloud.md: sha256:ceeeba56ea916a93dc588bde4e80a8c51604548be28b0ca44c953b6be55d1e01
-    .agents/skills/paas-pulumi-infra-setup/reference-design.md: sha256:46d2ff160d178ba381618aa9d315f32c3fff2dd9b955b3f301a29074bcd51b37
+    .agents/skills/paas-pulumi-infra-setup/reference-design.md: sha256:c3cc92241564610a65117db6fb179ce56669280fc7dc7c02ce4917734830e1cb
     .agents/skills/paas-pulumi-infra-setup/scripts/detect.mjs: sha256:bc8e86f99fdfeb147aafe0531e3ea55898ab251a162504deae20c62bdac0648d
     .agents/skills/paas-pulumi-infra-setup/templates/infra-workflow.yml: sha256:81c3d5406373e7939a2bcd33d13206bf672c88f7f54c5f9e6e07656814d6424e
     .agents/skills/paas-pulumi-infra-setup/templates/mcp-entry.yml: sha256:3eaf58d9159e9548594ce0cede5c2c4727d611364c4e5a686730a2c68f15f896
-    .agents/skills/paas-pulumi-infra-setup/templates/runbook.md: sha256:294d0480a2e745a76f3f686b2d0983ffdcb5047c2634f5bd5a5de4fd0d061c9c
-    .claude/skills/paas-pulumi-infra-setup/SKILL.md: sha256:8db183c4960f2854452e9df1b59354abc0bc23cb8e781379d1caf23c53d1cb5b
+    .agents/skills/paas-pulumi-infra-setup/templates/runbook.md: sha256:3b5bf77b1d9599570c08a703afe3ecc868122d2277453e6df9217d388d53dbf6
+    .claude/skills/paas-pulumi-infra-setup/SKILL.md: sha256:774589e4efcec6038bee77d195dedc9f4b92a8300de926129297b678039c7735
     .claude/skills/paas-pulumi-infra-setup/apm.yml: sha256:84bbeccd6a8479d0cf2832bda63461f32f11d222b694985e1035aea3830ffb4e
     .claude/skills/paas-pulumi-infra-setup/providers/alibaba.md: sha256:2d16a3b9001ce38de2dba8aeae2f99f50ac605835d2a01f5479addb7dcd33b07
-    .claude/skills/paas-pulumi-infra-setup/providers/aws.md: sha256:664a96a055cc00281a0d7f4e1db053f4c5c98e01d7f14fe51b4f65b574edde55
-    .claude/skills/paas-pulumi-infra-setup/providers/azure.md: sha256:3389a2363073debc240c8dd407f34621d2945ae8d11bd8e55c19a9f7a17252c7
+    .claude/skills/paas-pulumi-infra-setup/providers/aws.md: sha256:7a8b28bf6244da2fbe28d228ff2709d7990db20489e2a20298aff7738ef77927
+    .claude/skills/paas-pulumi-infra-setup/providers/azure.md: sha256:72c755b57bcbca49eb86c5f4ecebae7146da46119e849e70b67a28e8467635fc
     .claude/skills/paas-pulumi-infra-setup/providers/digitalocean.md: sha256:0e46ad75c7d0a79a8096a54cd7d0dd14930f8277bf161ee41d884773bdcd8357
-    .claude/skills/paas-pulumi-infra-setup/providers/gcp.md: sha256:e3d85f40432f614e0a61d5f85c82930201c113ed8d83a72daaab2a29100cfca6
-    .claude/skills/paas-pulumi-infra-setup/providers/hetzner.md: sha256:38e9d29d6d7461688cb1012399d71a078c8ff950b6cb5b406a25d4fdb0c71f8a
+    .claude/skills/paas-pulumi-infra-setup/providers/gcp.md: sha256:5a973b2daf514855cac78e2ce48d28909796471a180c2c7f07c86ba667434276
+    .claude/skills/paas-pulumi-infra-setup/providers/hetzner.md: sha256:b33fef90cad99363cd22b88361f29d7283ac982b98b1ad435f9c0e0e03579878
     .claude/skills/paas-pulumi-infra-setup/providers/hostinger.md: sha256:028a560957e14a0a4a2b3c9fa1134d7882ec9303360a2f6adb9c7dbe2e0cad76
-    .claude/skills/paas-pulumi-infra-setup/providers/linode.md: sha256:2a046776f49c5f84cec188ade166e172af90f3dce87d5287860eeb280f61c02e
-    .claude/skills/paas-pulumi-infra-setup/providers/ovhcloud.md: sha256:a63cfe4267463cf1b8b25d874c000037e501ca0477cd81d8fafbb4b6054a9a31
+    .claude/skills/paas-pulumi-infra-setup/providers/linode.md: sha256:356553f680b7c3dd075056966fb95e4e8b0cc41e0a4899750932b1a31bd32f1f
+    .claude/skills/paas-pulumi-infra-setup/providers/ovhcloud.md: sha256:ae913d5881ebd6e1acd83427ea2a002a9d97bc13990268d9e0379bd9da89eb31
     .claude/skills/paas-pulumi-infra-setup/providers/upcloud.md: sha256:ceeeba56ea916a93dc588bde4e80a8c51604548be28b0ca44c953b6be55d1e01
-    .claude/skills/paas-pulumi-infra-setup/reference-design.md: sha256:46d2ff160d178ba381618aa9d315f32c3fff2dd9b955b3f301a29074bcd51b37
+    .claude/skills/paas-pulumi-infra-setup/reference-design.md: sha256:c3cc92241564610a65117db6fb179ce56669280fc7dc7c02ce4917734830e1cb
     .claude/skills/paas-pulumi-infra-setup/scripts/detect.mjs: sha256:bc8e86f99fdfeb147aafe0531e3ea55898ab251a162504deae20c62bdac0648d
     .claude/skills/paas-pulumi-infra-setup/templates/infra-workflow.yml: sha256:81c3d5406373e7939a2bcd33d13206bf672c88f7f54c5f9e6e07656814d6424e
     .claude/skills/paas-pulumi-infra-setup/templates/mcp-entry.yml: sha256:3eaf58d9159e9548594ce0cede5c2c4727d611364c4e5a686730a2c68f15f896
-    .claude/skills/paas-pulumi-infra-setup/templates/runbook.md: sha256:294d0480a2e745a76f3f686b2d0983ffdcb5047c2634f5bd5a5de4fd0d061c9c
+    .claude/skills/paas-pulumi-infra-setup/templates/runbook.md: sha256:3b5bf77b1d9599570c08a703afe3ecc868122d2277453e6df9217d388d53dbf6
   source: local
   local_path: ./src/skills/paas/paas-pulumi-infra-setup
   is_dev: true
@@ -505,7 +505,7 @@ deployments:
   owners:
   - ./src/skills/paas/paas-pulumi-infra-setup
   active_owner: ./src/skills/paas/paas-pulumi-infra-setup
-  content_hash: sha256:8db183c4960f2854452e9df1b59354abc0bc23cb8e781379d1caf23c53d1cb5b
+  content_hash: sha256:774589e4efcec6038bee77d195dedc9f4b92a8300de926129297b678039c7735
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/paas-pulumi-infra-setup/apm.yml
@@ -532,7 +532,7 @@ deployments:
   owners:
   - ./src/skills/paas/paas-pulumi-infra-setup
   active_owner: ./src/skills/paas/paas-pulumi-infra-setup
-  content_hash: sha256:664a96a055cc00281a0d7f4e1db053f4c5c98e01d7f14fe51b4f65b574edde55
+  content_hash: sha256:7a8b28bf6244da2fbe28d228ff2709d7990db20489e2a20298aff7738ef77927
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/paas-pulumi-infra-setup/providers/azure.md
@@ -541,7 +541,7 @@ deployments:
   owners:
   - ./src/skills/paas/paas-pulumi-infra-setup
   active_owner: ./src/skills/paas/paas-pulumi-infra-setup
-  content_hash: sha256:3389a2363073debc240c8dd407f34621d2945ae8d11bd8e55c19a9f7a17252c7
+  content_hash: sha256:72c755b57bcbca49eb86c5f4ecebae7146da46119e849e70b67a28e8467635fc
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/paas-pulumi-infra-setup/providers/digitalocean.md
@@ -559,7 +559,7 @@ deployments:
   owners:
   - ./src/skills/paas/paas-pulumi-infra-setup
   active_owner: ./src/skills/paas/paas-pulumi-infra-setup
-  content_hash: sha256:e3d85f40432f614e0a61d5f85c82930201c113ed8d83a72daaab2a29100cfca6
+  content_hash: sha256:5a973b2daf514855cac78e2ce48d28909796471a180c2c7f07c86ba667434276
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/paas-pulumi-infra-setup/providers/hetzner.md
@@ -568,7 +568,7 @@ deployments:
   owners:
   - ./src/skills/paas/paas-pulumi-infra-setup
   active_owner: ./src/skills/paas/paas-pulumi-infra-setup
-  content_hash: sha256:38e9d29d6d7461688cb1012399d71a078c8ff950b6cb5b406a25d4fdb0c71f8a
+  content_hash: sha256:b33fef90cad99363cd22b88361f29d7283ac982b98b1ad435f9c0e0e03579878
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/paas-pulumi-infra-setup/providers/hostinger.md
@@ -586,7 +586,7 @@ deployments:
   owners:
   - ./src/skills/paas/paas-pulumi-infra-setup
   active_owner: ./src/skills/paas/paas-pulumi-infra-setup
-  content_hash: sha256:2a046776f49c5f84cec188ade166e172af90f3dce87d5287860eeb280f61c02e
+  content_hash: sha256:356553f680b7c3dd075056966fb95e4e8b0cc41e0a4899750932b1a31bd32f1f
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/paas-pulumi-infra-setup/providers/ovhcloud.md
@@ -595,7 +595,7 @@ deployments:
   owners:
   - ./src/skills/paas/paas-pulumi-infra-setup
   active_owner: ./src/skills/paas/paas-pulumi-infra-setup
-  content_hash: sha256:a63cfe4267463cf1b8b25d874c000037e501ca0477cd81d8fafbb4b6054a9a31
+  content_hash: sha256:ae913d5881ebd6e1acd83427ea2a002a9d97bc13990268d9e0379bd9da89eb31
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/paas-pulumi-infra-setup/providers/upcloud.md
@@ -613,7 +613,7 @@ deployments:
   owners:
   - ./src/skills/paas/paas-pulumi-infra-setup
   active_owner: ./src/skills/paas/paas-pulumi-infra-setup
-  content_hash: sha256:46d2ff160d178ba381618aa9d315f32c3fff2dd9b955b3f301a29074bcd51b37
+  content_hash: sha256:c3cc92241564610a65117db6fb179ce56669280fc7dc7c02ce4917734830e1cb
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/paas-pulumi-infra-setup/scripts/detect.mjs
@@ -649,7 +649,7 @@ deployments:
   owners:
   - ./src/skills/paas/paas-pulumi-infra-setup
   active_owner: ./src/skills/paas/paas-pulumi-infra-setup
-  content_hash: sha256:294d0480a2e745a76f3f686b2d0983ffdcb5047c2634f5bd5a5de4fd0d061c9c
+  content_hash: sha256:3b5bf77b1d9599570c08a703afe3ecc868122d2277453e6df9217d388d53dbf6
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/pulumi-best-practices
@@ -1054,7 +1054,7 @@ deployments:
   owners:
   - ./src/skills/paas/paas-pulumi-infra-setup
   active_owner: ./src/skills/paas/paas-pulumi-infra-setup
-  content_hash: sha256:8db183c4960f2854452e9df1b59354abc0bc23cb8e781379d1caf23c53d1cb5b
+  content_hash: sha256:774589e4efcec6038bee77d195dedc9f4b92a8300de926129297b678039c7735
 - kind: project-relative
   target: claude
   value: .claude/skills/paas-pulumi-infra-setup/apm.yml
@@ -1081,7 +1081,7 @@ deployments:
   owners:
   - ./src/skills/paas/paas-pulumi-infra-setup
   active_owner: ./src/skills/paas/paas-pulumi-infra-setup
-  content_hash: sha256:664a96a055cc00281a0d7f4e1db053f4c5c98e01d7f14fe51b4f65b574edde55
+  content_hash: sha256:7a8b28bf6244da2fbe28d228ff2709d7990db20489e2a20298aff7738ef77927
 - kind: project-relative
   target: claude
   value: .claude/skills/paas-pulumi-infra-setup/providers/azure.md
@@ -1090,7 +1090,7 @@ deployments:
   owners:
   - ./src/skills/paas/paas-pulumi-infra-setup
   active_owner: ./src/skills/paas/paas-pulumi-infra-setup
-  content_hash: sha256:3389a2363073debc240c8dd407f34621d2945ae8d11bd8e55c19a9f7a17252c7
+  content_hash: sha256:72c755b57bcbca49eb86c5f4ecebae7146da46119e849e70b67a28e8467635fc
 - kind: project-relative
   target: claude
   value: .claude/skills/paas-pulumi-infra-setup/providers/digitalocean.md
@@ -1108,7 +1108,7 @@ deployments:
   owners:
   - ./src/skills/paas/paas-pulumi-infra-setup
   active_owner: ./src/skills/paas/paas-pulumi-infra-setup
-  content_hash: sha256:e3d85f40432f614e0a61d5f85c82930201c113ed8d83a72daaab2a29100cfca6
+  content_hash: sha256:5a973b2daf514855cac78e2ce48d28909796471a180c2c7f07c86ba667434276
 - kind: project-relative
   target: claude
   value: .claude/skills/paas-pulumi-infra-setup/providers/hetzner.md
@@ -1117,7 +1117,7 @@ deployments:
   owners:
   - ./src/skills/paas/paas-pulumi-infra-setup
   active_owner: ./src/skills/paas/paas-pulumi-infra-setup
-  content_hash: sha256:38e9d29d6d7461688cb1012399d71a078c8ff950b6cb5b406a25d4fdb0c71f8a
+  content_hash: sha256:b33fef90cad99363cd22b88361f29d7283ac982b98b1ad435f9c0e0e03579878
 - kind: project-relative
   target: claude
   value: .claude/skills/paas-pulumi-infra-setup/providers/hostinger.md
@@ -1135,7 +1135,7 @@ deployments:
   owners:
   - ./src/skills/paas/paas-pulumi-infra-setup
   active_owner: ./src/skills/paas/paas-pulumi-infra-setup
-  content_hash: sha256:2a046776f49c5f84cec188ade166e172af90f3dce87d5287860eeb280f61c02e
+  content_hash: sha256:356553f680b7c3dd075056966fb95e4e8b0cc41e0a4899750932b1a31bd32f1f
 - kind: project-relative
   target: claude
   value: .claude/skills/paas-pulumi-infra-setup/providers/ovhcloud.md
@@ -1144,7 +1144,7 @@ deployments:
   owners:
   - ./src/skills/paas/paas-pulumi-infra-setup
   active_owner: ./src/skills/paas/paas-pulumi-infra-setup
-  content_hash: sha256:a63cfe4267463cf1b8b25d874c000037e501ca0477cd81d8fafbb4b6054a9a31
+  content_hash: sha256:ae913d5881ebd6e1acd83427ea2a002a9d97bc13990268d9e0379bd9da89eb31
 - kind: project-relative
   target: claude
   value: .claude/skills/paas-pulumi-infra-setup/providers/upcloud.md
@@ -1162,7 +1162,7 @@ deployments:
   owners:
   - ./src/skills/paas/paas-pulumi-infra-setup
   active_owner: ./src/skills/paas/paas-pulumi-infra-setup
-  content_hash: sha256:46d2ff160d178ba381618aa9d315f32c3fff2dd9b955b3f301a29074bcd51b37
+  content_hash: sha256:c3cc92241564610a65117db6fb179ce56669280fc7dc7c02ce4917734830e1cb
 - kind: project-relative
   target: claude
   value: .claude/skills/paas-pulumi-infra-setup/scripts/detect.mjs
@@ -1198,7 +1198,7 @@ deployments:
   owners:
   - ./src/skills/paas/paas-pulumi-infra-setup
   active_owner: ./src/skills/paas/paas-pulumi-infra-setup
-  content_hash: sha256:294d0480a2e745a76f3f686b2d0983ffdcb5047c2634f5bd5a5de4fd0d061c9c
+  content_hash: sha256:3b5bf77b1d9599570c08a703afe3ecc868122d2277453e6df9217d388d53dbf6
 - kind: project-relative
   target: claude
   value: .claude/skills/pulumi-best-practices

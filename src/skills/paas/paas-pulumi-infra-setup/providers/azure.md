@@ -18,7 +18,8 @@
   Canonical` and `az vm image list-skus` for the Ubuntu URN.
 - **Public**: the Azure Retail Prices API (`https://prices.azure.com/api/retail/prices`, filtered to
   Virtual Machines, the region and consumption prices; skip the Windows rows), the VM size
-  documentation on learn.microsoft.com, and Ubuntu's cloud image locator on cloud-images.ubuntu.com.
+  documentation on learn.microsoft.com, and Ubuntu's machine-readable image index on
+  cloud-images.ubuntu.com (`releases/streams/v1/`, the `azure` product) for the current LTS release.
 
 ## Building blocks
 

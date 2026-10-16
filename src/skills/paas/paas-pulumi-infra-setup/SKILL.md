@@ -131,12 +131,17 @@ replace: find its successor on the vendor's site.
 1. **Authenticated**, when the provider's credentials are set in this session's environment (test
    with `[ -n "$VAR" ]`) or its CLI is logged in. It shows what this account can actually buy in each
    region. Read-only calls only, and pass credentials by variable name, never by value.
-2. **Public**: the card's public API or pages.
-3. **Neither answers**: say so, and ask the user for the exact values from the provider's console.
+2. **Public**: the card's public API or pages. A page too long for the fetch tool can be fetched
+   with `curl` and parsed; a page that renders with JavaScript holds no data. A third-party catalog
+   may fill a gap, named as the source.
+3. **Neither answers** a value: say so, and ask the user to run the card's authenticated calls and
+   paste the output (it holds no secret), or to read the value from the provider's console. A value
+   no source confirms is asked for, never guessed.
 
 Take from it the regions, then for the chosen region: each server type's vCPUs, memory, disk,
 architecture, monthly price and deprecation; and the identifier of the newest Ubuntu LTS image for
-x86, in the form the card's `image` row gives. Note the source and today's date for step 3.
+x86, in the form the card's `image` row gives. Mark a price that is derived or third-party as an
+estimate. Note the source and today's date for step 3.
 
 ## 3. Confirm the plan
 
