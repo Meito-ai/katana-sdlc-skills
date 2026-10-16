@@ -140,8 +140,9 @@ replace: find its successor on the vendor's site.
 
 Take from it the regions, then for the chosen region: each server type's vCPUs, memory, disk,
 architecture, monthly price and deprecation; and the identifier of the newest Ubuntu LTS image for
-x86, in the form the card's `image` row gives. Mark a price that is derived or third-party as an
-estimate. Note the source and today's date for step 3.
+x86, in the form the card's `image` row gives. Add to each price any per-server extra the price list
+names (a public IPv4 billed separately, for example). Mark a price that is derived or third-party
+as an estimate. Note the source and today's date for step 3.
 
 ## 3. Confirm the plan
 

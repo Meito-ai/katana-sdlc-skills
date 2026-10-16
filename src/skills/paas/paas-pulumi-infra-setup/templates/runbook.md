@@ -39,16 +39,16 @@ and DNS records. They belong to the platform layer on top of these servers.
    with `pulumi login %%backend-url%%`.
 1. [if local] **Local state** in `~/.pulumi`, for trying things out only: it lives on one machine and
    CI cannot reach it. `pulumi login --local`.
-2. **%%provider%% credentials**, exported in the shell:
+1. **%%provider%% credentials**, exported in the shell:
    %%credentials-list%%
-3. **SSH key** the servers accept. The public half is `SSH_PUBLIC_KEY`:
+1. **SSH key** the servers accept. The public half is `SSH_PUBLIC_KEY`:
    ```bash
    ssh-keygen -t ed25519 -C "%%project%%-infra" -f ~/.ssh/%%project%%-infra
    export SSH_PUBLIC_KEY="$(cat ~/.ssh/%%project%%-infra.pub)"
    ```
-4. [if bridged] **The generated provider SDK**: run `pulumi install` in `%%infra-dir%%` before the
+1. [if bridged] **The generated provider SDK**: run `pulumi install` in `%%infra-dir%%` before the
    repo's own install on every fresh clone.
-5. [if ci] **GitHub** (Settings -> Secrets and variables -> Actions):
+1. [if ci] **GitHub** (Settings -> Secrets and variables -> Actions):
    - Secrets: `PULUMI_ACCESS_TOKEN`, `SSH_PUBLIC_KEY`, %%credential-names%%.
    - Repository variable (the *Variables* tab, not an environment variable): `PULUMI_STACK_BASE` =
      `%%org%%/%%project%%`. Every job fails fast without it.

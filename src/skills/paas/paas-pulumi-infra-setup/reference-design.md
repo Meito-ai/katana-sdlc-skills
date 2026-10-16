@@ -334,9 +334,11 @@ Each one is a lesson from running this shape in production. They hold on every p
    bound through a server input that forces replacement, mark the server `deleteBeforeReplace: true`:
    the IP can belong to one server at a time, so create-before-delete would deadlock. Such a
    replacement means downtime and a wiped host; the runbook says so.
-5. **Names.** Logical names are `serverName(group, i)` under the component tree. Leave physical names
-   to Pulumi's autonaming. Where the card says the provider needs an explicit unique name or label,
-   use `` `${pulumi.getProject()}-${pulumi.getStack()}-<suffix>` `` within that provider's limits.
+5. **Names.** A component's children derive their logical names from the component's name
+   (`` `${name}-<suffix>` ``, as `pulumi-component` requires), so no two collide; a server is
+   `serverName(group, i)`, its group being its component's name. Leave physical names to Pulumi's
+   autonaming. Where the card says the provider needs an explicit unique name or label, use
+   `` `${pulumi.getProject()}-${pulumi.getStack()}-<suffix>` `` within that provider's limits.
 6. **Labels.** Where the provider supports labels or tags, set `project`, `stack` and `group`.
 7. **Outputs by group.** Export `servers` keyed by group, so a later skill or person finds a group's
    IPs without knowing the resource tree.
@@ -355,7 +357,8 @@ stack file stores the exact type, so a later change is an edit to that string.
 For each tier, pick the **cheapest** type that meets both targets among those the region sells (a
 type with no price there is not for sale) and the catalog shows as current (not deprecated, no
 successor). No GPUs; x86, matching the image, unless the user asks for Arm; shared or burstable
-vCPUs are fine. When no type meets a target, take the closest by memory and say so.
+vCPUs are fine, but take the provider's general-purpose line over one it positions for development
+or testing. When no type meets a target, take the closest by memory and say so.
 
 ## Package wiring
 

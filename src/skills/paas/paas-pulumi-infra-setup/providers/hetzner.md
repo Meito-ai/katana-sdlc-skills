@@ -16,10 +16,10 @@
 - **Authenticated**: the Cloud API's locations, server types and system images
   (`https://api.hetzner.cloud/v1/locations`, `/server_types`, `/images?type=system`), with the token
   as a bearer token. Server types report their deprecation and the locations that sell them.
-- **Public**: thin. Hetzner's docs carry the locations with their network zones and a per-location
-  price list; hetzner.com renders its prices with JavaScript. Server type specs may need a
-  third-party catalog, and no public source lists the system images, so confirm the image with the
-  user.
+- **Public**: Hetzner's docs carry the locations with their network zones and the server lines each
+  sells, a deprecated-plans list, and a per-location price list (excluding the public IPv4, billed
+  per server); the plan pages on hetzner.com carry the specs (their prices need JavaScript). No
+  public source lists the system images: confirm the image with the user.
 
 ## Building blocks
 

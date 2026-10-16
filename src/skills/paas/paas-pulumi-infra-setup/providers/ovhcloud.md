@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Registry package | `ovh` |
-| Credentials | the API endpoint (EU, CA or US) plus either application keys with a consumer key, or an OAuth2 service account |
+| Credentials | the API endpoint (EU, CA or US) plus either application keys with a consumer key, or an OAuth2 service account (the Registry page lists further methods, such as an access token) |
 | Extra config | `<project>:cloudProjectId`: the Public Cloud project id (the `serviceName`), non-secret, in every stack file |
 | `region` | an OpenStack region enabled in the project |
 | `size` | a flavor **name**, resolved to the region's flavor id by the program |
@@ -16,8 +16,8 @@
 - **Public**: the public order catalog
   (`https://eu.api.ovh.com/v1/order/catalog/public/cloud?ovhSubsidiary=<subsidiary>`; not every
   country code is a valid subsidiary, `FR` is) lists every instance flavor with its specs and price.
-  Take the hourly (consumption) plans, check the catalog's price unit, and multiply by 730 for a
-  month. It has no images and no per-region availability. The Public Cloud regions page on
+  Take the hourly (consumption) plans, skip flavors it tags as legacy, check the catalog's price
+  unit, and multiply by 730 for a month. It has no images and no per-region availability. The Public Cloud regions page on
   ovhcloud.com lists the locations, but not the region ids the API takes: confirm the id and the
   image name with the user.
 - **Per region**: the account's API needs signed requests, so the program's own lookups are the
@@ -31,7 +31,7 @@ docs mark it. Every resource takes the project id and the region.
 | Concept | OVHcloud product |
 |---|---|
 | Lookups | the region's instance flavors and images, as data sources, once per environment |
-| SSH key | a Public Cloud SSH key; instances reference it by name |
+| SSH key | a Public Cloud SSH key; instances reference it by name. The name is its identifier and must be unique within the project, which stacks may share: give it the rule-5 name |
 | Private network | a vRack private network with one subnet: `SUBNET_CIDR`, DHCP, the gateway at its first address |
 | Gateway | a Public Cloud gateway, smallest model (**verify** the model names in OVHcloud's gateway docs), external gateway on, when an ingress group has servers: a floating IP is NAT'd through it |
 | Firewall | a security group per rule set |
