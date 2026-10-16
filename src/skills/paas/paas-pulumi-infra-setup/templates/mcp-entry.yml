@@ -1,0 +1,38 @@
+# Template: the Pulumi MCP server entry for the host repo's apm.yml, added under `dependencies.mcp`
+# by step 4 of SKILL.md. Copy everything below this header verbatim, comment included: the comment
+# is what stops a later editor from "simplifying" it back into the OAuth flow.
+
+# NOTE: static-token auth, deliberately NOT OAuth. The remote Pulumi MCP
+# endpoint accepts a Pulumi Cloud access token as a bearer header. Plain
+# `mcp-remote <url>` instead runs a browser OAuth flow, and Pulumi's grant
+# returns no refresh_token, so every new agent session -- and every
+# concurrent worktree -- re-opened https://mcp.ai.pulumi.com/oauth/authorize
+# and re-prompted for a token.
+#
+# Wrapped in `sh -c` so $PULUMI_ACCESS_TOKEN is expanded by the shell at
+# launch. Unbraced on purpose: APM resolves ${VAR} at install time, which
+# would bake the secret into generated, possibly tracked, client config.
+#
+# The token goes to mcp-remote via --header-file, never --header: argv is
+# world-readable on Linux (/proc/<pid>/cmdline), so a bearer token passed
+# inline would be visible to every local user. mcp-remote reads the file
+# once at startup; the `trap` removes it on exit. No `exec` here precisely
+# so the shell survives to run that trap. mktemp creates it 0600.
+#
+# Falls back to the Pulumi CLI's own credentials file when the env var is
+# absent, because GUI-launched agents do not inherit shell profile exports
+# -- and an empty header would 401 and silently drop mcp-remote back into
+# the browser OAuth flow this exists to avoid.
+- name: pulumi
+  registry: false
+  transport: stdio
+  command: sh
+  args:
+    - "-c"
+    - >-
+      [ -n "$PULUMI_ACCESS_TOKEN" ] ||
+      PULUMI_ACCESS_TOKEN=$(node -p "require(process.env.HOME+'/.pulumi/credentials.json').accessTokens['https://api.pulumi.com']||''" 2>/dev/null);
+      umask 077; h=$(mktemp);
+      trap 'rm -f "$h"' EXIT HUP INT TERM;
+      printf 'Authorization: Bearer %s\n' "$PULUMI_ACCESS_TOKEN" > "$h";
+      npx -y mcp-remote https://mcp.ai.pulumi.com/mcp --header-file "$h"

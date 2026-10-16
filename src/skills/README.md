@@ -7,7 +7,8 @@ src/skills/<name>/SKILL.md
 src/skills/<category>/<name>/SKILL.md      # nesting is allowed
 ```
 
-No per-skill `apm.yml` is needed — apm synthesises the metadata.
+No per-skill `apm.yml` is needed — apm synthesises the metadata — unless the skill invokes an
+upstream skill: then it declares that dependency in its own `apm.yml` (see `AGENTS.md`).
 
 Two rules, enforced by `npm run validate-skills` (and by CI):
 
