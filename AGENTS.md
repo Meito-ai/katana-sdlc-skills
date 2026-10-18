@@ -129,7 +129,7 @@ line per skill instead of one line for the whole repo: a repo-root reference onl
 ```yaml
 devDependencies:
   apm:
-    - ./src/skills/branch-shutdown
+    - ./src/skills/sdlc/branch-shutdown
 ```
 
 Without it the skill still publishes to consumers, but `apm install` does **not** deploy it into this
@@ -218,9 +218,9 @@ One entry per skill, referencing its subpath:
 # consumer apm.yml
 dependencies:
   apm:
-    - git: Meito-ai/katana-sdlc-skills/src/skills/bare-clone-workflow
+    - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/bare-clone-workflow
       ref: v0.1.0                    # or "^0.1.0" on apm >= 0.16
-    - git: Meito-ai/katana-sdlc-skills/src/skills/branch-shutdown
+    - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/branch-shutdown
       ref: v0.1.0
 ```
 
