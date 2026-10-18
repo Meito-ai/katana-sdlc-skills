@@ -56,6 +56,7 @@ devDependencies:
     - ./src/skills/sdlc/bare-clone-workflow
     - ./src/skills/sdlc/branch-shutdown
     - ./src/skills/sdlc/review-visual
+    - ./src/skills/sdlc/outcome-framing
     - ./src/skills/setup-katana-skills
     - ./src/skills/paas/paas-pulumi-infra-setup
 

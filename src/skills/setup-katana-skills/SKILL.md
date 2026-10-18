@@ -21,6 +21,7 @@ The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/sk
 | `bare-clone-workflow` | `sdlc/bare-clone-workflow` | worktree rules, bootstrap commands, the layout itself | always |
 | `branch-shutdown` | `sdlc/branch-shutdown` | one rule naming the default branch | always |
 | `review-visual` | `sdlc/review-visual` | the marker-skip rule | `origin` is on GitHub |
+| `outcome-framing` | `sdlc/outcome-framing` | none: invoked on demand or by issue-creation skills | always |
 | `paas-pulumi-infra-setup` | `paas/paas-pulumi-infra-setup` | none: a one-time, user-run scaffold that writes its own pointer line when run | always |
 
 This is a prompt-driven skill. Explore, present, confirm, then write. Nothing is committed: the user

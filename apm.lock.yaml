@@ -39,6 +39,25 @@ dependencies:
   source: local
   local_path: ./src/skills/sdlc/branch-shutdown
   is_dev: true
+- repo_url: _local/outcome-framing
+  name: outcome-framing
+  version: unknown
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/outcome-framing
+  - .agents/skills/outcome-framing/SKILL.md
+  - .agents/skills/outcome-framing/examples.md
+  - .claude/skills/outcome-framing
+  - .claude/skills/outcome-framing/SKILL.md
+  - .claude/skills/outcome-framing/examples.md
+  deployed_file_hashes:
+    .agents/skills/outcome-framing/SKILL.md: sha256:9521d7a65d1b7a9736de8a34621e5683e2ed4b0a425c2b697d16a689b2115885
+    .agents/skills/outcome-framing/examples.md: sha256:3fc70c42c871f88686247f25e365c1eac8f6402152b19f28f1da0fced428d0f9
+    .claude/skills/outcome-framing/SKILL.md: sha256:9521d7a65d1b7a9736de8a34621e5683e2ed4b0a425c2b697d16a689b2115885
+    .claude/skills/outcome-framing/examples.md: sha256:3fc70c42c871f88686247f25e365c1eac8f6402152b19f28f1da0fced428d0f9
+  source: local
+  local_path: ./src/skills/sdlc/outcome-framing
+  is_dev: true
 - repo_url: _local/paas-pulumi-infra-setup
   name: paas-pulumi-infra-setup
   version: 0.1.0
@@ -158,9 +177,9 @@ dependencies:
   - .claude/skills/setup-katana-skills/SKILL.md
   - .claude/skills/setup-katana-skills/agents-block.md
   deployed_file_hashes:
-    .agents/skills/setup-katana-skills/SKILL.md: sha256:1ea5b6e99c3d304a181534319acd258d435cc23ed64824f142a23fb959b8479f
+    .agents/skills/setup-katana-skills/SKILL.md: sha256:e74aff444d90abe89ac695be2e685573f4156f3af4d9ae121afeb19a2955e927
     .agents/skills/setup-katana-skills/agents-block.md: sha256:f9fcdf3ee858d2f58d6b98ae22eb6cc00d6987d69b36a352ecfc7573bdb38088
-    .claude/skills/setup-katana-skills/SKILL.md: sha256:1ea5b6e99c3d304a181534319acd258d435cc23ed64824f142a23fb959b8479f
+    .claude/skills/setup-katana-skills/SKILL.md: sha256:e74aff444d90abe89ac695be2e685573f4156f3af4d9ae121afeb19a2955e927
     .claude/skills/setup-katana-skills/agents-block.md: sha256:f9fcdf3ee858d2f58d6b98ae22eb6cc00d6987d69b36a352ecfc7573bdb38088
   source: local
   local_path: ./src/skills/setup-katana-skills
@@ -490,6 +509,33 @@ deployments:
   content_hash: sha256:1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b
 - kind: project-relative
   target: agent-skills
+  value: .agents/skills/outcome-framing
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/outcome-framing
+  active_owner: ./src/skills/sdlc/outcome-framing
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/outcome-framing/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/outcome-framing
+  active_owner: ./src/skills/sdlc/outcome-framing
+  content_hash: sha256:9521d7a65d1b7a9736de8a34621e5683e2ed4b0a425c2b697d16a689b2115885
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/outcome-framing/examples.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/outcome-framing
+  active_owner: ./src/skills/sdlc/outcome-framing
+  content_hash: sha256:3fc70c42c871f88686247f25e365c1eac8f6402152b19f28f1da0fced428d0f9
+- kind: project-relative
+  target: agent-skills
   value: .agents/skills/paas-pulumi-infra-setup
   runtime: null
   scope: project
@@ -811,7 +857,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:1ea5b6e99c3d304a181534319acd258d435cc23ed64824f142a23fb959b8479f
+  content_hash: sha256:e74aff444d90abe89ac695be2e685573f4156f3af4d9ae121afeb19a2955e927
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/setup-katana-skills/agents-block.md
@@ -1037,6 +1083,33 @@ deployments:
   - mattpocock/skills
   active_owner: mattpocock/skills
   content_hash: sha256:1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b
+- kind: project-relative
+  target: claude
+  value: .claude/skills/outcome-framing
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/outcome-framing
+  active_owner: ./src/skills/sdlc/outcome-framing
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/outcome-framing/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/outcome-framing
+  active_owner: ./src/skills/sdlc/outcome-framing
+  content_hash: sha256:9521d7a65d1b7a9736de8a34621e5683e2ed4b0a425c2b697d16a689b2115885
+- kind: project-relative
+  target: claude
+  value: .claude/skills/outcome-framing/examples.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/outcome-framing
+  active_owner: ./src/skills/sdlc/outcome-framing
+  content_hash: sha256:3fc70c42c871f88686247f25e365c1eac8f6402152b19f28f1da0fced428d0f9
 - kind: project-relative
   target: claude
   value: .claude/skills/paas-pulumi-infra-setup
@@ -1360,7 +1433,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:1ea5b6e99c3d304a181534319acd258d435cc23ed64824f142a23fb959b8479f
+  content_hash: sha256:e74aff444d90abe89ac695be2e685573f4156f3af4d9ae121afeb19a2955e927
 - kind: project-relative
   target: claude
   value: .claude/skills/setup-katana-skills/agents-block.md
