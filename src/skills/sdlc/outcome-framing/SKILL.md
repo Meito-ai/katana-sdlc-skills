@@ -10,16 +10,16 @@ epic gets a **type**, a rung on the value **ladder**, a rewritten title and desc
 **success measure**, and one round of user verification.
 
 The skill reads and returns text; writing to a tracker belongs to whatever invoked it. Another skill
-may call it: it gets back the [output block](#output-block) per epic and uses only the `approved`
-ones.
+may call it: after verification it gets back an [output block](#output-block) for every epic the
+user accepted, plus every skipped item.
 
 ## Scope
 
 Frame **epics and anything above them**: initiatives, Linear projects, Jira epics, GitHub parent
 issues. Below that level the work is legitimately task-shaped: an issue states a task in plain words
 (Linear's _write issues, not user stories_), a bug or an operational task is Activity by nature. For
-those, classify, ask _"does this belong in an epic, and which one?"_, mark them `skipped`, and leave
-their wording alone.
+those, classify, ask _"does this belong in an epic, and which one?"_, skip them, and leave their
+wording alone.
 
 Write the rewrite in the epic's own language. The smell lists below are English examples: detect a
 smell by its meaning.
@@ -28,21 +28,27 @@ smell by its meaning.
 
 ### 1. Type
 
-Decide the type with two tests, in order:
+Walk the decision tree top-down; the first yes decides:
 
-1. **Compliance**: _would we do this if no external party required it?_ No (a regulation, contract,
-   certification, audit finding, or a vendor shutting something off forces it) → Compliance.
-2. **Product**: _would an external user or customer notice the change?_ Yes → Product. No (only the
-   team or the system notices) → **Tech**. Security hardening and cost reduction are Tech; performance
-   a user can feel is Product, with the latency as its KPI.
+1. **Compliance**: _does an external party require it?_ A regulation, contract, certification, audit
+   finding, or a vendor shutting something off. Yes → Compliance.
+2. **Product**: _would an external user or customer notice the change?_ Yes → Product. Performance a
+   user can feel is Product, with the latency as its KPI.
+3. **Tech**: _does the team or the system gain something measurable?_ A DORA metric or an
+   [architectural characteristic](#architectural-characteristics) improves. Yes → Tech. Security
+   hardening and cost reduction land here.
+4. **None of the above**: the epic states no beneficiary at all. Ask the user what it unlocks, and
+   classify the answer.
 
 End-of-life work splits on what the date does: if something stops working or a contract forbids it
 after the date → Compliance; if it only stops receiving patches → Tech (security).
 
-When the signals conflict, ask the user one question naming the two candidate types; never guess.
+When the epic does not tell you a node's answer (is that contract clause binding? would users feel
+this latency?), ask the user that node's question, naming the two candidate types; never guess.
 
-A **mixed** epic (users get faster checkout _and_ the team gets independent deploys) takes the
-primary type by the tests above and lists the other type's measure as a secondary success measure.
+A **mixed** epic (users get faster checkout _and_ the team gets independent deploys) answers yes at
+more than one node: the first yes is its primary type, and each later yes adds a secondary success
+measure.
 Suggest splitting it into two epics only when the halves could ship independently.
 
 Done when every item has a type with a one-line rationale.
@@ -69,7 +75,8 @@ Activity whatever it names inside: it holds work rather than delivering anything
 An Activity epic (spike, discovery, UAT) prompts _"what decision or capability does this unlock?"_;
 the answer is the parent outcome, and the rewrite frames that.
 
-Done when every item has a level as written, the level the rewrite reaches, and a one-line rationale.
+Done when every item has a level as written, the level the rewrite reaches, and a one-line rationale
+(reported under `Changed`).
 
 ### 3. Smells
 
@@ -125,24 +132,31 @@ Done when every epic has a measure and every unknown in it is a placeholder.
 Rewrite the description into these sections, in order:
 
 ```markdown
-## Why
+## Goal
 <the Outcome or Impact statement, one or two sentences>
-
-## Success measures
-- <measure>            (secondary measures of a mixed epic are marked "secondary")
 
 ## Scope
 <the original delivery details, reorganised>
 
 ## Out of scope
-<only when the original had one>
+<only when it draws a boundary worth stating>
+
+## Success measures / DoD
+- <measure>            (secondary measures of a mixed epic are marked "secondary")
 ```
 
 The original's delivery content all survives into `Scope`: what will be built is legitimate
 description material, only the title is outcome-first. Where the original contradicts the new framing
 (its stated goal is "ship the dashboard"), keep the text and list the contradiction under `Changed`.
-When nothing in the original supplies a `Why`, write the placeholder `[add why]` and put the question
-_"what decision or capability does this unlock?"_ to the user in step 7.
+When nothing in the original supplies a `Goal`, write the placeholder `[add goal]` and put the
+question _"what decision or capability does this unlock?"_ to the user in step 7.
+
+Write `Out of scope` when the original has one, or when the rewrite leaves a boundary a reader could
+miss: the unsplit half of a mixed epic, work the original mentions that the goal does not need. Omit
+the section otherwise.
+
+The success measures are the epic's definition of done: the epic is done when they are met, not when
+the scope ships.
 
 ### 7. Verify
 
@@ -153,9 +167,10 @@ One round of verification for the whole input. Show every output block, then ask
 
 Name the open placeholders in the question: accepting leaves them open, deliberately. After an edit,
 re-check only the edited text for smells, a missing measure, and new placeholders; report what you
-find in one line and mark the block `approved`, without a second round.
+find in one line, without a second round. An edited block counts as accepted; a rejected block is
+dropped from what you return.
 
-Done when every block is `approved`, `rejected` or `skipped`.
+Done when the user has accepted, edited or rejected every block.
 
 ## Output block
 
@@ -164,18 +179,17 @@ One per item, in this shape, so a calling skill can read it:
 ```
 ### <original title>
 Type:     product | tech | compliance - <rationale>
-Level:    <as written> -> <after rewrite> - <rationale>
 Smells:   <flagged words> | none
 Title:    <rewritten title>
 Description:
 <rewritten description, sections as in step 6>
-Changed:  <short list: type and level shift, sections added, contradictions kept>
+Changed:  <short list: level shift with its rationale, sections added, contradictions kept>
 Open:     <unresolved placeholders> | none
-Status:   draft | approved | rejected | skipped
 ```
 
-A `skipped` item carries `Type`, `Level`, the "belongs in an epic?" question under `Changed`, and its
-original title and description untouched.
+The ladder level from step 2 is shown to the user under `Changed` (`Output -> Outcome: names a
+feature, not a capability`). A skipped item has `Changed: skipped - <the "belongs in an epic?"
+question>`, and its original title and description untouched.
 
 ## Architectural characteristics
 
@@ -220,21 +234,20 @@ process); runtime and structural work fits the characteristics better.
 ```
 ### Daily Budget Threshold Implementation
 Type:     product - media planners would notice; nothing external mandates it
-Level:    Output -> Outcome - names a feature to implement, not a capability gained
 Smells:   Implementation
 Title:    Media planners will be able to set daily spend caps per flight, resulting in fewer budget overruns.
 Description:
-## Why
+## Goal
 Planners can cap daily spend per flight themselves instead of asking ops to intervene.
-
-## Success measures
-- Flights exceeding their daily budget: [add baseline] -> [add target]
 
 ## Scope
 [add scope]
-Changed:  added Why and Success measures; no original description to carry into Scope
+
+## Success measures / DoD
+- Flights exceeding their daily budget: [add baseline] -> [add target]
+Changed:  Output -> Outcome: names a feature to implement, not a capability gained; added Goal and
+          Success measures; no original description to carry into Scope
 Open:     [add baseline], [add target], [add scope]
-Status:   draft
 ```
 
 More worked cases, one per branch (tech, compliance, mixed, time-boxed, skipped issue), are in

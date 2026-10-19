@@ -51,10 +51,10 @@ dependencies:
   - .claude/skills/outcome-framing/SKILL.md
   - .claude/skills/outcome-framing/examples.md
   deployed_file_hashes:
-    .agents/skills/outcome-framing/SKILL.md: sha256:9521d7a65d1b7a9736de8a34621e5683e2ed4b0a425c2b697d16a689b2115885
-    .agents/skills/outcome-framing/examples.md: sha256:3fc70c42c871f88686247f25e365c1eac8f6402152b19f28f1da0fced428d0f9
-    .claude/skills/outcome-framing/SKILL.md: sha256:9521d7a65d1b7a9736de8a34621e5683e2ed4b0a425c2b697d16a689b2115885
-    .claude/skills/outcome-framing/examples.md: sha256:3fc70c42c871f88686247f25e365c1eac8f6402152b19f28f1da0fced428d0f9
+    .agents/skills/outcome-framing/SKILL.md: sha256:5a6d6d8a6c49bf2f8c16646ebef11116b511132f6fb9ff89351bb7b0ed5c1dfa
+    .agents/skills/outcome-framing/examples.md: sha256:e69e9035629cc1cfbe5f1d0b11568c126b003d148e04a10e1af19a000bab5b72
+    .claude/skills/outcome-framing/SKILL.md: sha256:5a6d6d8a6c49bf2f8c16646ebef11116b511132f6fb9ff89351bb7b0ed5c1dfa
+    .claude/skills/outcome-framing/examples.md: sha256:e69e9035629cc1cfbe5f1d0b11568c126b003d148e04a10e1af19a000bab5b72
   source: local
   local_path: ./src/skills/sdlc/outcome-framing
   is_dev: true
@@ -524,7 +524,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/outcome-framing
   active_owner: ./src/skills/sdlc/outcome-framing
-  content_hash: sha256:9521d7a65d1b7a9736de8a34621e5683e2ed4b0a425c2b697d16a689b2115885
+  content_hash: sha256:5a6d6d8a6c49bf2f8c16646ebef11116b511132f6fb9ff89351bb7b0ed5c1dfa
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/outcome-framing/examples.md
@@ -533,7 +533,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/outcome-framing
   active_owner: ./src/skills/sdlc/outcome-framing
-  content_hash: sha256:3fc70c42c871f88686247f25e365c1eac8f6402152b19f28f1da0fced428d0f9
+  content_hash: sha256:e69e9035629cc1cfbe5f1d0b11568c126b003d148e04a10e1af19a000bab5b72
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/paas-pulumi-infra-setup
@@ -1100,7 +1100,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/outcome-framing
   active_owner: ./src/skills/sdlc/outcome-framing
-  content_hash: sha256:9521d7a65d1b7a9736de8a34621e5683e2ed4b0a425c2b697d16a689b2115885
+  content_hash: sha256:5a6d6d8a6c49bf2f8c16646ebef11116b511132f6fb9ff89351bb7b0ed5c1dfa
 - kind: project-relative
   target: claude
   value: .claude/skills/outcome-framing/examples.md
@@ -1109,7 +1109,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/outcome-framing
   active_owner: ./src/skills/sdlc/outcome-framing
-  content_hash: sha256:3fc70c42c871f88686247f25e365c1eac8f6402152b19f28f1da0fced428d0f9
+  content_hash: sha256:e69e9035629cc1cfbe5f1d0b11568c126b003d148e04a10e1af19a000bab5b72
 - kind: project-relative
   target: claude
   value: .claude/skills/paas-pulumi-infra-setup
