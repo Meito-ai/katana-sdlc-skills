@@ -46,7 +46,7 @@ function findSkills(dir) {
 
 const skillDirs = findSkills(ROOT);
 
-// Self-reference entries in apm.yml, e.g. "- ./src/skills/sdlc/branch-shutdown".
+// Self-reference entries in apm.yml, e.g. "- ./src/skills/sdlc/branch-management/branch-shutdown".
 const apmYml = readFileSync(APM_YML, "utf8");
 const selfRefs = new Set(
   [...apmYml.matchAll(/^\s*-\s+\.\/(src\/skills\/[^\s#]+?)\/?\s*$/gm)].map((m) => m[1])

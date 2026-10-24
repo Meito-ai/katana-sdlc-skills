@@ -18,10 +18,10 @@ The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/sk
 
 | Skill | `<path>` | Wiring it needs | Available when |
 |---|---|---|---|
-| `bare-clone-workflow` | `sdlc/bare-clone-workflow` | worktree rules, bootstrap commands, the layout itself | always |
-| `branch-shutdown` | `sdlc/branch-shutdown` | one rule naming the default branch | always |
-| `review-visual` | `sdlc/review-visual` | the marker-skip rule | `origin` is on GitHub |
-| `outcome-framing` | `sdlc/outcome-framing` | none: invoked on demand or by issue-creation skills | always |
+| `bare-clone-workflow` | `sdlc/branch-management/bare-clone-workflow` | worktree rules, bootstrap commands, the layout itself | always |
+| `branch-shutdown` | `sdlc/branch-management/branch-shutdown` | one rule naming the default branch | always |
+| `review-visual` | `sdlc/code-review/review-visual` | the marker-skip rule | `origin` is on GitHub |
+| `outcome-framing` | `sdlc/feature-management/outcome-framing` | none: invoked on demand or by issue-creation skills | always |
 | `paas-pulumi-infra-setup` | `paas/paas-pulumi-infra-setup` | none: a one-time, user-run scaffold that writes its own pointer line when run | always |
 
 This is a prompt-driven skill. Explore, present, confirm, then write. Nothing is committed: the user
@@ -95,7 +95,7 @@ Only when the user said yes to the conversion.
 
 Follow the in-place procedure in `bare-clone-workflow`'s `reference.md`. When that skill is not
 deployed yet, fetch the procedure without touching the repo: in a scratch directory outside it, write an
-`apm.yml` whose one dependency is `Meito-ai/katana-sdlc-skills/src/skills/sdlc/bare-clone-workflow` at
+`apm.yml` whose one dependency is `Meito-ai/katana-sdlc-skills/src/skills/sdlc/branch-management/bare-clone-workflow` at
 setup's ref (targets: `agent-skills`), run `apm install`, and read
 `.agents/skills/bare-clone-workflow/reference.md` there.
 

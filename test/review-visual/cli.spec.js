@@ -5,9 +5,9 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, test } from 'node:test';
 
-import { BEHAVIORAL_DELTA_LABEL, CHANGE_SHAPE_LABEL, REVIEW_VISUAL_MARKER } from '../../src/skills/sdlc/review-visual/scripts/contract.mjs';
+import { BEHAVIORAL_DELTA_LABEL, CHANGE_SHAPE_LABEL, REVIEW_VISUAL_MARKER } from '../../src/skills/sdlc/code-review/review-visual/scripts/contract.mjs';
 
-const CLI_PATH = new URL('../../src/skills/sdlc/review-visual/scripts/cli.mjs', import.meta.url).pathname;
+const CLI_PATH = new URL('../../src/skills/sdlc/code-review/review-visual/scripts/cli.mjs', import.meta.url).pathname;
 const HEAD_SHA = 'a1b2c3d4e5f60718293a4b5c6d7e8f9012345678';
 
 const CONTENT = [

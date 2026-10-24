@@ -15,7 +15,7 @@ import {
   renderNoOpComment,
   renderStampLine,
   toShortSha,
-} from '../../src/skills/sdlc/review-visual/scripts/contract.mjs';
+} from '../../src/skills/sdlc/code-review/review-visual/scripts/contract.mjs';
 
 const SHA = 'a1b2c3d4e5f60718293a4b5c6d7e8f9012345678';
 
