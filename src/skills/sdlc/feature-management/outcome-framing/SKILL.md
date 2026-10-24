@@ -158,6 +158,10 @@ the section otherwise.
 The success measures are the epic's definition of done: the epic is done when they are met, not when
 the scope ships.
 
+An existing `## WSJF` section (the `wsjf` skill's score) is carried through byte-for-byte as the last
+section. When the rewrite changed the type or the success measures, add `WSJF may be stale: re-score`
+to `Changed`, since BV and RR/OE rest on them.
+
 ### 7. Verify
 
 One round of verification for the whole input. Show every output block, then ask once:

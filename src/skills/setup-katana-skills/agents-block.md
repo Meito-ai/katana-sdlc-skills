@@ -31,6 +31,10 @@ Bootstrap a new worktree: copy {{copy-files}} from a sibling worktree, run `{{in
 Retire a merged or abandoned branch with the `branch-shutdown` skill, run from the `{{default-branch}}`
 worktree: it proves the work survives on `{{default-branch}}` before deleting anything.
 
+### WSJF
+
+Score and rank epics and vertical slices with the `wsjf` skill. WSJF scope: {{wsjf-scope}}.
+
 ### Review visual
 
 A PR comment containing `katana:review-visual` is a generated diagram for human reviewers, never

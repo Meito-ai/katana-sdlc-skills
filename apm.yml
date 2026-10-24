@@ -57,6 +57,7 @@ devDependencies:
     - ./src/skills/sdlc/branch-management/branch-shutdown
     - ./src/skills/sdlc/code-review/review-visual
     - ./src/skills/sdlc/feature-management/outcome-framing
+    - ./src/skills/sdlc/feature-management/wsjf
     - ./src/skills/setup-katana-skills
     - ./src/skills/paas/paas-pulumi-infra-setup
 

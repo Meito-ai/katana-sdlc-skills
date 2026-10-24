@@ -22,6 +22,7 @@ The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/sk
 | `branch-shutdown` | `sdlc/branch-management/branch-shutdown` | one rule naming the default branch | always |
 | `review-visual` | `sdlc/code-review/review-visual` | the marker-skip rule | `origin` is on GitHub |
 | `outcome-framing` | `sdlc/feature-management/outcome-framing` | none: invoked on demand or by issue-creation skills | always |
+| `wsjf` | `sdlc/feature-management/wsjf` | the default comparison scope | always |
 | `paas-pulumi-infra-setup` | `paas/paas-pulumi-infra-setup` | none: a one-time, user-run scaffold that writes its own pointer line when run | always |
 
 This is a prompt-driven skill. Explore, present, confirm, then write. Nothing is committed: the user
@@ -54,6 +55,8 @@ Read the repo's actual state; assume nothing.
 - **Tooling** (for `review-visual`): `node --version` (>= 20) and `gh auth status`.
 - **PR workflow doc** (for `review-visual`): a doc describing how PRs are opened here, e.g.
   `CONTRIBUTING.md` or `docs/**/development*.md`.
+- **Tracker** (for `wsjf`): where this repo's epics live. A GitHub `origin` suggests its issues; a
+  connected Linear MCP can list teams and projects; an existing `WSJF scope` line in the block wins.
 
 Done when every bullet has an answer.
 
@@ -75,6 +78,9 @@ recommended answer so the user can accept it in a word. Skip a question explorat
    sibling worktree, and a verify command (build or test), from the bootstrap signals.
 5. **PR workflow line** (`review-visual` picked, a PR workflow doc found). Recommend adding one line to
    it: after opening a PR, optionally post a review visual.
+6. **WSJF scope** (`wsjf` picked). Propose the default comparison scope from the tracker signals: a
+   Linear team or project, or the GitHub repo. The user may leave it unset; the skill then asks on
+   each run, and the `### WSJF` subsection is dropped.
 
 ## 3. Draft
 
