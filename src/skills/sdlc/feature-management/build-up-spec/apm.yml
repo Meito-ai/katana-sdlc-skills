@@ -1,0 +1,21 @@
+# Per-skill manifest: consumers install this skill by its subpath, and a
+# subpath install reads THIS file, not the repo root's.
+#
+# `version:` is kept equal to package.json by scripts/sync-apm-version.js.
+name: build-up-spec
+version: 0.1.0
+description: Shape an idea or a raw backlog item into an epic with a PRD, or an agent-sized issue
+license: MIT
+
+# Only the upstream skill is declared. The katana skills this one calls
+# (outcome-framing, wsjf, slice-epic) are deliberately absent: a transitive git
+# copy of a katana skill replaces the local self-reference in this repo (see
+# AGENTS.md), so setup-katana-skills installs them instead. SKILL.md states
+# every requirement in prose, because a consumer's own pin of
+# mattpocock/skills wins silently and drops this subset.
+dependencies:
+  apm:
+    - git: mattpocock/skills
+      ref: "^1.2.0"
+      skills:
+        - productivity/grilling

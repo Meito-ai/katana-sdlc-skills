@@ -39,9 +39,9 @@ Reference each skill you want by its subpath:
 ```yaml
 dependencies:
   apm:
-    - git: Meito-ai/katana-sdlc-skills/src/skills/bare-clone-workflow
+    - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/branch-management/bare-clone-workflow
       ref: v0.2.0
-    - git: Meito-ai/katana-sdlc-skills/src/skills/branch-shutdown
+    - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/branch-management/branch-shutdown
       ref: v0.2.0
 ```
 
@@ -68,9 +68,13 @@ Each skill lives at [`src/skills/`](./src/skills).
 
 | Skill | What it does |
 |---|---|
-| [`bare-clone-workflow`](./src/skills/bare-clone-workflow) | Git bare-clone worktree layouts: a container directory holding `.bare`, one sibling worktree per branch, no primary checkout. Clones into the layout, converts an existing clone, adds worktrees. |
-| [`branch-shutdown`](./src/skills/branch-shutdown) | Retires a merged or abandoned branch. Fetches from the remote and proves the work survives on the default branch — including squash-merges — before deleting the worktree, the local branch or the remote branch. |
-| [`review-visual`](./src/skills/review-visual) | Posts a sticky PR comment showing the change's *behavioral delta* — a Mermaid diagram or control-flow diff for the human reviewer — stamped with the PR head sha. GitHub only; needs `gh` and Node.js >= 20 on the machine, but not a Node repo. |
+| [`bare-clone-workflow`](./src/skills/sdlc/branch-management/bare-clone-workflow) | Git bare-clone worktree layouts: a container directory holding `.bare`, one sibling worktree per branch, no primary checkout. Clones into the layout, converts an existing clone, adds worktrees. |
+| [`branch-shutdown`](./src/skills/sdlc/branch-management/branch-shutdown) | Retires a merged or abandoned branch. Fetches from the remote and proves the work survives on the default branch — including squash-merges — before deleting the worktree, the local branch or the remote branch. |
+| [`review-visual`](./src/skills/sdlc/code-review/review-visual) | Posts a sticky PR comment showing the change's *behavioral delta* — a Mermaid diagram or control-flow diff for the human reviewer — stamped with the PR head sha. GitHub only; needs `gh` and Node.js >= 20 on the machine, but not a Node repo. |
+| [`outcome-framing`](./src/skills/sdlc/feature-management/outcome-framing) | Refines an epic into outcome framing: classifies it as product, tech or compliance and on the Input-to-Impact ladder, flags prescriptive language, and rewrites its title and description around a measurable result (a KPI, a DORA metric, a fitness function, or a met obligation), confirmed with you in one round. |
+| [`wsjf`](./src/skills/sdlc/feature-management/wsjf) | Scores and ranks epics and stories (user stories and tech stories) by WSJF: cost of delay ((value + risk reduction/opportunity enablement) × time criticality) over job size, each a Fibonacci score relative to already-scored items. Calibrates a reference set on a cold start, ranks with a bundled dependency-free script, and writes a `## WSJF` block back to the tracker after one round of verification. |
+| [`build-up-spec`](./src/skills/sdlc/feature-management/build-up-spec) | User-invoked (`/build-up-spec`). Turns an idea, a raw backlog item or nothing at all into an **epic** (an issue card plus an attached PRD) or an **issue** one agent session can finish. Explores the repo, searches the tracker for duplicates, grills you on the scope, writes EARS requirements, then hands off to `outcome-framing` and `wsjf` before publishing. Every fact is sourced or left as a placeholder. Installs `grilling` from `mattpocock/skills` with it, and needs `outcome-framing`, `wsjf` and `slice-epic`. |
+| [`slice-epic`](./src/skills/sdlc/feature-management/slice-epic) | Slices an epic into tracer-bullet issues sized for one fresh agent session, each covering requirements from the epic's PRD, with EARS acceptance criteria, native blocking links, and WSJF for the slices that are stories. Adapted from `to-tickets` in `mattpocock/skills`. Needs `wsjf`. |
 | [`paas-pulumi-infra-setup`](./src/skills/paas/paas-pulumi-infra-setup) | User-invoked (`/paas-pulumi-infra-setup`). Interviews you and scaffolds the infra layer of a home-grown PaaS with Pulumi in TypeScript: server groups, private network, firewalls and static IPs on one of ten providers, with stacks, unit tests, an optional CI workflow and a runbook. Node.js repos; never deploys. Installs `pulumi-overview`, `pulumi-best-practices` and `pulumi-component` from `pulumi/agent-skills` with it. |
 | [`setup-katana-skills`](./src/skills/setup-katana-skills) | User-invoked (`/setup-katana-skills`). Picks which of the above this repo uses, installs them with apm, and wires each into `AGENTS.md` / `CLAUDE.md`. |
 

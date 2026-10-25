@@ -18,6 +18,10 @@
  *     publishes to consumers, but `apm install` does not deploy it into this
  *     repo's .claude/skills/ -- so you cannot use or test your own skill while
  *     writing it, and nothing tells you why.
+ *  4. A skill's own apm.yml must not declare a dependency on this repo. The
+ *     transitive git copy replaces the local self-reference on `apm install`
+ *     ("last installed wins", in either entry order), so the published
+ *     version of the sibling would overwrite the one being edited.
  */
 import { readdirSync, readFileSync, existsSync, statSync } from "node:fs";
 import { join, relative, sep } from "node:path";
@@ -46,11 +50,16 @@ function findSkills(dir) {
 
 const skillDirs = findSkills(ROOT);
 
-// Self-reference entries in apm.yml, e.g. "- ./src/skills/sdlc/branch-shutdown".
+// Self-reference entries in apm.yml, e.g. "- ./src/skills/sdlc/branch-management/branch-shutdown".
 const apmYml = readFileSync(APM_YML, "utf8");
 const selfRefs = new Set(
   [...apmYml.matchAll(/^\s*-\s+\.\/(src\/skills\/[^\s#]+?)\/?\s*$/gm)].map((m) => m[1])
 );
+
+// This repo as "owner/name", from the root apm.yml's `repository:` URL.
+const thisRepo = apmYml
+  .match(/^repository:[ \t]*["']?https?:\/\/[^/\s]+\/([^/\s"']+\/[^/\s"'#]+?)(?:\.git)?["']?[ \t]*$/m)?.[1];
+if (!thisRepo) errors.push(`${APM_YML} has no "repository:" URL to check sibling dependencies against`);
 
 for (const dir of skillDirs) {
   const name = dir.split(sep).pop();
@@ -75,6 +84,20 @@ for (const dir of skillDirs) {
   if (!description) errors.push(`${skillMd} frontmatter has no "description:" field`);
   else if (description.length > 1024) {
     errors.push(`${skillMd} description is ${description.length} chars (apm limit: 1024)`);
+  }
+
+  const skillApm = join(dir, APM_YML);
+  if (thisRepo && existsSync(skillApm)) {
+    // `- git: owner/name/...`, `- git: https://host/owner/name...` or the `- owner/name/...` shorthand.
+    const repo = thisRepo.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const own = new RegExp(`^\\s*(?:-\\s*)?(?:git:\\s*)?["']?(?:https?://[^/\\s]+/)?${repo}(?:[/#"'\\s]|\\.git|$)`, "im");
+    if (own.test(readFileSync(skillApm, "utf8"))) {
+      errors.push(
+        `${skillApm} declares a dependency on ${thisRepo} itself.\n` +
+          `    On apm install the published copy replaces the local self-reference.\n` +
+          `    State the sibling in SKILL.md and let setup-katana-skills install it.`
+      );
+    }
   }
 
   const refPath = relative(".", dir).split(sep).join("/");

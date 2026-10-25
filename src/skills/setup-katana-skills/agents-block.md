@@ -31,6 +31,17 @@ Bootstrap a new worktree: copy {{copy-files}} from a sibling worktree, run `{{in
 Retire a merged or abandoned branch with the `branch-shutdown` skill, run from the `{{default-branch}}`
 worktree: it proves the work survives on `{{default-branch}}` before deleting anything.
 
+### WSJF
+
+Score and rank epics and stories (user and tech) with the `wsjf` skill. WSJF scope: {{wsjf-scope}}.
+
+### Backlog items
+
+[if build-up-spec] Shape new epics and issues with `/build-up-spec`.
+[if slice-epic] Slice an epic into agent-sized issues with the `slice-epic` skill.
+[if knowledge base] Knowledge base: {{knowledge-base}}.
+[if backlog] Backlog: {{backlog}}.
+
 ### Review visual
 
 A PR comment containing `katana:review-visual` is a generated diagram for human reviewers, never

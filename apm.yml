@@ -53,9 +53,13 @@ devDependencies:
     # Without an entry here a skill under src/skills/ is still published to
     # consumers, but is NOT installed into this repo's .claude/skills/, so you
     # cannot use it while authoring. One line per skill; CI enforces the pairing.
-    - ./src/skills/bare-clone-workflow
-    - ./src/skills/branch-shutdown
-    - ./src/skills/review-visual
+    - ./src/skills/sdlc/branch-management/bare-clone-workflow
+    - ./src/skills/sdlc/branch-management/branch-shutdown
+    - ./src/skills/sdlc/code-review/review-visual
+    - ./src/skills/sdlc/feature-management/outcome-framing
+    - ./src/skills/sdlc/feature-management/wsjf
+    - ./src/skills/sdlc/feature-management/build-up-spec
+    - ./src/skills/sdlc/feature-management/slice-epic
     - ./src/skills/setup-katana-skills
     - ./src/skills/paas/paas-pulumi-infra-setup
 

@@ -15,14 +15,14 @@ dependencies:
   - .claude/skills/bare-clone-workflow/reference.md
   - .claude/skills/bare-clone-workflow/scripts/bare-clone-init.sh
   deployed_file_hashes:
-    .agents/skills/bare-clone-workflow/SKILL.md: sha256:c7c7400c6a07a34caf5f03602a6a4b7af7b83a008f6d20e51d33f239855ce86b
+    .agents/skills/bare-clone-workflow/SKILL.md: sha256:eddec2f8cc8994158b477596a640f176be2237682e87e6b961e2234687c055e1
     .agents/skills/bare-clone-workflow/reference.md: sha256:c97530c3ab2c69a6f34df9daa1fddfe2762f77c21b482ab725ca385744d48a39
     .agents/skills/bare-clone-workflow/scripts/bare-clone-init.sh: sha256:fad95e80c4976e6c100a45b966d3efb9e121c0e0febcf13d6b052772ecb726d7
-    .claude/skills/bare-clone-workflow/SKILL.md: sha256:c7c7400c6a07a34caf5f03602a6a4b7af7b83a008f6d20e51d33f239855ce86b
+    .claude/skills/bare-clone-workflow/SKILL.md: sha256:eddec2f8cc8994158b477596a640f176be2237682e87e6b961e2234687c055e1
     .claude/skills/bare-clone-workflow/reference.md: sha256:c97530c3ab2c69a6f34df9daa1fddfe2762f77c21b482ab725ca385744d48a39
     .claude/skills/bare-clone-workflow/scripts/bare-clone-init.sh: sha256:fad95e80c4976e6c100a45b966d3efb9e121c0e0febcf13d6b052772ecb726d7
   source: local
-  local_path: ./src/skills/bare-clone-workflow
+  local_path: ./src/skills/sdlc/branch-management/bare-clone-workflow
   is_dev: true
 - repo_url: _local/branch-shutdown
   name: branch-shutdown
@@ -34,10 +34,53 @@ dependencies:
   - .claude/skills/branch-shutdown
   - .claude/skills/branch-shutdown/SKILL.md
   deployed_file_hashes:
-    .agents/skills/branch-shutdown/SKILL.md: sha256:cf039ab8fea4831d58b3feb32e7dbacef2bc7c69b4cc18db3da64e3df170996e
-    .claude/skills/branch-shutdown/SKILL.md: sha256:cf039ab8fea4831d58b3feb32e7dbacef2bc7c69b4cc18db3da64e3df170996e
+    .agents/skills/branch-shutdown/SKILL.md: sha256:336547e0c796889e8e185432a56c73fd213221ed9aa0e4248552a10bddda08d1
+    .claude/skills/branch-shutdown/SKILL.md: sha256:336547e0c796889e8e185432a56c73fd213221ed9aa0e4248552a10bddda08d1
   source: local
-  local_path: ./src/skills/branch-shutdown
+  local_path: ./src/skills/sdlc/branch-management/branch-shutdown
+  is_dev: true
+- repo_url: _local/build-up-spec
+  name: build-up-spec
+  version: 0.1.0
+  package_type: hybrid
+  deployed_files:
+  - .agents/skills/build-up-spec
+  - .agents/skills/build-up-spec/SKILL.md
+  - .agents/skills/build-up-spec/apm.yml
+  - .agents/skills/build-up-spec/templates.md
+  - .claude/skills/build-up-spec
+  - .claude/skills/build-up-spec/SKILL.md
+  - .claude/skills/build-up-spec/apm.yml
+  - .claude/skills/build-up-spec/templates.md
+  deployed_file_hashes:
+    .agents/skills/build-up-spec/SKILL.md: sha256:0c146c02f8995efc4645727f435603cdcd5590e57c465a8817706972ed0c5650
+    .agents/skills/build-up-spec/apm.yml: sha256:c9e6e731793dec589a017a5494bc8cc3a269f1273e525b7dd0d6822ffeae3e87
+    .agents/skills/build-up-spec/templates.md: sha256:a20ce35e849b243af20f9fee483074d946d1214f1f441335e77fa3a209aeece4
+    .claude/skills/build-up-spec/SKILL.md: sha256:0c146c02f8995efc4645727f435603cdcd5590e57c465a8817706972ed0c5650
+    .claude/skills/build-up-spec/apm.yml: sha256:c9e6e731793dec589a017a5494bc8cc3a269f1273e525b7dd0d6822ffeae3e87
+    .claude/skills/build-up-spec/templates.md: sha256:a20ce35e849b243af20f9fee483074d946d1214f1f441335e77fa3a209aeece4
+  source: local
+  local_path: ./src/skills/sdlc/feature-management/build-up-spec
+  is_dev: true
+  declared_license: MIT
+- repo_url: _local/outcome-framing
+  name: outcome-framing
+  version: unknown
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/outcome-framing
+  - .agents/skills/outcome-framing/SKILL.md
+  - .agents/skills/outcome-framing/examples.md
+  - .claude/skills/outcome-framing
+  - .claude/skills/outcome-framing/SKILL.md
+  - .claude/skills/outcome-framing/examples.md
+  deployed_file_hashes:
+    .agents/skills/outcome-framing/SKILL.md: sha256:85b51f95f6a8c3a66ae645a8f93fbe32293ce591a1ebf2c0f3fac3910644e7a0
+    .agents/skills/outcome-framing/examples.md: sha256:e69e9035629cc1cfbe5f1d0b11568c126b003d148e04a10e1af19a000bab5b72
+    .claude/skills/outcome-framing/SKILL.md: sha256:85b51f95f6a8c3a66ae645a8f93fbe32293ce591a1ebf2c0f3fac3910644e7a0
+    .claude/skills/outcome-framing/examples.md: sha256:e69e9035629cc1cfbe5f1d0b11568c126b003d148e04a10e1af19a000bab5b72
+  source: local
+  local_path: ./src/skills/sdlc/feature-management/outcome-framing
   is_dev: true
 - repo_url: _local/paas-pulumi-infra-setup
   name: paas-pulumi-infra-setup
@@ -144,7 +187,7 @@ dependencies:
     .claude/skills/review-visual/scripts/comment.mjs: sha256:6a85dd6092986375413c949cba8d3865b13aa27bea6e7915009e4100e2bcd127
     .claude/skills/review-visual/scripts/contract.mjs: sha256:0ba3519a6d06046113417cabc9db78726713e915140ba5d87e21fe4c3b89c2c0
   source: local
-  local_path: ./src/skills/review-visual
+  local_path: ./src/skills/sdlc/code-review/review-visual
   is_dev: true
 - repo_url: _local/setup-katana-skills
   name: setup-katana-skills
@@ -158,12 +201,58 @@ dependencies:
   - .claude/skills/setup-katana-skills/SKILL.md
   - .claude/skills/setup-katana-skills/agents-block.md
   deployed_file_hashes:
-    .agents/skills/setup-katana-skills/SKILL.md: sha256:4cd0293dd2071224068d46bbd6bb75a494cf1373476b137bb1191f978efed423
-    .agents/skills/setup-katana-skills/agents-block.md: sha256:f9fcdf3ee858d2f58d6b98ae22eb6cc00d6987d69b36a352ecfc7573bdb38088
-    .claude/skills/setup-katana-skills/SKILL.md: sha256:4cd0293dd2071224068d46bbd6bb75a494cf1373476b137bb1191f978efed423
-    .claude/skills/setup-katana-skills/agents-block.md: sha256:f9fcdf3ee858d2f58d6b98ae22eb6cc00d6987d69b36a352ecfc7573bdb38088
+    .agents/skills/setup-katana-skills/SKILL.md: sha256:324bda66283b1deed10afd0d4bf99d6c2e71649fd74193fd6179e2854109a0e7
+    .agents/skills/setup-katana-skills/agents-block.md: sha256:550e57fafde760ae8f17183fc8b4363db78320c7f528a22b0682afd9d382ccac
+    .claude/skills/setup-katana-skills/SKILL.md: sha256:324bda66283b1deed10afd0d4bf99d6c2e71649fd74193fd6179e2854109a0e7
+    .claude/skills/setup-katana-skills/agents-block.md: sha256:550e57fafde760ae8f17183fc8b4363db78320c7f528a22b0682afd9d382ccac
   source: local
   local_path: ./src/skills/setup-katana-skills
+  is_dev: true
+- repo_url: _local/slice-epic
+  name: slice-epic
+  version: unknown
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/slice-epic
+  - .agents/skills/slice-epic/LICENSE-mattpocock-skills
+  - .agents/skills/slice-epic/SKILL.md
+  - .agents/skills/slice-epic/ears.md
+  - .agents/skills/slice-epic/issue-template.md
+  - .claude/skills/slice-epic
+  - .claude/skills/slice-epic/LICENSE-mattpocock-skills
+  - .claude/skills/slice-epic/SKILL.md
+  - .claude/skills/slice-epic/ears.md
+  - .claude/skills/slice-epic/issue-template.md
+  deployed_file_hashes:
+    .agents/skills/slice-epic/LICENSE-mattpocock-skills: sha256:a35c814fa5eb666cb73841f7c3e711c80c1a414871c77c5d182943c98f8cbd5d
+    .agents/skills/slice-epic/SKILL.md: sha256:6d3320a3b2e529fbf33aa3ae9ad57608d6f6e3c2d6364e9108fb429f5d9ff0c4
+    .agents/skills/slice-epic/ears.md: sha256:db6d52862ef92c31c7a1b4c39360935cca1b4fc8709ee6ecc7f843b5cd12a06d
+    .agents/skills/slice-epic/issue-template.md: sha256:379ba675e5b1c23cbfa452586a9db92f80ee52a34a55e7cbe8bf5850157be6e3
+    .claude/skills/slice-epic/LICENSE-mattpocock-skills: sha256:a35c814fa5eb666cb73841f7c3e711c80c1a414871c77c5d182943c98f8cbd5d
+    .claude/skills/slice-epic/SKILL.md: sha256:6d3320a3b2e529fbf33aa3ae9ad57608d6f6e3c2d6364e9108fb429f5d9ff0c4
+    .claude/skills/slice-epic/ears.md: sha256:db6d52862ef92c31c7a1b4c39360935cca1b4fc8709ee6ecc7f843b5cd12a06d
+    .claude/skills/slice-epic/issue-template.md: sha256:379ba675e5b1c23cbfa452586a9db92f80ee52a34a55e7cbe8bf5850157be6e3
+  source: local
+  local_path: ./src/skills/sdlc/feature-management/slice-epic
+  is_dev: true
+- repo_url: _local/wsjf
+  name: wsjf
+  version: unknown
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/wsjf
+  - .agents/skills/wsjf/SKILL.md
+  - .agents/skills/wsjf/scripts/wsjf.mjs
+  - .claude/skills/wsjf
+  - .claude/skills/wsjf/SKILL.md
+  - .claude/skills/wsjf/scripts/wsjf.mjs
+  deployed_file_hashes:
+    .agents/skills/wsjf/SKILL.md: sha256:0100d089c299937e851766cf5e3095ee86d5ffd1d60e7b26a1986936d54176cd
+    .agents/skills/wsjf/scripts/wsjf.mjs: sha256:480e5f28c5a6a108f6291a646b87f5988926225a5de75c53779d987150dec5d4
+    .claude/skills/wsjf/SKILL.md: sha256:0100d089c299937e851766cf5e3095ee86d5ffd1d60e7b26a1986936d54176cd
+    .claude/skills/wsjf/scripts/wsjf.mjs: sha256:480e5f28c5a6a108f6291a646b87f5988926225a5de75c53779d987150dec5d4
+  source: local
+  local_path: ./src/skills/sdlc/feature-management/wsjf
   is_dev: true
 - repo_url: mattpocock/skills
   name: mattpocock-skills
@@ -314,8 +403,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/bare-clone-workflow
-  active_owner: ./src/skills/bare-clone-workflow
+  - ./src/skills/sdlc/branch-management/bare-clone-workflow
+  active_owner: ./src/skills/sdlc/branch-management/bare-clone-workflow
   content_hash: null
 - kind: project-relative
   target: agent-skills
@@ -323,17 +412,17 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/bare-clone-workflow
-  active_owner: ./src/skills/bare-clone-workflow
-  content_hash: sha256:c7c7400c6a07a34caf5f03602a6a4b7af7b83a008f6d20e51d33f239855ce86b
+  - ./src/skills/sdlc/branch-management/bare-clone-workflow
+  active_owner: ./src/skills/sdlc/branch-management/bare-clone-workflow
+  content_hash: sha256:eddec2f8cc8994158b477596a640f176be2237682e87e6b961e2234687c055e1
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/bare-clone-workflow/reference.md
   runtime: null
   scope: project
   owners:
-  - ./src/skills/bare-clone-workflow
-  active_owner: ./src/skills/bare-clone-workflow
+  - ./src/skills/sdlc/branch-management/bare-clone-workflow
+  active_owner: ./src/skills/sdlc/branch-management/bare-clone-workflow
   content_hash: sha256:c97530c3ab2c69a6f34df9daa1fddfe2762f77c21b482ab725ca385744d48a39
 - kind: project-relative
   target: agent-skills
@@ -341,8 +430,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/bare-clone-workflow
-  active_owner: ./src/skills/bare-clone-workflow
+  - ./src/skills/sdlc/branch-management/bare-clone-workflow
+  active_owner: ./src/skills/sdlc/branch-management/bare-clone-workflow
   content_hash: sha256:fad95e80c4976e6c100a45b966d3efb9e121c0e0febcf13d6b052772ecb726d7
 - kind: project-relative
   target: agent-skills
@@ -350,8 +439,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/branch-shutdown
-  active_owner: ./src/skills/branch-shutdown
+  - ./src/skills/sdlc/branch-management/branch-shutdown
+  active_owner: ./src/skills/sdlc/branch-management/branch-shutdown
   content_hash: null
 - kind: project-relative
   target: agent-skills
@@ -359,9 +448,45 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/branch-shutdown
-  active_owner: ./src/skills/branch-shutdown
-  content_hash: sha256:cf039ab8fea4831d58b3feb32e7dbacef2bc7c69b4cc18db3da64e3df170996e
+  - ./src/skills/sdlc/branch-management/branch-shutdown
+  active_owner: ./src/skills/sdlc/branch-management/branch-shutdown
+  content_hash: sha256:336547e0c796889e8e185432a56c73fd213221ed9aa0e4248552a10bddda08d1
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/build-up-spec
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/build-up-spec
+  active_owner: ./src/skills/sdlc/feature-management/build-up-spec
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/build-up-spec/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/build-up-spec
+  active_owner: ./src/skills/sdlc/feature-management/build-up-spec
+  content_hash: sha256:0c146c02f8995efc4645727f435603cdcd5590e57c465a8817706972ed0c5650
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/build-up-spec/apm.yml
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/build-up-spec
+  active_owner: ./src/skills/sdlc/feature-management/build-up-spec
+  content_hash: sha256:c9e6e731793dec589a017a5494bc8cc3a269f1273e525b7dd0d6822ffeae3e87
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/build-up-spec/templates.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/build-up-spec
+  active_owner: ./src/skills/sdlc/feature-management/build-up-spec
+  content_hash: sha256:a20ce35e849b243af20f9fee483074d946d1214f1f441335e77fa3a209aeece4
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/code-review
@@ -488,6 +613,33 @@ deployments:
   - mattpocock/skills
   active_owner: mattpocock/skills
   content_hash: sha256:1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/outcome-framing
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/outcome-framing
+  active_owner: ./src/skills/sdlc/feature-management/outcome-framing
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/outcome-framing/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/outcome-framing
+  active_owner: ./src/skills/sdlc/feature-management/outcome-framing
+  content_hash: sha256:85b51f95f6a8c3a66ae645a8f93fbe32293ce591a1ebf2c0f3fac3910644e7a0
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/outcome-framing/examples.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/outcome-framing
+  active_owner: ./src/skills/sdlc/feature-management/outcome-framing
+  content_hash: sha256:e69e9035629cc1cfbe5f1d0b11568c126b003d148e04a10e1af19a000bab5b72
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/paas-pulumi-infra-setup
@@ -755,8 +907,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/review-visual
-  active_owner: ./src/skills/review-visual
+  - ./src/skills/sdlc/code-review/review-visual
+  active_owner: ./src/skills/sdlc/code-review/review-visual
   content_hash: null
 - kind: project-relative
   target: agent-skills
@@ -764,8 +916,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/review-visual
-  active_owner: ./src/skills/review-visual
+  - ./src/skills/sdlc/code-review/review-visual
+  active_owner: ./src/skills/sdlc/code-review/review-visual
   content_hash: sha256:15424e3e839f8594ee005f5bf365c9cbb11d6195719fc1bb7ada00106a4560af
 - kind: project-relative
   target: agent-skills
@@ -773,8 +925,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/review-visual
-  active_owner: ./src/skills/review-visual
+  - ./src/skills/sdlc/code-review/review-visual
+  active_owner: ./src/skills/sdlc/code-review/review-visual
   content_hash: sha256:334673923aefe02ae0f6720711d2427a49340f5e15ea870ef4a0fc4758b0ae72
 - kind: project-relative
   target: agent-skills
@@ -782,8 +934,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/review-visual
-  active_owner: ./src/skills/review-visual
+  - ./src/skills/sdlc/code-review/review-visual
+  active_owner: ./src/skills/sdlc/code-review/review-visual
   content_hash: sha256:6a85dd6092986375413c949cba8d3865b13aa27bea6e7915009e4100e2bcd127
 - kind: project-relative
   target: agent-skills
@@ -791,8 +943,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/review-visual
-  active_owner: ./src/skills/review-visual
+  - ./src/skills/sdlc/code-review/review-visual
+  active_owner: ./src/skills/sdlc/code-review/review-visual
   content_hash: sha256:0ba3519a6d06046113417cabc9db78726713e915140ba5d87e21fe4c3b89c2c0
 - kind: project-relative
   target: agent-skills
@@ -811,7 +963,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:4cd0293dd2071224068d46bbd6bb75a494cf1373476b137bb1191f978efed423
+  content_hash: sha256:324bda66283b1deed10afd0d4bf99d6c2e71649fd74193fd6179e2854109a0e7
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/setup-katana-skills/agents-block.md
@@ -820,7 +972,52 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:f9fcdf3ee858d2f58d6b98ae22eb6cc00d6987d69b36a352ecfc7573bdb38088
+  content_hash: sha256:550e57fafde760ae8f17183fc8b4363db78320c7f528a22b0682afd9d382ccac
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/slice-epic
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/slice-epic
+  active_owner: ./src/skills/sdlc/feature-management/slice-epic
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/slice-epic/LICENSE-mattpocock-skills
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/slice-epic
+  active_owner: ./src/skills/sdlc/feature-management/slice-epic
+  content_hash: sha256:a35c814fa5eb666cb73841f7c3e711c80c1a414871c77c5d182943c98f8cbd5d
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/slice-epic/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/slice-epic
+  active_owner: ./src/skills/sdlc/feature-management/slice-epic
+  content_hash: sha256:6d3320a3b2e529fbf33aa3ae9ad57608d6f6e3c2d6364e9108fb429f5d9ff0c4
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/slice-epic/ears.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/slice-epic
+  active_owner: ./src/skills/sdlc/feature-management/slice-epic
+  content_hash: sha256:db6d52862ef92c31c7a1b4c39360935cca1b4fc8709ee6ecc7f843b5cd12a06d
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/slice-epic/issue-template.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/slice-epic
+  active_owner: ./src/skills/sdlc/feature-management/slice-epic
+  content_hash: sha256:379ba675e5b1c23cbfa452586a9db92f80ee52a34a55e7cbe8bf5850157be6e3
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/writing-for-agents
@@ -858,13 +1055,40 @@ deployments:
   active_owner: mattpocock/skills
   content_hash: sha256:eacb24b2a618cfb81dacb0416f4fdd75ddf3a8060f8ddb99aae1b1e301907e4b
 - kind: project-relative
+  target: agent-skills
+  value: .agents/skills/wsjf
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/wsjf
+  active_owner: ./src/skills/sdlc/feature-management/wsjf
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/wsjf/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/wsjf
+  active_owner: ./src/skills/sdlc/feature-management/wsjf
+  content_hash: sha256:0100d089c299937e851766cf5e3095ee86d5ffd1d60e7b26a1986936d54176cd
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/wsjf/scripts/wsjf.mjs
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/wsjf
+  active_owner: ./src/skills/sdlc/feature-management/wsjf
+  content_hash: sha256:480e5f28c5a6a108f6291a646b87f5988926225a5de75c53779d987150dec5d4
+- kind: project-relative
   target: claude
   value: .claude/skills/bare-clone-workflow
   runtime: null
   scope: project
   owners:
-  - ./src/skills/bare-clone-workflow
-  active_owner: ./src/skills/bare-clone-workflow
+  - ./src/skills/sdlc/branch-management/bare-clone-workflow
+  active_owner: ./src/skills/sdlc/branch-management/bare-clone-workflow
   content_hash: null
 - kind: project-relative
   target: claude
@@ -872,17 +1096,17 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/bare-clone-workflow
-  active_owner: ./src/skills/bare-clone-workflow
-  content_hash: sha256:c7c7400c6a07a34caf5f03602a6a4b7af7b83a008f6d20e51d33f239855ce86b
+  - ./src/skills/sdlc/branch-management/bare-clone-workflow
+  active_owner: ./src/skills/sdlc/branch-management/bare-clone-workflow
+  content_hash: sha256:eddec2f8cc8994158b477596a640f176be2237682e87e6b961e2234687c055e1
 - kind: project-relative
   target: claude
   value: .claude/skills/bare-clone-workflow/reference.md
   runtime: null
   scope: project
   owners:
-  - ./src/skills/bare-clone-workflow
-  active_owner: ./src/skills/bare-clone-workflow
+  - ./src/skills/sdlc/branch-management/bare-clone-workflow
+  active_owner: ./src/skills/sdlc/branch-management/bare-clone-workflow
   content_hash: sha256:c97530c3ab2c69a6f34df9daa1fddfe2762f77c21b482ab725ca385744d48a39
 - kind: project-relative
   target: claude
@@ -890,8 +1114,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/bare-clone-workflow
-  active_owner: ./src/skills/bare-clone-workflow
+  - ./src/skills/sdlc/branch-management/bare-clone-workflow
+  active_owner: ./src/skills/sdlc/branch-management/bare-clone-workflow
   content_hash: sha256:fad95e80c4976e6c100a45b966d3efb9e121c0e0febcf13d6b052772ecb726d7
 - kind: project-relative
   target: claude
@@ -899,8 +1123,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/branch-shutdown
-  active_owner: ./src/skills/branch-shutdown
+  - ./src/skills/sdlc/branch-management/branch-shutdown
+  active_owner: ./src/skills/sdlc/branch-management/branch-shutdown
   content_hash: null
 - kind: project-relative
   target: claude
@@ -908,9 +1132,45 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/branch-shutdown
-  active_owner: ./src/skills/branch-shutdown
-  content_hash: sha256:cf039ab8fea4831d58b3feb32e7dbacef2bc7c69b4cc18db3da64e3df170996e
+  - ./src/skills/sdlc/branch-management/branch-shutdown
+  active_owner: ./src/skills/sdlc/branch-management/branch-shutdown
+  content_hash: sha256:336547e0c796889e8e185432a56c73fd213221ed9aa0e4248552a10bddda08d1
+- kind: project-relative
+  target: claude
+  value: .claude/skills/build-up-spec
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/build-up-spec
+  active_owner: ./src/skills/sdlc/feature-management/build-up-spec
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/build-up-spec/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/build-up-spec
+  active_owner: ./src/skills/sdlc/feature-management/build-up-spec
+  content_hash: sha256:0c146c02f8995efc4645727f435603cdcd5590e57c465a8817706972ed0c5650
+- kind: project-relative
+  target: claude
+  value: .claude/skills/build-up-spec/apm.yml
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/build-up-spec
+  active_owner: ./src/skills/sdlc/feature-management/build-up-spec
+  content_hash: sha256:c9e6e731793dec589a017a5494bc8cc3a269f1273e525b7dd0d6822ffeae3e87
+- kind: project-relative
+  target: claude
+  value: .claude/skills/build-up-spec/templates.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/build-up-spec
+  active_owner: ./src/skills/sdlc/feature-management/build-up-spec
+  content_hash: sha256:a20ce35e849b243af20f9fee483074d946d1214f1f441335e77fa3a209aeece4
 - kind: project-relative
   target: claude
   value: .claude/skills/code-review
@@ -1037,6 +1297,33 @@ deployments:
   - mattpocock/skills
   active_owner: mattpocock/skills
   content_hash: sha256:1411d7df7d99b7e621a1ff8283c8133cc2464be63d064e52d8ce169c6800ee9b
+- kind: project-relative
+  target: claude
+  value: .claude/skills/outcome-framing
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/outcome-framing
+  active_owner: ./src/skills/sdlc/feature-management/outcome-framing
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/outcome-framing/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/outcome-framing
+  active_owner: ./src/skills/sdlc/feature-management/outcome-framing
+  content_hash: sha256:85b51f95f6a8c3a66ae645a8f93fbe32293ce591a1ebf2c0f3fac3910644e7a0
+- kind: project-relative
+  target: claude
+  value: .claude/skills/outcome-framing/examples.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/outcome-framing
+  active_owner: ./src/skills/sdlc/feature-management/outcome-framing
+  content_hash: sha256:e69e9035629cc1cfbe5f1d0b11568c126b003d148e04a10e1af19a000bab5b72
 - kind: project-relative
   target: claude
   value: .claude/skills/paas-pulumi-infra-setup
@@ -1304,8 +1591,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/review-visual
-  active_owner: ./src/skills/review-visual
+  - ./src/skills/sdlc/code-review/review-visual
+  active_owner: ./src/skills/sdlc/code-review/review-visual
   content_hash: null
 - kind: project-relative
   target: claude
@@ -1313,8 +1600,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/review-visual
-  active_owner: ./src/skills/review-visual
+  - ./src/skills/sdlc/code-review/review-visual
+  active_owner: ./src/skills/sdlc/code-review/review-visual
   content_hash: sha256:15424e3e839f8594ee005f5bf365c9cbb11d6195719fc1bb7ada00106a4560af
 - kind: project-relative
   target: claude
@@ -1322,8 +1609,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/review-visual
-  active_owner: ./src/skills/review-visual
+  - ./src/skills/sdlc/code-review/review-visual
+  active_owner: ./src/skills/sdlc/code-review/review-visual
   content_hash: sha256:334673923aefe02ae0f6720711d2427a49340f5e15ea870ef4a0fc4758b0ae72
 - kind: project-relative
   target: claude
@@ -1331,8 +1618,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/review-visual
-  active_owner: ./src/skills/review-visual
+  - ./src/skills/sdlc/code-review/review-visual
+  active_owner: ./src/skills/sdlc/code-review/review-visual
   content_hash: sha256:6a85dd6092986375413c949cba8d3865b13aa27bea6e7915009e4100e2bcd127
 - kind: project-relative
   target: claude
@@ -1340,8 +1627,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/review-visual
-  active_owner: ./src/skills/review-visual
+  - ./src/skills/sdlc/code-review/review-visual
+  active_owner: ./src/skills/sdlc/code-review/review-visual
   content_hash: sha256:0ba3519a6d06046113417cabc9db78726713e915140ba5d87e21fe4c3b89c2c0
 - kind: project-relative
   target: claude
@@ -1360,7 +1647,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:4cd0293dd2071224068d46bbd6bb75a494cf1373476b137bb1191f978efed423
+  content_hash: sha256:324bda66283b1deed10afd0d4bf99d6c2e71649fd74193fd6179e2854109a0e7
 - kind: project-relative
   target: claude
   value: .claude/skills/setup-katana-skills/agents-block.md
@@ -1369,7 +1656,52 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:f9fcdf3ee858d2f58d6b98ae22eb6cc00d6987d69b36a352ecfc7573bdb38088
+  content_hash: sha256:550e57fafde760ae8f17183fc8b4363db78320c7f528a22b0682afd9d382ccac
+- kind: project-relative
+  target: claude
+  value: .claude/skills/slice-epic
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/slice-epic
+  active_owner: ./src/skills/sdlc/feature-management/slice-epic
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/slice-epic/LICENSE-mattpocock-skills
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/slice-epic
+  active_owner: ./src/skills/sdlc/feature-management/slice-epic
+  content_hash: sha256:a35c814fa5eb666cb73841f7c3e711c80c1a414871c77c5d182943c98f8cbd5d
+- kind: project-relative
+  target: claude
+  value: .claude/skills/slice-epic/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/slice-epic
+  active_owner: ./src/skills/sdlc/feature-management/slice-epic
+  content_hash: sha256:6d3320a3b2e529fbf33aa3ae9ad57608d6f6e3c2d6364e9108fb429f5d9ff0c4
+- kind: project-relative
+  target: claude
+  value: .claude/skills/slice-epic/ears.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/slice-epic
+  active_owner: ./src/skills/sdlc/feature-management/slice-epic
+  content_hash: sha256:db6d52862ef92c31c7a1b4c39360935cca1b4fc8709ee6ecc7f843b5cd12a06d
+- kind: project-relative
+  target: claude
+  value: .claude/skills/slice-epic/issue-template.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/slice-epic
+  active_owner: ./src/skills/sdlc/feature-management/slice-epic
+  content_hash: sha256:379ba675e5b1c23cbfa452586a9db92f80ee52a34a55e7cbe8bf5850157be6e3
 - kind: project-relative
   target: claude
   value: .claude/skills/writing-for-agents
@@ -1406,3 +1738,30 @@ deployments:
   - mattpocock/skills
   active_owner: mattpocock/skills
   content_hash: sha256:eacb24b2a618cfb81dacb0416f4fdd75ddf3a8060f8ddb99aae1b1e301907e4b
+- kind: project-relative
+  target: claude
+  value: .claude/skills/wsjf
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/wsjf
+  active_owner: ./src/skills/sdlc/feature-management/wsjf
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/wsjf/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/wsjf
+  active_owner: ./src/skills/sdlc/feature-management/wsjf
+  content_hash: sha256:0100d089c299937e851766cf5e3095ee86d5ffd1d60e7b26a1986936d54176cd
+- kind: project-relative
+  target: claude
+  value: .claude/skills/wsjf/scripts/wsjf.mjs
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/wsjf
+  active_owner: ./src/skills/sdlc/feature-management/wsjf
+  content_hash: sha256:480e5f28c5a6a108f6291a646b87f5988926225a5de75c53779d987150dec5d4

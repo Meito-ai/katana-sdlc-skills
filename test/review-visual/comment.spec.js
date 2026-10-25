@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
 
-import { assertHeadMatchesPullRequest, findReviewVisualComment, upsertReviewVisualComment } from '../../src/skills/review-visual/scripts/comment.mjs';
-import { REVIEW_VISUAL_MARKER } from '../../src/skills/review-visual/scripts/contract.mjs';
+import { assertHeadMatchesPullRequest, findReviewVisualComment, upsertReviewVisualComment } from '../../src/skills/sdlc/code-review/review-visual/scripts/comment.mjs';
+import { REVIEW_VISUAL_MARKER } from '../../src/skills/sdlc/code-review/review-visual/scripts/contract.mjs';
 
 const VISUAL = { body: `${REVIEW_VISUAL_MARKER}\n## Review visual`, html_url: 'https://github.com/c/1', id: 1 };
 const HUMAN = { body: 'Please rename this port.', html_url: 'https://github.com/c/2', id: 2 };
