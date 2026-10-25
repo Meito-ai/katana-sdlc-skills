@@ -2,7 +2,7 @@
 "katana-sdlc-skills": minor
 ---
 
-Publish `wsjf`, which scores and ranks epics and vertical slices by Weighted Shortest Job First:
+Publish `wsjf`, which scores and ranks epics and stories (user stories and tech stories) by Weighted Shortest Job First:
 Cost of Delay = (User/Business Value + Risk Reduction/Opportunity Enablement) × Time Criticality,
 divided by Size, every input a Fibonacci value judged against already-scored items. A cold start
 calibrates 3–5 anchors with the user; a single-issue mode ranks one target, a backlog mode re-scores a

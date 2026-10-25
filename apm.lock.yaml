@@ -178,9 +178,9 @@ dependencies:
   - .claude/skills/setup-katana-skills/agents-block.md
   deployed_file_hashes:
     .agents/skills/setup-katana-skills/SKILL.md: sha256:4d1d945908b05960d1d09474705e7da18f42e60d95bfc78efc7c995f728942a1
-    .agents/skills/setup-katana-skills/agents-block.md: sha256:5dcfa2b1c6addbe443d5794f9b156656050ea21193407ca1c8fe777b6bac4a44
+    .agents/skills/setup-katana-skills/agents-block.md: sha256:e27e2b5b2df3446eed9234102d0ea47723d58d6c8865d32a41cf01227a32fdc7
     .claude/skills/setup-katana-skills/SKILL.md: sha256:4d1d945908b05960d1d09474705e7da18f42e60d95bfc78efc7c995f728942a1
-    .claude/skills/setup-katana-skills/agents-block.md: sha256:5dcfa2b1c6addbe443d5794f9b156656050ea21193407ca1c8fe777b6bac4a44
+    .claude/skills/setup-katana-skills/agents-block.md: sha256:e27e2b5b2df3446eed9234102d0ea47723d58d6c8865d32a41cf01227a32fdc7
   source: local
   local_path: ./src/skills/setup-katana-skills
   is_dev: true
@@ -196,9 +196,9 @@ dependencies:
   - .claude/skills/wsjf/SKILL.md
   - .claude/skills/wsjf/scripts/wsjf.mjs
   deployed_file_hashes:
-    .agents/skills/wsjf/SKILL.md: sha256:44322421f017dc901eae2fb7b6d44e81212bfcca1f584af629b6b345ed8b5141
+    .agents/skills/wsjf/SKILL.md: sha256:eeb6195c8d1887fc2e804093c98cb02ec4b2716444137411972869ce35152c07
     .agents/skills/wsjf/scripts/wsjf.mjs: sha256:480e5f28c5a6a108f6291a646b87f5988926225a5de75c53779d987150dec5d4
-    .claude/skills/wsjf/SKILL.md: sha256:44322421f017dc901eae2fb7b6d44e81212bfcca1f584af629b6b345ed8b5141
+    .claude/skills/wsjf/SKILL.md: sha256:eeb6195c8d1887fc2e804093c98cb02ec4b2716444137411972869ce35152c07
     .claude/skills/wsjf/scripts/wsjf.mjs: sha256:480e5f28c5a6a108f6291a646b87f5988926225a5de75c53779d987150dec5d4
   source: local
   local_path: ./src/skills/sdlc/feature-management/wsjf
@@ -885,7 +885,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:5dcfa2b1c6addbe443d5794f9b156656050ea21193407ca1c8fe777b6bac4a44
+  content_hash: sha256:e27e2b5b2df3446eed9234102d0ea47723d58d6c8865d32a41cf01227a32fdc7
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/writing-for-agents
@@ -939,7 +939,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/wsjf
   active_owner: ./src/skills/sdlc/feature-management/wsjf
-  content_hash: sha256:44322421f017dc901eae2fb7b6d44e81212bfcca1f584af629b6b345ed8b5141
+  content_hash: sha256:eeb6195c8d1887fc2e804093c98cb02ec4b2716444137411972869ce35152c07
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/wsjf/scripts/wsjf.mjs
@@ -1488,7 +1488,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:5dcfa2b1c6addbe443d5794f9b156656050ea21193407ca1c8fe777b6bac4a44
+  content_hash: sha256:e27e2b5b2df3446eed9234102d0ea47723d58d6c8865d32a41cf01227a32fdc7
 - kind: project-relative
   target: claude
   value: .claude/skills/writing-for-agents
@@ -1542,7 +1542,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/wsjf
   active_owner: ./src/skills/sdlc/feature-management/wsjf
-  content_hash: sha256:44322421f017dc901eae2fb7b6d44e81212bfcca1f584af629b6b345ed8b5141
+  content_hash: sha256:eeb6195c8d1887fc2e804093c98cb02ec4b2716444137411972869ce35152c07
 - kind: project-relative
   target: claude
   value: .claude/skills/wsjf/scripts/wsjf.mjs

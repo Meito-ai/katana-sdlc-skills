@@ -33,7 +33,7 @@ worktree: it proves the work survives on `{{default-branch}}` before deleting an
 
 ### WSJF
 
-Score and rank epics and vertical slices with the `wsjf` skill. WSJF scope: {{wsjf-scope}}.
+Score and rank epics and stories (user and tech) with the `wsjf` skill. WSJF scope: {{wsjf-scope}}.
 
 ### Review visual
 

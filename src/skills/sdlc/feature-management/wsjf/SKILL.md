@@ -1,6 +1,6 @@
 ---
 name: wsjf
-description: "Score and rank work by WSJF (Weighted Shortest Job First): cost of delay, (user/business value + risk reduction/opportunity enablement) x time criticality, divided by job size, each scored on a Fibonacci scale relative to already-scored items. Use when asked for the WSJF or cost of delay of an epic or vertical slice, to prioritise or rank a backlog, or what to work on next."
+description: "Score and rank work by WSJF (Weighted Shortest Job First): cost of delay, (user/business value + risk reduction/opportunity enablement) x time criticality, divided by job size, each scored on a Fibonacci scale relative to already-scored items. Use when asked for the WSJF or cost of delay of an epic or a story (user or tech), to prioritise or rank a backlog, or what to work on next."
 ---
 
 # WSJF
@@ -28,14 +28,19 @@ issues); without one the skill hands back text to paste.
 
 ## What gets scored
 
-- **Epics and projects.**
-- **Vertical slices**: an issue passes when _"if this shipped alone, would a user or the business get
-  value from it?"_ is yes.
-- **Tasks** fail that test: they deliver value only as part of their epic, so they get no score and
-  inherit the epic's priority. Say so and stop.
+Anything that delivers value on its own:
 
-A ranking compares like with like: **epics with epics**, **slices with slices** across the team's
-backlog. One set never mixes the two.
+- **Epics and projects.**
+- **Stories**: an issue passes when _"if this shipped alone, would someone gain measurable value?"_
+  is yes. Two kinds pass:
+  - a **user story** (vertical slice): a user or the business gets value;
+  - a **tech story**: the team or the system gains a measurable DORA metric or architectural
+    characteristic.
+- **Tasks** fail that test: they deliver value only as part of their story or epic, so they get no
+  score and inherit its priority. Say so and stop.
+
+A ranking compares like with like: **epics with epics**, **stories with stories** across the team's
+backlog, user and tech stories in one set. One set never mixes the two levels.
 
 ## Modes
 
@@ -64,7 +69,7 @@ The script reads only the four inputs and the date, and recomputes CoD and WSJF 
 
 ### 1. Reference set
 
-1. **Level**: epic or slice, by the test in [What gets scored](#what-gets-scored).
+1. **Level**: epic or story, by the test in [What gets scored](#what-gets-scored).
 2. **Scope**: the `WSJF scope` line in the repo's `## Katana skills` block (a Linear team or project,
    a GitHub repo). No such line: ask the user.
 3. **Fetch** the open items at that level in that scope, with their descriptions, through the
@@ -95,8 +100,8 @@ For each of BV, RR/OE, TC and Size, pick a Fibonacci value **anchored on a refer
 the value of ENG-12, more than ENG-7") and checked against the [rubric](#rubric). Write a one-line
 rationale per input that names its reference.
 
-- When the epic has an `outcome-framing` type, use its [type hints](#type-hints). No type: classify
-  it with that skill's decision tree first.
+- When the item has an `outcome-framing` type, use its [type hints](#type-hints). No type: classify
+  it with that skill's decision tree first; the tree applies to stories as well as epics.
 - **Size** is relative effort on the same scale. A tracker estimate (points, days) places the item
   among the references; it is never copied over as a number.
 - **1 is the floor**, and several items may share it. A target clearly smaller than the current 1 in
@@ -173,12 +178,12 @@ urgency profiles first:
 
 ## Type hints
 
-From the `outcome-framing` types, where the value of each kind of epic tends to sit:
+From the `outcome-framing` types, where the value of each kind of epic or story tends to sit:
 
-- **Product**: BV carries most of it; take it from the epic's KPI.
+- **Product**: BV carries most of it; take it from the item's KPI.
 - **Tech**: BV is usually low; the value is **RR/OE**. A lower change fail rate or failed deployment
   recovery time is risk reduction; better deployability or testability is opportunity enablement.
-  Score it there, so tech epics do not lose the ranking for having no user-facing value.
+  Score it there, so tech epics and tech stories do not lose the ranking for having no user-facing value.
 - **Compliance**: the penalty or exposure avoided is **RR**; **TC** is the fixed-date profile, from
   the deadline.
 
