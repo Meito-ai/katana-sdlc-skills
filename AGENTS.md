@@ -170,16 +170,25 @@ published skill delegates to an upstream skill, give that skill its own `apm.yml
 that cannot work. Its `version:` is kept equal to `package.json` by `scripts/sync-apm-version.js`,
 which CI checks.
 
-**Two traps:**
+**Three traps:**
 
 - **Never declare the same upstream repo twice with different subsets** in one install graph (the
   root `devDependencies:` and a skill's `apm.yml` included). apm dedupes by repo and silently drops
-  one subset — no error, no warning.
+  one subset — no error, no warning. A direct entry beats a transitive one (verified with apm
+  0.32.0), so it is a skill's declared subset that gets dropped. That is harmless here, where the
+  root entry already lists `grilling`. A consumer whose own entry leaves the skill out silently goes
+  without it, which is why `setup-katana-skills` adds the skill to that entry.
 - **A consumer's own pin wins, silently.** If a consumer already depends on `mattpocock/skills` at
   an older ref, that ref is what gets installed; our `^1.2.0` is ignored with no diagnostic. So
   every published skill must **also state its upstream requirement in prose in its own `SKILL.md`**
   (e.g. "Requires the `grilling` skill from `mattpocock/skills` >= v1.2.0"). The declaration
   automates the happy path; the prose is what makes the degraded path legible.
+- **A skill's `apm.yml` never declares another katana skill.** In this repo, a git copy pulled in
+  transitively replaces the local self-reference (`1 skill replaced by a different package (last
+  installed wins)`, in either entry order; verified with apm 0.32.0). `apm install` would then deploy
+  the *published* version over the one you are editing. A skill that calls a sibling says so in its
+  `SKILL.md`, `setup-katana-skills` installs both, and `scripts/validate-skills.js` rejects the
+  declaration.
 
 ### Adding a skill
 
@@ -195,7 +204,8 @@ npm run changeset                               # describe the change for the ch
 If the new skill delegates to an upstream skill, declare it under `dependencies:` in an `apm.yml`
 in the skill's own directory (`name`, `version` equal to `package.json`, `description`, `license`)
 **and** say so in the skill's own `SKILL.md`. (The self-reference above always stays in the root
-`devDependencies:` — it exists only so the skill loads locally.)
+`devDependencies:` — it exists only so the skill loads locally.) If it calls another katana skill,
+say so in its `SKILL.md` and in `setup-katana-skills`, never in its `apm.yml` (see the traps above).
 
 ### Releasing
 

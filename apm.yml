@@ -58,6 +58,8 @@ devDependencies:
     - ./src/skills/sdlc/code-review/review-visual
     - ./src/skills/sdlc/feature-management/outcome-framing
     - ./src/skills/sdlc/feature-management/wsjf
+    - ./src/skills/sdlc/feature-management/build-up-spec
+    - ./src/skills/sdlc/feature-management/slice-epic
     - ./src/skills/setup-katana-skills
     - ./src/skills/paas/paas-pulumi-infra-setup
 

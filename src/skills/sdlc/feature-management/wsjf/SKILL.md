@@ -30,7 +30,7 @@ issues); without one the skill hands back text to paste.
 
 Anything that delivers value on its own:
 
-- **Epics and projects.**
+- **Epics and projects.** On a tracker an epic is a project, or an issue labelled `Epic`.
 - **Stories**: an issue passes when _"if this shipped alone, would someone gain measurable value?"_
   is yes. Two kinds pass:
   - a **user story** (vertical slice): a user or the business gets value;
@@ -45,6 +45,8 @@ backlog, user and tech stories in one set. One set never mixes the two levels.
 ## Modes
 
 - **Single-issue** (default): score one target against the reference set, report its WSJF and rank.
+  A calling skill may hand over several new items at once (the slices of an epic): each one is a
+  target, and they share one verification round.
 - **Backlog**: score or re-score a whole set and return the ranked table. Use it when asked to rank
   a backlog, after a cold start leaves several items unscored, or when single-issue mode reports
   stale references.
@@ -138,8 +140,9 @@ node <skill-dir>/scripts/wsjf.mjs upsert --description <current.md> --bv N --rro
 ```
 
 `upsert` replaces the `## WSJF` section in place, or appends it, and leaves every other line as it
-was. When there is no tracker tool, give the user the block to paste. When the item is not in a
-tracker yet (a calling skill is still drafting it), return the block to the caller.
+was. When there is no tracker tool, give the user the block to paste. When a calling skill is still
+drafting the item (it is not in a tracker yet, or the caller is about to rewrite its description),
+return the block to the caller.
 
 Done when every accepted score is written, pasted, or returned.
 
@@ -190,5 +193,5 @@ From the `outcome-framing` types, where the value of each kind of epic or story 
 ## For calling skills
 
 A calling skill gets, per scored item: the four inputs with rationales, CoD, WSJF, rank, and the
-block. It owns nothing else: verification and write-back happen here, except for an item not yet in
-a tracker, whose block is returned for the caller to place.
+block. It owns nothing else: verification and write-back happen here, except for an item the caller
+is still drafting, whose block is returned for the caller to place.

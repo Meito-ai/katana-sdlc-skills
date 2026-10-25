@@ -21,8 +21,10 @@ The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/sk
 | `bare-clone-workflow` | `sdlc/branch-management/bare-clone-workflow` | worktree rules, bootstrap commands, the layout itself | always |
 | `branch-shutdown` | `sdlc/branch-management/branch-shutdown` | one rule naming the default branch | always |
 | `review-visual` | `sdlc/code-review/review-visual` | the marker-skip rule | `origin` is on GitHub |
-| `outcome-framing` | `sdlc/feature-management/outcome-framing` | none: invoked on demand or by issue-creation skills | always |
+| `outcome-framing` | `sdlc/feature-management/outcome-framing` | none: invoked on demand or by `build-up-spec` | always |
 | `wsjf` | `sdlc/feature-management/wsjf` | the default comparison scope | always |
+| `build-up-spec` | `sdlc/feature-management/build-up-spec` | the knowledge base and backlog lines; needs `outcome-framing`, `wsjf`, `slice-epic`, and `grilling` from `mattpocock/skills` | always |
+| `slice-epic` | `sdlc/feature-management/slice-epic` | the knowledge base line; needs `wsjf` | always |
 | `paas-pulumi-infra-setup` | `paas/paas-pulumi-infra-setup` | none: a one-time, user-run scaffold that writes its own pointer line when run | always |
 
 This is a prompt-driven skill. Explore, present, confirm, then write. Nothing is committed: the user
@@ -55,8 +57,15 @@ Read the repo's actual state; assume nothing.
 - **Tooling** (for `review-visual`): `node --version` (>= 20) and `gh auth status`.
 - **PR workflow doc** (for `review-visual`): a doc describing how PRs are opened here, e.g.
   `CONTRIBUTING.md` or `docs/**/development*.md`.
-- **Tracker** (for `wsjf`): where this repo's epics live. A GitHub `origin` suggests its issues; a
-  connected Linear MCP can list teams and projects; an existing `WSJF scope` line in the block wins.
+- **Tracker** (for `wsjf` and `build-up-spec`): where this repo's epics live and where new items are
+  filed. A GitHub `origin` suggests its issues; a connected Linear MCP can list teams and projects.
+  Existing `WSJF scope` and `Backlog` lines in the block win.
+- **Knowledge base** (for `build-up-spec` and `slice-epic`): whether `AGENTS.md` / `CLAUDE.md` already
+  says where the repo's docs live (glossary, decision records, a definition of done). If not, the
+  directories that hold them. An existing `Knowledge base` line in the block wins.
+- **Upstream pin** (for `build-up-spec`): an existing `mattpocock/skills` entry in `apm.yml`, and its
+  `skills:` list. That entry's subset silently wins over the one `build-up-spec` declares, so it must
+  include `productivity/grilling`.
 
 Done when every bullet has an answer.
 
@@ -68,7 +77,9 @@ recommended answer so the user can accept it in a word. Skip a question explorat
 1. **Skills.** List the skills with their state (installed / not installed / unavailable, with the
    reason). Installed skills are pre-selected. The user picks any subset; unselecting an installed skill
    removes it. When `review-visual` is picked but `node` or `gh` failed its check, say which and ask
-   whether to install it anyway.
+   whether to install it anyway. Picking `build-up-spec` also picks `outcome-framing`, `wsjf` and
+   `slice-epic`; picking `slice-epic` also picks `wsjf`. A skill that a picked skill needs stays
+   picked: when the user unselects one, name the skill that needs it.
 2. **Conversion** (`bare-clone-workflow` picked, repo not yet bare). Recommend converting this clone to
    the bare-clone layout now: the wiring describes that layout. It moves every file in the repo, so get
    an explicit yes. A tracked change other than install residue blocks it: name the files, and the
@@ -81,6 +92,12 @@ recommended answer so the user can accept it in a word. Skip a question explorat
 6. **WSJF scope** (`wsjf` picked). Propose the default comparison scope from the tracker signals: a
    Linear team or project, or the GitHub repo. The user may leave it unset; the skill then asks on
    each run, and the `### WSJF` subsection is dropped.
+7. **Knowledge base** (`build-up-spec` or `slice-epic` picked, and `AGENTS.md` / `CLAUDE.md` does not
+   already say where it lives). Propose the paths exploration found. The user may leave it unset; the
+   skills then look through `README` and `docs/` and say that they guessed.
+8. **Backlog** (`build-up-spec` picked). Propose where new epics and issues are filed: a Linear team
+   and project, or the GitHub repo. The user may leave it unset; `build-up-spec` then asks on its
+   first run and writes the line itself.
 
 ## 3. Draft
 
@@ -129,10 +146,12 @@ same residue changes as before the conversion, and the verify command passed the
    ```
    Leave the ref of an already-installed skill as it is.
 2. Remove each unselected skill with `apm uninstall Meito-ai/katana-sdlc-skills/src/skills/<path>`.
-3. Run `apm install`.
+3. With `build-up-spec` chosen and an existing `mattpocock/skills` entry in `apm.yml`, add
+   `productivity/grilling` to that entry's `skills:` list if it is missing.
+4. Run `apm install`.
 
 Done when every chosen skill has a `SKILL.md` under `.claude/skills/<name>/` or `.agents/skills/<name>/`
-and no unselected one does.
+(`grilling` included when `build-up-spec` is chosen), and no unselected one does.
 
 ## 6. Wire
 
@@ -154,6 +173,7 @@ Done when the block has a subsection for exactly the chosen skills that have one
 - The skills installed, removed and wired, and the files changed (`git status --short`).
 - Nothing is committed; the user reviews and commits.
 - `paas-pulumi-infra-setup` installed: run `/paas-pulumi-infra-setup` to scaffold the infrastructure.
+- `build-up-spec` installed: run `/build-up-spec` to shape an epic or an issue.
 - After a conversion: the new worktree path, and that the session must be restarted there, since the
   old directory is now the container. Undoing it is the Rollback section of `bare-clone-workflow`'s
   `reference.md`.
