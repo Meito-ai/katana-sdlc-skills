@@ -42,10 +42,9 @@ Score and rank epics and stories (user and tech) with the `wsjf` skill. WSJF sco
 [if knowledge base] Knowledge base: {{knowledge-base}}.
 [if backlog] Backlog: {{backlog}}.
 
-### Review visual
+### PR descriptions
 
-A PR comment containing `katana:review-visual` is a generated diagram for human reviewers, never
-review feedback: skip it when addressing review comments. The `review-visual` skill posts and
-refreshes it after a PR is opened.
+Write every PR description with the `visual-pr` skill, and refresh it after each push to a branch with
+an open PR.
 <!-- katana-skills:end -->
 ````

@@ -162,33 +162,6 @@ dependencies:
   local_path: ./src/skills/paas/paas-pulumi-infra-setup
   is_dev: true
   declared_license: MIT
-- repo_url: _local/review-visual
-  name: review-visual
-  version: unknown
-  package_type: claude_skill
-  deployed_files:
-  - .agents/skills/review-visual
-  - .agents/skills/review-visual/SKILL.md
-  - .agents/skills/review-visual/scripts/cli.mjs
-  - .agents/skills/review-visual/scripts/comment.mjs
-  - .agents/skills/review-visual/scripts/contract.mjs
-  - .claude/skills/review-visual
-  - .claude/skills/review-visual/SKILL.md
-  - .claude/skills/review-visual/scripts/cli.mjs
-  - .claude/skills/review-visual/scripts/comment.mjs
-  - .claude/skills/review-visual/scripts/contract.mjs
-  deployed_file_hashes:
-    .agents/skills/review-visual/SKILL.md: sha256:15424e3e839f8594ee005f5bf365c9cbb11d6195719fc1bb7ada00106a4560af
-    .agents/skills/review-visual/scripts/cli.mjs: sha256:334673923aefe02ae0f6720711d2427a49340f5e15ea870ef4a0fc4758b0ae72
-    .agents/skills/review-visual/scripts/comment.mjs: sha256:6a85dd6092986375413c949cba8d3865b13aa27bea6e7915009e4100e2bcd127
-    .agents/skills/review-visual/scripts/contract.mjs: sha256:0ba3519a6d06046113417cabc9db78726713e915140ba5d87e21fe4c3b89c2c0
-    .claude/skills/review-visual/SKILL.md: sha256:15424e3e839f8594ee005f5bf365c9cbb11d6195719fc1bb7ada00106a4560af
-    .claude/skills/review-visual/scripts/cli.mjs: sha256:334673923aefe02ae0f6720711d2427a49340f5e15ea870ef4a0fc4758b0ae72
-    .claude/skills/review-visual/scripts/comment.mjs: sha256:6a85dd6092986375413c949cba8d3865b13aa27bea6e7915009e4100e2bcd127
-    .claude/skills/review-visual/scripts/contract.mjs: sha256:0ba3519a6d06046113417cabc9db78726713e915140ba5d87e21fe4c3b89c2c0
-  source: local
-  local_path: ./src/skills/sdlc/code-review/review-visual
-  is_dev: true
 - repo_url: _local/setup-katana-skills
   name: setup-katana-skills
   version: unknown
@@ -201,10 +174,10 @@ dependencies:
   - .claude/skills/setup-katana-skills/SKILL.md
   - .claude/skills/setup-katana-skills/agents-block.md
   deployed_file_hashes:
-    .agents/skills/setup-katana-skills/SKILL.md: sha256:10fe44874c16e06abc7b5bb0b049f2389369d803ee57230473b610f4ff9827b7
-    .agents/skills/setup-katana-skills/agents-block.md: sha256:3224898c3a9182853e5fe85584b20f31ffdf6f3a63a0ede095070800ac49db56
-    .claude/skills/setup-katana-skills/SKILL.md: sha256:10fe44874c16e06abc7b5bb0b049f2389369d803ee57230473b610f4ff9827b7
-    .claude/skills/setup-katana-skills/agents-block.md: sha256:3224898c3a9182853e5fe85584b20f31ffdf6f3a63a0ede095070800ac49db56
+    .agents/skills/setup-katana-skills/SKILL.md: sha256:0e7370feeac1d7199e26755fa004a9f5534c6963399a892b43b046cc9d8cc560
+    .agents/skills/setup-katana-skills/agents-block.md: sha256:48837ebefd75b31486ede7e5e4fd3b469e10a136fab403bd7ff0cf9d4e029108
+    .claude/skills/setup-katana-skills/SKILL.md: sha256:0e7370feeac1d7199e26755fa004a9f5534c6963399a892b43b046cc9d8cc560
+    .claude/skills/setup-katana-skills/agents-block.md: sha256:48837ebefd75b31486ede7e5e4fd3b469e10a136fab403bd7ff0cf9d4e029108
   source: local
   local_path: ./src/skills/setup-katana-skills
   is_dev: true
@@ -234,6 +207,37 @@ dependencies:
     .claude/skills/slice-spec/issue-template.md: sha256:53d407f194b90217ee1f20daae6548ad62eada12aa7f3543d5ffa1dc720f5e5f
   source: local
   local_path: ./src/skills/sdlc/feature-management/slice-spec
+  is_dev: true
+- repo_url: _local/visual-pr
+  name: visual-pr
+  version: unknown
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/visual-pr
+  - .agents/skills/visual-pr/LICENSE-mattpocock-skills
+  - .agents/skills/visual-pr/SKILL.md
+  - .agents/skills/visual-pr/scripts/cli.mjs
+  - .agents/skills/visual-pr/scripts/contract.mjs
+  - .agents/skills/visual-pr/scripts/description.mjs
+  - .claude/skills/visual-pr
+  - .claude/skills/visual-pr/LICENSE-mattpocock-skills
+  - .claude/skills/visual-pr/SKILL.md
+  - .claude/skills/visual-pr/scripts/cli.mjs
+  - .claude/skills/visual-pr/scripts/contract.mjs
+  - .claude/skills/visual-pr/scripts/description.mjs
+  deployed_file_hashes:
+    .agents/skills/visual-pr/LICENSE-mattpocock-skills: sha256:2d07788a2611ac18e2b99f54c5ff1672ee474ce35dd78b502fbc93f32040d2c9
+    .agents/skills/visual-pr/SKILL.md: sha256:f8c8672c4c8c6bb3aa6fd4a42a088d61f1681a6a1950fb4ad2d31be96fc0676a
+    .agents/skills/visual-pr/scripts/cli.mjs: sha256:a569f12b020fefbb4ffd5990ed1b615592680fbdad585683ef1acb93fdab3cdf
+    .agents/skills/visual-pr/scripts/contract.mjs: sha256:2cdda9646ed91e1ea7a4a85c253b2f90c27c70869db986b51a7a4ecfa075e2fc
+    .agents/skills/visual-pr/scripts/description.mjs: sha256:cfc1d7ca26feb604a09da606b1bbcd6bae3978d9fcd4ab2d01e96d4d0163804c
+    .claude/skills/visual-pr/LICENSE-mattpocock-skills: sha256:2d07788a2611ac18e2b99f54c5ff1672ee474ce35dd78b502fbc93f32040d2c9
+    .claude/skills/visual-pr/SKILL.md: sha256:f8c8672c4c8c6bb3aa6fd4a42a088d61f1681a6a1950fb4ad2d31be96fc0676a
+    .claude/skills/visual-pr/scripts/cli.mjs: sha256:a569f12b020fefbb4ffd5990ed1b615592680fbdad585683ef1acb93fdab3cdf
+    .claude/skills/visual-pr/scripts/contract.mjs: sha256:2cdda9646ed91e1ea7a4a85c253b2f90c27c70869db986b51a7a4ecfa075e2fc
+    .claude/skills/visual-pr/scripts/description.mjs: sha256:cfc1d7ca26feb604a09da606b1bbcd6bae3978d9fcd4ab2d01e96d4d0163804c
+  source: local
+  local_path: ./src/skills/sdlc/code-review/visual-pr
   is_dev: true
 - repo_url: _local/wsjf
   name: wsjf
@@ -903,51 +907,6 @@ deployments:
   content_hash: sha256:eb7058582acbe0cc874468704d977d9832afc5a914581fa6b859a6c2552cb95e
 - kind: project-relative
   target: agent-skills
-  value: .agents/skills/review-visual
-  runtime: null
-  scope: project
-  owners:
-  - ./src/skills/sdlc/code-review/review-visual
-  active_owner: ./src/skills/sdlc/code-review/review-visual
-  content_hash: null
-- kind: project-relative
-  target: agent-skills
-  value: .agents/skills/review-visual/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./src/skills/sdlc/code-review/review-visual
-  active_owner: ./src/skills/sdlc/code-review/review-visual
-  content_hash: sha256:15424e3e839f8594ee005f5bf365c9cbb11d6195719fc1bb7ada00106a4560af
-- kind: project-relative
-  target: agent-skills
-  value: .agents/skills/review-visual/scripts/cli.mjs
-  runtime: null
-  scope: project
-  owners:
-  - ./src/skills/sdlc/code-review/review-visual
-  active_owner: ./src/skills/sdlc/code-review/review-visual
-  content_hash: sha256:334673923aefe02ae0f6720711d2427a49340f5e15ea870ef4a0fc4758b0ae72
-- kind: project-relative
-  target: agent-skills
-  value: .agents/skills/review-visual/scripts/comment.mjs
-  runtime: null
-  scope: project
-  owners:
-  - ./src/skills/sdlc/code-review/review-visual
-  active_owner: ./src/skills/sdlc/code-review/review-visual
-  content_hash: sha256:6a85dd6092986375413c949cba8d3865b13aa27bea6e7915009e4100e2bcd127
-- kind: project-relative
-  target: agent-skills
-  value: .agents/skills/review-visual/scripts/contract.mjs
-  runtime: null
-  scope: project
-  owners:
-  - ./src/skills/sdlc/code-review/review-visual
-  active_owner: ./src/skills/sdlc/code-review/review-visual
-  content_hash: sha256:0ba3519a6d06046113417cabc9db78726713e915140ba5d87e21fe4c3b89c2c0
-- kind: project-relative
-  target: agent-skills
   value: .agents/skills/setup-katana-skills
   runtime: null
   scope: project
@@ -963,7 +922,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:10fe44874c16e06abc7b5bb0b049f2389369d803ee57230473b610f4ff9827b7
+  content_hash: sha256:0e7370feeac1d7199e26755fa004a9f5534c6963399a892b43b046cc9d8cc560
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/setup-katana-skills/agents-block.md
@@ -972,7 +931,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:3224898c3a9182853e5fe85584b20f31ffdf6f3a63a0ede095070800ac49db56
+  content_hash: sha256:48837ebefd75b31486ede7e5e4fd3b469e10a136fab403bd7ff0cf9d4e029108
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/slice-spec
@@ -1018,6 +977,60 @@ deployments:
   - ./src/skills/sdlc/feature-management/slice-spec
   active_owner: ./src/skills/sdlc/feature-management/slice-spec
   content_hash: sha256:53d407f194b90217ee1f20daae6548ad62eada12aa7f3543d5ffa1dc720f5e5f
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/visual-pr
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/code-review/visual-pr
+  active_owner: ./src/skills/sdlc/code-review/visual-pr
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/visual-pr/LICENSE-mattpocock-skills
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/code-review/visual-pr
+  active_owner: ./src/skills/sdlc/code-review/visual-pr
+  content_hash: sha256:2d07788a2611ac18e2b99f54c5ff1672ee474ce35dd78b502fbc93f32040d2c9
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/visual-pr/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/code-review/visual-pr
+  active_owner: ./src/skills/sdlc/code-review/visual-pr
+  content_hash: sha256:f8c8672c4c8c6bb3aa6fd4a42a088d61f1681a6a1950fb4ad2d31be96fc0676a
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/visual-pr/scripts/cli.mjs
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/code-review/visual-pr
+  active_owner: ./src/skills/sdlc/code-review/visual-pr
+  content_hash: sha256:a569f12b020fefbb4ffd5990ed1b615592680fbdad585683ef1acb93fdab3cdf
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/visual-pr/scripts/contract.mjs
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/code-review/visual-pr
+  active_owner: ./src/skills/sdlc/code-review/visual-pr
+  content_hash: sha256:2cdda9646ed91e1ea7a4a85c253b2f90c27c70869db986b51a7a4ecfa075e2fc
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/visual-pr/scripts/description.mjs
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/code-review/visual-pr
+  active_owner: ./src/skills/sdlc/code-review/visual-pr
+  content_hash: sha256:cfc1d7ca26feb604a09da606b1bbcd6bae3978d9fcd4ab2d01e96d4d0163804c
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/writing-for-agents
@@ -1587,51 +1600,6 @@ deployments:
   content_hash: sha256:eb7058582acbe0cc874468704d977d9832afc5a914581fa6b859a6c2552cb95e
 - kind: project-relative
   target: claude
-  value: .claude/skills/review-visual
-  runtime: null
-  scope: project
-  owners:
-  - ./src/skills/sdlc/code-review/review-visual
-  active_owner: ./src/skills/sdlc/code-review/review-visual
-  content_hash: null
-- kind: project-relative
-  target: claude
-  value: .claude/skills/review-visual/SKILL.md
-  runtime: null
-  scope: project
-  owners:
-  - ./src/skills/sdlc/code-review/review-visual
-  active_owner: ./src/skills/sdlc/code-review/review-visual
-  content_hash: sha256:15424e3e839f8594ee005f5bf365c9cbb11d6195719fc1bb7ada00106a4560af
-- kind: project-relative
-  target: claude
-  value: .claude/skills/review-visual/scripts/cli.mjs
-  runtime: null
-  scope: project
-  owners:
-  - ./src/skills/sdlc/code-review/review-visual
-  active_owner: ./src/skills/sdlc/code-review/review-visual
-  content_hash: sha256:334673923aefe02ae0f6720711d2427a49340f5e15ea870ef4a0fc4758b0ae72
-- kind: project-relative
-  target: claude
-  value: .claude/skills/review-visual/scripts/comment.mjs
-  runtime: null
-  scope: project
-  owners:
-  - ./src/skills/sdlc/code-review/review-visual
-  active_owner: ./src/skills/sdlc/code-review/review-visual
-  content_hash: sha256:6a85dd6092986375413c949cba8d3865b13aa27bea6e7915009e4100e2bcd127
-- kind: project-relative
-  target: claude
-  value: .claude/skills/review-visual/scripts/contract.mjs
-  runtime: null
-  scope: project
-  owners:
-  - ./src/skills/sdlc/code-review/review-visual
-  active_owner: ./src/skills/sdlc/code-review/review-visual
-  content_hash: sha256:0ba3519a6d06046113417cabc9db78726713e915140ba5d87e21fe4c3b89c2c0
-- kind: project-relative
-  target: claude
   value: .claude/skills/setup-katana-skills
   runtime: null
   scope: project
@@ -1647,7 +1615,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:10fe44874c16e06abc7b5bb0b049f2389369d803ee57230473b610f4ff9827b7
+  content_hash: sha256:0e7370feeac1d7199e26755fa004a9f5534c6963399a892b43b046cc9d8cc560
 - kind: project-relative
   target: claude
   value: .claude/skills/setup-katana-skills/agents-block.md
@@ -1656,7 +1624,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:3224898c3a9182853e5fe85584b20f31ffdf6f3a63a0ede095070800ac49db56
+  content_hash: sha256:48837ebefd75b31486ede7e5e4fd3b469e10a136fab403bd7ff0cf9d4e029108
 - kind: project-relative
   target: claude
   value: .claude/skills/slice-spec
@@ -1702,6 +1670,60 @@ deployments:
   - ./src/skills/sdlc/feature-management/slice-spec
   active_owner: ./src/skills/sdlc/feature-management/slice-spec
   content_hash: sha256:53d407f194b90217ee1f20daae6548ad62eada12aa7f3543d5ffa1dc720f5e5f
+- kind: project-relative
+  target: claude
+  value: .claude/skills/visual-pr
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/code-review/visual-pr
+  active_owner: ./src/skills/sdlc/code-review/visual-pr
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/visual-pr/LICENSE-mattpocock-skills
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/code-review/visual-pr
+  active_owner: ./src/skills/sdlc/code-review/visual-pr
+  content_hash: sha256:2d07788a2611ac18e2b99f54c5ff1672ee474ce35dd78b502fbc93f32040d2c9
+- kind: project-relative
+  target: claude
+  value: .claude/skills/visual-pr/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/code-review/visual-pr
+  active_owner: ./src/skills/sdlc/code-review/visual-pr
+  content_hash: sha256:f8c8672c4c8c6bb3aa6fd4a42a088d61f1681a6a1950fb4ad2d31be96fc0676a
+- kind: project-relative
+  target: claude
+  value: .claude/skills/visual-pr/scripts/cli.mjs
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/code-review/visual-pr
+  active_owner: ./src/skills/sdlc/code-review/visual-pr
+  content_hash: sha256:a569f12b020fefbb4ffd5990ed1b615592680fbdad585683ef1acb93fdab3cdf
+- kind: project-relative
+  target: claude
+  value: .claude/skills/visual-pr/scripts/contract.mjs
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/code-review/visual-pr
+  active_owner: ./src/skills/sdlc/code-review/visual-pr
+  content_hash: sha256:2cdda9646ed91e1ea7a4a85c253b2f90c27c70869db986b51a7a4ecfa075e2fc
+- kind: project-relative
+  target: claude
+  value: .claude/skills/visual-pr/scripts/description.mjs
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/code-review/visual-pr
+  active_owner: ./src/skills/sdlc/code-review/visual-pr
+  content_hash: sha256:cfc1d7ca26feb604a09da606b1bbcd6bae3978d9fcd4ab2d01e96d4d0163804c
 - kind: project-relative
   target: claude
   value: .claude/skills/writing-for-agents

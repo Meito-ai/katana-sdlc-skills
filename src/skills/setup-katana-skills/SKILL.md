@@ -20,7 +20,7 @@ The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/sk
 |---|---|---|---|
 | `bare-clone-workflow` | `sdlc/branch-management/bare-clone-workflow` | worktree rules, bootstrap commands, the layout itself | always |
 | `branch-shutdown` | `sdlc/branch-management/branch-shutdown` | one rule naming the default branch | always |
-| `review-visual` | `sdlc/code-review/review-visual` | the marker-skip rule | `origin` is on GitHub |
+| `visual-pr` | `sdlc/code-review/visual-pr` | the PR description rule | `origin` is on GitHub |
 | `outcome-framing` | `sdlc/feature-management/outcome-framing` | none: invoked on demand or by `build-up-spec` | always |
 | `wsjf` | `sdlc/feature-management/wsjf` | the default comparison scope | always |
 | `build-up-spec` | `sdlc/feature-management/build-up-spec` | the knowledge base and backlog lines; needs `outcome-framing`, `wsjf`, `slice-spec`, and `grilling` from `mattpocock/skills` | always |
@@ -35,7 +35,7 @@ reviews and commits the result.
 Read the repo's actual state; assume nothing.
 
 - **Remote and default branch**: `git remote -v`, `git symbolic-ref --short refs/remotes/origin/HEAD`.
-  A non-GitHub `origin` makes `review-visual` unavailable.
+  A non-GitHub `origin` makes `visual-pr` unavailable.
 - **apm**: `apm.yml` must exist; without it, stop and say this setup supports apm-managed repos only.
   `apm --version` must be >= 0.16 for a semver `ref:` range.
 - **Setup's own pin**: the `apm.yml` entry for `Meito-ai/katana-sdlc-skills/src/skills/setup-katana-skills`
@@ -54,8 +54,8 @@ Read the repo's actual state; assume nothing.
   setup sections of `README.md` / `CONTRIBUTING.md`, and ignored files a fresh worktree would lack
   (`git ls-files --others --ignored --exclude-standard --directory`: `.env`, local config).
 - **Editor**: `.vscode/`, `.cursor/`, or an existing `*.code-workspace`.
-- **Tooling** (for `review-visual`): `node --version` (>= 20) and `gh auth status`.
-- **PR workflow doc** (for `review-visual`): a doc describing how PRs are opened here, e.g.
+- **Tooling** (for `visual-pr`): `node --version` (>= 20) and `gh auth status`.
+- **PR workflow doc** (for `visual-pr`): a doc describing how PRs are opened here, e.g.
   `CONTRIBUTING.md` or `docs/**/development*.md`.
 - **Tracker** (for `wsjf` and `build-up-spec`): where this repo's epics live and where new items are
   filed. A GitHub `origin` suggests its issues; a connected Linear MCP can list teams and projects.
@@ -76,7 +76,7 @@ recommended answer so the user can accept it in a word. Skip a question explorat
 
 1. **Skills.** List the skills with their state (installed / not installed / unavailable, with the
    reason). Installed skills are pre-selected. The user picks any subset; unselecting an installed skill
-   removes it. When `review-visual` is picked but `node` or `gh` failed its check, say which and ask
+   removes it. When `visual-pr` is picked but `node` or `gh` failed its check, say which and ask
    whether to install it anyway. Picking `build-up-spec` also picks `outcome-framing`, `wsjf` and
    `slice-spec`; picking `slice-spec` also picks `wsjf`. A skill that a picked skill needs stays
    picked: when the user unselects one, name the skill that needs it.
@@ -87,8 +87,8 @@ recommended answer so the user can accept it in a word. Skip a question explorat
 3. **Workspace file** (converting). Recommend yes when the user works in VS Code or Cursor, else no.
 4. **Bootstrap** (`bare-clone-workflow` picked). Propose the install command, the files to copy from a
    sibling worktree, and a verify command (build or test), from the bootstrap signals.
-5. **PR workflow line** (`review-visual` picked, a PR workflow doc found). Recommend adding one line to
-   it: after opening a PR, optionally post a review visual.
+5. **PR workflow line** (`visual-pr` picked, a PR workflow doc found). Recommend adding one line to
+   it: write the PR description with `visual-pr`, and refresh it after each push.
 6. **WSJF scope** (`wsjf` picked). Propose the default comparison scope from the tracker signals: a
    Linear team or project, or the GitHub repo. The user may leave it unset; the skill then asks on
    each run, and the `### WSJF` subsection is dropped.
@@ -163,7 +163,7 @@ there; never create the other alongside it.
 replace an existing block in place, or append a new one at the end of the file. Everything outside the
 markers is the user's; leave it byte-for-byte.
 
-**Write the PR workflow line** if the user wanted it; remove it when `review-visual` was unselected.
+**Write the PR workflow line** if the user wanted it; remove it when `visual-pr` was unselected.
 
 Done when the block has a subsection for exactly the chosen skills that have one in
 [agents-block.md](agents-block.md), and no `{{` is left in it.
