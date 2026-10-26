@@ -1,6 +1,7 @@
 The PR description's sections in SKILL.md (Summary, Evidence, Merge Danger), the door and
 blast-radius vocabulary and the guidance on picking a summary visual are adapted from the `pr`
-skill of https://github.com/mattpocock/skills, under this licence:
+skill of https://github.com/mattpocock/skills at v1.3.1
+(https://github.com/mattpocock/skills/tree/v1.3.1/skills/engineering/pr), under this licence:
 
 `pr` in turn credits its menu of visuals to Dex Horthy's `show-me` skill
 (https://github.com/humanlayer/humanlayer). The menu here is rewritten, not copied.

@@ -226,13 +226,13 @@ dependencies:
   - .claude/skills/visual-pr/scripts/contract.mjs
   - .claude/skills/visual-pr/scripts/description.mjs
   deployed_file_hashes:
-    .agents/skills/visual-pr/LICENSE-mattpocock-skills: sha256:2d07788a2611ac18e2b99f54c5ff1672ee474ce35dd78b502fbc93f32040d2c9
-    .agents/skills/visual-pr/SKILL.md: sha256:f8c8672c4c8c6bb3aa6fd4a42a088d61f1681a6a1950fb4ad2d31be96fc0676a
+    .agents/skills/visual-pr/LICENSE-mattpocock-skills: sha256:99bcfdfc48355a918bd3137f3300c220705f1c947d755143feb2855d99152ade
+    .agents/skills/visual-pr/SKILL.md: sha256:96eeb172cd1770557cd00a68d22a5d5fca374bf0f72b19e1a6088f901d4b1e26
     .agents/skills/visual-pr/scripts/cli.mjs: sha256:a569f12b020fefbb4ffd5990ed1b615592680fbdad585683ef1acb93fdab3cdf
     .agents/skills/visual-pr/scripts/contract.mjs: sha256:2cdda9646ed91e1ea7a4a85c253b2f90c27c70869db986b51a7a4ecfa075e2fc
     .agents/skills/visual-pr/scripts/description.mjs: sha256:cfc1d7ca26feb604a09da606b1bbcd6bae3978d9fcd4ab2d01e96d4d0163804c
-    .claude/skills/visual-pr/LICENSE-mattpocock-skills: sha256:2d07788a2611ac18e2b99f54c5ff1672ee474ce35dd78b502fbc93f32040d2c9
-    .claude/skills/visual-pr/SKILL.md: sha256:f8c8672c4c8c6bb3aa6fd4a42a088d61f1681a6a1950fb4ad2d31be96fc0676a
+    .claude/skills/visual-pr/LICENSE-mattpocock-skills: sha256:99bcfdfc48355a918bd3137f3300c220705f1c947d755143feb2855d99152ade
+    .claude/skills/visual-pr/SKILL.md: sha256:96eeb172cd1770557cd00a68d22a5d5fca374bf0f72b19e1a6088f901d4b1e26
     .claude/skills/visual-pr/scripts/cli.mjs: sha256:a569f12b020fefbb4ffd5990ed1b615592680fbdad585683ef1acb93fdab3cdf
     .claude/skills/visual-pr/scripts/contract.mjs: sha256:2cdda9646ed91e1ea7a4a85c253b2f90c27c70869db986b51a7a4ecfa075e2fc
     .claude/skills/visual-pr/scripts/description.mjs: sha256:cfc1d7ca26feb604a09da606b1bbcd6bae3978d9fcd4ab2d01e96d4d0163804c
@@ -994,7 +994,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/code-review/visual-pr
   active_owner: ./src/skills/sdlc/code-review/visual-pr
-  content_hash: sha256:2d07788a2611ac18e2b99f54c5ff1672ee474ce35dd78b502fbc93f32040d2c9
+  content_hash: sha256:99bcfdfc48355a918bd3137f3300c220705f1c947d755143feb2855d99152ade
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/visual-pr/SKILL.md
@@ -1003,7 +1003,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/code-review/visual-pr
   active_owner: ./src/skills/sdlc/code-review/visual-pr
-  content_hash: sha256:f8c8672c4c8c6bb3aa6fd4a42a088d61f1681a6a1950fb4ad2d31be96fc0676a
+  content_hash: sha256:96eeb172cd1770557cd00a68d22a5d5fca374bf0f72b19e1a6088f901d4b1e26
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/visual-pr/scripts/cli.mjs
@@ -1687,7 +1687,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/code-review/visual-pr
   active_owner: ./src/skills/sdlc/code-review/visual-pr
-  content_hash: sha256:2d07788a2611ac18e2b99f54c5ff1672ee474ce35dd78b502fbc93f32040d2c9
+  content_hash: sha256:99bcfdfc48355a918bd3137f3300c220705f1c947d755143feb2855d99152ade
 - kind: project-relative
   target: claude
   value: .claude/skills/visual-pr/SKILL.md
@@ -1696,7 +1696,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/code-review/visual-pr
   active_owner: ./src/skills/sdlc/code-review/visual-pr
-  content_hash: sha256:f8c8672c4c8c6bb3aa6fd4a42a088d61f1681a6a1950fb4ad2d31be96fc0676a
+  content_hash: sha256:96eeb172cd1770557cd00a68d22a5d5fca374bf0f72b19e1a6088f901d4b1e26
 - kind: project-relative
   target: claude
   value: .claude/skills/visual-pr/scripts/cli.mjs

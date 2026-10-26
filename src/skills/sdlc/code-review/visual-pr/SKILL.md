@@ -15,7 +15,8 @@ replaces the block in place, leaves every line outside it untouched, and **rejec
 `scripts/contract.mjs` (sections, caps, Mermaid). Read the error and fix the content rather than working
 around it.
 
-The sections and the merge-danger vocabulary come from the `pr` skill of `mattpocock/skills`
+Inspired by the [`pr` skill](https://github.com/mattpocock/skills/tree/v1.3.1/skills/engineering/pr)
+of `mattpocock/skills` v1.3.1: the sections and the merge-danger vocabulary come from it
 ([licence](LICENSE-mattpocock-skills)). The block, the stamp, the refresh and the contract are additions.
 
 ## Requirements
