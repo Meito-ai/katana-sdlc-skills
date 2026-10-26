@@ -11,7 +11,7 @@ agent must see every session, plus the repo-specific facts a skill defers to the
 that is installed but not wired is dead weight; wiring is the point.
 
 Keep the footprint minimal: setup writes `apm.yml` and one marker-delimited block in `CLAUDE.md` or
-`AGENTS.md`, plus one optional line in a PR workflow doc. Whatever a skill's own `SKILL.md` already
+`AGENTS.md`, plus one optional line in a PR workflow doc and one optional hook in `.claude/settings.json`. Whatever a skill's own `SKILL.md` already
 says stays out of the block.
 
 The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/skills/<path>`:
@@ -55,6 +55,8 @@ Read the repo's actual state; assume nothing.
   (`git ls-files --others --ignored --exclude-standard --directory`: `.env`, local config).
 - **Editor**: `.vscode/`, `.cursor/`, or an existing `*.code-workspace`.
 - **Tooling** (for `visual-pr`): `node --version` (>= 20) and `gh auth status`.
+- **Claude Code settings** (for `visual-pr`): `.claude/settings.json`, and whether its `PostToolUse` hooks
+  already run `visual-pr/scripts/hook.mjs`.
 - **PR workflow doc** (for `visual-pr`): a doc describing how PRs are opened here, e.g.
   `CONTRIBUTING.md` or `docs/**/development*.md`.
 - **Tracker** (for `wsjf` and `build-up-spec`): where this repo's epics live and where new items are
@@ -89,13 +91,16 @@ recommended answer so the user can accept it in a word. Skip a question explorat
    sibling worktree, and a verify command (build or test), from the bootstrap signals.
 5. **PR workflow line** (`visual-pr` picked, a PR workflow doc found). Recommend adding one line to
    it: write the PR description with `visual-pr`, and refresh it after each push.
-6. **WSJF scope** (`wsjf` picked). Propose the default comparison scope from the tracker signals: a
+6. **Refresh hook** (`visual-pr` picked, the team uses Claude Code). Recommend yes: model invocation
+   reliably covers opening a PR but not refreshing it after a later push, and the hook reminds the agent
+   whenever a push leaves the description's stamp behind `HEAD`. Other agents ignore the file.
+7. **WSJF scope** (`wsjf` picked). Propose the default comparison scope from the tracker signals: a
    Linear team or project, or the GitHub repo. The user may leave it unset; the skill then asks on
    each run, and the `### WSJF` subsection is dropped.
-7. **Knowledge base** (`build-up-spec` or `slice-spec` picked, and `AGENTS.md` / `CLAUDE.md` does not
+8. **Knowledge base** (`build-up-spec` or `slice-spec` picked, and `AGENTS.md` / `CLAUDE.md` does not
    already say where it lives). Propose the paths exploration found. The user may leave it unset; the
    skills then look through `README` and `docs/` and say that they guessed.
-8. **Backlog** (`build-up-spec` picked). Propose where new epics and issues are filed: a Linear team
+9. **Backlog** (`build-up-spec` picked). Propose where new epics and issues are filed: a Linear team
    and project, or the GitHub repo. The user may leave it unset; `build-up-spec` then asks on its
    first run and writes the line itself.
 
@@ -107,7 +112,7 @@ Show the user, and let them edit before anything is written:
 - the `## Katana skills` block, from [agents-block.md](agents-block.md), keeping only the subsections
   of the chosen skills, placeholders filled (with no files to copy, drop the "copy ... from a sibling
   worktree" clause);
-- the PR workflow line, if any.
+- the PR workflow line and the refresh hook, if any.
 
 Read every file in this skill folder before step 4: conversion moves this folder along with the rest of
 the repo.
@@ -165,8 +170,26 @@ markers is the user's; leave it byte-for-byte.
 
 **Write the PR workflow line** if the user wanted it; remove it when `visual-pr` was unselected.
 
+**Write the refresh hook** if the user wanted it: add this entry to the `hooks.PostToolUse` array of
+`.claude/settings.json`, creating the file or the array when missing and keeping every other setting
+and hook. Remove the entry when `visual-pr` was unselected or the user declined the hook.
+
+```json
+{
+  "matcher": "Bash",
+  "hooks": [
+    {
+      "type": "command",
+      "command": "f=\"$CLAUDE_PROJECT_DIR/.claude/skills/visual-pr/scripts/hook.mjs\"; [ -f \"$f\" ] && node \"$f\" || true",
+      "timeout": 15
+    }
+  ]
+}
+```
+
 Done when the block has a subsection for exactly the chosen skills that have one in
-[agents-block.md](agents-block.md), and no `{{` is left in it.
+[agents-block.md](agents-block.md), no `{{` is left in it, and `.claude/settings.json` runs the refresh
+hook exactly when the user wanted it (`jq empty .claude/settings.json` passes).
 
 ## 7. Report
 

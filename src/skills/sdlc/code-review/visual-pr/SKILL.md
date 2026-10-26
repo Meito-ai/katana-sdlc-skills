@@ -52,6 +52,10 @@ Done when the CLI reports the block written for the current head.
 **Refresh** after every push to the PR: steps 3 to 5 again. Derive Summary and Evidence afresh from the
 whole diff. Carry Merge Danger over unless the new commits change the door or the blast radius.
 
+In Claude Code, `scripts/hook.mjs` is a `PostToolUse` hook on `Bash` that catches a missed refresh:
+after a `gh pr create` or `git push`, it tells the agent when the PR's stamp is not `HEAD`.
+`setup-katana-skills` installs it.
+
 ## Content
 
 Write only these three sections, in this order, with these headings. The CLI adds the markers and the
