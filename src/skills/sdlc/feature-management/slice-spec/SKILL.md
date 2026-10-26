@@ -1,9 +1,9 @@
 ---
-name: slice-epic
+name: slice-spec
 description: "Slice an epic into tracer-bullet issues sized for one fresh agent session, each covering requirements from the epic's PRD, with EARS acceptance criteria, blocking edges, and WSJF for the slices that are stories; published as sub-issues of the epic. Use when asked to break an epic, spec or plan into issues or tickets."
 ---
 
-# Slice epic
+# Slice spec
 
 Break an epic into **tickets**: tracer-bullet vertical slices. Each ticket declares the tickets that
 **block** it, and lists the epic's requirements it **covers**. The epic itself is left untouched: its

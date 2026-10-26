@@ -1,6 +1,6 @@
 # Issue template
 
-The shape of one issue: a slice from `slice-epic`, or a single issue from `build-up-spec`. Use the
+The shape of one issue: a slice from `slice-spec`, or a single issue from `build-up-spec`. Use the
 repo's glossary vocabulary. Describe interfaces and behaviour, not locations: no file paths and no line
 numbers, because the code moves before the issue is picked up. The exception is a snippet from a
 prototype that pins a decision more precisely than prose can (a state machine, a schema, a type

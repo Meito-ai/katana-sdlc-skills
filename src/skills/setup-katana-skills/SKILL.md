@@ -23,8 +23,8 @@ The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/sk
 | `review-visual` | `sdlc/code-review/review-visual` | the marker-skip rule | `origin` is on GitHub |
 | `outcome-framing` | `sdlc/feature-management/outcome-framing` | none: invoked on demand or by `build-up-spec` | always |
 | `wsjf` | `sdlc/feature-management/wsjf` | the default comparison scope | always |
-| `build-up-spec` | `sdlc/feature-management/build-up-spec` | the knowledge base and backlog lines; needs `outcome-framing`, `wsjf`, `slice-epic`, and `grilling` from `mattpocock/skills` | always |
-| `slice-epic` | `sdlc/feature-management/slice-epic` | the knowledge base line; needs `wsjf` | always |
+| `build-up-spec` | `sdlc/feature-management/build-up-spec` | the knowledge base and backlog lines; needs `outcome-framing`, `wsjf`, `slice-spec`, and `grilling` from `mattpocock/skills` | always |
+| `slice-spec` | `sdlc/feature-management/slice-spec` | the knowledge base line; needs `wsjf` | always |
 | `paas-pulumi-infra-setup` | `paas/paas-pulumi-infra-setup` | none: a one-time, user-run scaffold that writes its own pointer line when run | always |
 
 This is a prompt-driven skill. Explore, present, confirm, then write. Nothing is committed: the user
@@ -60,7 +60,7 @@ Read the repo's actual state; assume nothing.
 - **Tracker** (for `wsjf` and `build-up-spec`): where this repo's epics live and where new items are
   filed. A GitHub `origin` suggests its issues; a connected Linear MCP can list teams and projects.
   Existing `WSJF scope` and `Backlog` lines in the block win.
-- **Knowledge base** (for `build-up-spec` and `slice-epic`): whether `AGENTS.md` / `CLAUDE.md` already
+- **Knowledge base** (for `build-up-spec` and `slice-spec`): whether `AGENTS.md` / `CLAUDE.md` already
   says where the repo's docs live (glossary, decision records, a definition of done). If not, the
   directories that hold them. An existing `Knowledge base` line in the block wins.
 - **Upstream pin** (for `build-up-spec`): an existing `mattpocock/skills` entry in `apm.yml`, and its
@@ -78,7 +78,7 @@ recommended answer so the user can accept it in a word. Skip a question explorat
    reason). Installed skills are pre-selected. The user picks any subset; unselecting an installed skill
    removes it. When `review-visual` is picked but `node` or `gh` failed its check, say which and ask
    whether to install it anyway. Picking `build-up-spec` also picks `outcome-framing`, `wsjf` and
-   `slice-epic`; picking `slice-epic` also picks `wsjf`. A skill that a picked skill needs stays
+   `slice-spec`; picking `slice-spec` also picks `wsjf`. A skill that a picked skill needs stays
    picked: when the user unselects one, name the skill that needs it.
 2. **Conversion** (`bare-clone-workflow` picked, repo not yet bare). Recommend converting this clone to
    the bare-clone layout now: the wiring describes that layout. It moves every file in the repo, so get
@@ -92,7 +92,7 @@ recommended answer so the user can accept it in a word. Skip a question explorat
 6. **WSJF scope** (`wsjf` picked). Propose the default comparison scope from the tracker signals: a
    Linear team or project, or the GitHub repo. The user may leave it unset; the skill then asks on
    each run, and the `### WSJF` subsection is dropped.
-7. **Knowledge base** (`build-up-spec` or `slice-epic` picked, and `AGENTS.md` / `CLAUDE.md` does not
+7. **Knowledge base** (`build-up-spec` or `slice-spec` picked, and `AGENTS.md` / `CLAUDE.md` does not
    already say where it lives). Propose the paths exploration found. The user may leave it unset; the
    skills then look through `README` and `docs/` and say that they guessed.
 8. **Backlog** (`build-up-spec` picked). Propose where new epics and issues are filed: a Linear team

@@ -1,7 +1,7 @@
 # EARS requirements
 
 How to write requirements and acceptance criteria in **EARS** (Easy Approach to Requirements Syntax,
-Alistair Mavin: <https://alistairmavin.com/ears/>). `slice-epic` writes every ticket's criteria this
+Alistair Mavin: <https://alistairmavin.com/ears/>). `slice-spec` writes every ticket's criteria this
 way. `build-up-spec` uses the same rules for an epic's requirements and for an issue's criteria.
 
 ## Patterns
