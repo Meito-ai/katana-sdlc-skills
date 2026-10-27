@@ -83,6 +83,7 @@ jobs:
           if [ -n "$(git status --porcelain)" ]; then
             echo "::error::working tree dirty after apm install -- a deploy path escaped .gitignore, or a CI step wrote into the checkout:"
             git status --porcelain
+            git --no-pager diff
             exit 1
           fi
 
