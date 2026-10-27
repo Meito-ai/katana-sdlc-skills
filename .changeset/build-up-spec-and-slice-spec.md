@@ -2,7 +2,7 @@
 "katana-sdlc-skills": minor
 ---
 
-Publish `build-up-spec` and `slice-epic`, which together replace `to-spec` and `to-tickets` from
+Publish `build-up-spec` and `slice-spec`, which together replace `to-spec` and `to-tickets` from
 `mattpocock/skills`.
 
 `build-up-spec` (user-invoked) shapes an idea, a raw backlog item or nothing at all into an epic or an
@@ -15,9 +15,9 @@ issue:
   document on Linear (on GitHub the PRD goes in the issue body). An issue gets `ready-for-agent`.
 - Existing items are refined in place.
 
-`slice-epic` adapts `to-tickets`' tracer-bullet slicing (MIT): every slice lists the PRD
+`slice-spec` adapts `to-tickets`' tracer-bullet slicing (MIT): every slice lists the PRD
 requirements it covers, and an uncovered requirement stops publishing. It writes EARS acceptance
-criteria, scores the slices that are stories with `wsjf` (tasks inherit), and publishes sub-issues
+criteria, each under the testing seam that verifies it, scores the slices that are stories with `wsjf` (tasks inherit), and publishes sub-issues
 with native blocking links.
 
 Also in this release:

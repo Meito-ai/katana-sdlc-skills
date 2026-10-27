@@ -8,7 +8,7 @@ description: Shape an idea or a raw backlog item into an epic with a PRD, or an 
 license: MIT
 
 # Only the upstream skill is declared. The katana skills this one calls
-# (outcome-framing, wsjf, slice-epic) are deliberately absent: a transitive git
+# (outcome-framing, wsjf, slice-spec) are deliberately absent: a transitive git
 # copy of a katana skill replaces the local self-reference in this repo (see
 # AGENTS.md), so setup-katana-skills installs them instead. SKILL.md states
 # every requirement in prose, because a consumer's own pin of

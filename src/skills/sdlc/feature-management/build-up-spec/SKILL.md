@@ -9,9 +9,9 @@ disable-model-invocation: true
 Turn an idea into a backlog item that agents can build from. The item has one of two **levels**:
 
 - An **epic** is more work than one agent session can hold. It is published as a **card** and a
-  **PRD** ([templates](templates.md)), then sliced into issues by `slice-epic`.
+  **PRD** ([templates](templates.md)), then sliced into issues by `slice-spec`.
 - An **issue** is work one fresh agent session can finish end to end and verify. It is published using
-  `slice-epic`'s [issue template](../slice-epic/issue-template.md).
+  `slice-spec`'s [issue template](../slice-spec/issue-template.md).
 
 Every statement in the item is **sourced**: it comes from the codebase, the knowledge base, a source
 the user provided, or the user's own answer. A gap becomes a **placeholder** (`[add baseline]`,
@@ -25,14 +25,14 @@ installed).
 
 - **`grilling`** from `mattpocock/skills` >= v1.2.0. This skill's `apm.yml` declares it, but a repo
   that already pins `mattpocock/skills` keeps its own pin and subset, silently.
-- **`outcome-framing`, `wsjf` and `slice-epic`**, the katana skills this one calls.
+- **`outcome-framing`, `wsjf` and `slice-spec`**, the katana skills this one calls.
   `setup-katana-skills` installs them along with this one; when installing by hand, add all three.
 - **A tracker tool**: a Linear MCP, or `gh` >= 2.94 for GitHub issues. Without one, step 8 hands the
   item back as text to paste.
 
 ## 1. Read the input
 
-Check that `grilling`, `outcome-framing`, `wsjf` and `slice-epic` are each deployed (under
+Check that `grilling`, `outcome-framing`, `wsjf` and `slice-spec` are each deployed (under
 `.claude/skills/<name>/` or `.agents/skills/<name>/`). If any are missing, stop and name them,
 with the line that installs each one.
 
@@ -58,7 +58,7 @@ Done when every part of the input has been sorted and every source has been read
   that this last one was a guess. Read the parts the item touches: glossary terms, recorded decisions,
   and the repo's definition of done if it has one.
 - **Code**: the area the item touches. Explore it in this session rather than in a sub-agent:
-  `slice-epic` runs next in the same window and builds on what is read here.
+  `slice-spec` runs next in the same window and builds on what is read here.
 - **Tracker**: search for **duplicates** using the item's key terms (in the team named on the
   `Backlog:` line, or across the whole workspace), and list the open epics that could be its parent
   (issues labelled `Epic`). Show the matches. For each overlapping item the user picks one of:
@@ -105,7 +105,7 @@ Done when grilling's frontier is empty and the user has confirmed the level.
 
 Draft all of the following, then confirm it with the user in a single round:
 
-- **Requirements**, following `slice-epic`'s [EARS rules](../slice-epic/ears.md): `R1`, `R2`, … for
+- **Requirements**, following `slice-spec`'s [EARS rules](../slice-spec/ears.md): `R1`, `R2`, … for
   an epic's PRD; `AC1`, `AC2`, … for an issue.
   - An issue under an epic that has a PRD cites the requirements it implements (`AC2 (R5)`).
   - Behaviour the PRD doesn't yet describe becomes the PRD's next `R` number. That amendment is shown
@@ -113,7 +113,9 @@ Draft all of the following, then confirm it with the user in a single round:
 - **DoD**: an epic's DoD is its success measures, which step 6 writes. An issue's DoD is its
   acceptance criteria, plus a link to the repo's definition of done when the knowledge base has one.
 - **Testing seams**: where the change will be tested. Prefer existing seams to new ones, take the
-  highest seam available, and use as few as possible (ideally one). Note prior art.
+  highest seam available, and use as few as possible (ideally one). Note prior art. An epic records
+  them in the PRD. An issue records them in its own `## Testing seams`, each with the criteria verified
+  there, reusing its parent PRD's seams when it has one.
 - **Implementation decisions** (epics only): the modules, interfaces, schema and contracts decided
   while grilling.
 
@@ -175,8 +177,8 @@ Done when the item has an accepted WSJF block, or the inherits line.
    - On **GitHub**: `gh issue create` or `gh issue edit`, with `--parent` and `--label`. Post the
      original with `gh issue comment`. The PRD goes in the body.
    - With **no tracker tool**: hand back the card and PRD, or the issue, as text.
-5. **Hand off** an epic: ask _"slice it now?"_. A yes invokes `slice-epic` on it in this
-   conversation. A no ends the run with the command to run later: `/slice-epic <epic id>`.
+5. **Hand off** an epic: ask _"slice it now?"_. A yes invokes `slice-spec` on it in this
+   conversation. A no ends the run with the command to run later: `/slice-spec <epic id>`.
 
 Done when every write has succeeded and its link has been reported, or the text has been handed back.
 
@@ -189,7 +191,7 @@ copy.
   added.
 - The original title and description are posted as a comment before the rewrite (step 8).
 - **Issue → epic**, when grilling finds more work than one session can hold: add the `Epic` label,
-  attach a PRD, and rewrite the description as a card. Existing sub-issues stay, and `slice-epic`
+  attach a PRD, and rewrite the description as a card. Existing sub-issues stay, and `slice-spec`
   counts them towards coverage before it proposes new slices.
 - **Epic → issue**, only when it has no sub-issues: its PRD stays attached, with its first line
   changed to `Superseded: folded into <issue link> on <date>`. Nothing is deleted.

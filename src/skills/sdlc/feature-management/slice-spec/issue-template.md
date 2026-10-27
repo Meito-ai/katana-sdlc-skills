@@ -1,6 +1,6 @@
 # Issue template
 
-The shape of one issue: a slice from `slice-epic`, or a single issue from `build-up-spec`. Use the
+The shape of one issue: a slice from `slice-spec`, or a single issue from `build-up-spec`. Use the
 repo's glossary vocabulary. Describe interfaces and behaviour, not locations: no file paths and no line
 numbers, because the code moves before the issue is picked up. The exception is a snippet from a
 prototype that pins a decision more precisely than prose can (a state machine, a schema, a type
@@ -20,6 +20,9 @@ Epic: <epic link> · Spec: <PRD link> · Covers: R2, R5
 - `<TypeName>`: <what changes, and why>
 - `<functionName()>`: <what it returns today, and after>
 - <config shape>
+
+## Testing seams
+- <seam>: AC1, AC2; prior art: <a similar test in the codebase>
 
 ## Acceptance criteria
 - [ ] AC1 (R2). When <trigger>, the <system> shall <response>.
@@ -43,6 +46,10 @@ Epic: <epic link> · Spec: <PRD link> · Covers: R2, R5
 - **Acceptance criteria** follow [EARS](ears.md). Add the `Repo DoD` line only when the repo's
   knowledge base defines a definition of done; link to it rather than copying it.
 - **Key interfaces**: leave the section out when the issue touches no type, signature or config.
+- **Testing seams**: always present, so the implementer starts from agreed seams instead of picking
+  its own. One line per seam: the public interface the tests attach at, and the criteria verified
+  there. Every criterion except `Repo DoD` sits under a seam. An issue under an epic reuses the PRD's
+  seams; a seam the PRD doesn't list is marked `(new)`, with why no listed seam reaches the behaviour.
 - **Out of scope**: always present.
 - **Sources**: only on an issue without an epic. A slice's facts come from its epic's PRD.
 - **WSJF**: a story carries the `wsjf` block; a task carries the inherits line.

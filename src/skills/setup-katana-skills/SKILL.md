@@ -11,7 +11,7 @@ agent must see every session, plus the repo-specific facts a skill defers to the
 that is installed but not wired is dead weight; wiring is the point.
 
 Keep the footprint minimal: setup writes `apm.yml` and one marker-delimited block in `CLAUDE.md` or
-`AGENTS.md`, plus one optional line in a PR workflow doc. Whatever a skill's own `SKILL.md` already
+`AGENTS.md`, plus one optional line in a PR workflow doc and one optional hook in `.claude/settings.json`. Whatever a skill's own `SKILL.md` already
 says stays out of the block.
 
 The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/skills/<path>`:
@@ -20,11 +20,11 @@ The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/sk
 |---|---|---|---|
 | `bare-clone-workflow` | `sdlc/branch-management/bare-clone-workflow` | worktree rules, bootstrap commands, the layout itself | always |
 | `branch-shutdown` | `sdlc/branch-management/branch-shutdown` | one rule naming the default branch | always |
-| `review-visual` | `sdlc/code-review/review-visual` | the marker-skip rule | `origin` is on GitHub |
+| `visual-pr` | `sdlc/code-review/visual-pr` | the PR description rule | `origin` is on GitHub |
 | `outcome-framing` | `sdlc/feature-management/outcome-framing` | none: invoked on demand or by `build-up-spec` | always |
 | `wsjf` | `sdlc/feature-management/wsjf` | the default comparison scope | always |
-| `build-up-spec` | `sdlc/feature-management/build-up-spec` | the knowledge base and backlog lines; needs `outcome-framing`, `wsjf`, `slice-epic`, and `grilling` from `mattpocock/skills` | always |
-| `slice-epic` | `sdlc/feature-management/slice-epic` | the knowledge base line; needs `wsjf` | always |
+| `build-up-spec` | `sdlc/feature-management/build-up-spec` | the knowledge base and backlog lines; needs `outcome-framing`, `wsjf`, `slice-spec`, and `grilling` from `mattpocock/skills` | always |
+| `slice-spec` | `sdlc/feature-management/slice-spec` | the knowledge base line; needs `wsjf` | always |
 | `paas-pulumi-infra-setup` | `paas/paas-pulumi-infra-setup` | none: a one-time, user-run scaffold that writes its own pointer line when run | always |
 
 This is a prompt-driven skill. Explore, present, confirm, then write. Nothing is committed: the user
@@ -35,7 +35,7 @@ reviews and commits the result.
 Read the repo's actual state; assume nothing.
 
 - **Remote and default branch**: `git remote -v`, `git symbolic-ref --short refs/remotes/origin/HEAD`.
-  A non-GitHub `origin` makes `review-visual` unavailable.
+  A non-GitHub `origin` makes `visual-pr` unavailable.
 - **apm**: `apm.yml` must exist; without it, stop and say this setup supports apm-managed repos only.
   `apm --version` must be >= 0.16 for a semver `ref:` range.
 - **Setup's own pin**: the `apm.yml` entry for `Meito-ai/katana-sdlc-skills/src/skills/setup-katana-skills`
@@ -54,13 +54,15 @@ Read the repo's actual state; assume nothing.
   setup sections of `README.md` / `CONTRIBUTING.md`, and ignored files a fresh worktree would lack
   (`git ls-files --others --ignored --exclude-standard --directory`: `.env`, local config).
 - **Editor**: `.vscode/`, `.cursor/`, or an existing `*.code-workspace`.
-- **Tooling** (for `review-visual`): `node --version` (>= 20) and `gh auth status`.
-- **PR workflow doc** (for `review-visual`): a doc describing how PRs are opened here, e.g.
+- **Tooling** (for `visual-pr`): `node --version` (>= 20) and `gh auth status`.
+- **Claude Code settings** (for `visual-pr`): `.claude/settings.json`, and whether its `PostToolUse` hooks
+  already run `visual-pr/scripts/hook.mjs`.
+- **PR workflow doc** (for `visual-pr`): a doc describing how PRs are opened here, e.g.
   `CONTRIBUTING.md` or `docs/**/development*.md`.
 - **Tracker** (for `wsjf` and `build-up-spec`): where this repo's epics live and where new items are
   filed. A GitHub `origin` suggests its issues; a connected Linear MCP can list teams and projects.
   Existing `WSJF scope` and `Backlog` lines in the block win.
-- **Knowledge base** (for `build-up-spec` and `slice-epic`): whether `AGENTS.md` / `CLAUDE.md` already
+- **Knowledge base** (for `build-up-spec` and `slice-spec`): whether `AGENTS.md` / `CLAUDE.md` already
   says where the repo's docs live (glossary, decision records, a definition of done). If not, the
   directories that hold them. An existing `Knowledge base` line in the block wins.
 - **Upstream pin** (for `build-up-spec`): an existing `mattpocock/skills` entry in `apm.yml`, and its
@@ -76,9 +78,9 @@ recommended answer so the user can accept it in a word. Skip a question explorat
 
 1. **Skills.** List the skills with their state (installed / not installed / unavailable, with the
    reason). Installed skills are pre-selected. The user picks any subset; unselecting an installed skill
-   removes it. When `review-visual` is picked but `node` or `gh` failed its check, say which and ask
+   removes it. When `visual-pr` is picked but `node` or `gh` failed its check, say which and ask
    whether to install it anyway. Picking `build-up-spec` also picks `outcome-framing`, `wsjf` and
-   `slice-epic`; picking `slice-epic` also picks `wsjf`. A skill that a picked skill needs stays
+   `slice-spec`; picking `slice-spec` also picks `wsjf`. A skill that a picked skill needs stays
    picked: when the user unselects one, name the skill that needs it.
 2. **Conversion** (`bare-clone-workflow` picked, repo not yet bare). Recommend converting this clone to
    the bare-clone layout now: the wiring describes that layout. It moves every file in the repo, so get
@@ -87,15 +89,18 @@ recommended answer so the user can accept it in a word. Skip a question explorat
 3. **Workspace file** (converting). Recommend yes when the user works in VS Code or Cursor, else no.
 4. **Bootstrap** (`bare-clone-workflow` picked). Propose the install command, the files to copy from a
    sibling worktree, and a verify command (build or test), from the bootstrap signals.
-5. **PR workflow line** (`review-visual` picked, a PR workflow doc found). Recommend adding one line to
-   it: after opening a PR, optionally post a review visual.
-6. **WSJF scope** (`wsjf` picked). Propose the default comparison scope from the tracker signals: a
+5. **PR workflow line** (`visual-pr` picked, a PR workflow doc found). Recommend adding one line to
+   it: write the PR description with `visual-pr`, and refresh it after each push.
+6. **Refresh hook** (`visual-pr` picked, the team uses Claude Code). Recommend yes: model invocation
+   reliably covers opening a PR but not refreshing it after a later push, and the hook reminds the agent
+   whenever a push leaves the description's stamp behind `HEAD`. Other agents ignore the file.
+7. **WSJF scope** (`wsjf` picked). Propose the default comparison scope from the tracker signals: a
    Linear team or project, or the GitHub repo. The user may leave it unset; the skill then asks on
    each run, and the `### WSJF` subsection is dropped.
-7. **Knowledge base** (`build-up-spec` or `slice-epic` picked, and `AGENTS.md` / `CLAUDE.md` does not
+8. **Knowledge base** (`build-up-spec` or `slice-spec` picked, and `AGENTS.md` / `CLAUDE.md` does not
    already say where it lives). Propose the paths exploration found. The user may leave it unset; the
    skills then look through `README` and `docs/` and say that they guessed.
-8. **Backlog** (`build-up-spec` picked). Propose where new epics and issues are filed: a Linear team
+9. **Backlog** (`build-up-spec` picked). Propose where new epics and issues are filed: a Linear team
    and project, or the GitHub repo. The user may leave it unset; `build-up-spec` then asks on its
    first run and writes the line itself.
 
@@ -107,7 +112,7 @@ Show the user, and let them edit before anything is written:
 - the `## Katana skills` block, from [agents-block.md](agents-block.md), keeping only the subsections
   of the chosen skills, placeholders filled (with no files to copy, drop the "copy ... from a sibling
   worktree" clause);
-- the PR workflow line, if any.
+- the PR workflow line and the refresh hook, if any.
 
 Read every file in this skill folder before step 4: conversion moves this folder along with the rest of
 the repo.
@@ -163,10 +168,28 @@ there; never create the other alongside it.
 replace an existing block in place, or append a new one at the end of the file. Everything outside the
 markers is the user's; leave it byte-for-byte.
 
-**Write the PR workflow line** if the user wanted it; remove it when `review-visual` was unselected.
+**Write the PR workflow line** if the user wanted it; remove it when `visual-pr` was unselected.
+
+**Write the refresh hook** if the user wanted it: add this entry to the `hooks.PostToolUse` array of
+`.claude/settings.json`, creating the file or the array when missing and keeping every other setting
+and hook. Remove the entry when `visual-pr` was unselected or the user declined the hook.
+
+```json
+{
+  "matcher": "Bash",
+  "hooks": [
+    {
+      "type": "command",
+      "command": "f=\"$CLAUDE_PROJECT_DIR/.claude/skills/visual-pr/scripts/hook.mjs\"; [ -f \"$f\" ] && node \"$f\" || true",
+      "timeout": 15
+    }
+  ]
+}
+```
 
 Done when the block has a subsection for exactly the chosen skills that have one in
-[agents-block.md](agents-block.md), and no `{{` is left in it.
+[agents-block.md](agents-block.md), no `{{` is left in it, and `.claude/settings.json` runs the refresh
+hook exactly when the user wanted it (`jq empty .claude/settings.json` passes).
 
 ## 7. Report
 

@@ -81,12 +81,10 @@ remote branch.
 **Deleting a branch without that gate orphans its commits** — it has already cost this project a
 skill once. Do not hand-roll the sequence.
 
-## Pull request review comments
+## Pull request descriptions
 
-**Skip any PR comment whose body contains `katana:review-visual`.** It is a generated behavioral-delta
-visual for human reviewers, not review feedback — never action it or reply to it. It is posted with the
-author's own token, so the marker is the only reliable signal. The **`review-visual`** skill posts and
-refreshes it.
+Write every PR description with the **`visual-pr`** skill, and refresh it after each push to a branch
+with an open PR: its block carries the head sha it was derived from, so a stale one is visible.
 
 ## Skills and dependencies (APM)
 

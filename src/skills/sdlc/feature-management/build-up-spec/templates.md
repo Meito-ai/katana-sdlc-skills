@@ -67,7 +67,7 @@ Card: <epic issue link>
 - <the document, URL, ADR or tracker item each fact came from>
 ```
 
-Requirements follow `slice-epic`'s [EARS rules](../slice-epic/ears.md), IDs included. Goal, scope
+Requirements follow `slice-spec`'s [EARS rules](../slice-spec/ears.md), IDs included. Goal, scope
 boundaries and success measures stay on the card.
 
 An existing PRD changes in place. An amendment from a single issue (step 5) appends the next free
