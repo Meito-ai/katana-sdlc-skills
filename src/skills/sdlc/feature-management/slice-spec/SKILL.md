@@ -31,10 +31,13 @@ which is already in context. Fetch nothing twice.
 - **The requirements**: the PRD's `## Requirements`, `R1`, `R2`, … An epic without a PRD gets a
   numbered list drafted from its description, used only to check coverage in this run. Tell the user
   the list was drafted, and leave `Spec:` and `Covers:` off the tickets.
+- **The testing seams**: the PRD's `## Testing seams`. An epic without a PRD has none listed, so
+  every seam step 3 proposes is new.
 - **Existing sub-issues**: read each one and note the requirements it already covers. They count
   towards coverage and are never proposed again.
 
-Done when the requirement list, the existing sub-issues and what each of them covers are all known.
+Done when the requirement list, the seams, the existing sub-issues and what each of them covers are
+all known.
 
 ## 2. Explore the codebase
 
@@ -79,8 +82,11 @@ Give each ticket the requirements it **covers**. A prefactoring or expand ticket
 blocks the tickets that do. Every requirement must be covered by at least one ticket, new or existing,
 unless the user decides in step 4 to leave it uncovered.
 
-Done when every ticket has its blocking edges and its coverage, and every requirement is either
-covered or marked as an open question for step 4.
+Give each ticket the **seams** its tests attach at: the PRD's, taking the highest one that reaches the
+ticket's behaviour. Propose a new seam only when no listed seam reaches it, and say why.
+
+Done when every ticket has its blocking edges, its coverage and its seams, and every requirement is
+either covered or marked as an open question for step 4.
 
 ## 4. Quiz the user
 
@@ -89,6 +95,7 @@ Present the proposed breakdown as a numbered list. For each ticket, show:
 - **Title**: short descriptive name
 - **Blocked by**: which other tickets (if any) must complete first
 - **Covers**: the requirements it implements, or `none (prefactoring)`
+- **Seams**: where its tests attach, with each new seam marked `(new)`
 - **What it delivers**: the end-to-end behaviour this ticket makes work, the thing to demo when it is
   done
 
@@ -100,6 +107,7 @@ Ask the user:
 - Does the granularity feel right? (too coarse / too fine)
 - Are the blocking edges correct: does each ticket only depend on tickets that genuinely gate it?
 - Should any tickets be merged or split further?
+- Is each new seam needed, or can a listed seam reach the behaviour?
 - Is every requirement covered where it should be? An uncovered one needs either a ticket or the
   user's decision to leave it uncovered, with the reason.
 
@@ -114,10 +122,11 @@ Fill in the [issue template](issue-template.md) for each approved ticket. Each a
 an [EARS](ears.md) statement derived from a requirement the ticket covers, and cites it (`AC2 (R5)`).
 Each one must be false at the commit the implementer starts from, and `## Current behaviour` says why.
 A prefactoring ticket's criteria state, as guards, the behaviour that must stay the same, plus the
-observable change that unblocks the next ticket.
+observable change that unblocks the next ticket. `## Testing seams` lists the seams approved in step 4,
+each with the criteria verified there.
 
-Done when every ticket has every section the template requires, and each requirement it covers is
-cited by at least one of its criteria.
+Done when every ticket has every section the template requires, each requirement it covers is cited
+by at least one of its criteria, and each criterion sits under a seam.
 
 ## 6. Score the stories
 

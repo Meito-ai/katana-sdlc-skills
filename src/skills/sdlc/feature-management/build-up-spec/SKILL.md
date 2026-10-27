@@ -113,7 +113,9 @@ Draft all of the following, then confirm it with the user in a single round:
 - **DoD**: an epic's DoD is its success measures, which step 6 writes. An issue's DoD is its
   acceptance criteria, plus a link to the repo's definition of done when the knowledge base has one.
 - **Testing seams**: where the change will be tested. Prefer existing seams to new ones, take the
-  highest seam available, and use as few as possible (ideally one). Note prior art.
+  highest seam available, and use as few as possible (ideally one). Note prior art. An epic records
+  them in the PRD. An issue records them in its own `## Testing seams`, each with the criteria verified
+  there, reusing its parent PRD's seams when it has one.
 - **Implementation decisions** (epics only): the modules, interfaces, schema and contracts decided
   while grilling.
 

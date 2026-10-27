@@ -17,7 +17,7 @@ issue:
 
 `slice-spec` adapts `to-tickets`' tracer-bullet slicing (MIT): every slice lists the PRD
 requirements it covers, and an uncovered requirement stops publishing. It writes EARS acceptance
-criteria, scores the slices that are stories with `wsjf` (tasks inherit), and publishes sub-issues
+criteria, each under the testing seam that verifies it, scores the slices that are stories with `wsjf` (tasks inherit), and publishes sub-issues
 with native blocking links.
 
 Also in this release:
