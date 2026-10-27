@@ -11,7 +11,7 @@
 # Requires apm >= 0.16.0 for the `ref:` semver ranges below; pinned to 0.32.0
 # in CI. `apm --version` must report 0.32.x before running `apm install`.
 name: katana-sdlc-skills
-version: 0.1.0
+version: 0.2.0
 description: Skills to power up your repo with AI-driven SDLC
 license: MIT
 repository: https://github.com/Meito-ai/katana-sdlc-skills
