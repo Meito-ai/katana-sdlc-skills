@@ -90,8 +90,8 @@ with an open PR: its block carries the head sha it was derived from, so a stale 
 
 This repo is both an APM **producer** and an APM **consumer**:
 
-- **Producer** — the skills under `src/skills/` are what this repo ships. Consumers (`meito`, and
-  eventually the public) install them by pinning a git tag.
+- **Producer** — the skills under `src/skills/` are what this repo ships. Consumers install them by
+  pinning a git tag; the repo is public, so that install needs no credentials.
 - **Consumer** — `devDependencies` in `apm.yml` are the upstream skills agents use *while working
   here*.
 
@@ -105,11 +105,10 @@ apm --version          # must report 0.32.x
 apm self-update        # or: brew upgrade apm
 ```
 
-> **Note on `meito`:** its CI currently pins apm **v0.14.2**. That version predates the semver
-> resolver *and* silently strips newer lockfile fields on write (dropping the `deployments`
-> ownership ledger, `declared_license`, `resolved_tag`, …). **`meito` must move to 0.32.x before it
-> can consume this repo by version range**, and until it does, running `apm install` there will
-> churn its lockfile.
+> **Note on consumers:** a consumer on apm **< 0.16.0** cannot resolve a `ref:` range, so it must
+> pin an exact tag. Old CLIs (verified with 0.14.2) also silently strip newer lockfile fields on
+> write (the `deployments` ownership ledger, `declared_license`, `resolved_tag`, …), so `apm install`
+> there churns the lockfile until the consumer moves to 0.32.x.
 
 ### Layout
 
@@ -211,12 +210,34 @@ say so in its `SKILL.md` and in `setup-katana-skills`, never in its `apm.yml` (s
 copies it into `apm.yml`, and CI fails on drift. Nothing is published to npm — `package.json` exists
 only because apm mandates a semver `version:` and consumers pin the matching tag.
 
-```bash
-npm run version        # consume changesets: bump package.json + apm.yml, write CHANGELOG.md
-git commit -am "release v$(node -p "require('./package.json').version")"
-git tag "v$(node -p "require('./package.json').version")"
-git push --follow-tags
-```
+A release is a PR like any other, and the tag goes on `main` only **after** it merges. Tagging the
+branch commit instead orphans the tag the moment a squash merge rewrites that commit.
+
+1. **On a branch worktree**, consume the changesets and re-lock:
+
+   ```bash
+   GITHUB_TOKEN="$(gh auth token)" npm run version   # bump package.json + every apm.yml, write CHANGELOG.md
+   apm install                                       # the self-references hash the new versions
+   npm run validate-skills && npm run check-version && npm test
+   git commit -am "release v$(node -p "require('./package.json').version")"
+   ```
+
+   `@changesets/changelog-github` looks up each changeset's PR and author, so `npm run version`
+   fails without `GITHUB_TOKEN`.
+
+2. **Open the PR** (`visual-pr`) and merge it.
+
+3. **In the `main` worktree**, tag the merge commit and push only the tag:
+
+   ```bash
+   git pull --ff-only
+   VERSION="v$(node -p "require('./package.json').version")"
+   git tag -a "$VERSION" -m "$VERSION" && git push origin "$VERSION"
+   ```
+
+A ruleset blocks updating or deleting any `v*` tag, admins included: consumers pin tags, so a moved
+tag would silently change what they install. A wrong tag is fixed by releasing the next version, never
+by re-tagging.
 
 ### How consumers install this repo
 
@@ -227,9 +248,9 @@ One entry per skill, referencing its subpath:
 dependencies:
   apm:
     - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/branch-management/bare-clone-workflow
-      ref: v0.1.0                    # or "^0.1.0" on apm >= 0.16
+      ref: v0.2.0                    # or "^0.2.0" on apm >= 0.16
     - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/branch-management/branch-shutdown
-      ref: v0.1.0
+      ref: v0.2.0
 ```
 
 A bare repo-root reference deploys **nothing**: apm only auto-discovers `.apm/skills/<name>/` for a

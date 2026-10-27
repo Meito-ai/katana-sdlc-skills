@@ -5,7 +5,7 @@
 # AGENTS.md "APM design constraints" for the experiments):
 #
 #   Producer -- the skills under src/skills/ are published to consumers
-#               (meito et al.), who reference each one by subpath at a git tag.
+#               who reference each one by subpath at a git tag.
 #   Consumer -- the dependencies below are the skills agents use *here*.
 #
 # Requires apm >= 0.16.0 for the `ref:` semver ranges below; pinned to 0.32.0
