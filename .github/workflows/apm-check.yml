@@ -58,9 +58,15 @@ jobs:
           esac
 
       - name: Cache apm_modules
+        # _local/ holds copies of this repo's own skills, so caching it saves
+        # nothing, and a stale copy is harmful: restored via restore-keys after
+        # a version bump, it makes `apm install --frozen` (0.32.0) record the
+        # old version in apm.lock.yaml before refreshing the copy -- verified.
         uses: actions/cache@v4
         with:
-          path: apm_modules
+          path: |
+            apm_modules
+            !apm_modules/_local
           key: apm-modules-${{ runner.os }}-${{ hashFiles('apm.lock.yaml') }}
           restore-keys: apm-modules-${{ runner.os }}-
 
@@ -83,6 +89,7 @@ jobs:
           if [ -n "$(git status --porcelain)" ]; then
             echo "::error::working tree dirty after apm install -- a deploy path escaped .gitignore, or a CI step wrote into the checkout:"
             git status --porcelain
+            git --no-pager diff
             exit 1
           fi
 

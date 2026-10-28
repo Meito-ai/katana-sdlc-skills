@@ -6,7 +6,7 @@ describing a pending change; `npm run version` consumes them, bumps
 `apm.yml`.
 
 Why the repo has npm tooling at all, given it ships only markdown: `apm.yml`
-*requires* a semver `version:`, and consumers (meito) pin this repo by git tag.
+*requires* a semver `version:`, and consumers pin this repo by git tag.
 Something has to own bumping that number and explaining what changed between
 tags. That is all changesets does here -- nothing is published to npm
 (`"private": true`).
@@ -14,8 +14,8 @@ tags. That is all changesets does here -- nothing is published to npm
 Workflow:
 
 ```bash
-npm run changeset      # describe your change (patch/minor/major)
-npm run version        # bump package.json + apm.yml, write CHANGELOG.md
-git tag v$(node -p "require('./package.json').version")
-git push --follow-tags
+npm run changeset      # describe your change (patch/minor/major), on your feature branch
 ```
+
+Cutting a release (consuming these files, tagging `main` after the release PR merges) is the
+"Releasing" section of `AGENTS.md`.

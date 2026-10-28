@@ -5,7 +5,7 @@
 #
 # `version:` is kept equal to package.json by scripts/sync-apm-version.js.
 name: paas-pulumi-infra-setup
-version: 0.1.0
+version: 0.2.0
 description: Scaffold the infra layer of a home-grown PaaS with Pulumi
 license: MIT
 
