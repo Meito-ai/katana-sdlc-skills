@@ -168,9 +168,9 @@ differ from the reporter's) has a question, and the user has seen the issue and 
    - When there is no such line, ask, listing the teams and projects through the tracker tool. Write
      the answer as the `Backlog:` line under `### Backlog items` in that block.
    - When the user changes the default, update the line.
-   - If the block doesn't exist, create it (markers, heading and subsection) in the file that
-     `setup-katana-skills` writes to: `CLAUDE.md`, or `AGENTS.md` when there is no `CLAUDE.md` or it
-     only imports `@AGENTS.md`.
+   - Write to every file `setup-katana-skills` writes the block to: `AGENTS.md`, and `CLAUDE.md` when
+     it exists and never references `AGENTS.md`. If the block doesn't exist in one, create it there
+     (markers, heading and subsection).
    - Leave the change uncommitted. It is the run's only write to the repo; everything else lands in
      the tracker.
 2. **Labels.** Only these two, added to whatever the item already carries:
