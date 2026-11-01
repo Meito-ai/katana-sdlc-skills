@@ -1,6 +1,6 @@
 ---
 name: build-up-spec
-description: "Shape an idea, a raw backlog item or nothing at all into an epic with a PRD or an agent-sized issue: explore, grill, write EARS requirements, frame the outcome, score WSJF, and publish it to the tracker."
+description: "Shape an idea, a raw backlog item or nothing at all into an epic with a PRD or an agent-sized issue: explore, grill, write EARS requirements, frame the outcome, score WSJF, and publish it to the tracker. A product owner can defer the design to the engineer who refines it later."
 disable-model-invocation: true
 ---
 
@@ -49,7 +49,20 @@ Sort what the user gave:
 
 If the user indicated a level ("an epic", "a small issue"), keep it as a starting assumption for step 4.
 
-Done when every part of the input has been sorted and every source has been read.
+Decide whether this is a **design-deferred run**, where a product owner leaves the design (modules,
+interfaces, contracts and testing seams) to the engineer who will refine the item later:
+
+- **Deferred** when the user says so in their own words ("design is for the engineer").
+- **Asked once** when the user says they are the product owner but not who designs: _shape the design
+  now, or defer it to the engineer?_
+- **Not deferred** otherwise. Every step then runs exactly as written, and the deferral notes in steps
+  4, 5 and 8 do not apply.
+
+A tracker item labelled `needs-design` is the engineer's turn, so its run is not deferred unless the
+user defers again (see [Refining in place](#refining-in-place)).
+
+Done when every part of the input has been sorted, every source has been read, and the run is known to
+be design-deferred or not.
 
 ## 2. Explore
 
@@ -89,7 +102,8 @@ problem itself raises, its design tree must reach these branches:
   moves, and from what baseline. This gives step 6 facts to frame instead of placeholders to leave.
 - **Scope boundary**: what is in scope, and what the user turns down. Everything turned down goes
   into `Out of scope`.
-- **Interfaces**: the modules, types and contracts the change touches.
+- **Interfaces**: the modules, types and contracts the change touches. When design is deferred, skip
+  this branch: the engineer grills it when refining the item.
 - **Level**, asked last: propose epic or issue, with the reason. The test is: _can one fresh agent
   session finish it end to end and verify it?_
   - It's an epic if it has more than one slice that can be demoed on its own, needs decisions across
@@ -118,9 +132,15 @@ Draft all of the following, then confirm it with the user in a single round:
   there, reusing its parent PRD's seams when it has one.
 - **Implementation decisions** (epics only): the modules, interfaces, schema and contracts decided
   while grilling.
+- **Design deferred**: draft no seams, implementation decisions or key interfaces. Write
+  `[add testing seams]` under `## Testing seams`, `[add implementation decisions]` under an epic PRD's
+  `## Implementation decisions`, and `[add key interfaces]` under an issue's `## Key interfaces`.
+  These are the **design placeholders**: step 8 labels the item `needs-design` while any of them is
+  left, so use them for nothing else.
 
 Done when the user has accepted every requirement, the seams and (for an epic) the implementation
-decisions, and each requirement fails against today's behaviour.
+decisions, and each requirement fails against today's behaviour. In a design-deferred run, the design
+placeholders stand in for the seams, implementation decisions and key interfaces.
 
 ## 6. Frame the outcome
 
@@ -152,15 +172,30 @@ Done when the item has an accepted WSJF block, or the inherits line.
      it exists and never references `AGENTS.md`. If the block doesn't exist in one, create it there
      (markers, heading and subsection).
    - Leave the change uncommitted.
-2. **Labels.**
+2. **Labels.** Write the text about to be published to a file (an issue's body, or an epic's card
+   followed by its PRD), list the team's labels (`list_issue_labels`, or `gh label list`), and run:
+
+   ```bash
+   node <skill-dir>/scripts/labels.mjs plan --level <epic|issue> --type <product|tech|compliance> \
+     --text <file> --current <the item's labels> --available <the team's labels>
+   ```
+
+   It prints the labels to `add`, the labels to `remove`, and the added labels the team is `missing`.
+   `--current` is empty for a new item. The script applies these rules:
    - An issue gets `ready-for-agent`, or `needs-info` while a placeholder is left in its criteria.
+   - A design placeholder (step 5) anywhere gives `needs-design`, and never `ready-for-agent`: no agent
+     picks the item up before an engineer has agreed its seams. Once no design placeholder is left, a
+     `needs-design` already on the item is removed.
    - An epic gets `Epic`, and never `ready-for-agent`: an agent polling for that label would try to
      build the whole epic in one run.
    - The type label is the team's label named `product`, `tech` or `compliance` (any case), when the
      team has one.
-   - When the `Epic` label or a type label is missing, offer once to create it. Labels are only
-     created with the user's yes.
-   - When `AGENTS.md` / `CLAUDE.md` or the knowledge base maps these labels to other names, use those.
+
+   Then:
+   - For each `missing` label, offer once to create it. Labels are only created with the user's yes.
+     A label the user declines is left off, and the preview says so.
+   - When `AGENTS.md` / `CLAUDE.md` or the knowledge base maps these labels to other names, pass those
+     names as `--map ready-for-agent=<label>,needs-design=<label>,…`.
    - Leave the tracker's own priority field unchanged: the WSJF block is the ranking.
 3. **Preview** exactly what will be written: the title; the card and PRD, or the issue body; the
    labels, parent, related and duplicate links; the target; any PRD amendment; and, for an item
@@ -169,16 +204,20 @@ Done when the item has an accepted WSJF block, or the inherits line.
    - On **Linear**:
      - for an item refined in place, first post its original title and description as a comment
        (`Original before build-up-spec, <date>`);
-     - create or update the issue with `save_issue`: title, description, team, project, labels,
-       `parentId` and `relatedTo`, leaving the state at the team's default;
+     - create or update the issue with `save_issue`: title, description, team, project, labels (the
+       item's labels plus `add`, minus `remove`), `parentId` and `relatedTo`, leaving the state at the
+       team's default;
      - for an epic, create the PRD with `save_document`, with `issue` set to the epic, then point the
        card's `Spec:` line at it;
      - for an amendment, patch the parent PRD's `## Requirements` with `save_document` and `patch`.
-   - On **GitHub**: `gh issue create` or `gh issue edit`, with `--parent` and `--label`. Post the
-     original with `gh issue comment`. The PRD goes in the body.
+   - On **GitHub**: `gh issue create` or `gh issue edit`, with `--parent` and `--label` (or
+     `--add-label` and `--remove-label`). Post the original with `gh issue comment`. The PRD goes in
+     the body.
    - With **no tracker tool**: hand back the card and PRD, or the issue, as text.
 5. **Hand off** an epic: ask _"slice it now?"_. A yes invokes `slice-spec` on it in this
    conversation. A no ends the run with the command to run later: `/slice-spec <epic id>`.
+   An item labelled `needs-design` is not ready to slice or build. End the run with the command the
+   engineer runs next: `/build-up-spec <item id>`.
 
 Done when every write has succeeded and its link has been reported, or the text has been handed back.
 
@@ -188,7 +227,13 @@ An existing tracker item given as input keeps its identity: the run rewrites it 
 copy.
 
 - Comments, assignee, state, cycle and existing relations stay as they are. Labels are only ever
-  added.
+  added, except that `needs-design` and `ready-for-agent` replace each other (step 8).
+- **A `needs-design` item** is the engineer filling in the design. Step 4 grills the Interfaces branch,
+  and step 5 drafts the seams, the implementation decisions (epic) and the key interfaces (issue) in
+  place of their design placeholders. The accepted requirements stay unless grilling changes them, and
+  an epic's PRD is updated in place. When the user has accepted every design section, step 8 removes
+  `needs-design` and gives an issue `ready-for-agent` (or `needs-info`, while its criteria still hold
+  a placeholder).
 - The original title and description are posted as a comment before the rewrite (step 8).
 - **Issue → epic**, when grilling finds more work than one session can hold: add the `Epic` label,
   attach a PRD, and rewrite the description as a card. Existing sub-issues stay, and `slice-spec`
