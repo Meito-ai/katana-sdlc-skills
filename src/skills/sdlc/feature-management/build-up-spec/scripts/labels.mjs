@@ -1,22 +1,19 @@
 #!/usr/bin/env node
 
 // The label rules of build-up-spec's step 8: which labels an item gets, which
-// it loses, and which the team lacks, worked out from the item's level and the
-// text about to be published.
+// it loses, and which the team lacks, worked out from the item's level, whether
+// its design was deferred, and the text about to be published.
 
 import { readFile } from 'node:fs/promises';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
-// What a design-deferred run leaves in place of the design. Any one of them
-// left in the text keeps the item at `needs-design`.
-export const DESIGN_PLACEHOLDERS = ['[add testing seams]', '[add implementation decisions]', '[add key interfaces]'];
-
 // `[add bound]`, or `\[add bound\]` once a tracker has escaped the brackets.
 const PLACEHOLDER = /\\?\[add [^\]\n]*?\\?\]/i;
-const PLACEHOLDERS = new RegExp(PLACEHOLDER.source, 'gi');
 
-const unescape = (placeholder) => placeholder.replaceAll('\\', '').toLowerCase();
+// The labels a run offers to create when the team lacks them. A missing
+// ready-for-agent or needs-info is left to the team, as it always was.
+const OFFERED = new Set(['epic', 'needs-design', 'product', 'tech', 'compliance']);
 
 /** The body of a `## <heading>` section, up to the next heading of level 1 or 2. */
 function section(text, heading) {
@@ -29,33 +26,38 @@ function section(text, heading) {
 
 /**
  * The labels to add, the labels to remove, and the added labels the team lacks
- * (to offer for creation once). `level` is `epic` or `issue`; `type` is
+ * (to offer for creation once). `level` is `epic` or `issue`; `deferred` is
+ * step 1's decision that the design is left to an engineer; `type` is
  * `product`, `tech` or `compliance`; `text` is everything about to be
  * published (an issue's body, or an epic's card and PRD). `map` renames the
  * canonical labels to the strings a repo's triage-labels.md maps them to.
  * Every comparison ignores case, and a label the team has keeps its spelling.
  */
-export function planLabels({ level, type, text, current = [], available = [], map = {} }) {
+export function planLabels({ level, deferred = false, type, text, current = [], available = [], map = {} }) {
   if (level !== 'epic' && level !== 'issue') throw new Error(`level must be epic or issue; got ${level}`);
-  const designDeferred = (text.match(PLACEHOLDERS) ?? []).some((found) => DESIGN_PLACEHOLDERS.includes(unescape(found)));
-  const needsInfo = level !== 'epic' && PLACEHOLDER.test(section(text, 'acceptance criteria'));
+  const isIssue = level === 'issue';
+  const needsInfo = isIssue && PLACEHOLDER.test(section(text, 'acceptance criteria'));
 
   const wanted = [];
-  if (level === 'epic') wanted.push('Epic');
-  if (designDeferred) wanted.push('needs-design');
+  if (!isIssue) wanted.push('Epic');
+  if (deferred) wanted.push('needs-design');
   if (needsInfo) wanted.push('needs-info');
-  if (level !== 'epic' && !designDeferred && !needsInfo) wanted.push('ready-for-agent');
+  if (isIssue && !deferred && !needsInfo) wanted.push('ready-for-agent');
   if (type) wanted.push(type);
 
-  const name = (label) => map[label] ?? label;
-  const find = (labels, label) => labels.find((other) => other.toLowerCase() === name(label).toLowerCase());
-  const add = wanted.filter((label) => !find(current, label)).map((label) => find(available, label) ?? name(label));
+  const spelled = (label) => map[label] ?? label;
+  const findIn = (labels, label) => labels.find((other) => other.toLowerCase() === spelled(label).toLowerCase());
+  const added = wanted.filter((label) => !findIn(current, label));
 
   // Labels are otherwise only ever added. This one goes because it contradicts
   // the design's state: needs-design and ready-for-agent never sit together.
-  const stale = find(current, designDeferred ? 'ready-for-agent' : 'needs-design');
+  const contradicted = findIn(current, deferred ? 'ready-for-agent' : 'needs-design');
 
-  return { add, remove: stale ? [stale] : [], missing: add.filter((label) => !find(available, label)) };
+  return {
+    add: added.map((label) => findIn(available, label) ?? spelled(label)),
+    remove: contradicted ? [contradicted] : [],
+    missing: added.filter((label) => OFFERED.has(label.toLowerCase()) && !findIn(available, label)).map(spelled),
+  };
 }
 
 function parseOptions(values) {
@@ -74,7 +76,7 @@ function parseOptions(values) {
 const list = (value) => (value ? value.split(',').map((label) => label.trim()).filter(Boolean) : []);
 
 const USAGE = `Usage:
-  labels.mjs plan --level epic|issue --text <file> [--type product|tech|compliance]
+  labels.mjs plan --level epic|issue --text <file> [--deferred yes|no] [--type product|tech|compliance]
                   [--current <label,...>] [--available <label,...>] [--map <canonical=label,...>]`;
 
 export async function main(argv) {
@@ -82,9 +84,12 @@ export async function main(argv) {
   if (command !== 'plan') throw new Error(USAGE);
   const options = parseOptions(rest);
   if (!options.text) throw new Error('plan needs --text <file>');
+  const deferred = options.deferred ?? 'no';
+  if (deferred !== 'yes' && deferred !== 'no') throw new Error(`--deferred must be yes or no; got ${deferred}`);
 
   const plan = planLabels({
     level: options.level,
+    deferred: deferred === 'yes',
     type: options.type,
     text: await readFile(options.text, 'utf8'),
     current: list(options.current),

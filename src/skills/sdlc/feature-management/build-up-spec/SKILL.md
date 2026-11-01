@@ -135,8 +135,10 @@ Draft all of the following, then confirm it with the user in a single round:
 - **Design deferred**: draft no seams, implementation decisions or key interfaces. Write
   `[add testing seams]` under `## Testing seams`, `[add implementation decisions]` under an epic PRD's
   `## Implementation decisions`, and `[add key interfaces]` under an issue's `## Key interfaces`.
-  These are the **design placeholders**: step 8 labels the item `needs-design` while any of them is
-  left, so use them for nothing else.
+  These are the **design placeholders**: they mark the sections an engineer fills, so use them for
+  nothing else.
+- **A parent PRD whose seams are still `[add testing seams]`** has none to reuse: an issue that is not
+  design-deferred drafts its own.
 
 Done when the user has accepted every requirement, the seams and (for an epic) the implementation
 decisions, and each requirement fails against today's behaviour. In a design-deferred run, the design
@@ -176,24 +178,27 @@ Done when the item has an accepted WSJF block, or the inherits line.
    followed by its PRD), list the team's labels (`list_issue_labels`, or `gh label list`), and run:
 
    ```bash
-   node <skill-dir>/scripts/labels.mjs plan --level <epic|issue> --type <product|tech|compliance> \
-     --text <file> --current <the item's labels> --available <the team's labels>
+   node <skill-dir>/scripts/labels.mjs plan --level <epic|issue> --deferred <yes|no> \
+     --type <product|tech|compliance> --text <file> --current <the item's labels> \
+     --available <the team's labels>
    ```
 
-   It prints the labels to `add`, the labels to `remove`, and the added labels the team is `missing`.
-   `--current` is empty for a new item. The script applies these rules:
+   `--deferred` is step 1's decision. It prints the labels to `add`, the labels to `remove`, and the
+   added labels the team is `missing`. `--current` is empty for a new item. The script applies these
+   rules:
    - An issue gets `ready-for-agent`, or `needs-info` while a placeholder is left in its criteria.
-   - A design placeholder (step 5) anywhere gives `needs-design`, and never `ready-for-agent`: no agent
-     picks the item up before an engineer has agreed its seams. Once no design placeholder is left, a
-     `needs-design` already on the item is removed.
+   - A design-deferred item gets `needs-design`, and never `ready-for-agent`: no agent picks it up
+     before an engineer has agreed its seams. A run that is not deferred removes a `needs-design`
+     already on the item.
    - An epic gets `Epic`, and never `ready-for-agent`: an agent polling for that label would try to
      build the whole epic in one run.
    - The type label is the team's label named `product`, `tech` or `compliance` (any case), when the
      team has one.
 
    Then:
-   - For each `missing` label, offer once to create it. Labels are only created with the user's yes.
-     A label the user declines is left off, and the preview says so.
+   - For each `missing` label (only ever `Epic`, `needs-design` or a type label), offer once to create
+     it. Labels are only created with the user's yes. A label the user declines is left off, and the
+     preview says so.
    - When `AGENTS.md` / `CLAUDE.md` or the knowledge base maps these labels to other names, pass those
      names as `--map ready-for-agent=<label>,needs-design=<label>,…`.
    - Leave the tracker's own priority field unchanged: the WSJF block is the ranking.
@@ -214,10 +219,10 @@ Done when the item has an accepted WSJF block, or the inherits line.
      `--add-label` and `--remove-label`). Post the original with `gh issue comment`. The PRD goes in
      the body.
    - With **no tracker tool**: hand back the card and PRD, or the issue, as text.
-5. **Hand off** an epic: ask _"slice it now?"_. A yes invokes `slice-spec` on it in this
-   conversation. A no ends the run with the command to run later: `/slice-spec <epic id>`.
-   An item labelled `needs-design` is not ready to slice or build. End the run with the command the
-   engineer runs next: `/build-up-spec <item id>`.
+5. **Hand off.** An item labelled `needs-design` is not ready to slice or build: end the run with the
+   command the engineer runs next, `/build-up-spec <item id>`. Otherwise, for an epic, ask
+   _"slice it now?"_. A yes invokes `slice-spec` on it in this conversation. A no ends the run with
+   the command to run later: `/slice-spec <epic id>`.
 
 Done when every write has succeeded and its link has been reported, or the text has been handed back.
 

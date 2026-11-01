@@ -48,6 +48,15 @@ describe('planLabels', () => {
     const text = ISSUE.replace('shall see it.', 'shall see it within \\[add bound\\].');
     assert.deepEqual(planLabels({ level: 'issue', text, available: TEAM }).add, ['needs-info']);
   });
+
+  test('a design placeholder quoted in a run that did not defer design changes nothing', () => {
+    const text = ISSUE.replace('Planners cap daily spend.', 'Seams are never left as `[add testing seams]`.');
+    assert.deepEqual(planLabels({ level: 'issue', text, available: TEAM }).add, ['ready-for-agent']);
+  });
+
+  test('offers to create neither ready-for-agent nor needs-info', () => {
+    assert.deepEqual(planLabels({ level: 'issue', text: ISSUE, available: [] }).missing, []);
+  });
 });
 
 describe('planLabels with design deferred', () => {
@@ -70,29 +79,24 @@ describe('planLabels with design deferred', () => {
   ].join('\n');
 
   test('an issue needs design and is not ready for an agent', () => {
-    assert.deepEqual(planLabels({ level: 'issue', text: DEFERRED_ISSUE, available: TEAM }), {
+    assert.deepEqual(planLabels({ level: 'issue', deferred: true, text: DEFERRED_ISSUE, available: TEAM }), {
       add: ['needs-design'],
       remove: [],
       missing: [],
     });
   });
 
-  test('a single design placeholder is enough', () => {
-    const text = ISSUE.replace('- spend API: AC1', '\\[add testing seams\\]');
-    assert.deepEqual(planLabels({ level: 'issue', text, available: TEAM }).add, ['needs-design']);
-  });
-
   test('an issue still missing criteria needs both design and info', () => {
     const text = DEFERRED_ISSUE.replace('shall see it.', 'shall see it within [add bound].');
-    assert.deepEqual(planLabels({ level: 'issue', text, available: TEAM }).add, ['needs-design', 'needs-info']);
+    assert.deepEqual(planLabels({ level: 'issue', deferred: true, text, available: TEAM }).add, ['needs-design', 'needs-info']);
   });
 
   test('an epic is labelled Epic and needs design', () => {
-    assert.deepEqual(planLabels({ level: 'epic', text: DEFERRED_EPIC, available: TEAM }).add, ['Epic', 'needs-design']);
+    assert.deepEqual(planLabels({ level: 'epic', deferred: true, text: DEFERRED_EPIC, available: TEAM }).add, ['Epic', 'needs-design']);
   });
 
   test('takes ready-for-agent off an item refined into a deferred design', () => {
-    const plan = planLabels({ level: 'issue', text: DEFERRED_ISSUE, current: ['ready-for-agent'], available: TEAM });
+    const plan = planLabels({ level: 'issue', deferred: true, text: DEFERRED_ISSUE, current: ['ready-for-agent'], available: TEAM });
     assert.deepEqual(plan, { add: ['needs-design'], remove: ['ready-for-agent'], missing: [] });
   });
 });
@@ -101,7 +105,7 @@ describe('planLabels against the team labels', () => {
   const DEFERRED = ISSUE.replace('- spend API: AC1', '[add testing seams]');
 
   test('reports needs-design as missing when the team has no such label', () => {
-    const plan = planLabels({ level: 'issue', text: DEFERRED, available: ['Epic', 'ready-for-agent'] });
+    const plan = planLabels({ level: 'issue', deferred: true, text: DEFERRED, available: ['Epic', 'ready-for-agent'] });
     assert.deepEqual(plan, { add: ['needs-design'], remove: [], missing: ['needs-design'] });
   });
 
@@ -119,6 +123,7 @@ describe('planLabels against the team labels', () => {
   test('uses the label strings a triage map names', () => {
     const plan = planLabels({
       level: 'issue',
+      deferred: true,
       text: DEFERRED,
       current: ['agent-ready'],
       available: ['agent-ready', 'design-pending'],
@@ -139,9 +144,9 @@ describe('planLabels refining a needs-design item', () => {
     assert.deepEqual(plan, { add: [], remove: ['Needs-Design'], missing: [] });
   });
 
-  test('an issue still holding a design placeholder keeps needs-design', () => {
+  test('an item whose design is deferred again keeps needs-design', () => {
     const text = ISSUE.replace('- spend API: AC1', '[add testing seams]');
-    const plan = planLabels({ level: 'issue', text, current: ['needs-design'], available: TEAM });
+    const plan = planLabels({ level: 'issue', deferred: true, text, current: ['needs-design'], available: TEAM });
     assert.deepEqual(plan, { add: [], remove: [], missing: [] });
   });
 });
@@ -156,7 +161,7 @@ describe('cli', () => {
   test('plan prints the labels as JSON', async () => {
     const file = await textFile(ISSUE.replace('- spend API: AC1', '[add testing seams]'));
     const { stdout } = await run('node', [
-      CLI_PATH, 'plan', '--level', 'issue', '--type', 'tech', '--text', file,
+      CLI_PATH, 'plan', '--level', 'issue', '--deferred', 'yes', '--type', 'tech', '--text', file,
       '--current', 'ready-for-agent', '--available', 'ready-for-agent,Tech',
       '--map', 'needs-info=needs-triage',
     ]);
@@ -165,6 +170,14 @@ describe('cli', () => {
       remove: ['ready-for-agent'],
       missing: ['needs-design'],
     });
+  });
+
+  test('rejects a --deferred other than yes or no', async () => {
+    const file = await textFile(ISSUE);
+    await assert.rejects(
+      run('node', [CLI_PATH, 'plan', '--level', 'issue', '--deferred', 'maybe', '--text', file]),
+      (error) => error.code === 1 && /--deferred must be yes or no/.test(error.stderr),
+    );
   });
 
   test('rejects an unknown level with a non-zero exit', async () => {
