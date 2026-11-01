@@ -1,6 +1,9 @@
 ---
 name: visual-pr
 description: "Write a GitHub PR description that is fast to review: a visual of the change, before/after evidence and merge danger, kept in one marked block stamped with the PR head commit. Use when opening a PR, writing a PR description, or after pushing to a branch with an open PR."
+metadata:
+  adapted-from: "https://github.com/mattpocock/skills/tree/v1.3.1/skills/engineering/pr"
+  adapted-license: "MIT, Matt Pocock; see LICENSE-mattpocock-skills"
 ---
 
 # Visual PR

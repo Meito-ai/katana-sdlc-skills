@@ -1,6 +1,9 @@
 ---
 name: slice-spec
 description: "Slice an epic into tracer-bullet issues sized for one fresh agent session, each covering requirements from the epic's PRD, with EARS acceptance criteria, blocking edges, and WSJF for the slices that deliver value on their own; published as sub-issues of the epic. Use when asked to break an epic, spec or plan into issues or tickets."
+metadata:
+  adapted-from: "https://github.com/mattpocock/skills/tree/v1.3.1/skills/engineering/to-tickets"
+  adapted-license: "MIT, Matt Pocock; see LICENSE-mattpocock-skills"
 ---
 
 # Slice spec

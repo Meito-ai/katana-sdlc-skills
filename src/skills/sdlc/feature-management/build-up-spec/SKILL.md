@@ -2,6 +2,8 @@
 name: build-up-spec
 description: "Shape an idea, a raw backlog item or nothing at all into an epic with a PRD or an agent-sized issue: explore, grill, write EARS requirements, frame the outcome, score WSJF, and publish it to the tracker. A product owner can defer the design to the engineer who refines it later."
 disable-model-invocation: true
+metadata:
+  requires: "https://github.com/mattpocock/skills/tree/v1.3.2/skills/productivity/grilling"
 ---
 
 # Build up spec
