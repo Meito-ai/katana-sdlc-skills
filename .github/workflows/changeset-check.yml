@@ -1,0 +1,53 @@
+name: Changeset Check
+
+# A PR that changes what consumers install (src/skills/) must carry a
+# changeset, or its change ships with no release note. A PR that intentionally
+# releases nothing adds an empty one: `npx changeset --empty`.
+#
+# Required by the "main takes PRs with a green apm check" ruleset. The Version
+# PR is exempt: it deletes the changesets and edits src/skills/**/apm.yml, so
+# it would always fail. A job skipped by `if:` satisfies a required check.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: changeset-check-${{ github.head_ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  changeset:
+    name: changeset for src/skills changes
+    if: github.head_ref != 'changeset-release/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Require a changeset when src/skills/ changes
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          SKILLS="$(git diff --name-only "$BASE...$HEAD" -- src/skills)"
+          if [ -z "$SKILLS" ]; then
+            echo "No changes under src/skills/ -- no changeset needed."
+            exit 0
+          fi
+          CHANGESETS="$(git diff --name-only --diff-filter=AM "$BASE...$HEAD" -- '.changeset/*.md' \
+            | grep -v '^\.changeset/README\.md$' || true)"
+          if [ -z "$CHANGESETS" ]; then
+            echo "::error::This PR changes src/skills/ but adds no changeset. Run \`npm run changeset\` (or \`npx changeset --empty\` if nothing should be released). See \"Writing a changeset\" in AGENTS.md."
+            echo "Changed under src/skills/:"
+            echo "$SKILLS"
+            exit 1
+          fi
+          echo "Changesets in this PR:"
+          echo "$CHANGESETS"

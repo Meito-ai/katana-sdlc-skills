@@ -1,8 +1,11 @@
 {
-  "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
+  "$schema": "https://unpkg.com/@changesets/config@4.0.1/schema.json",
   "changelog": [
     "@changesets/changelog-github",
-    { "repo": "Meito-ai/katana-sdlc-skills" }
+    {
+      "repo": "Meito-ai/katana-sdlc-skills",
+      "template": "\n\n- {pull} - {summary}"
+    }
   ],
   "commit": false,
   "fixed": [],
@@ -10,5 +13,6 @@
   "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": []
+  "ignore": [],
+  "privatePackages": { "version": true, "tag": true }
 }
