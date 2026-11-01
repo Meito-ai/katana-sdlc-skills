@@ -18,8 +18,8 @@ the user provided, or the user's own answer. A gap becomes a **placeholder** (`[
 `[add bound]`, …) for the team to fill in.
 
 One run shapes one feature: product, tech or compliance work. A bug (something broken) is out of
-scope. Say so, and point the user to the repo's bug workflow (`diagnosing-bugs`, when it is
-installed).
+scope. Say so, and point the user to `bug-intake` (`/bug-intake <report>`), which turns a bug report
+into an issue; when it is not installed, `/setup-katana-skills` adds it.
 
 ## Requirements
 

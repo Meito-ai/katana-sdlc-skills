@@ -27,6 +27,7 @@ The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/sk
 | `wsjf` | `sdlc/feature-management/wsjf` | the default comparison scope | always |
 | `build-up-spec` | `sdlc/feature-management/build-up-spec` | the knowledge base and backlog lines; needs `outcome-framing`, `wsjf`, `slice-spec`, and `grilling` from `mattpocock/skills` | always |
 | `slice-spec` | `sdlc/feature-management/slice-spec` | the knowledge base line; needs `wsjf` | always |
+| `bug-intake` | `sdlc/feature-management/bug-intake` | the knowledge base and backlog lines; needs `slice-spec` and `wsjf` | always |
 | `paas-pulumi-infra-setup` | `paas/paas-pulumi-infra-setup` | none: a one-time, user-run scaffold that writes its own pointer line when run | always |
 
 This is a prompt-driven skill. Explore, present, confirm, then write. Nothing is committed: the user
@@ -67,10 +68,10 @@ Read the repo's actual state; assume nothing.
   already run `visual-pr/scripts/hook.mjs`.
 - **PR workflow doc** (for `visual-pr`): a doc describing how PRs are opened here, e.g.
   `CONTRIBUTING.md` or `docs/**/development*.md`.
-- **Tracker** (for `wsjf` and `build-up-spec`): where this repo's epics live and where new items are
+- **Tracker** (for `wsjf`, `build-up-spec` and `bug-intake`): where this repo's epics live and where new items are
   filed. A GitHub `origin` suggests its issues; a connected Linear MCP can list teams and projects.
   Existing `WSJF scope` and `Backlog` lines in the block win.
-- **Knowledge base** (for `build-up-spec` and `slice-spec`): whether `AGENTS.md` / `CLAUDE.md` already
+- **Knowledge base** (for `build-up-spec`, `slice-spec` and `bug-intake`): whether `AGENTS.md` / `CLAUDE.md` already
   says where the repo's docs live (glossary, decision records, a definition of done). If not, the
   directories that hold them. An existing `Knowledge base` line in the block wins.
 - **Upstream pins**: the upstreams the chosen skills declare in their own `apm.yml`: `build-up-spec`
@@ -92,10 +93,10 @@ recommended answer so the user can accept it in a word. Skip a question explorat
    reason). Installed skills are pre-selected. The user picks any subset; unselecting an installed skill
    removes it. When `visual-pr` is picked but `node` or `gh` failed its check, say which and ask
    whether to install it anyway. Picking `build-up-spec` also picks `outcome-framing`, `wsjf` and
-   `slice-spec`; picking `slice-spec` also picks `wsjf`. A skill that a picked skill needs stays
-   picked: when the user unselects one, name the skill that needs it. When a picked skill has a
-   same-name local skill, name it and recommend removing it: two skills with one name cannot both
-   deploy.
+   `slice-spec`; picking `slice-spec` also picks `wsjf`. Picking `bug-intake` also picks `slice-spec`
+   and `wsjf`. A skill that a picked skill needs stays picked: when the user unselects one, name the
+   skill that needs it. When a picked skill has a same-name local skill, name it and recommend
+   removing it: two skills with one name cannot both deploy.
 2. **Upstream pins** (per-path entries found for an upstream that a picked skill declares). Per-path
    entries do not override the declared requirement, so apm resolves a second copy of the upstream and
    deploys the same skill twice. Recommend converting them to one `git: <upstream>` entry whose
@@ -119,12 +120,12 @@ recommended answer so the user can accept it in a word. Skip a question explorat
 8. **WSJF scope** (`wsjf` picked). Propose the default comparison scope from the tracker signals: a
    Linear team or project, or the GitHub repo. The user may leave it unset; the skill then asks on
    each run, and the `### WSJF` subsection is dropped.
-9. **Knowledge base** (`build-up-spec` or `slice-spec` picked, and `AGENTS.md` / `CLAUDE.md` does not
-   already say where it lives). Propose the paths exploration found. The user may leave it unset; the
-   skills then look through `README` and `docs/` and say that they guessed.
-10. **Backlog** (`build-up-spec` picked). Propose where new epics and issues are filed: a Linear team
-   and project, or the GitHub repo. The user may leave it unset; `build-up-spec` then asks on its
-   first run and writes the line itself.
+9. **Knowledge base** (`build-up-spec`, `slice-spec` or `bug-intake` picked, and `AGENTS.md` /
+   `CLAUDE.md` does not already say where it lives). Propose the paths exploration found. The user may
+   leave it unset; the skills then look through `README` and `docs/` and say that they guessed.
+10. **Backlog** (`build-up-spec` or `bug-intake` picked). Propose where new epics and issues are
+   filed: a Linear team and project, or the GitHub repo. The user may leave it unset; each skill then
+   asks on its first run and writes the line itself.
 
 ## 3. Draft
 
@@ -247,6 +248,7 @@ hook exactly when the user wanted it (`jq empty .claude/settings.json` passes).
 - Nothing is committed; the user reviews and commits.
 - `paas-pulumi-infra-setup` installed: run `/paas-pulumi-infra-setup` to scaffold the infrastructure.
 - `build-up-spec` installed: run `/build-up-spec` to shape an epic or an issue.
+- `bug-intake` installed: run `/bug-intake` to turn a bug report into an issue.
 - After a conversion: the new worktree path, and that the session must be restarted there, since the
   old directory is now the container. Undoing it is the Rollback section of `bare-clone-workflow`'s
   `reference.md`.

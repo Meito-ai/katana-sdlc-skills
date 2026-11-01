@@ -45,6 +45,7 @@ Score and rank epics and stories (user and tech) with the `wsjf` skill. WSJF sco
 
 [if build-up-spec] Shape new epics and issues with `/build-up-spec`.
 [if slice-spec] Slice an epic into agent-sized issues with the `slice-spec` skill.
+[if bug-intake] Turn a bug report into an agent-sized issue with `/bug-intake`.
 [if knowledge base] Knowledge base: {{knowledge-base}}.
 [if backlog] Backlog: {{backlog}}.
 
