@@ -10,8 +10,10 @@ Install the katana skills the user picks and **wire** each one into this repo: t
 agent must see every session, plus the repo-specific facts a skill defers to the host repo for. A skill
 that is installed but not wired is dead weight; wiring is the point.
 
-Keep the footprint minimal: setup writes `apm.yml` and one marker-delimited block in `CLAUDE.md` or
-`AGENTS.md`, plus one optional line in a PR workflow doc and one optional hook in `.claude/settings.json`. Whatever a skill's own `SKILL.md` already
+Keep the footprint minimal: setup writes `apm.yml` and one marker-delimited block in `AGENTS.md` (and
+in `CLAUDE.md` when that file does not reference `AGENTS.md`), plus one optional line in a PR workflow
+doc and one optional hook in `.claude/settings.json`. It deletes only what the user agreed to: a local
+skill a katana skill replaces, and apm's generated output. Whatever a skill's own `SKILL.md` already
 says stays out of the block.
 
 The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/skills/<path>`:
@@ -42,17 +44,23 @@ Read the repo's actual state; assume nothing.
   and its `ref:` string. Every skill this run adds gets that exact string. No such entry: ask for the ref.
 - **Installed katana skills**: `apm.yml` entries under `Meito-ai/katana-sdlc-skills/src/skills/`, and
   deployed copies in `.claude/skills/<name>/` or `.agents/skills/<name>/`. These arrive pre-selected.
+- **Local skills**: `apm.yml` entries `./<path>` (e.g. `./.apm/skills/branch-shutdown`) and directories
+  under `.apm/skills/`, whose skill name equals a katana skill's name. apm deploys `.apm/skills/` from
+  the project root even without an entry.
 - **Layout**: `git worktree list`. A first line ending in `(bare)` means the repo is already a bare
   clone, so there is nothing to convert. Otherwise classify `git status --porcelain`: untracked files
   (`??`) never block, since the conversion inventories and restores them. A tracked change blocks
   unless it is **install residue**: a change to `apm.yml`, `apm.lock.yaml` or `.gitignore`, which is
   what adding setup and running `apm install` leaves behind.
-- **Agent instructions**: `CLAUDE.md`, `AGENTS.md`, and an existing `<!-- katana-skills:start -->`
-  block from an earlier run.
+- **Agent instructions**: `AGENTS.md`, `CLAUDE.md`, whether `CLAUDE.md` references `AGENTS.md` (an
+  `@AGENTS.md` import or a plain mention), and an existing `<!-- katana-skills:start -->` block in
+  either file from an earlier run.
 - **Bootstrap signals** (for `bare-clone-workflow`): lockfiles and manifests (`pnpm-lock.yaml`,
   `package-lock.json`, `uv.lock`, `poetry.lock`, `go.mod`, `Cargo.toml`, `Gemfile.lock`, `Makefile`),
-  setup sections of `README.md` / `CONTRIBUTING.md`, and ignored files a fresh worktree would lack
-  (`git ls-files --others --ignored --exclude-standard --directory`: `.env`, local config).
+  setup sections of `README.md` / `CONTRIBUTING.md`, ignored files a fresh worktree would lack
+  (`git ls-files --others --ignored --exclude-standard --directory`: `.env`, local config), and
+  symlinks, tracked or ignored (`find . -type l -not -path './.git/*' -not -path './node_modules/*'`):
+  each is a symlink candidate.
 - **Editor**: `.vscode/`, `.cursor/`, or an existing `*.code-workspace`.
 - **Tooling** (for `visual-pr`): `node --version` (>= 20) and `gh auth status`.
 - **Claude Code settings** (for `visual-pr`): `.claude/settings.json`, and whether its `PostToolUse` hooks
@@ -65,9 +73,13 @@ Read the repo's actual state; assume nothing.
 - **Knowledge base** (for `build-up-spec` and `slice-spec`): whether `AGENTS.md` / `CLAUDE.md` already
   says where the repo's docs live (glossary, decision records, a definition of done). If not, the
   directories that hold them. An existing `Knowledge base` line in the block wins.
-- **Upstream pin** (for `build-up-spec`): an existing `mattpocock/skills` entry in `apm.yml`, and its
-  `skills:` list. That entry's subset silently wins over the one `build-up-spec` declares, so it must
-  include `productivity/grilling`.
+- **Upstream pins**: the upstreams the chosen skills declare in their own `apm.yml`: `build-up-spec`
+  declares `mattpocock/skills` (`productivity/grilling`), `paas-pulumi-infra-setup` declares
+  `pulumi/agent-skills`. For each, the `apm.yml` entries of that upstream, in either form:
+  - one `git: <upstream>` entry, its `ref:` and its `skills:` list. Its subset silently wins over the
+    declared one, so for `mattpocock/skills` it must include `productivity/grilling`.
+  - **per-path** entries, one string per skill, e.g. `mattpocock/skills/skills/<category>/<name>#<ref>`.
+    Note the ref they share, or that they differ.
 
 Done when every bullet has an answer.
 
@@ -81,26 +93,36 @@ recommended answer so the user can accept it in a word. Skip a question explorat
    removes it. When `visual-pr` is picked but `node` or `gh` failed its check, say which and ask
    whether to install it anyway. Picking `build-up-spec` also picks `outcome-framing`, `wsjf` and
    `slice-spec`; picking `slice-spec` also picks `wsjf`. A skill that a picked skill needs stays
-   picked: when the user unselects one, name the skill that needs it.
-2. **Conversion** (`bare-clone-workflow` picked, repo not yet bare). Recommend converting this clone to
+   picked: when the user unselects one, name the skill that needs it. When a picked skill has a
+   same-name local skill, name it and recommend removing it: two skills with one name cannot both
+   deploy.
+2. **Upstream pins** (per-path entries found for an upstream that a picked skill declares). Per-path
+   entries do not override the declared requirement, so apm resolves a second copy of the upstream and
+   deploys the same skill twice. Recommend converting them to one `git: <upstream>` entry whose
+   `skills:` list holds every path (relative to the upstream's `skills/` directory), at a ref that
+   contains the pinned commit and satisfies the declared range: a release tag when one exists, else a
+   commit.
+3. **Conversion** (`bare-clone-workflow` picked, repo not yet bare). Recommend converting this clone to
    the bare-clone layout now: the wiring describes that layout. It moves every file in the repo, so get
    an explicit yes. A tracked change other than install residue blocks it: name the files, and the
    user commits or discards them first, then re-runs.
-3. **Workspace file** (converting). Recommend yes when the user works in VS Code or Cursor, else no.
-4. **Bootstrap** (`bare-clone-workflow` picked). Propose the install command, the files to copy from a
-   sibling worktree, and a verify command (build or test), from the bootstrap signals.
-5. **PR workflow line** (`visual-pr` picked, a PR workflow doc found). Recommend adding one line to
+4. **Workspace file** (converting). Recommend yes when the user works in VS Code or Cursor, else no.
+5. **Bootstrap** (`bare-clone-workflow` picked). Propose the install command, the files a new worktree
+   takes from a sibling worktree, and a verify command (build or test), from the bootstrap signals.
+   Per file, propose copy or symlink (symlink for a symlink candidate), and add any condition the user
+   names on a copy.
+6. **PR workflow line** (`visual-pr` picked, a PR workflow doc found). Recommend adding one line to
    it: write the PR description with `visual-pr`, and refresh it after each push.
-6. **Refresh hook** (`visual-pr` picked, the team uses Claude Code). Recommend yes: model invocation
+7. **Refresh hook** (`visual-pr` picked, the team uses Claude Code). Recommend yes: model invocation
    reliably covers opening a PR but not refreshing it after a later push, and the hook reminds the agent
    whenever a push leaves the description's stamp behind `HEAD`. Other agents ignore the file.
-7. **WSJF scope** (`wsjf` picked). Propose the default comparison scope from the tracker signals: a
+8. **WSJF scope** (`wsjf` picked). Propose the default comparison scope from the tracker signals: a
    Linear team or project, or the GitHub repo. The user may leave it unset; the skill then asks on
    each run, and the `### WSJF` subsection is dropped.
-8. **Knowledge base** (`build-up-spec` or `slice-spec` picked, and `AGENTS.md` / `CLAUDE.md` does not
+9. **Knowledge base** (`build-up-spec` or `slice-spec` picked, and `AGENTS.md` / `CLAUDE.md` does not
    already say where it lives). Propose the paths exploration found. The user may leave it unset; the
    skills then look through `README` and `docs/` and say that they guessed.
-9. **Backlog** (`build-up-spec` picked). Propose where new epics and issues are filed: a Linear team
+10. **Backlog** (`build-up-spec` picked). Propose where new epics and issues are filed: a Linear team
    and project, or the GitHub repo. The user may leave it unset; `build-up-spec` then asks on its
    first run and writes the line itself.
 
@@ -108,10 +130,10 @@ recommended answer so the user can accept it in a word. Skip a question explorat
 
 Show the user, and let them edit before anything is written:
 
-- the `apm.yml` entries to add and remove;
+- the `apm.yml` entries to add and remove, including each per-path conversion and each local skill to
+  remove (with its directory);
 - the `## Katana skills` block, from [agents-block.md](agents-block.md), keeping only the subsections
-  of the chosen skills, placeholders filled (with no files to copy, drop the "copy ... from a sibling
-  worktree" clause);
+  of the chosen skills, placeholders filled;
 - the PR workflow line and the refresh hook, if any.
 
 Read every file in this skill folder before step 4: conversion moves this folder along with the rest of
@@ -151,22 +173,47 @@ same residue changes as before the conversion, and the verify command passed the
    ```
    Leave the ref of an already-installed skill as it is.
 2. Remove each unselected skill with `apm uninstall Meito-ai/katana-sdlc-skills/src/skills/<path>`.
-3. With `build-up-spec` chosen and an existing `mattpocock/skills` entry in `apm.yml`, add
+3. For each local skill the user agreed to remove, delete its directory, its `apm.yml` entry, and its
+   deployed output (`.claude/skills/<name>/`, `.agents/skills/<name>/`). The output is generated by
+   apm, but apm keeps files it no longer owns as user-edited, so the katana copy would never land.
+   First confirm the output is gitignored (`git check-ignore`); when it is tracked, stop and ask.
+4. Convert each per-path upstream pin the user accepted into the agreed entry:
+   ```yaml
+   - git: mattpocock/skills
+     ref: <agreed ref>
+     skills:
+       - <category>/<name>   # one line per former per-path entry
+   ```
+5. With `build-up-spec` chosen and a `git: mattpocock/skills` entry in `apm.yml`, add
    `productivity/grilling` to that entry's `skills:` list if it is missing.
-4. Run `apm install`.
+6. Run `apm install`. When it stops on a content-hash mismatch for an upstream whose entries this run
+   changed, delete that upstream's entries from `apm.lock.yaml` and rerun. Leave the rest of the graph
+   at its locked versions, which `apm install --update` would re-resolve.
+7. **Verify**: `apm install --frozen` exits 0, and `apm.lock.yaml` holds exactly one package per
+   upstream (one `repo_url:` each), and no entry under `dependencies:` or `local_deployed_files:` for
+   a skill this run removed or replaced with a katana one.
+
+When a step 7 check fails, regenerate the lock: delete `.claude/skills/`, `.agents/skills/` and
+`apm.lock.yaml`, run `apm install`, and verify again. Before deleting, confirm both directories are
+gitignored and hold only paths `apm.lock.yaml` lists as deployed; name anything else and ask. Tell the
+user the lockfile diff will be large: a fresh lock lists every deployed file.
 
 Done when every chosen skill has a `SKILL.md` under `.claude/skills/<name>/` or `.agents/skills/<name>/`
-(`grilling` included when `build-up-spec` is chosen), and no unselected one does.
+(`grilling` included when `build-up-spec` is chosen), no unselected one does, each replaced local
+skill's name holds the katana copy, and both step 7 checks pass.
 
 ## 6. Wire
 
-**Pick the file.** Edit `CLAUDE.md` if it exists, else `AGENTS.md`; a `CLAUDE.md` that only imports
-`@AGENTS.md` counts as `AGENTS.md`. When neither exists, ask which to create. Edit the one that is
-there; never create the other alongside it.
+**Pick the files.** `AGENTS.md` always carries the block; create it when missing. `CLAUDE.md` carries
+it too only when the file exists and never references `AGENTS.md`: Claude Code reads `CLAUDE.md`
+alone, and other agents read `AGENTS.md` alone. A `CLAUDE.md` that references `AGENTS.md` (an
+`@AGENTS.md` import or a plain mention) already leads the agent to the block, so leave it untouched, except to delete a block an earlier run left in it. Never
+create `CLAUDE.md`.
 
-**Write the block** between the `<!-- katana-skills:start -->` and `<!-- katana-skills:end -->` markers:
-replace an existing block in place, or append a new one at the end of the file. Everything outside the
-markers is the user's; leave it byte-for-byte.
+**Write the block** into each picked file, between the `<!-- katana-skills:start -->` and
+`<!-- katana-skills:end -->` markers: replace an existing block in place, or append a new one at the
+end of the file. Both files get the identical block. Everything outside the markers is the user's;
+leave it byte-for-byte.
 
 **Write the PR workflow line** if the user wanted it; remove it when `visual-pr` was unselected.
 
@@ -187,13 +234,16 @@ and hook. Remove the entry when `visual-pr` was unselected or the user declined 
 }
 ```
 
-Done when the block has a subsection for exactly the chosen skills that have one in
+Done when `AGENTS.md` has the block, `CLAUDE.md` has an identical one exactly when it exists and never
+references `AGENTS.md`, the block has a subsection for exactly the chosen skills that have one in
 [agents-block.md](agents-block.md), no `{{` is left in it, and `.claude/settings.json` runs the refresh
 hook exactly when the user wanted it (`jq empty .claude/settings.json` passes).
 
 ## 7. Report
 
 - The skills installed, removed and wired, and the files changed (`git status --short`).
+- The step 5 verification: whether `apm install --frozen` passed, the package count per upstream, and
+  whether the lock was regenerated.
 - Nothing is committed; the user reviews and commits.
 - `paas-pulumi-infra-setup` installed: run `/paas-pulumi-infra-setup` to scaffold the infrastructure.
 - `build-up-spec` installed: run `/build-up-spec` to shape an epic or an issue.

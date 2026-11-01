@@ -23,7 +23,7 @@ installed).
 
 ## Requirements
 
-- **`grilling`** from `mattpocock/skills` >= v1.2.0. This skill's `apm.yml` declares it, but a repo
+- **`grilling`** from `mattpocock/skills` >= v1.3.2. This skill's `apm.yml` declares it, but a repo
   that already pins `mattpocock/skills` keeps its own pin and subset, silently.
 - **`outcome-framing`, `wsjf` and `slice-spec`**, the katana skills this one calls.
   `setup-katana-skills` installs them along with this one; when installing by hand, add all three.
@@ -148,9 +148,9 @@ Done when the item has an accepted WSJF block, or the inherits line.
    - When there is no such line, ask, listing the teams and projects through the tracker tool. Write
      the answer as the `Backlog:` line under `### Backlog items` in that block.
    - When the user changes the default, update the line.
-   - If the block doesn't exist, create it (markers, heading and subsection) in the file that
-     `setup-katana-skills` writes to: `CLAUDE.md`, or `AGENTS.md` when there is no `CLAUDE.md` or it
-     only imports `@AGENTS.md`.
+   - Write to every file `setup-katana-skills` writes the block to: `AGENTS.md`, and `CLAUDE.md` when
+     it exists and never references `AGENTS.md`. If the block doesn't exist in one, create it there
+     (markers, heading and subsection).
    - Leave the change uncommitted.
 2. **Labels.**
    - An issue gets `ready-for-agent`, or `needs-info` while a placeholder is left in its criteria.

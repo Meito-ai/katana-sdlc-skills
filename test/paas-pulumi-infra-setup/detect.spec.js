@@ -174,7 +174,22 @@ describe('detect', () => {
     assert.equal(report.repoName, 'storefront');
     assert.deepEqual(report.apm, { manifest: true, cli: '0.32.0', pulumiMcp: true, pulumiSkills: ['pulumi-best-practices'] });
     assert.deepEqual(report.pulumi.cli, { version: 'v3.268.0', user: 'acme-org' });
-    assert.deepEqual(report.agentFiles, { agents: true, claude: true, claudeImportsAgents: true });
+    assert.deepEqual(report.agentFiles, { agents: true, claude: true, claudeReferencesAgents: true });
+  });
+
+  test('a plain mention of AGENTS.md in CLAUDE.md counts as a reference', () => {
+    const root = createRepo({
+      'package.json': { name: 'shop' },
+      'CLAUDE.md': '# Claude\n\nRead AGENTS.md before acting.\n',
+    });
+
+    assert.equal(detect(root, { run: fakeRun() }).agentFiles.claudeReferencesAgents, true);
+  });
+
+  test('a CLAUDE.md that never names AGENTS.md is no reference', () => {
+    const root = createRepo({ 'package.json': { name: 'shop' }, 'CLAUDE.md': '# Claude\n' });
+
+    assert.equal(detect(root, { run: fakeRun() }).agentFiles.claudeReferencesAgents, false);
   });
 
   test('missing CLIs and remotes report null rather than failing', () => {

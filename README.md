@@ -28,7 +28,8 @@ apm install
 ```
 
 It detects the katana skills you already have, offers the rest, installs your picks at the same `ref`,
-and writes one `## Katana skills` block into `AGENTS.md` / `CLAUDE.md` — nothing else. Picking
+and writes one `## Katana skills` block into `AGENTS.md`, and into `CLAUDE.md` unless it references
+`AGENTS.md` — nothing else. Picking
 `bare-clone-workflow` also converts your clone to the bare-clone layout (after asking). Nothing is
 committed. Re-run it to add or remove skills.
 
