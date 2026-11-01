@@ -35,13 +35,19 @@ jobs:
         # nothing, and a stale copy is harmful: restored via restore-keys after
         # a version bump, it makes `apm install --frozen` (0.32.0) record the
         # old version in apm.lock.yaml before refreshing the copy -- verified.
+        #
+        # actions/cache globs with implicitDescendants off: `apm_modules` alone
+        # names one directory that tar packs whole, so the exclusion must sit
+        # beside its children (`apm_modules/*`). The `v2` key prefix keeps
+        # restore-keys from reaching the entries saved before that, which all
+        # hold a _local/.
         uses: actions/cache@v4
         with:
           path: |
-            apm_modules
+            apm_modules/*
             !apm_modules/_local
-          key: apm-modules-${{ runner.os }}-${{ hashFiles('apm.lock.yaml') }}
-          restore-keys: apm-modules-${{ runner.os }}-
+          key: apm-modules-v2-${{ runner.os }}-${{ hashFiles('apm.lock.yaml') }}
+          restore-keys: apm-modules-v2-${{ runner.os }}-
 
       - name: apm install --frozen
         run: apm install --frozen
