@@ -64,15 +64,21 @@ the restatement.
   just the report's wording, and report where you looked. A passing test or a code path that already
   produces the expected behaviour is a match.
 - **Duplicates**: search the tracker for open issues using the report's key terms (in the team named
-  on the `Backlog:` line, or across the whole workspace).
+  on the `Backlog:` line, or across the whole workspace), leaving out the item this run updates.
 
-Show every match. For each one the user picks:
+Show every match. For a duplicate, the user picks:
 
-- **refine it**: an open issue becomes the item this run updates in place;
-- **link it** as related;
-- **mark the report as its duplicate**, which ends the run (for a tracker item, set the duplicate
-  relation);
+- **refine it**: the open issue becomes the item this run updates in place;
+- **link it** as related, written in step 6;
+- **mark the report as its duplicate**, which ends the run. For a tracker item, preview the duplicate
+  relation and set it on the user's yes (on GitHub, a `Duplicate of #<n>` comment);
 - **carry on**.
+
+For behaviour that already works, the user picks:
+
+- **close the report as working**, which ends the run. For a tracker item, preview a comment pointing
+  to the passing test or code path, and post it on the user's yes;
+- **carry on**: the report may describe a case the match doesn't cover.
 
 Done when the knowledge base has been located (or the guess reported), the code and its tests have
 been read, and the user has decided on every match.
@@ -119,7 +125,8 @@ Draft the issue from the [issue template](../slice-spec/issue-template.md):
   the fix must keep, when step 2 found one at risk.
 - **Out of scope**: other defects noticed on the way, and any redesign beyond the fix.
 - **Sources**: the report, each source read, and the reproduction (what was run, and when).
-- **WSJF**: invoke `wsjf` on the draft, telling it the item is still being drafted so that it returns
+- **WSJF**: a bug fix passes `wsjf`'s story test, since shipped alone it restores behaviour someone
+  relies on. Invoke `wsjf` on the draft, telling it the item is still being drafted so that it returns
   the block instead of writing it.
 
 Confirm the draft with the user in a single round.
@@ -151,24 +158,29 @@ List under "established" everything settled so far, answers from earlier rounds 
 work isn't lost. Each question is specific and actionable: it names the missing fact and how to get
 it ("Which version does `app --version` print?"), never "please provide more info".
 
-Done when every missing fact from step 3 has a question, and the user has seen the issue and the
-notes.
+Done when every missing fact from step 3 (or, after a failed reproduction, each condition that may
+differ from the reporter's) has a question, and the user has seen the issue and the notes.
 
 ## 6. Preview and publish
 
 1. **Target.** Read the `Backlog:` line in the `## Katana skills` block: a team and a project, or a
-   GitHub repo. Propose it, and let the user change it for this issue. When there is no such line, ask,
-   listing the teams and projects through the tracker tool, and write the answer as the `Backlog:` line
-   under `### Backlog items` in that block (creating the block in the file `setup-katana-skills` writes
-   to, when it is missing). Leave that change uncommitted. It is the run's only write to the repo;
-   everything else lands in the tracker.
-2. **Labels.** Exactly these, added to whatever the item already carries:
+   GitHub repo. Propose it, and let the user change it for this issue.
+   - When there is no such line, ask, listing the teams and projects through the tracker tool. Write
+     the answer as the `Backlog:` line under `### Backlog items` in that block.
+   - When the user changes the default, update the line.
+   - If the block doesn't exist, create it (markers, heading and subsection) in the file that
+     `setup-katana-skills` writes to: `CLAUDE.md`, or `AGENTS.md` when there is no `CLAUDE.md` or it
+     only imports `@AGENTS.md`.
+   - Leave the change uncommitted. It is the run's only write to the repo; everything else lands in
+     the tracker.
+2. **Labels.** Only these two, added to whatever the item already carries:
    - `ready-for-agent` after step 4, or `needs-info` after step 5. Moving to `ready-for-agent`
      removes `needs-info`.
    - The team's `bug` type label: its label named `bug` (any case). When it is missing, offer once to
      create it, and create it only on the user's yes.
-   - When the repo has `docs/agents/triage-labels.md`, use the label strings it maps to.
-   - Leave the tracker's own priority field unchanged: the WSJF block is the ranking.
+
+   When the repo has `docs/agents/triage-labels.md`, use the strings it maps these labels to. Leave the
+   tracker's own priority field unchanged: the WSJF block is the ranking.
 3. **Preview** exactly what will be written: the title, the body, the labels, the related and duplicate
    links, the triage notes, the target, and, for an item updated in place, what changes. Ask once:
    _publish / edit_.
@@ -177,8 +189,9 @@ notes.
      comment (`Original before bug-intake, <date>`). Create or update the issue with `save_issue`
      (title, description, team, project, labels, `relatedTo`), leaving the state at the team's
      default. Post the triage notes with `save_comment`.
-   - On **GitHub**: `gh issue create` or `gh issue edit`, with `--label`. Post the original and the
-     triage notes with `gh issue comment`.
+   - On **GitHub**: `gh issue create` or `gh issue edit`, with `--label`, and a `Related: #<n>` line
+     at the end of the body for each related issue. Post the original and the triage notes with
+     `gh issue comment`.
    - With **no tracker tool**: hand back the issue and the notes as text.
 
 Done when every write has succeeded and its link has been reported, or the text has been handed back.

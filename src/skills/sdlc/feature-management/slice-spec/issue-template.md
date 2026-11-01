@@ -1,11 +1,11 @@
 # Issue template
 
-The shape of one issue: a slice from `slice-spec`, or a single issue from `build-up-spec`. Use the
-repo's glossary vocabulary. Describe interfaces and behaviour, not locations: no file paths and no line
-numbers, because the code moves before the issue is picked up. The exception is a snippet from a
-prototype that pins a decision more precisely than prose can (a state machine, a schema, a type
-shape). Inline it, trimmed to the parts that carry the decision, and note that it came from a
-prototype.
+The shape of one issue: a slice from `slice-spec`, a single issue from `build-up-spec`, or a bug from
+`bug-intake`. Use the repo's glossary vocabulary. Describe interfaces and behaviour, not locations: no
+file paths and no line numbers, because the code moves before the issue is picked up. The exception is
+a snippet from a prototype that pins a decision more precisely than prose can (a state machine, a
+schema, a type shape). Inline it, trimmed to the parts that carry the decision, and note that it came
+from a prototype.
 
 ```markdown
 Epic: <epic link> · Spec: <PRD link> · Covers: R2, R5

@@ -68,12 +68,12 @@ Read the repo's actual state; assume nothing.
   already run `visual-pr/scripts/hook.mjs`.
 - **PR workflow doc** (for `visual-pr`): a doc describing how PRs are opened here, e.g.
   `CONTRIBUTING.md` or `docs/**/development*.md`.
-- **Tracker** (for `wsjf`, `build-up-spec` and `bug-intake`): where this repo's epics live and where new items are
-  filed. A GitHub `origin` suggests its issues; a connected Linear MCP can list teams and projects.
-  Existing `WSJF scope` and `Backlog` lines in the block win.
-- **Knowledge base** (for `build-up-spec`, `slice-spec` and `bug-intake`): whether `AGENTS.md` / `CLAUDE.md` already
-  says where the repo's docs live (glossary, decision records, a definition of done). If not, the
-  directories that hold them. An existing `Knowledge base` line in the block wins.
+- **Tracker** (for `wsjf`, `build-up-spec` and `bug-intake`): where this repo's epics live and where
+  new items are filed. A GitHub `origin` suggests its issues; a connected Linear MCP can list teams
+  and projects. Existing `WSJF scope` and `Backlog` lines in the block win.
+- **Knowledge base** (for `build-up-spec`, `slice-spec` and `bug-intake`): whether `AGENTS.md` /
+  `CLAUDE.md` already says where the repo's docs live (glossary, decision records, a definition of
+  done). If not, the directories that hold them. An existing `Knowledge base` line in the block wins.
 - **Upstream pins**: the upstreams the chosen skills declare in their own `apm.yml`: `build-up-spec`
   declares `mattpocock/skills` (`productivity/grilling`), `paas-pulumi-infra-setup` declares
   `pulumi/agent-skills`. For each, the `apm.yml` entries of that upstream, in either form:

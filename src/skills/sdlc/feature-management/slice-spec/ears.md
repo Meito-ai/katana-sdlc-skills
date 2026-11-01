@@ -2,7 +2,8 @@
 
 How to write requirements and acceptance criteria in **EARS** (Easy Approach to Requirements Syntax,
 Alistair Mavin: <https://alistairmavin.com/ears/>). `slice-spec` writes every ticket's criteria this
-way. `build-up-spec` uses the same rules for an epic's requirements and for an issue's criteria.
+way. `build-up-spec` uses the same rules for an epic's requirements and for an issue's criteria, and
+`bug-intake` for a bug's criteria.
 
 ## Patterns
 
