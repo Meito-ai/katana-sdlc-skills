@@ -1,5 +1,30 @@
 # katana-sdlc-skills
 
+## 0.2.1
+
+### Patch Changes
+
+- [#8](https://github.com/Meito-ai/katana-sdlc-skills/pull/8) - `setup-katana-skills` now always writes the `## Katana skills` block into `AGENTS.md`, creating the
+  file when missing, so agents other than Claude Code see it as well. It also writes the block into
+  `CLAUDE.md`, unless that file references `AGENTS.md` (an `@AGENTS.md` import or a plain mention), in
+  which case `CLAUDE.md` is left alone. `build-up-spec` and `paas-pulumi-infra-setup` write their lines to the same files.
+  `mattpocock/skills` is now pinned at `^1.3.2`, both for this repo and in `build-up-spec`'s `apm.yml`.
+
+- [#8](https://github.com/Meito-ai/katana-sdlc-skills/pull/8) - `setup-katana-skills` handles more of what a real repo already has:
+  
+  - **Per-path upstream pins.** Entries like `mattpocock/skills/skills/<category>/<name>#<ref>` do not
+    override the upstream a katana skill declares, so apm installed a second copy and deployed the same
+    skill twice. Setup now detects them and offers to convert them into one `git:` entry with a
+    `skills:` list, at a release tag that satisfies the declared range.
+  - **Same-name local skills.** A local skill (e.g. `.apm/skills/branch-shutdown`) with the same name as a
+    katana skill blocked the katana copy: apm kept the old deployed files as user-edited. Setup now offers
+    to remove the local skill, its directory, and its deployed output before installing.
+  - **Verified install.** Step 5 now ends with `apm install --frozen` exiting 0, one lock package per
+    upstream, and no lock entry left for a removed skill. When a check fails, setup regenerates the lock
+    and warns that its diff will be large. The report includes the result.
+  - **Bootstrap line.** The `### Worktrees` bootstrap sentence can name files to symlink from a sibling
+    worktree, and a condition on a copy.
+
 ## 0.2.0
 
 ### Minor Changes
