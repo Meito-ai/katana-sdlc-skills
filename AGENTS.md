@@ -86,6 +86,9 @@ skill once. Do not hand-roll the sequence.
 Write every PR description with the **`visual-pr`** skill, and refresh it after each push to a branch
 with an open PR: its block carries the head sha it was derived from, so a stale one is visible.
 
+The one exception is the release bot's **Version Packages** PR (see [Releasing](#releasing)): the
+action generates its description and rewrites it on every push to `main`.
+
 ## Skills and dependencies (APM)
 
 This repo is both an APM **producer** and an APM **consumer**:
@@ -98,7 +101,8 @@ This repo is both an APM **producer** and an APM **consumer**:
 ### Requires apm >= 0.32.0
 
 `apm.yml` pins upstream by **semver range** (`ref: "^1.3.2"`). The range resolver does not exist
-before apm **0.16.0**, so an older CLI fails outright. CI pins `v0.32.0`; keep them in step.
+before apm **0.16.0**, so an older CLI fails outright. CI pins `v0.32.0` in
+`.github/actions/setup-apm/action.yml`; keep them in step.
 
 ```bash
 apm --version          # must report 0.32.x
@@ -204,36 +208,64 @@ in the skill's own directory (`name`, `version` equal to `package.json`, `descri
 `devDependencies:` — it exists only so the skill loads locally.) If it calls another katana skill,
 say so in its `SKILL.md` and in `setup-katana-skills`, never in its `apm.yml` (see the traps above).
 
+### Writing a changeset
+
+Every PR that changes what consumers get carries a changeset: `npm run changeset`, or
+`npx changeset --empty` for a PR that releases nothing. CI fails a PR that touches `src/skills/`
+without one.
+
+A changeset's text is copied verbatim into `CHANGELOG.md` and the GitHub Release, under a link to its
+PR, so it is the release note. The `0.2.0` entries in `CHANGELOG.md` are the reference.
+
+- Write for someone installing the skill, not for a reviewer of the diff.
+- Lead with the skill name in backticks: `` `branch-shutdown` now … ``.
+- Say what changes for them and what they must do, if anything.
+- One changeset per change a user would notice; a PR may carry several.
+- Leave out refactors, CI and repo tooling unless they change what a consumer gets.
+- More than two points: use a list.
+
+Choose the bump from what a consumer's pin does. Consumers pin `^0.2.0`, which in 0.x means
+`>=0.2.0 <0.3.0`: a patch reaches them on their next `apm install`, a minor waits until they edit
+their pin.
+
+| Bump | When |
+|---|---|
+| `minor` | A breaking change to a published skill: removed or renamed, a changed invocation or output contract, or new wiring required in the host repo |
+| `patch` | Everything else, **including new skills** and new upstream requirements that `setup-katana-skills` handles itself |
+| `major` | Reserved for a deliberate 1.0 |
+
 ### Releasing
 
 `package.json` holds the source-of-truth version (changesets owns it); `scripts/sync-apm-version.js`
 copies it into `apm.yml`, and CI fails on drift. Nothing is published to npm — `package.json` exists
 only because apm mandates a semver `version:` and consumers pin the matching tag.
 
-A release is a PR like any other, and the tag goes on `main` only **after** it merges. Tagging the
-branch commit instead orphans the tag the moment a squash merge rewrites that commit.
+Releases are automated by `.github/workflows/release.yml` (`changesets/action`). Nobody runs
+`npm run version` or tags by hand.
 
-1. **On a branch worktree**, consume the changesets and re-lock:
+1. After each merge to `main`, the workflow opens or refreshes one **Version Packages** PR from
+   `changeset-release/main`. Its commit is `npm run version`: bump `package.json` and every
+   `apm.yml`, write `CHANGELOG.md`, and `apm install` so the self-references hash the new version.
+2. **Merge the Version PR when you want to release.** The workflow then tags the merge commit
+   `vX.Y.Z` (annotated) and creates the GitHub Release, whose body is that version's
+   `CHANGELOG.md` section.
 
-   ```bash
-   GITHUB_TOKEN="$(gh auth token)" npm run version   # bump package.json + every apm.yml, write CHANGELOG.md
-   apm install                                       # the self-references hash the new versions
-   npm run validate-skills && npm run check-version && npm test
-   git commit -am "release v$(node -p "require('./package.json').version")"
-   ```
+Do not edit the Version PR by hand: the action force-pushes its branch on every push to `main`. To
+change the notes, edit or add `.changeset/*.md` files in an ordinary PR.
 
-   `@changesets/changelog-github` looks up each changeset's PR and author, so `npm run version`
-   fails without `GITHUB_TOKEN`.
+The workflow authenticates as the `katana-release-bot` GitHub App (secrets `RELEASE_APP_CLIENT_ID`,
+`RELEASE_APP_PRIVATE_KEY`; permissions Contents and Pull requests read/write). `GITHUB_TOKEN` will not
+do: a PR it opens triggers no workflows, so the required checks never run on the Version PR.
 
-2. **Open the PR** (`visual-pr`) and merge it.
+`@changesets/changelog-github` is pinned to an exact version: the `template` in
+`.changeset/config.json` that drops the commit and author from each line is experimental upstream
+and may change in a patch.
 
-3. **In the `main` worktree**, tag the merge commit and push only the tag:
-
-   ```bash
-   git pull --ff-only
-   VERSION="v$(node -p "require('./package.json').version")"
-   git tag -a "$VERSION" -m "$VERSION" && git push origin "$VERSION"
-   ```
+**If the workflow is unavailable**, the same release by hand: on a branch worktree run
+`GITHUB_TOKEN="$(gh auth token)" npm run version` (changelog-github looks up each changeset's PR),
+commit, open and merge the PR, then in the `main` worktree `git pull --ff-only` and
+`git tag -a vX.Y.Z -m vX.Y.Z && git push origin vX.Y.Z`. Tag `main` only **after** the merge: tagging
+the branch commit orphans the tag the moment a squash merge rewrites that commit.
 
 A ruleset blocks updating or deleting any `v*` tag, admins included: consumers pin tags, so a moved
 tag would silently change what they install. A wrong tag is fixed by releasing the next version, never

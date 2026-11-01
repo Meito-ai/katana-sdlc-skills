@@ -23,39 +23,12 @@ jobs:
     name: apm install --frozen + audit
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    env:
-      # Must match the version documented in AGENTS.md. This repo's apm.yml uses
-      # `ref:` semver ranges, which do not exist before apm 0.16.0.
-      APM_VERSION: v0.32.0
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install APM CLI (pinned + checksum-verified)
-        # Staged in RUNNER_TEMP, deliberately outside the checkout: anything
-        # downloaded into the workspace would show up as untracked files and
-        # trip the "generated output stayed out of git" assert below.
-        working-directory: ${{ runner.temp }}
-        run: |
-          set -euo pipefail
-          TAR="apm-linux-x86_64.tar.gz"
-          BASE="https://github.com/microsoft/apm/releases/download/${APM_VERSION}"
-          curl -sSLf -o "$TAR" "${BASE}/${TAR}"
-          curl -sSLf -o "${TAR}.sha256" "${BASE}/${TAR}.sha256"
-          sha256sum -c "${TAR}.sha256"
-          mkdir -p apm-bin && tar -xzf "$TAR" -C apm-bin
-          BIN="$(find apm-bin -name apm -type f -perm -u+x | head -1)"
-          if [ -z "$BIN" ]; then echo "::error::apm binary not found in tarball"; exit 1; fi
-          echo "$(pwd)/$(dirname "$BIN")" >> "$GITHUB_PATH"
-
-      - name: Verify CLI version matches the pin
-        run: |
-          set -euo pipefail
-          OUT="$(apm --version)"; echo "$OUT"
-          case "$OUT" in
-            *"${APM_VERSION#v}"*) ;;
-            *) echo "::error::apm --version did not contain ${APM_VERSION#v}: $OUT"; exit 1 ;;
-          esac
+      # Pins the apm version; see the action for why it matters.
+      - uses: ./.github/actions/setup-apm
 
       - name: Cache apm_modules
         # _local/ holds copies of this repo's own skills, so caching it saves
