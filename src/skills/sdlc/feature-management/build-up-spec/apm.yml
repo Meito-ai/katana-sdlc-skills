@@ -16,6 +16,6 @@ license: MIT
 dependencies:
   apm:
     - git: mattpocock/skills
-      ref: "^1.2.0"
+      ref: "^1.3.2"
       skills:
         - productivity/grilling

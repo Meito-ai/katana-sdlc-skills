@@ -1,6 +1,7 @@
 # Template: the `## Katana skills` block
 
-Copied into `CLAUDE.md` or `AGENTS.md` by step 6 of [SKILL.md](SKILL.md). It is the only file setup
+Copied into `AGENTS.md`, and into `CLAUDE.md` unless it references `AGENTS.md`, by step 6 of
+[SKILL.md](SKILL.md). It is the only file setup
 writes besides `apm.yml`, so it carries the always-on rules and the few repo facts the skills defer to
 the host repo for, and nothing the skills already say.
 

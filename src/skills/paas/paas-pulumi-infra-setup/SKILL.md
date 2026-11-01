@@ -230,8 +230,9 @@ skip.
 1. **Runbook.** Fill [templates/runbook.md](templates/runbook.md) into `docs/runbooks/infra.md` when
    the repo has `docs/runbooks/`, else `<infra-dir>/README.md`. Every command in it must run as
    written. Done when no `%%` placeholder and no `[if` marker is left.
-2. **Agent file.** Pick it as `setup-katana-skills` does: `CLAUDE.md` when it exists and is more
-   than an `@AGENTS.md` import, else `AGENTS.md`. Add one line, **outside** any
+2. **Agent files.** Pick them as `setup-katana-skills` does: `AGENTS.md`, plus `CLAUDE.md` when it
+   exists and never references `AGENTS.md` (`agentFiles.claudeReferencesAgents` is false). Add one
+   line to each, **outside** any
    `<!-- katana-skills:start -->` ... `<!-- katana-skills:end -->` block (before that block when it
    ends the file):
 

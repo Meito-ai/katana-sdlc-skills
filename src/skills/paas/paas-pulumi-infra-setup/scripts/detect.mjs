@@ -338,8 +338,8 @@ function agentFiles(root) {
   return {
     agents: existsSync(join(root, 'AGENTS.md')),
     claude: claude !== null,
-    // A CLAUDE.md that only imports AGENTS.md defers to it.
-    claudeImportsAgents: claude !== null && /^@AGENTS\.md\s*$/m.test(claude),
+    // A CLAUDE.md that imports or mentions AGENTS.md already leads the agent to its lines.
+    claudeReferencesAgents: claude !== null && /AGENTS\.md/.test(claude),
   };
 }
 

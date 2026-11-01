@@ -10,8 +10,8 @@ Install the katana skills the user picks and **wire** each one into this repo: t
 agent must see every session, plus the repo-specific facts a skill defers to the host repo for. A skill
 that is installed but not wired is dead weight; wiring is the point.
 
-Keep the footprint minimal: setup writes `apm.yml` and one marker-delimited block in `CLAUDE.md` or
-`AGENTS.md`, plus one optional line in a PR workflow doc and one optional hook in `.claude/settings.json`. Whatever a skill's own `SKILL.md` already
+Keep the footprint minimal: setup writes `apm.yml` and one marker-delimited block in `AGENTS.md` (and
+in `CLAUDE.md` when that file does not reference `AGENTS.md`), plus one optional line in a PR workflow doc and one optional hook in `.claude/settings.json`. Whatever a skill's own `SKILL.md` already
 says stays out of the block.
 
 The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/skills/<path>`:
@@ -47,8 +47,8 @@ Read the repo's actual state; assume nothing.
   (`??`) never block, since the conversion inventories and restores them. A tracked change blocks
   unless it is **install residue**: a change to `apm.yml`, `apm.lock.yaml` or `.gitignore`, which is
   what adding setup and running `apm install` leaves behind.
-- **Agent instructions**: `CLAUDE.md`, `AGENTS.md`, and an existing `<!-- katana-skills:start -->`
-  block from an earlier run.
+- **Agent instructions**: `AGENTS.md`, `CLAUDE.md`, whether `CLAUDE.md` references `AGENTS.md` (an
+  `@AGENTS.md` import or a plain mention), and an existing `<!-- katana-skills:start -->` block in either file from an earlier run.
 - **Bootstrap signals** (for `bare-clone-workflow`): lockfiles and manifests (`pnpm-lock.yaml`,
   `package-lock.json`, `uv.lock`, `poetry.lock`, `go.mod`, `Cargo.toml`, `Gemfile.lock`, `Makefile`),
   setup sections of `README.md` / `CONTRIBUTING.md`, and ignored files a fresh worktree would lack
@@ -160,13 +160,16 @@ Done when every chosen skill has a `SKILL.md` under `.claude/skills/<name>/` or 
 
 ## 6. Wire
 
-**Pick the file.** Edit `CLAUDE.md` if it exists, else `AGENTS.md`; a `CLAUDE.md` that only imports
-`@AGENTS.md` counts as `AGENTS.md`. When neither exists, ask which to create. Edit the one that is
-there; never create the other alongside it.
+**Pick the files.** `AGENTS.md` always carries the block; create it when missing. `CLAUDE.md` carries
+it too only when the file exists and never references `AGENTS.md`: Claude Code reads `CLAUDE.md`
+alone, and other agents read `AGENTS.md` alone. A `CLAUDE.md` that references `AGENTS.md` (an
+`@AGENTS.md` import or a plain mention) already leads the agent to the block, so leave it untouched, except to delete a block an earlier run left in it. Never
+create `CLAUDE.md`.
 
-**Write the block** between the `<!-- katana-skills:start -->` and `<!-- katana-skills:end -->` markers:
-replace an existing block in place, or append a new one at the end of the file. Everything outside the
-markers is the user's; leave it byte-for-byte.
+**Write the block** into each picked file, between the `<!-- katana-skills:start -->` and
+`<!-- katana-skills:end -->` markers: replace an existing block in place, or append a new one at the
+end of the file. Both files get the identical block. Everything outside the markers is the user's;
+leave it byte-for-byte.
 
 **Write the PR workflow line** if the user wanted it; remove it when `visual-pr` was unselected.
 
@@ -187,7 +190,8 @@ and hook. Remove the entry when `visual-pr` was unselected or the user declined 
 }
 ```
 
-Done when the block has a subsection for exactly the chosen skills that have one in
+Done when `AGENTS.md` has the block, `CLAUDE.md` has an identical one exactly when it exists and never
+references `AGENTS.md`, the block has a subsection for exactly the chosen skills that have one in
 [agents-block.md](agents-block.md), no `{{` is left in it, and `.claude/settings.json` runs the refresh
 hook exactly when the user wanted it (`jq empty .claude/settings.json` passes).
 

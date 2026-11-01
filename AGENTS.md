@@ -97,7 +97,7 @@ This repo is both an APM **producer** and an APM **consumer**:
 
 ### Requires apm >= 0.32.0
 
-`apm.yml` pins upstream by **semver range** (`ref: "^1.2.0"`). The range resolver does not exist
+`apm.yml` pins upstream by **semver range** (`ref: "^1.3.2"`). The range resolver does not exist
 before apm **0.16.0**, so an older CLI fails outright. CI pins `v0.32.0`; keep them in step.
 
 ```bash
@@ -176,9 +176,9 @@ which CI checks.
   root entry already lists `grilling`. A consumer whose own entry leaves the skill out silently goes
   without it, which is why `setup-katana-skills` adds the skill to that entry.
 - **A consumer's own pin wins, silently.** If a consumer already depends on `mattpocock/skills` at
-  an older ref, that ref is what gets installed; our `^1.2.0` is ignored with no diagnostic. So
+  an older ref, that ref is what gets installed; our `^1.3.2` is ignored with no diagnostic. So
   every published skill must **also state its upstream requirement in prose in its own `SKILL.md`**
-  (e.g. "Requires the `grilling` skill from `mattpocock/skills` >= v1.2.0"). The declaration
+  (e.g. "Requires the `grilling` skill from `mattpocock/skills` >= v1.3.2"). The declaration
   automates the happy path; the prose is what makes the degraded path legible.
 - **A skill's `apm.yml` never declares another katana skill.** In this repo, a git copy pulled in
   transitively replaces the local self-reference (`1 skill replaced by a different package (last
