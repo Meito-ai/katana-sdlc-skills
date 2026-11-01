@@ -9,6 +9,11 @@ Keep the markers, the heading and the intro line; keep only the subsections of t
 every `{{...}}` (a `<...>` is literal text; keep it). Drop a line marked `[if ...]` when its condition
 is false, and strip the marker when it is true.
 
+In the bootstrap sentence, `{{copy-files}}` lists the files to copy, each followed by `when <condition>`
+when the user gave one (e.g. `.claude/skills/` when the sibling's `apm.lock.yaml` matches).
+`{{symlink-files}}` lists each link as `<link>` -> `<target>`, the target relative to the link's own
+directory. Drop the copy or the symlink clause when its list is empty.
+
 ````markdown
 <!-- katana-skills:start -->
 ## Katana skills
@@ -22,8 +27,8 @@ This repo is worked in a bare-clone layout: one sibling worktree per branch. Eac
 on the branch of the worktree it started in; a new branch is a new worktree, created with the
 `bare-clone-workflow` skill. `git checkout -b` and `git switch` inside a worktree hijack a directory
 another session may hold. Branch names contain no `/`, since each becomes a directory name.
-Bootstrap a new worktree: copy {{copy-files}} from a sibling worktree, run `{{install-command}}`, then
-`{{verify-command}}`.
+Bootstrap a new worktree: copy {{copy-files}} from a sibling worktree, symlink {{symlink-files}}, run
+`{{install-command}}`, then `{{verify-command}}`.
 [if workspace file] At session start, confirm the current branch has a folder entry in
 `../{{container}}.code-workspace`, and add it if missing.
 
