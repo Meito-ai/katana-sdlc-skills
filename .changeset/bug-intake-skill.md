@@ -1,8 +1,17 @@
 ---
-"katana-sdlc-skills": minor
+"katana-sdlc-skills": patch
 ---
 
-Add the `bug-intake` skill: the bug counterpart of `build-up-spec`. It turns a bug report into an
-agent-sized issue in `slice-spec`'s template after checking for duplicates and reproducing the bug, or
-labels it `needs-info` and posts triage notes for the reporter. `build-up-spec` now points bugs to it,
-and `setup-katana-skills` installs and wires it.
+`bug-intake` is a new user-invoked skill (`/bug-intake <report>`) that turns a bug report (free text,
+a tracker item or a URL) into an issue one agent session can fix, in `slice-spec`'s issue template:
+
+- **Checks first.** It searches the tracker for duplicates and the code for behaviour that already
+  works, and lets you refine, link, mark as duplicate, close or carry on.
+- **Reproduces.** It reports the bug as confirmed (with the code path), failed, or insufficient detail.
+  A confirmed bug becomes a `ready-for-agent` issue: the reproduction, the fixed behaviour, the seam the
+  failing test attaches at, and EARS criteria.
+- **Asks the reporter.** Otherwise the issue is labelled `needs-info` and gets triage notes with
+  specific questions; `/bug-intake <issue>` resumes from them once the reporter answers.
+
+It applies only `ready-for-agent`, `needs-info` and your team's `bug` label, and writes nothing to the
+repo but the `Backlog:` line. It needs `slice-spec` and `wsjf`; install it with `/setup-katana-skills`.
