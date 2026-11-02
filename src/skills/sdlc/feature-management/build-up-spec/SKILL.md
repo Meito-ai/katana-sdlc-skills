@@ -94,7 +94,7 @@ problem itself raises, its design tree must reach these branches:
   session finish it end to end and verify it?_
   - It's an epic if it has more than one slice that can be demoed on its own, needs decisions across
     several seams, or is more work than one session can hold.
-  - An issue that delivers no value on its own (it fails `wsjf`'s story test) is a **task**, and
+  - An issue that delivers no value on its own (it fails `wsjf`'s value test) is a **task**, and
     needs a parent epic.
 
 Every answer the user gives counts as sourced.
@@ -134,7 +134,7 @@ Done when the epic has an accepted title and card, or the issue's parent is sett
 
 ## 7. Score WSJF
 
-- **An epic, or an issue that passes `wsjf`'s story test**: invoke `wsjf` on the draft, and tell it
+- **An epic, or an issue that passes `wsjf`'s value test**: invoke `wsjf` on the draft, and tell it
   the item is still being drafted so that it returns the block instead of writing it. This also
   applies to an item refined in place, because step 8 rewrites its description.
 - **A task**: no score. Its `## WSJF` section reads `Inherits <epic>'s priority.`

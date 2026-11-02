@@ -1,6 +1,6 @@
 ---
 name: slice-spec
-description: "Slice an epic into tracer-bullet issues sized for one fresh agent session, each covering requirements from the epic's PRD, with EARS acceptance criteria, blocking edges, and WSJF for the slices that are stories; published as sub-issues of the epic. Use when asked to break an epic, spec or plan into issues or tickets."
+description: "Slice an epic into tracer-bullet issues sized for one fresh agent session, each covering requirements from the epic's PRD, with EARS acceptance criteria, blocking edges, and WSJF for the slices that deliver value on their own; published as sub-issues of the epic. Use when asked to break an epic, spec or plan into issues or tickets."
 ---
 
 # Slice spec
@@ -11,12 +11,12 @@ card and PRD stay exactly as they are.
 
 The slicing rules come from the `to-tickets` skill of `mattpocock/skills` v1.3.1 and are kept as they
 were ([licence](LICENSE-mattpocock-skills)). The additions are requirement coverage, EARS criteria,
-WSJF for stories, and native tracker publishing.
+WSJF for the tickets that deliver value on their own, and native tracker publishing.
 
 ## Requirements
 
-- **`wsjf`**, the katana skill that scores the slices that are stories. Step 6 needs it; when it is
-  not deployed, stop and say that the user should install it alongside this skill.
+- **`wsjf`**, the katana skill that scores the slices that pass its value test. Step 6 needs it; when
+  it is not deployed, stop and say that the user should install it alongside this skill.
 - **A tracker tool**: a Linear MCP, or `gh` >= 2.94 for GitHub issues (it has `--parent` and
   `--blocked-by`). Without one, step 7 hands the tickets back as text to paste.
 
@@ -128,19 +128,19 @@ each with the criteria verified there.
 Done when every ticket has every section the template requires, each requirement it covers is cited
 by at least one of its criteria, and each criterion sits under a seam.
 
-## 6. Score the stories
+## 6. Score the tickets
 
-Apply `wsjf`'s story test to each ticket: _if this shipped alone, would someone gain measurable
+Apply `wsjf`'s value test to each ticket: _if this shipped alone, would someone gain measurable
 value?_
 
-- **Stories**: invoke `wsjf` once with all of them as targets, so there is one verification round.
-  The tickets are not in the tracker yet, so `wsjf` hands each block back to this skill.
+- **Tickets that pass**: invoke `wsjf` once with all of them as targets, so there is one verification
+  round. The tickets are not in the tracker yet, so `wsjf` hands each block back to this skill.
 - **Tasks** (prefactoring, expand and migrate batches, walking skeletons): write
   `Inherits <epic>'s priority.` in the `## WSJF` section.
 
 Blocking edges still decide what can start: WSJF only orders the tickets that are not blocked.
 
-Done when every story has an accepted WSJF block and every task has the inherits line.
+Done when every ticket that passes has an accepted WSJF block and every task has the inherits line.
 
 ## 7. Preview and publish
 

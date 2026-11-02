@@ -52,7 +52,8 @@ Epic: <epic link> · Spec: <PRD link> · Covers: R2, R5
   seams; a seam the PRD doesn't list is marked `(new)`, with why no listed seam reaches the behaviour.
 - **Out of scope**: always present.
 - **Sources**: only on an issue without an epic. A slice's facts come from its epic's PRD.
-- **WSJF**: a story carries the `wsjf` block; a task carries the inherits line.
+- **WSJF**: an issue that passes `wsjf`'s value test carries the `wsjf` block; a task carries the
+  inherits line.
 
 The epic, and any blocking issues, are set as the tracker's own parent and blocking relations, not
 written into the body. The exception is text handed back for pasting when there is no tracker tool:

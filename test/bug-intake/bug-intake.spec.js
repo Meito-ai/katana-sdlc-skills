@@ -53,7 +53,7 @@ describe('bug-intake', () => {
 describe('wsjf', () => {
   const wsjf = read('sdlc/feature-management/wsjf/SKILL.md');
 
-  test('scores a bug fix as a story, from its severity', () => {
+  test('scores a bug fix as an issue, from its severity', () => {
     assert.match(section(wsjf, '## What gets scored'), /\*\*bug fix\*\*/);
     const bug = section(wsjf, '### Bug');
     assert.ok(bug, 'no Bug type hint');
