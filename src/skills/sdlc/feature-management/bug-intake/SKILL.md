@@ -1,6 +1,6 @@
 ---
 name: bug-intake
-description: "Turn a bug report into an agent-sized issue: check for duplicates, reproduce it, ask the reporter for what is missing, and publish the fix as EARS criteria with the seam the failing test attaches at."
+description: "Turn a bug report into an agent-sized issue: check for duplicates, reproduce it, rate its severity, ask the reporter for what is missing, and publish the fix as EARS criteria with the seam the failing test attaches at."
 disable-model-invocation: true
 ---
 
@@ -114,8 +114,11 @@ Draft the issue from the [issue template](../slice-spec/issue-template.md):
 
 - **Title**: the fixed behaviour, in the knowledge base's vocabulary.
 - **What to build**: the fixed behaviour from the user's point of view.
-- **Current behaviour**: the confirmed reproduction: the steps, the observed and the expected
-  behaviour, and the code path, named by its interfaces rather than its files.
+- **Current behaviour**: opens with a `Severity:` line: the [level](#severity), its reach, and a
+  one-line rationale from the reproduction (`Severity: High. Reach: every user who exports a report.
+  The export fails and nothing else produces the file.`). Then the confirmed reproduction: the steps,
+  the observed and the expected behaviour, and the code path, named by its interfaces rather than its
+  files.
 - **Key interfaces**: the types, signatures or config the fix is expected to touch, when the
   reproduction showed them.
 - **Testing seams**: where the failing test attaches: the highest public interface that reaches the
@@ -125,20 +128,20 @@ Draft the issue from the [issue template](../slice-spec/issue-template.md):
   the fix must keep, when step 2 found one at risk.
 - **Out of scope**: other defects noticed on the way, and any redesign beyond the fix.
 - **Sources**: the report, each source read, and the reproduction (what was run, and when).
-- **WSJF**: a bug fix passes `wsjf`'s story test, since shipped alone it restores behaviour someone
-  relies on. Invoke `wsjf` on the draft, telling it the item is still being drafted so that it returns
-  the block instead of writing it.
+- **WSJF**: invoke `wsjf` on the draft with its severity and reach, telling it the item is still
+  being drafted so that it returns the block instead of writing it. For a **Critical** bug, also tell
+  the user it should be fixed now rather than wait for its rank.
 
 Confirm the draft with the user in a single round.
 
-Done when the user has accepted the draft, every criterion sits under a seam, and the WSJF section is
-filled.
+Done when the user has accepted the draft, the severity has a level, every criterion sits under a
+seam, and the WSJF section is filled.
 
 ## 5. Ask the reporter
 
 Draft the issue with what is established: `Current behaviour` is the report as restated, headed
-`Unconfirmed:`, and every criterion that depends on a missing fact keeps its placeholder. Then draft
-the **triage notes**:
+`Unconfirmed:`, its `Severity:` line gives the level the report describes or a placeholder, and every
+criterion that depends on a missing fact keeps its placeholder. Then draft the **triage notes**:
 
 ```markdown
 ## Triage notes
@@ -209,3 +212,20 @@ A tracker item that already carries `## Triage notes` comments resumes where the
 - Still blocked: post new notes carrying everything established and only the open questions.
 - Reproduced: rewrite the description through step 4, and move the issue from `needs-info` to
   `ready-for-agent`.
+
+## Severity
+
+What breaks when the bug fires, as the reproduction showed it. Pick the level whose situation matches:
+
+| Level | Situation |
+|---|---|
+| **Critical** | data is lost or corrupted, access control is bypassed, or the product can't be used at all, with no workaround |
+| **High** | a core workflow fails for whoever reaches it, with no workaround |
+| **Medium** | a workflow fails but a workaround exists, or a feature outside the core workflows fails |
+| **Low** | the result is correct; only its presentation or wording is wrong |
+
+The level measures what breaks, and only that. Who hits the bug and how often is its **reach**,
+written beside the level: a Critical bug that one account hits is still Critical, and `wsjf` scores
+the reach as value. When what was observed fits two levels, show both to the user and let them pick.
+Before a reproduction, the level is the one the report describes, or a placeholder when it doesn't
+show what breaks.

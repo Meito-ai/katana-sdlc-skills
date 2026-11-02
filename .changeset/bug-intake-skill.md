@@ -10,6 +10,8 @@ a tracker item or a URL) into an issue one agent session can fix, in `slice-spec
 - **Reproduces.** It reports the bug as confirmed (with the code path), failed, or insufficient detail.
   A confirmed bug becomes a `ready-for-agent` issue: the reproduction, the fixed behaviour, the seam the
   failing test attaches at, and EARS criteria.
+- **Rates severity.** The issue opens with a `Severity:` line (Critical, High, Medium or Low, with the
+  bug's reach), which `wsjf` scores from. A Critical bug is flagged to fix now.
 - **Asks the reporter.** Otherwise the issue is labelled `needs-info` and gets triage notes with
   specific questions; `/bug-intake <issue>` resumes from them once the reporter answers.
 

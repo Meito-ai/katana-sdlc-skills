@@ -11,6 +11,11 @@ const skill = read(`${BUG_INTAKE}SKILL.md`);
 // What triage writes and labels that intake leaves to the repo and to build-up-spec.
 const REPO_WRITES = ['domain-modeling', 'GLOSSARY.md', 'docs/adr', '.out-of-scope'];
 const OTHER_LABELS = ['needs-triage', 'ready-for-human', 'wontfix', 'enhancement'];
+const SEVERITY_LEVELS = ['Critical', 'High', 'Medium', 'Low'];
+
+const section = (markdown, heading) =>
+  markdown.match(new RegExp(`^${heading}\\n[\\s\\S]*?(?=^#{1,${heading.indexOf(' ')}} |(?![\\s\\S]))`, 'm'))?.[0];
+const tableLevels = (markdown) => [...markdown.matchAll(/^\| \*\*(\w+)\*\* \|/gm)].map((match) => match[1]);
 
 describe('bug-intake', () => {
   test('writes no glossary, ADR or out-of-scope file', () => {
@@ -32,6 +37,27 @@ describe('bug-intake', () => {
     assert.match(licence, /MIT License/);
     assert.match(licence, /Copyright \(c\) 2026 Matt Pocock/);
     assert.match(skill, /\]\(LICENSE-mattpocock-skills\)/);
+  });
+
+  test('places a bug on the Critical, High, Medium, Low severity scale and hands it to wsjf', () => {
+    const scale = section(skill, '## Severity');
+    assert.ok(scale, 'no Severity section');
+    assert.deepEqual(tableLevels(scale), SEVERITY_LEVELS);
+    const specify = section(skill, '## 4. Specify the fix');
+    assert.match(specify, /`Severity:`/, 'step 4 writes no Severity line');
+    assert.match(specify, /invoke `wsjf`[^.]*severity/i, 'step 4 does not hand the severity to wsjf');
+    assert.ok(!specify.includes('story test'), 'step 4 still argues the story test');
+  });
+});
+
+describe('wsjf', () => {
+  const wsjf = read('sdlc/feature-management/wsjf/SKILL.md');
+
+  test('scores a bug fix as a story, from its severity', () => {
+    assert.match(section(wsjf, '## What gets scored'), /\*\*bug fix\*\*/);
+    const bug = section(wsjf, '### Bug');
+    assert.ok(bug, 'no Bug type hint');
+    assert.deepEqual(tableLevels(bug), SEVERITY_LEVELS);
   });
 });
 
