@@ -1,6 +1,9 @@
 ---
 name: slice-spec
 description: "Slice an epic into tracer-bullet issues sized for one fresh agent session, each covering requirements from the epic's PRD, with EARS acceptance criteria, blocking edges, and WSJF for the slices that deliver value on their own; published as sub-issues of the epic. Use when asked to break an epic, spec or plan into issues or tickets."
+metadata:
+  adapted-from: "https://github.com/mattpocock/skills/tree/v1.3.1/skills/engineering/to-tickets"
+  adapted-license: "MIT, Matt Pocock; see LICENSE-mattpocock-skills"
 ---
 
 # Slice spec
@@ -25,6 +28,11 @@ WSJF for the tickets that deliver value on their own, and native tracker publish
 Work from the epic reference the user gave, or from an epic published earlier in this conversation,
 which is already in context. Fetch nothing twice.
 
+Read the epic's labels first. An epic labelled `needs-design` (or the name `AGENTS.md` / `CLAUDE.md` or
+the knowledge base maps it to) has a design that no engineer has agreed yet. Stop before drafting any
+slice, say so, and name the next step: `/build-up-spec <epic id>`, run by the engineer who fills in the
+design.
+
 - **The card**: the epic issue's description, comments and existing sub-issues.
 - **The PRD**: on Linear, the document attached to the epic issue (`get_issue` with `documents`,
   then `get_document`); on GitHub, the PRD sections in the epic's body, below the card.
@@ -36,8 +44,8 @@ which is already in context. Fetch nothing twice.
 - **Existing sub-issues**: read each one and note the requirements it already covers. They count
   towards coverage and are never proposed again.
 
-Done when the requirement list, the seams, the existing sub-issues and what each of them covers are
-all known.
+Done when the epic is known not to need design, and the requirement list, the seams, the existing
+sub-issues and what each of them covers are all known.
 
 ## 2. Explore the codebase
 

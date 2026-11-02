@@ -70,6 +70,9 @@ Card: <epic issue link>
 Requirements follow `slice-spec`'s [EARS rules](../slice-spec/ears.md), IDs included. Goal, scope
 boundaries and success measures stay on the card.
 
+In a design-deferred run, `## Implementation decisions` holds only `[add implementation decisions]`
+and `## Testing seams` only `[add testing seams]`, until an engineer refines the epic.
+
 An existing PRD changes in place. An amendment from a single issue (step 5) appends the next free
 `R` number to `## Requirements`. Nothing is renumbered, and nothing is deleted: a requirement that is
 dropped stays struck through, with its reason.

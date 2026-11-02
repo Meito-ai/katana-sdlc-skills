@@ -66,18 +66,22 @@ dependencies:
   - .agents/skills/build-up-spec
   - .agents/skills/build-up-spec/SKILL.md
   - .agents/skills/build-up-spec/apm.yml
+  - .agents/skills/build-up-spec/scripts/labels.mjs
   - .agents/skills/build-up-spec/templates.md
   - .claude/skills/build-up-spec
   - .claude/skills/build-up-spec/SKILL.md
   - .claude/skills/build-up-spec/apm.yml
+  - .claude/skills/build-up-spec/scripts/labels.mjs
   - .claude/skills/build-up-spec/templates.md
   deployed_file_hashes:
-    .agents/skills/build-up-spec/SKILL.md: sha256:9ff3d00450250554f01aa272a9e8b3efcb47f11b422796b6869f41e5652d8c2f
+    .agents/skills/build-up-spec/SKILL.md: sha256:14fb64d011e9c1e36e71698689acb3f06e50e4443066ab0f41c7463c29ab1f82
     .agents/skills/build-up-spec/apm.yml: sha256:f7588a566a182a7ae82b8d6139bfac813357939d10b2030cd42bf274479bc433
-    .agents/skills/build-up-spec/templates.md: sha256:fd613b68e160a9b443e7de2382da08a603bcc90b28f2657383c4d4421540ab08
-    .claude/skills/build-up-spec/SKILL.md: sha256:9ff3d00450250554f01aa272a9e8b3efcb47f11b422796b6869f41e5652d8c2f
+    .agents/skills/build-up-spec/scripts/labels.mjs: sha256:0d10eb6b072306a7a8a5d646faadf16a5df71f7ab9b5d9c63b40446d124db720
+    .agents/skills/build-up-spec/templates.md: sha256:a5d4a2a5c94ef6e11430ce82abe1a814a8541111a5ff529aac169438e0a5325a
+    .claude/skills/build-up-spec/SKILL.md: sha256:14fb64d011e9c1e36e71698689acb3f06e50e4443066ab0f41c7463c29ab1f82
     .claude/skills/build-up-spec/apm.yml: sha256:f7588a566a182a7ae82b8d6139bfac813357939d10b2030cd42bf274479bc433
-    .claude/skills/build-up-spec/templates.md: sha256:fd613b68e160a9b443e7de2382da08a603bcc90b28f2657383c4d4421540ab08
+    .claude/skills/build-up-spec/scripts/labels.mjs: sha256:0d10eb6b072306a7a8a5d646faadf16a5df71f7ab9b5d9c63b40446d124db720
+    .claude/skills/build-up-spec/templates.md: sha256:a5d4a2a5c94ef6e11430ce82abe1a814a8541111a5ff529aac169438e0a5325a
   source: local
   local_path: ./src/skills/sdlc/feature-management/build-up-spec
   is_dev: true
@@ -217,13 +221,13 @@ dependencies:
   - .claude/skills/slice-spec/issue-template.md
   deployed_file_hashes:
     .agents/skills/slice-spec/LICENSE-mattpocock-skills: sha256:a35c814fa5eb666cb73841f7c3e711c80c1a414871c77c5d182943c98f8cbd5d
-    .agents/skills/slice-spec/SKILL.md: sha256:d751e70016213028123f058d4d833b7024f0973a50bc624f1f1dd6b1fa73fed6
+    .agents/skills/slice-spec/SKILL.md: sha256:4607baaf98b6b44d9b7ac7a0c528b82d6083f2d0c872dc11d22ef902abece472
     .agents/skills/slice-spec/ears.md: sha256:77c3957decf08d96efdecb8f0856c70277ca4562489a4e3cd9ef0ab013155268
-    .agents/skills/slice-spec/issue-template.md: sha256:393bdb1cdecccb72b065e133cfe631f4dcab9f84f62f81aa265889143bc8df4b
+    .agents/skills/slice-spec/issue-template.md: sha256:b5009e5f094c378031f385630f456426fcccb102ab1e34dbfed1b6042f041d93
     .claude/skills/slice-spec/LICENSE-mattpocock-skills: sha256:a35c814fa5eb666cb73841f7c3e711c80c1a414871c77c5d182943c98f8cbd5d
-    .claude/skills/slice-spec/SKILL.md: sha256:d751e70016213028123f058d4d833b7024f0973a50bc624f1f1dd6b1fa73fed6
+    .claude/skills/slice-spec/SKILL.md: sha256:4607baaf98b6b44d9b7ac7a0c528b82d6083f2d0c872dc11d22ef902abece472
     .claude/skills/slice-spec/ears.md: sha256:77c3957decf08d96efdecb8f0856c70277ca4562489a4e3cd9ef0ab013155268
-    .claude/skills/slice-spec/issue-template.md: sha256:393bdb1cdecccb72b065e133cfe631f4dcab9f84f62f81aa265889143bc8df4b
+    .claude/skills/slice-spec/issue-template.md: sha256:b5009e5f094c378031f385630f456426fcccb102ab1e34dbfed1b6042f041d93
   source: local
   local_path: ./src/skills/sdlc/feature-management/slice-spec
   is_dev: true
@@ -248,13 +252,13 @@ dependencies:
   - .claude/skills/visual-pr/scripts/hook.mjs
   deployed_file_hashes:
     .agents/skills/visual-pr/LICENSE-mattpocock-skills: sha256:99bcfdfc48355a918bd3137f3300c220705f1c947d755143feb2855d99152ade
-    .agents/skills/visual-pr/SKILL.md: sha256:e7fdcd4296813daf42ebf64e52b9333adf7bc67186eaa456bd2e167b20e582f9
+    .agents/skills/visual-pr/SKILL.md: sha256:05f0799aeb5cbbf56288d4575aaa33b89cbf58c5468ed0cab4cc9871034f7bbd
     .agents/skills/visual-pr/scripts/cli.mjs: sha256:a569f12b020fefbb4ffd5990ed1b615592680fbdad585683ef1acb93fdab3cdf
     .agents/skills/visual-pr/scripts/contract.mjs: sha256:e8655948b097e92cbcf68f728dd866906abe89d60a7ed2444041a6b9e329021b
     .agents/skills/visual-pr/scripts/description.mjs: sha256:cfc1d7ca26feb604a09da606b1bbcd6bae3978d9fcd4ab2d01e96d4d0163804c
     .agents/skills/visual-pr/scripts/hook.mjs: sha256:182b03af9f166a9cad3efdb1eb122eaa57c4dae3ff20a4fec9f30e90ddf43429
     .claude/skills/visual-pr/LICENSE-mattpocock-skills: sha256:99bcfdfc48355a918bd3137f3300c220705f1c947d755143feb2855d99152ade
-    .claude/skills/visual-pr/SKILL.md: sha256:e7fdcd4296813daf42ebf64e52b9333adf7bc67186eaa456bd2e167b20e582f9
+    .claude/skills/visual-pr/SKILL.md: sha256:05f0799aeb5cbbf56288d4575aaa33b89cbf58c5468ed0cab4cc9871034f7bbd
     .claude/skills/visual-pr/scripts/cli.mjs: sha256:a569f12b020fefbb4ffd5990ed1b615592680fbdad585683ef1acb93fdab3cdf
     .claude/skills/visual-pr/scripts/contract.mjs: sha256:e8655948b097e92cbcf68f728dd866906abe89d60a7ed2444041a6b9e329021b
     .claude/skills/visual-pr/scripts/description.mjs: sha256:cfc1d7ca26feb604a09da606b1bbcd6bae3978d9fcd4ab2d01e96d4d0163804c
@@ -522,7 +526,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/build-up-spec
   active_owner: ./src/skills/sdlc/feature-management/build-up-spec
-  content_hash: sha256:9ff3d00450250554f01aa272a9e8b3efcb47f11b422796b6869f41e5652d8c2f
+  content_hash: sha256:14fb64d011e9c1e36e71698689acb3f06e50e4443066ab0f41c7463c29ab1f82
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/build-up-spec/apm.yml
@@ -534,13 +538,22 @@ deployments:
   content_hash: sha256:f7588a566a182a7ae82b8d6139bfac813357939d10b2030cd42bf274479bc433
 - kind: project-relative
   target: agent-skills
+  value: .agents/skills/build-up-spec/scripts/labels.mjs
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/build-up-spec
+  active_owner: ./src/skills/sdlc/feature-management/build-up-spec
+  content_hash: sha256:0d10eb6b072306a7a8a5d646faadf16a5df71f7ab9b5d9c63b40446d124db720
+- kind: project-relative
+  target: agent-skills
   value: .agents/skills/build-up-spec/templates.md
   runtime: null
   scope: project
   owners:
   - ./src/skills/sdlc/feature-management/build-up-spec
   active_owner: ./src/skills/sdlc/feature-management/build-up-spec
-  content_hash: sha256:fd613b68e160a9b443e7de2382da08a603bcc90b28f2657383c4d4421540ab08
+  content_hash: sha256:a5d4a2a5c94ef6e11430ce82abe1a814a8541111a5ff529aac169438e0a5325a
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/code-review
@@ -1008,7 +1021,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/slice-spec
   active_owner: ./src/skills/sdlc/feature-management/slice-spec
-  content_hash: sha256:d751e70016213028123f058d4d833b7024f0973a50bc624f1f1dd6b1fa73fed6
+  content_hash: sha256:4607baaf98b6b44d9b7ac7a0c528b82d6083f2d0c872dc11d22ef902abece472
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/slice-spec/ears.md
@@ -1026,7 +1039,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/slice-spec
   active_owner: ./src/skills/sdlc/feature-management/slice-spec
-  content_hash: sha256:393bdb1cdecccb72b065e133cfe631f4dcab9f84f62f81aa265889143bc8df4b
+  content_hash: sha256:b5009e5f094c378031f385630f456426fcccb102ab1e34dbfed1b6042f041d93
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/visual-pr
@@ -1053,7 +1066,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/code-review/visual-pr
   active_owner: ./src/skills/sdlc/code-review/visual-pr
-  content_hash: sha256:e7fdcd4296813daf42ebf64e52b9333adf7bc67186eaa456bd2e167b20e582f9
+  content_hash: sha256:05f0799aeb5cbbf56288d4575aaa33b89cbf58c5468ed0cab4cc9871034f7bbd
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/visual-pr/scripts/cli.mjs
@@ -1251,7 +1264,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/build-up-spec
   active_owner: ./src/skills/sdlc/feature-management/build-up-spec
-  content_hash: sha256:9ff3d00450250554f01aa272a9e8b3efcb47f11b422796b6869f41e5652d8c2f
+  content_hash: sha256:14fb64d011e9c1e36e71698689acb3f06e50e4443066ab0f41c7463c29ab1f82
 - kind: project-relative
   target: claude
   value: .claude/skills/build-up-spec/apm.yml
@@ -1263,13 +1276,22 @@ deployments:
   content_hash: sha256:f7588a566a182a7ae82b8d6139bfac813357939d10b2030cd42bf274479bc433
 - kind: project-relative
   target: claude
+  value: .claude/skills/build-up-spec/scripts/labels.mjs
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/build-up-spec
+  active_owner: ./src/skills/sdlc/feature-management/build-up-spec
+  content_hash: sha256:0d10eb6b072306a7a8a5d646faadf16a5df71f7ab9b5d9c63b40446d124db720
+- kind: project-relative
+  target: claude
   value: .claude/skills/build-up-spec/templates.md
   runtime: null
   scope: project
   owners:
   - ./src/skills/sdlc/feature-management/build-up-spec
   active_owner: ./src/skills/sdlc/feature-management/build-up-spec
-  content_hash: sha256:fd613b68e160a9b443e7de2382da08a603bcc90b28f2657383c4d4421540ab08
+  content_hash: sha256:a5d4a2a5c94ef6e11430ce82abe1a814a8541111a5ff529aac169438e0a5325a
 - kind: project-relative
   target: claude
   value: .claude/skills/code-review
@@ -1737,7 +1759,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/slice-spec
   active_owner: ./src/skills/sdlc/feature-management/slice-spec
-  content_hash: sha256:d751e70016213028123f058d4d833b7024f0973a50bc624f1f1dd6b1fa73fed6
+  content_hash: sha256:4607baaf98b6b44d9b7ac7a0c528b82d6083f2d0c872dc11d22ef902abece472
 - kind: project-relative
   target: claude
   value: .claude/skills/slice-spec/ears.md
@@ -1755,7 +1777,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/slice-spec
   active_owner: ./src/skills/sdlc/feature-management/slice-spec
-  content_hash: sha256:393bdb1cdecccb72b065e133cfe631f4dcab9f84f62f81aa265889143bc8df4b
+  content_hash: sha256:b5009e5f094c378031f385630f456426fcccb102ab1e34dbfed1b6042f041d93
 - kind: project-relative
   target: claude
   value: .claude/skills/visual-pr
@@ -1782,7 +1804,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/code-review/visual-pr
   active_owner: ./src/skills/sdlc/code-review/visual-pr
-  content_hash: sha256:e7fdcd4296813daf42ebf64e52b9333adf7bc67186eaa456bd2e167b20e582f9
+  content_hash: sha256:05f0799aeb5cbbf56288d4575aaa33b89cbf58c5468ed0cab4cc9871034f7bbd
 - kind: project-relative
   target: claude
   value: .claude/skills/visual-pr/scripts/cli.mjs
