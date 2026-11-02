@@ -1,6 +1,6 @@
 ---
 name: slice-spec
-description: "Slice an epic into tracer-bullet issues sized for one fresh agent session, each covering requirements from the epic's PRD, with EARS acceptance criteria, blocking edges, and WSJF for the slices that are stories; published as sub-issues of the epic. Use when asked to break an epic, spec or plan into issues or tickets."
+description: "Slice an epic into tracer-bullet issues sized for one fresh agent session, each covering requirements from the epic's PRD, with EARS acceptance criteria, blocking edges, and WSJF for the slices that deliver value on their own; published as sub-issues of the epic. Use when asked to break an epic, spec or plan into issues or tickets."
 ---
 
 # Slice spec
@@ -11,12 +11,12 @@ card and PRD stay exactly as they are.
 
 The slicing rules come from the `to-tickets` skill of `mattpocock/skills` v1.3.1 and are kept as they
 were ([licence](LICENSE-mattpocock-skills)). The additions are requirement coverage, EARS criteria,
-WSJF for stories, and native tracker publishing.
+WSJF for the tickets that deliver value on their own, and native tracker publishing.
 
 ## Requirements
 
-- **`wsjf`**, the katana skill that scores the slices that are stories. Step 6 needs it; when it is
-  not deployed, stop and say that the user should install it alongside this skill.
+- **`wsjf`**, the katana skill that scores the slices that pass its value test. Step 6 needs it; when
+  it is not deployed, stop and say that the user should install it alongside this skill.
 - **A tracker tool**: a Linear MCP, or `gh` >= 2.94 for GitHub issues (it has `--parent` and
   `--blocked-by`). Without one, step 7 hands the tickets back as text to paste.
 
@@ -42,9 +42,10 @@ all known.
 ## 2. Explore the codebase
 
 Skip this when the same area was already explored in this conversation (by `build-up-spec`, for
-example). Otherwise, find the knowledge base: what `AGENTS.md` / `CLAUDE.md` says about it, then the
-`Knowledge base:` line in the `## Katana skills` block, then a shallow look through `README` and
-`docs/`, telling the user that this last one was a guess. Read the code in the area. Ticket titles and
+example). Otherwise, find the knowledge base where `AGENTS.md` / `CLAUDE.md`, or the `Knowledge base:`
+line in the `## Katana skills` block, says it lives. When neither says, ask the user where it is, or
+whether there is none, and write the answer as that line under `### Backlog items`, in every file
+`setup-katana-skills` writes the block to, uncommitted. Read the code in the area. Ticket titles and
 descriptions use the knowledge base's vocabulary and respect its recorded decisions.
 
 Look for prefactoring opportunities: "Make the change easy, then make the easy change."
@@ -128,25 +129,26 @@ each with the criteria verified there.
 Done when every ticket has every section the template requires, each requirement it covers is cited
 by at least one of its criteria, and each criterion sits under a seam.
 
-## 6. Score the stories
+## 6. Score the tickets
 
-Apply `wsjf`'s story test to each ticket: _if this shipped alone, would someone gain measurable
+Apply `wsjf`'s value test to each ticket: _if this shipped alone, would someone gain measurable
 value?_
 
-- **Stories**: invoke `wsjf` once with all of them as targets, so there is one verification round.
-  The tickets are not in the tracker yet, so `wsjf` hands each block back to this skill.
+- **Tickets that pass**: invoke `wsjf` once with all of them as targets, so there is one verification
+  round. The tickets are not in the tracker yet, so `wsjf` hands each block back to this skill.
 - **Tasks** (prefactoring, expand and migrate batches, walking skeletons): write
   `Inherits <epic>'s priority.` in the `## WSJF` section.
 
 Blocking edges still decide what can start: WSJF only orders the tickets that are not blocked.
 
-Done when every story has an accepted WSJF block and every task has the inherits line.
+Done when every ticket that passes has an accepted WSJF block and every task has the inherits line.
 
 ## 7. Preview and publish
 
 Show every ticket in full, in dependency order (blockers first), each with its labels:
-`ready-for-agent`, or `needs-info` when a placeholder is still left in its criteria. When the repo has
-`docs/agents/triage-labels.md`, use the label strings it maps to. Ask once: _publish all / edit N_.
+`ready-for-agent`, or `needs-info` when a placeholder is still left in its criteria. When `AGENTS.md`
+/ `CLAUDE.md` or the knowledge base maps these labels to other names, use those. Ask once: _publish
+all / edit N_.
 
 Publish in dependency order, so that every blocker already has an identifier when the tickets it
 blocks are created:

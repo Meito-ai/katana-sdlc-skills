@@ -18,8 +18,8 @@ the user provided, or the user's own answer. A gap becomes a **placeholder** (`[
 `[add bound]`, …) for the team to fill in.
 
 One run shapes one feature: product, tech or compliance work. A bug (something broken) is out of
-scope. Say so, and point the user to the repo's bug workflow (`diagnosing-bugs`, when it is
-installed).
+scope. Say so, and point the user to `bug-intake` (`/bug-intake <report>`), which turns a bug report
+into an issue; when it is not installed, `/setup-katana-skills` adds it.
 
 ## Requirements
 
@@ -53,10 +53,10 @@ Done when every part of the input has been sorted and every source has been read
 
 ## 2. Explore
 
-- **Knowledge base**: what `AGENTS.md` / `CLAUDE.md` says about it, then the `Knowledge base:` line
-  in the `## Katana skills` block, then a shallow look through `README` and `docs/`, telling the user
-  that this last one was a guess. Read the parts the item touches: glossary terms, recorded decisions,
-  and the repo's definition of done if it has one.
+- **Knowledge base**: where `AGENTS.md` / `CLAUDE.md`, or the `Knowledge base:` line in the
+  `## Katana skills` block, says it lives. When neither says, ask the user where it is, or whether
+  there is none, and write the answer as that line, the way step 8 writes the `Backlog:` line. Read
+  the parts the item touches: glossary terms, recorded decisions, and the definition of done.
 - **Code**: the area the item touches. Explore it in this session rather than in a sub-agent:
   `slice-spec` runs next in the same window and builds on what is read here.
 - **Tracker**: search for **duplicates** using the item's key terms (in the team named on the
@@ -94,7 +94,7 @@ problem itself raises, its design tree must reach these branches:
   session finish it end to end and verify it?_
   - It's an epic if it has more than one slice that can be demoed on its own, needs decisions across
     several seams, or is more work than one session can hold.
-  - An issue that delivers no value on its own (it fails `wsjf`'s story test) is a **task**, and
+  - An issue that delivers no value on its own (it fails `wsjf`'s value test) is a **task**, and
     needs a parent epic.
 
 Every answer the user gives counts as sourced.
@@ -134,7 +134,7 @@ Done when the epic has an accepted title and card, or the issue's parent is sett
 
 ## 7. Score WSJF
 
-- **An epic, or an issue that passes `wsjf`'s story test**: invoke `wsjf` on the draft, and tell it
+- **An epic, or an issue that passes `wsjf`'s value test**: invoke `wsjf` on the draft, and tell it
   the item is still being drafted so that it returns the block instead of writing it. This also
   applies to an item refined in place, because step 8 rewrites its description.
 - **A task**: no score. Its `## WSJF` section reads `Inherits <epic>'s priority.`
@@ -160,7 +160,7 @@ Done when the item has an accepted WSJF block, or the inherits line.
      team has one.
    - When the `Epic` label or a type label is missing, offer once to create it. Labels are only
      created with the user's yes.
-   - When the repo has `docs/agents/triage-labels.md`, use the label strings it maps to.
+   - When `AGENTS.md` / `CLAUDE.md` or the knowledge base maps these labels to other names, use those.
    - Leave the tracker's own priority field unchanged: the WSJF block is the ranking.
 3. **Preview** exactly what will be written: the title; the card and PRD, or the issue body; the
    labels, parent, related and duplicate links; the target; any PRD amendment; and, for an item
