@@ -52,9 +52,9 @@ dependencies:
   - .claude/skills/bug-intake/SKILL.md
   deployed_file_hashes:
     .agents/skills/bug-intake/LICENSE-mattpocock-skills: sha256:e7bb8f1efcf780ceab438f8400293730546ff1ce9e9fafd91c51266430aadc33
-    .agents/skills/bug-intake/SKILL.md: sha256:b778b73c6351028382316eec8bb59c349fc2893b0845567b414d209d3720199a
+    .agents/skills/bug-intake/SKILL.md: sha256:ab9883e91a6b91c36c222652221ba1b88e1e2b9b927d509dea583627d4d3925b
     .claude/skills/bug-intake/LICENSE-mattpocock-skills: sha256:e7bb8f1efcf780ceab438f8400293730546ff1ce9e9fafd91c51266430aadc33
-    .claude/skills/bug-intake/SKILL.md: sha256:b778b73c6351028382316eec8bb59c349fc2893b0845567b414d209d3720199a
+    .claude/skills/bug-intake/SKILL.md: sha256:ab9883e91a6b91c36c222652221ba1b88e1e2b9b927d509dea583627d4d3925b
   source: local
   local_path: ./src/skills/sdlc/feature-management/bug-intake
   is_dev: true
@@ -72,10 +72,10 @@ dependencies:
   - .claude/skills/build-up-spec/apm.yml
   - .claude/skills/build-up-spec/templates.md
   deployed_file_hashes:
-    .agents/skills/build-up-spec/SKILL.md: sha256:23f8be897454e5c17baab0b8c6ef6e51acd4685661fcfe18855d80c7fe61b83f
+    .agents/skills/build-up-spec/SKILL.md: sha256:9ff3d00450250554f01aa272a9e8b3efcb47f11b422796b6869f41e5652d8c2f
     .agents/skills/build-up-spec/apm.yml: sha256:f7588a566a182a7ae82b8d6139bfac813357939d10b2030cd42bf274479bc433
     .agents/skills/build-up-spec/templates.md: sha256:fd613b68e160a9b443e7de2382da08a603bcc90b28f2657383c4d4421540ab08
-    .claude/skills/build-up-spec/SKILL.md: sha256:23f8be897454e5c17baab0b8c6ef6e51acd4685661fcfe18855d80c7fe61b83f
+    .claude/skills/build-up-spec/SKILL.md: sha256:9ff3d00450250554f01aa272a9e8b3efcb47f11b422796b6869f41e5652d8c2f
     .claude/skills/build-up-spec/apm.yml: sha256:f7588a566a182a7ae82b8d6139bfac813357939d10b2030cd42bf274479bc433
     .claude/skills/build-up-spec/templates.md: sha256:fd613b68e160a9b443e7de2382da08a603bcc90b28f2657383c4d4421540ab08
   source: local
@@ -193,9 +193,9 @@ dependencies:
   - .claude/skills/setup-katana-skills/SKILL.md
   - .claude/skills/setup-katana-skills/agents-block.md
   deployed_file_hashes:
-    .agents/skills/setup-katana-skills/SKILL.md: sha256:7870c1c0feb36d6721640d936b44705c854ce6c3a93337a44bf83f78c284d738
+    .agents/skills/setup-katana-skills/SKILL.md: sha256:090306a6e89f82f5d664eb4a7f325c889b742f80fe263ef89c8bf3de8f927801
     .agents/skills/setup-katana-skills/agents-block.md: sha256:11068437c8894ea3fce4025e79d8238d2c8f527bd967d56f52da2e144c20698d
-    .claude/skills/setup-katana-skills/SKILL.md: sha256:7870c1c0feb36d6721640d936b44705c854ce6c3a93337a44bf83f78c284d738
+    .claude/skills/setup-katana-skills/SKILL.md: sha256:090306a6e89f82f5d664eb4a7f325c889b742f80fe263ef89c8bf3de8f927801
     .claude/skills/setup-katana-skills/agents-block.md: sha256:11068437c8894ea3fce4025e79d8238d2c8f527bd967d56f52da2e144c20698d
   source: local
   local_path: ./src/skills/setup-katana-skills
@@ -217,11 +217,11 @@ dependencies:
   - .claude/skills/slice-spec/issue-template.md
   deployed_file_hashes:
     .agents/skills/slice-spec/LICENSE-mattpocock-skills: sha256:a35c814fa5eb666cb73841f7c3e711c80c1a414871c77c5d182943c98f8cbd5d
-    .agents/skills/slice-spec/SKILL.md: sha256:140c2b1e350ea54db1a36c846879958b2522bbdb72cb6d26ef3d9acfdcbb4615
+    .agents/skills/slice-spec/SKILL.md: sha256:d751e70016213028123f058d4d833b7024f0973a50bc624f1f1dd6b1fa73fed6
     .agents/skills/slice-spec/ears.md: sha256:77c3957decf08d96efdecb8f0856c70277ca4562489a4e3cd9ef0ab013155268
     .agents/skills/slice-spec/issue-template.md: sha256:393bdb1cdecccb72b065e133cfe631f4dcab9f84f62f81aa265889143bc8df4b
     .claude/skills/slice-spec/LICENSE-mattpocock-skills: sha256:a35c814fa5eb666cb73841f7c3e711c80c1a414871c77c5d182943c98f8cbd5d
-    .claude/skills/slice-spec/SKILL.md: sha256:140c2b1e350ea54db1a36c846879958b2522bbdb72cb6d26ef3d9acfdcbb4615
+    .claude/skills/slice-spec/SKILL.md: sha256:d751e70016213028123f058d4d833b7024f0973a50bc624f1f1dd6b1fa73fed6
     .claude/skills/slice-spec/ears.md: sha256:77c3957decf08d96efdecb8f0856c70277ca4562489a4e3cd9ef0ab013155268
     .claude/skills/slice-spec/issue-template.md: sha256:393bdb1cdecccb72b065e133cfe631f4dcab9f84f62f81aa265889143bc8df4b
   source: local
@@ -504,7 +504,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/bug-intake
   active_owner: ./src/skills/sdlc/feature-management/bug-intake
-  content_hash: sha256:b778b73c6351028382316eec8bb59c349fc2893b0845567b414d209d3720199a
+  content_hash: sha256:ab9883e91a6b91c36c222652221ba1b88e1e2b9b927d509dea583627d4d3925b
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/build-up-spec
@@ -522,7 +522,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/build-up-spec
   active_owner: ./src/skills/sdlc/feature-management/build-up-spec
-  content_hash: sha256:23f8be897454e5c17baab0b8c6ef6e51acd4685661fcfe18855d80c7fe61b83f
+  content_hash: sha256:9ff3d00450250554f01aa272a9e8b3efcb47f11b422796b6869f41e5652d8c2f
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/build-up-spec/apm.yml
@@ -972,7 +972,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:7870c1c0feb36d6721640d936b44705c854ce6c3a93337a44bf83f78c284d738
+  content_hash: sha256:090306a6e89f82f5d664eb4a7f325c889b742f80fe263ef89c8bf3de8f927801
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/setup-katana-skills/agents-block.md
@@ -1008,7 +1008,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/slice-spec
   active_owner: ./src/skills/sdlc/feature-management/slice-spec
-  content_hash: sha256:140c2b1e350ea54db1a36c846879958b2522bbdb72cb6d26ef3d9acfdcbb4615
+  content_hash: sha256:d751e70016213028123f058d4d833b7024f0973a50bc624f1f1dd6b1fa73fed6
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/slice-spec/ears.md
@@ -1233,7 +1233,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/bug-intake
   active_owner: ./src/skills/sdlc/feature-management/bug-intake
-  content_hash: sha256:b778b73c6351028382316eec8bb59c349fc2893b0845567b414d209d3720199a
+  content_hash: sha256:ab9883e91a6b91c36c222652221ba1b88e1e2b9b927d509dea583627d4d3925b
 - kind: project-relative
   target: claude
   value: .claude/skills/build-up-spec
@@ -1251,7 +1251,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/build-up-spec
   active_owner: ./src/skills/sdlc/feature-management/build-up-spec
-  content_hash: sha256:23f8be897454e5c17baab0b8c6ef6e51acd4685661fcfe18855d80c7fe61b83f
+  content_hash: sha256:9ff3d00450250554f01aa272a9e8b3efcb47f11b422796b6869f41e5652d8c2f
 - kind: project-relative
   target: claude
   value: .claude/skills/build-up-spec/apm.yml
@@ -1701,7 +1701,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:7870c1c0feb36d6721640d936b44705c854ce6c3a93337a44bf83f78c284d738
+  content_hash: sha256:090306a6e89f82f5d664eb4a7f325c889b742f80fe263ef89c8bf3de8f927801
 - kind: project-relative
   target: claude
   value: .claude/skills/setup-katana-skills/agents-block.md
@@ -1737,7 +1737,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/slice-spec
   active_owner: ./src/skills/sdlc/feature-management/slice-spec
-  content_hash: sha256:140c2b1e350ea54db1a36c846879958b2522bbdb72cb6d26ef3d9acfdcbb4615
+  content_hash: sha256:d751e70016213028123f058d4d833b7024f0973a50bc624f1f1dd6b1fa73fed6
 - kind: project-relative
   target: claude
   value: .claude/skills/slice-spec/ears.md

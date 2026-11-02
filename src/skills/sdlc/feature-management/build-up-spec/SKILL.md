@@ -53,10 +53,10 @@ Done when every part of the input has been sorted and every source has been read
 
 ## 2. Explore
 
-- **Knowledge base**: what `AGENTS.md` / `CLAUDE.md` says about it, then the `Knowledge base:` line
-  in the `## Katana skills` block, then a shallow look through `README` and `docs/`, telling the user
-  that this last one was a guess. Read the parts the item touches: glossary terms, recorded decisions,
-  and the repo's definition of done if it has one.
+- **Knowledge base**: where `AGENTS.md` / `CLAUDE.md`, or the `Knowledge base:` line in the
+  `## Katana skills` block, says it lives. When neither says, ask the user where it is, or whether
+  there is none, and write the answer as that line, the way step 8 writes the `Backlog:` line. Read
+  the parts the item touches: glossary terms, recorded decisions, and the definition of done.
 - **Code**: the area the item touches. Explore it in this session rather than in a sub-agent:
   `slice-spec` runs next in the same window and builds on what is read here.
 - **Tracker**: search for **duplicates** using the item's key terms (in the team named on the
@@ -160,7 +160,7 @@ Done when the item has an accepted WSJF block, or the inherits line.
      team has one.
    - When the `Epic` label or a type label is missing, offer once to create it. Labels are only
      created with the user's yes.
-   - When the repo has `docs/agents/triage-labels.md`, use the label strings it maps to.
+   - When `AGENTS.md` / `CLAUDE.md` or the knowledge base maps these labels to other names, use those.
    - Leave the tracker's own priority field unchanged: the WSJF block is the ranking.
 3. **Preview** exactly what will be written: the title; the card and PRD, or the issue body; the
    labels, parent, related and duplicate links; the target; any PRD amendment; and, for an item

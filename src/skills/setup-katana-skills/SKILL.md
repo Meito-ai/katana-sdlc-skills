@@ -122,7 +122,7 @@ recommended answer so the user can accept it in a word. Skip a question explorat
    each run, and the `### WSJF` subsection is dropped.
 9. **Knowledge base** (`build-up-spec`, `slice-spec` or `bug-intake` picked, and `AGENTS.md` /
    `CLAUDE.md` does not already say where it lives). Propose the paths exploration found. The user may
-   leave it unset; the skills then look through `README` and `docs/` and say that they guessed.
+   leave it unset; each skill then asks on its first run and writes the line itself.
 10. **Backlog** (`build-up-spec` or `bug-intake` picked). Propose where new epics and issues are
    filed: a Linear team and project, or the GitHub repo. The user may leave it unset; each skill then
    asks on its first run and writes the line itself.

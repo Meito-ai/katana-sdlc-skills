@@ -42,9 +42,10 @@ all known.
 ## 2. Explore the codebase
 
 Skip this when the same area was already explored in this conversation (by `build-up-spec`, for
-example). Otherwise, find the knowledge base: what `AGENTS.md` / `CLAUDE.md` says about it, then the
-`Knowledge base:` line in the `## Katana skills` block, then a shallow look through `README` and
-`docs/`, telling the user that this last one was a guess. Read the code in the area. Ticket titles and
+example). Otherwise, find the knowledge base where `AGENTS.md` / `CLAUDE.md`, or the `Knowledge base:`
+line in the `## Katana skills` block, says it lives. When neither says, ask the user where it is, or
+whether there is none, and write the answer as that line under `### Backlog items`, in every file
+`setup-katana-skills` writes the block to, uncommitted. Read the code in the area. Ticket titles and
 descriptions use the knowledge base's vocabulary and respect its recorded decisions.
 
 Look for prefactoring opportunities: "Make the change easy, then make the easy change."
@@ -145,8 +146,9 @@ Done when every ticket that passes has an accepted WSJF block and every task has
 ## 7. Preview and publish
 
 Show every ticket in full, in dependency order (blockers first), each with its labels:
-`ready-for-agent`, or `needs-info` when a placeholder is still left in its criteria. When the repo has
-`docs/agents/triage-labels.md`, use the label strings it maps to. Ask once: _publish all / edit N_.
+`ready-for-agent`, or `needs-info` when a placeholder is still left in its criteria. When `AGENTS.md`
+/ `CLAUDE.md` or the knowledge base maps these labels to other names, use those. Ask once: _publish
+all / edit N_.
 
 Publish in dependency order, so that every blocker already has an identifier when the tickets it
 blocks are created:

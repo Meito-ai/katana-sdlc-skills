@@ -16,4 +16,5 @@ a tracker item or a URL) into an issue one agent session can fix, in `slice-spec
   specific questions; `/bug-intake <issue>` resumes from them once the reporter answers.
 
 It applies only `ready-for-agent`, `needs-info` and your team's `bug` label, and writes nothing to the
-repo but the `Backlog:` line. It needs `slice-spec` and `wsjf`; install it with `/setup-katana-skills`.
+repo but the `Knowledge base:` and `Backlog:` lines, when it has to ask for them. It needs
+`slice-spec` and `wsjf`; install it with `/setup-katana-skills`.
