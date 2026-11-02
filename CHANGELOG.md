@@ -1,5 +1,70 @@
 # katana-sdlc-skills
 
+## 0.2.2
+
+### Patch Changes
+
+- [#12](https://github.com/Meito-ai/katana-sdlc-skills/pull/12) - `wsjf`, `slice-spec` and `build-up-spec` now name backlog items as epics, issues and tasks throughout,
+  instead of user and tech stories. An issue gets a WSJF score when it passes `wsjf`'s **value test**
+  (formerly the story test): if it shipped alone, would someone gain measurable value? Product, tech and
+  compliance issues and bug fixes are ranked in one set. Nothing changes in how items are scored; re-run
+  `/setup-katana-skills` to pick up the same wording in your `## Katana skills` block.
+
+- [#12](https://github.com/Meito-ai/katana-sdlc-skills/pull/12) - `bug-intake` is a new user-invoked skill (`/bug-intake <report>`) that turns a bug report (free text,
+  a tracker item or a URL) into an issue one agent session can fix, in `slice-spec`'s issue template:
+  
+  - **Checks first.** It searches the tracker for duplicates and the code for behaviour that already
+    works, and lets you refine, link, mark as duplicate, close or carry on.
+  - **Reproduces.** It reports the bug as confirmed (with the code path), failed, or insufficient detail.
+    A confirmed bug becomes a `ready-for-agent` issue: the reproduction, the fixed behaviour, the seam the
+    failing test attaches at, and EARS criteria.
+  - **Rates severity.** The issue opens with a `Severity:` line (Critical, High, Medium or Low, with the
+    bug's reach), which `wsjf` scores from. A Critical bug is flagged to fix now.
+  - **Asks the reporter.** Otherwise the issue is labelled `needs-info` and gets triage notes with
+    specific questions; `/bug-intake <issue>` resumes from them once the reporter answers.
+  
+  It applies only `ready-for-agent`, `needs-info` and your team's `bug` label, and writes nothing to the
+  repo but the `Knowledge base:` and `Backlog:` lines, when it has to ask for them. It needs
+  `slice-spec` and `wsjf`; install it with `/setup-katana-skills`.
+
+- [#12](https://github.com/Meito-ai/katana-sdlc-skills/pull/12) - `build-up-spec` now sends a bug report to `/bug-intake` instead of `diagnosing-bugs`, and
+  `setup-katana-skills` offers `bug-intake`, picks `slice-spec` and `wsjf` with it, and adds a
+  `/bug-intake` line to the `### Backlog items` subsection of the Katana skills block. Re-run
+  `/setup-katana-skills` to add it.
+
+- [#13](https://github.com/Meito-ai/katana-sdlc-skills/pull/13) - `build-up-spec` lets a product owner leave the design to the engineer who builds the item. Say that
+  design is for the engineer (or answer the one question the skill asks a product owner), and the run:
+  
+  - **Skips the design.** Grilling leaves out the Interfaces branch, and the item keeps
+    `[add testing seams]`, `[add implementation decisions]` (epic) and `[add key interfaces]` (issue) as
+    placeholders.
+  - **Holds the item back from agents.** It is published `needs-design` instead of `ready-for-agent`.
+    When your team has no `needs-design` label, the skill offers once to create it.
+  - **Hands over to the engineer.** The run ends with `/build-up-spec <item>`. The engineer refines the
+    item in place, fills in the design, and `needs-design` comes off; an issue then gets
+    `ready-for-agent`.
+  
+  A run where you don't defer the design labels items exactly as before.
+
+- [#12](https://github.com/Meito-ai/katana-sdlc-skills/pull/12) - `build-up-spec` and `slice-spec` no longer guess where your knowledge base is from `README` and
+  `docs/`. When neither `AGENTS.md` / `CLAUDE.md` nor the `Knowledge base:` line in your
+  `## Katana skills` block says, they ask, and record the answer as that line. They also stop reading
+  label renames from `docs/agents/triage-labels.md`: if you rename `ready-for-agent` or `needs-info`,
+  say so in `AGENTS.md` / `CLAUDE.md` or your knowledge base.
+
+- [#13](https://github.com/Meito-ai/katana-sdlc-skills/pull/13) - `slice-spec`, `visual-pr` and `build-up-spec` now credit `mattpocock/skills` in their frontmatter
+  `metadata:`. `slice-spec` and `visual-pr` name the upstream skill each is adapted from (`to-tickets`
+  and `pr`, at v1.3.1) and its MIT licence; `build-up-spec` names the `grilling` skill it requires.
+  Nothing changes in how the skills run.
+
+- [#13](https://github.com/Meito-ai/katana-sdlc-skills/pull/13) - `slice-spec` now stops on an epic labelled `needs-design`, before drafting any slice, and names
+  `/build-up-spec <epic>` as the next step: the epic's design still needs an engineer.
+
+- [#12](https://github.com/Meito-ai/katana-sdlc-skills/pull/12) - `wsjf` now scores a bug fix from its severity, rather than classifying it as product, tech or
+  compliance. The `Severity:` line that `bug-intake` writes (Critical, High, Medium or Low) sets risk
+  reduction, the bug's reach sets value, and whether users hit it today sets time criticality. For a bug
+  without that line, `wsjf` asks you for the level and the reach.
+
 ## 0.2.1
 
 ### Patch Changes
