@@ -6,9 +6,14 @@ const SKILLS = new URL('../../src/skills/', import.meta.url);
 const read = (path) => readFileSync(new URL(path, SKILLS), 'utf8');
 
 // The skills that read the host repo's knowledge base.
-const KNOWLEDGE_BASE_READERS = ['bug-intake', 'build-up-spec', 'slice-spec'].map((name) => ({
-  name,
-  text: read(`sdlc/feature-management/${name}/SKILL.md`),
+const KNOWLEDGE_BASE_READERS = [
+  'sdlc/feature-management/bug-intake',
+  'sdlc/feature-management/build-up-spec',
+  'sdlc/feature-management/slice-spec',
+  'sdlc/implementation/implement-issue',
+].map((path) => ({
+  name: path.split('/').pop(),
+  text: read(`${path}/SKILL.md`),
 }));
 
 describe('host repo layout', () => {

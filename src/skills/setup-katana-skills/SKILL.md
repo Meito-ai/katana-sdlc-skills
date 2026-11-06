@@ -28,6 +28,7 @@ The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/sk
 | `build-up-spec` | `sdlc/feature-management/build-up-spec` | the knowledge base and backlog lines; needs `outcome-framing`, `wsjf`, `slice-spec`, and `grilling` from `mattpocock/skills` | always |
 | `slice-spec` | `sdlc/feature-management/slice-spec` | the knowledge base line; needs `wsjf` | always |
 | `bug-intake` | `sdlc/feature-management/bug-intake` | the knowledge base and backlog lines; needs `slice-spec` and `wsjf` | always |
+| `implement-issue` | `sdlc/implementation/implement-issue` | the knowledge base and checks lines; needs `tdd`, `code-review`, `codebase-design` and `diagnosing-bugs` from `mattpocock/skills`; uses `bare-clone-workflow` and `visual-pr` when installed | always |
 | `paas-pulumi-infra-setup` | `paas/paas-pulumi-infra-setup` | none: a one-time, user-run scaffold that writes its own pointer line when run | always |
 
 This is a prompt-driven skill. Explore, present, confirm, then write. Nothing is committed: the user
@@ -71,14 +72,20 @@ Read the repo's actual state; assume nothing.
 - **Tracker** (for `wsjf`, `build-up-spec` and `bug-intake`): where this repo's epics live and where
   new items are filed. A GitHub `origin` suggests its issues; a connected Linear MCP can list teams
   and projects. Existing `WSJF scope` and `Backlog` lines in the block win.
-- **Knowledge base** (for `build-up-spec`, `slice-spec` and `bug-intake`): whether `AGENTS.md` /
-  `CLAUDE.md` already says where the repo's docs live (glossary, decision records, a definition of
-  done). If not, the directories that hold them. An existing `Knowledge base` line in the block wins.
+- **Knowledge base** (for `build-up-spec`, `slice-spec`, `bug-intake` and `implement-issue`): whether
+  `AGENTS.md` / `CLAUDE.md` already says where the repo's docs live (glossary, decision records, a
+  definition of done). If not, the directories that hold them. An existing `Knowledge base` line in the
+  block wins.
+- **Checks** (for `implement-issue`): whether `AGENTS.md` / `CLAUDE.md` already names the commands for
+  the typecheck, a single test file and the full suite. If not, the manifests and tool configs that
+  define them (package scripts, `Makefile` targets). An existing `Checks` line in the block wins.
 - **Upstream pins**: the upstreams the chosen skills declare in their own `apm.yml`: `build-up-spec`
-  declares `mattpocock/skills` (`productivity/grilling`), `paas-pulumi-infra-setup` declares
-  `pulumi/agent-skills`. For each, the `apm.yml` entries of that upstream, in either form:
+  declares `mattpocock/skills` (`productivity/grilling`), `implement-issue` declares `mattpocock/skills`
+  (`engineering/tdd`, `engineering/code-review`, `engineering/codebase-design`,
+  `engineering/diagnosing-bugs`), `paas-pulumi-infra-setup` declares `pulumi/agent-skills`. For each,
+  the `apm.yml` entries of that upstream, in either form:
   - one `git: <upstream>` entry, its `ref:` and its `skills:` list. Its subset silently wins over the
-    declared one, so for `mattpocock/skills` it must include `productivity/grilling`.
+    declared ones, so it must include every path the chosen skills declare.
   - **per-path** entries, one string per skill, e.g. `mattpocock/skills/skills/<category>/<name>#<ref>`.
     Note the ref they share, or that they differ.
 
@@ -120,12 +127,15 @@ recommended answer so the user can accept it in a word. Skip a question explorat
 8. **WSJF scope** (`wsjf` picked). Propose the default comparison scope from the tracker signals: a
    Linear team or project, or the GitHub repo. The user may leave it unset; the skill then asks on
    each run, and the `### WSJF` subsection is dropped.
-9. **Knowledge base** (`build-up-spec`, `slice-spec` or `bug-intake` picked, and `AGENTS.md` /
-   `CLAUDE.md` does not already say where it lives). Propose the paths exploration found. The user may
-   leave it unset; each skill then asks on its first run and writes the line itself.
+9. **Knowledge base** (`build-up-spec`, `slice-spec`, `bug-intake` or `implement-issue` picked, and
+   `AGENTS.md` / `CLAUDE.md` does not already say where it lives). Propose the paths exploration found.
+   The user may leave it unset; each skill then asks on its first run and writes the line itself.
 10. **Backlog** (`build-up-spec` or `bug-intake` picked). Propose where new epics and issues are
    filed: a Linear team and project, or the GitHub repo. The user may leave it unset; each skill then
    asks on its first run and writes the line itself.
+11. **Checks** (`implement-issue` picked, and `AGENTS.md` / `CLAUDE.md` does not already name them).
+   Propose the typecheck, single-test-file and full-suite commands exploration found. The user may
+   leave them unset; `implement-issue` then asks on its first run and writes the line itself.
 
 ## 3. Draft
 
@@ -185,8 +195,11 @@ same residue changes as before the conversion, and the verify command passed the
      skills:
        - <category>/<name>   # one line per former per-path entry
    ```
-5. With `build-up-spec` chosen and a `git: mattpocock/skills` entry in `apm.yml`, add
-   `productivity/grilling` to that entry's `skills:` list if it is missing.
+5. When a chosen skill declares `mattpocock/skills`, make one direct `git: mattpocock/skills` entry
+   hold every path the chosen skills declare: add the missing paths to the entry's `skills:` list, or,
+   with no entry, create one at the declared `ref:` (`"^1.3.2"`). apm keeps one subset per upstream,
+   and a direct entry wins over the skills' own declarations; without one, two skills that declare
+   different paths lose one set silently.
 6. Run `apm install`. When it stops on a content-hash mismatch for an upstream whose entries this run
    changed, delete that upstream's entries from `apm.lock.yaml` and rerun. Leave the rest of the graph
    at its locked versions, which `apm install --update` would re-resolve.
@@ -200,7 +213,7 @@ gitignored and hold only paths `apm.lock.yaml` lists as deployed; name anything 
 user the lockfile diff will be large: a fresh lock lists every deployed file.
 
 Done when every chosen skill has a `SKILL.md` under `.claude/skills/<name>/` or `.agents/skills/<name>/`
-(`grilling` included when `build-up-spec` is chosen), no unselected one does, each replaced local
+(and so does every upstream skill they declare), no unselected one does, each replaced local
 skill's name holds the katana copy, and both step 7 checks pass.
 
 ## 6. Wire
@@ -249,6 +262,7 @@ hook exactly when the user wanted it (`jq empty .claude/settings.json` passes).
 - `paas-pulumi-infra-setup` installed: run `/paas-pulumi-infra-setup` to scaffold the infrastructure.
 - `build-up-spec` installed: run `/build-up-spec` to shape an epic or an issue.
 - `bug-intake` installed: run `/bug-intake` to turn a bug report into an issue.
+- `implement-issue` installed: run `/implement-issue <issue>`, or ask the agent to pick an issue up.
 - After a conversion: the new worktree path, and that the session must be restarted there, since the
   old directory is now the container. Undoing it is the Rollback section of `bare-clone-workflow`'s
   `reference.md`.

@@ -61,12 +61,19 @@ devDependencies:
     - ./src/skills/sdlc/feature-management/build-up-spec
     - ./src/skills/sdlc/feature-management/slice-spec
     - ./src/skills/sdlc/feature-management/bug-intake
+    - ./src/skills/sdlc/implementation/implement-issue
     - ./src/skills/setup-katana-skills
     - ./src/skills/paas/paas-pulumi-infra-setup
 
     # Pinned by semver range; the resolved tag + commit land in apm.lock.yaml,
     # which is committed. CI runs `apm install --frozen`, so a new upstream tag
     # can never enter a build without a lockfile diff in the PR.
+    #
+    # This direct entry wins over every published skill's own declaration of
+    # mattpocock/skills, so it must list each path any of them declares
+    # (build-up-spec: grilling; implement-issue: tdd, code-review,
+    # codebase-design, diagnosing-bugs). A path missing here is silently not
+    # deployed.
     - git: mattpocock/skills
       ref: "^1.3.2"
       skills:
@@ -79,3 +86,6 @@ devDependencies:
         # Reviewing changes to this repo.
         - engineering/code-review
         - engineering/codebase-design
+        # Declared by implement-issue.
+        - engineering/tdd
+        - engineering/diagnosing-bugs
