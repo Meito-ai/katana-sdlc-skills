@@ -1,6 +1,6 @@
 ---
 name: implement-issue
-description: "Take one issue to an open PR: triage whether its design is settled, settle it behind an approval gate when it is not, build test-first at the issue's testing seams, review, bring the docs up to date, and open the PR. Use when asked to implement or pick up an issue, or to make a trivial change described in text."
+description: "Take one issue to an open PR: triage whether its design is settled, settle it behind an approval gate when it is not, build test-first at the issue's testing seams, review, bring the docs up to date, and open the PR. Use when asked to implement or pick up an issue or an epic, or to make a trivial change described in text."
 metadata:
   adapted-from: "https://github.com/mattpocock/skills/tree/v1.3.2/skills/engineering/implement"
   adapted-license: "MIT, Matt Pocock; see LICENSE-mattpocock-skills"
@@ -13,10 +13,6 @@ Take one **issue** to an open PR. The issue is the contract, in the template `bu
 `slice-spec` and `bug-intake` publish, from a tracker or pasted as text: its testing seams are the
 agreed seams, and its criteria are what the build makes true.
 
-Before building, **triage** the design. `Design: settled` goes straight to the build. `Design: needed`
-is settled where it will live and passes a **gate**, the user's approval, before any code or write.
-Design belongs to the engineer who builds it, so a product owner's design placeholders are filled here.
-
 Adapted from `implement` of `mattpocock/skills` v1.3.2 ([licence](LICENSE-mattpocock-skills)): the
 issue fetch, `tdd` at agreed seams, the check cadence, `code-review` and the commit.
 
@@ -24,7 +20,9 @@ issue fetch, `tdd` at agreed seams, the check cadence, `code-review` and the com
 
 - **`tdd`, `code-review`, `codebase-design` and `diagnosing-bugs`** from `mattpocock/skills` >= v1.3.2.
   This skill's `apm.yml` declares them, but a repo that already pins `mattpocock/skills` keeps its own
-  pin and subset, silently.
+  pin and subset, silently. So before step 1, check that each is deployed (`.claude/skills/<name>/` or
+  `.agents/skills/<name>/`); when one is missing, stop and name the `engineering/<name>` path to add to
+  the `mattpocock/skills` entry in `apm.yml`.
 - **A tracker tool** (a Linear MCP, or `gh`) to read the issue and write the approved design. Without
   one, the issue arrives and the design leaves as text.
 - **When installed:** `bare-clone-workflow` for a bare-clone layout, and `visual-pr` for the PR
@@ -32,29 +30,30 @@ issue fetch, `tdd` at agreed seams, the check cadence, `code-review` and the com
 
 ## 1. Read the input
 
-Check that the four required skills are deployed (`.claude/skills/<name>/` or `.agents/skills/<name>/`).
-If any is missing, stop and name the `engineering/<name>` path to add to the `mattpocock/skills` entry
-in `apm.yml`.
-
 - **An issue** (an identifier or a URL): fetch it, state its title, and read its labels, comments,
-  parent, blockers and, under an epic, the epic's PRD. Pasted text with the issue's sections is an
+  parent, blockers and, under an epic, the epic's **PRD**. Pasted text with the issue's sections is an
   issue with no tracker to write to.
-- **An epic**: list its **frontier**, the open sub-issues with no open blocker, and continue with the
-  one the user picks. With no sub-issues, stop and name `/slice-spec <epic id>`.
+- **An epic with sub-issues**: list its **frontier**, the open sub-issues with no open blocker, and
+  continue with the one the user picks.
+- **An epic with no sub-issues**: fetch it and its PRD, and say whether one fresh session can finish it
+  end to end and verify it, and why. When it can, the epic is the issue: the PRD's requirements are its
+  criteria, the PRD's seams its testing seams, and its PR closes the epic. Otherwise stop and name
+  `/slice-spec <epic id>`.
 - **Free text**: a **trivial** change follows [Trivial changes](#trivial-changes). Other text stops:
   name `/build-up-spec <text>`, or `/bug-intake <text>` for a bug.
 
 An issue is never trivial. Note whether it is a **bug**: a `Severity:` line or a `bug` label.
 
-Done when the input is sorted and the issue, its relations and any parent PRD are in context.
+Done when the input is sorted and the issue, its relations and any PRD are in context.
 
 ## 2. Check it is ready
 
 Stop, naming what is missing, when a blocking issue is still open (the user may override, to stack on
 its branch for example), or when the criteria are incomplete: a placeholder under
-`## Acceptance criteria`, the `needs-info` label, or a `## Current behaviour` headed `Unconfirmed:`.
-Completing them is intake's work: name `/bug-intake <id>` for a bug, `/build-up-spec <id>` otherwise.
-Design placeholders and `needs-design` are step 6's work. `AGENTS.md` / `CLAUDE.md` may rename labels.
+`## Acceptance criteria` (an epic's `## Requirements`), the `needs-info` label, or a
+`## Current behaviour` headed `Unconfirmed:`. Completing them is intake's work: name
+`/bug-intake <id>` for a bug, `/build-up-spec <id>` otherwise. Design placeholders and `needs-design`
+are step 6's work. `AGENTS.md` / `CLAUDE.md` may rename labels.
 
 Done when no blocker is open (or the user overrode it) and the criteria hold no placeholder.
 
@@ -79,8 +78,8 @@ Done when the working tree is on a branch that belongs to the issue.
 
 - **Knowledge base**: where `AGENTS.md` / `CLAUDE.md`, or the `Knowledge base:` line in the
   `## Katana skills` block, says it lives. When neither says, ask the user where it is, or whether there
-  is none, and record the answer as that line. Read what the issue touches: glossary, decision records,
-  docs, definition of done.
+  is none, and record the answer as that line. Read what the issue touches: glossary, ADRs, docs,
+  definition of done.
 - **Checks**: the typecheck, single-test-file and full-suite commands, from `AGENTS.md` / `CLAUDE.md` or
   the block's `Checks:` line. Otherwise infer them from the manifests, confirm them with the user once,
   and record them as that line.
@@ -94,13 +93,12 @@ Done when the knowledge base is located or recorded as none, and the checks are 
 
 ## 5. Triage the design
 
-Read the issue, its parent PRD's implementation decisions and testing seams, the decision records in the
-area, and the code down to each testing seam. State one verdict with its reason; it goes into the PR,
+Read the code down to each testing seam, then state one verdict with its reason; it goes into the PR,
 where a reviewer can challenge it.
 
 - **`Design: settled`**: no design placeholder or `needs-design` is left, every seam exists in today's
-  code and reaches its criteria, and no new decision is needed (see
-  [Decision records](#decision-records)). Go to step 7.
+  code and reaches its criteria, and the build needs no new decision of significant impact (see
+  [ADRs](#adrs)). Go to step 7.
 - **`Design: needed`**: anything else. Go to step 6.
 
 ## 6. Settle the design
@@ -111,9 +109,12 @@ Draft each part where it will live, in `codebase-design`'s vocabulary:
 - **`## Testing seams`**: each with its criteria. Prefer an existing seam, take the highest that reaches
   the behaviour, use as few as possible, and note prior art.
 - **`## Rollout`**, for one-off rollout steps. A repeatable procedure is a knowledge-base doc instead.
-- **Criteria** the design uncovers, in EARS. Under an epic they also amend the PRD's `## Requirements`
-  with the next free `R` number; nothing is renumbered or deleted.
-- **Decision records**, proposed, for each decision that needs one.
+- **Criteria** the design uncovers, in EARS. With a PRD they also amend its `## Requirements` with the
+  next free `R` number; nothing is renumbered or deleted.
+- **ADRs**, proposed, for each decision that needs one.
+
+An epic built as the issue drafts all of it into its PRD, in place: `## Implementation decisions` stands
+in for `## Key interfaces`, and `## Further notes` for `## Rollout`.
 
 Present each open choice with its options and a recommendation. Leave the knowledge-base docs for
 step 9.
@@ -121,17 +122,18 @@ step 9.
 **The gate.** Present it all together and stop: nothing is written or committed until the user
 approves. On approval, post the original description as a comment
 (`Original before implement-issue, <date>`), write the new one, remove `needs-design`, patch an amended
-PRD, and mark the records accepted. With no tracker tool, hand the issue text back; step 10 carries the
+PRD, and mark the ADRs accepted. With no tracker tool, hand the issue text back; step 10 carries the
 design into the PR.
 
 Done when the user has approved, and every write has succeeded or been handed back.
 
-## 7. Record the decisions
+## 7. Record the ADRs
 
-Where the repo keeps decision records, commit before any code: the records approved at the gate and,
-under an epic, an accepted record for each PRD implementation decision that has none yet.
+Where the repo keeps ADRs, commit before any code: the ADRs approved at the gate and, with a PRD, an
+accepted ADR for each of its implementation decisions of significant impact that has none yet.
 
-Done when every decision this issue implements has a committed record, or the repo keeps none.
+Done when every decision of significant impact this issue implements has a committed ADR, or the repo
+keeps none.
 
 ## 8. Build
 
@@ -180,17 +182,24 @@ place of the closing reference and the triage line. When it turns out to touch b
 
 A branch that belongs to the issue and has commits ahead picks up where the last run stopped. Triage
 again against the issue as it now stands: a design approved at the gate was written back, so it reads
-`Design: settled`. Committed records count as approved, the full suite shows which criteria still fail,
+`Design: settled`. Committed ADRs count as approved, the full suite shows which criteria still fail,
 and an open PR is refreshed.
 
-## Decision records
+## ADRs
 
-Only where the knowledge base keeps them: it says where, in what format and statuses, and when one is
-written. Without a rule of its own, write one for a decision that introduces a new pattern, chooses
-between viable approaches (and why the others lost), affects several modules, constrains future work, or
-reverses an earlier decision. An interface change gets one only when the change is itself the decision.
-An accepted record is never edited; a new one supersedes it. Where the repo keeps none, decisions stay in
-the issue.
+Architecture decision records, only where the repo keeps them, as `AGENTS.md` / `CLAUDE.md` or the
+knowledge base they name says: where they live, their format and statuses, and when one is written.
+Where the repo keeps none, decisions stay in the issue.
+
+Without criteria of the repo's own, follow
+[Spotify's](https://engineering.atspotify.com/2020/04/when-should-i-write-an-architecture-decision-record):
+an ADR for every decision of **significant impact**, big or small.
+
+- **A new answer**: the change settles a problem the repo has no accepted answer to, such as a new
+  pattern, library or module boundary, or a reversal of an accepted ADR.
+- **A backfill**: the change follows an accepted answer that no ADR records yet.
+
+An accepted ADR is never edited; a new one supersedes it.
 
 ## Stops
 
