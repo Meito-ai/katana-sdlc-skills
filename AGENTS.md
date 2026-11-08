@@ -201,6 +201,8 @@ $EDITOR src/skills/<category>/<name>/SKILL.md   # frontmatter `name:` MUST equal
 $EDITOR apm.yml                                 # add: - ./src/skills/<category>/<name>
 npm run validate-skills
 apm install                                     # deploys it locally so you can use it
+$EDITOR README.md                               # its row, and its place in the flow if under sdlc/
+npm run readme:stamp
 npm run changeset                               # describe the change for the changelog
 ```
 
@@ -209,6 +211,48 @@ in the skill's own directory (`name`, `version` equal to `package.json`, `descri
 **and** say so in the skill's own `SKILL.md`. (The self-reference above always stays in the root
 `devDependencies:` — it exists only so the skill loads locally.) If it calls another katana skill,
 say so in its `SKILL.md` and in `setup-katana-skills`, never in its `apm.yml` (see the traps above).
+
+### Keeping the README in step
+
+`README.md` carries one row per skill and, for the skills under `src/skills/sdlc/`, a flow diagram.
+Agents write both; `scripts/sync-readme.js` only checks them. It reports a skill with no row, a row
+with no skill, a row whose skill changed since the row was written, and an SDLC skill missing from the
+diagram. CI runs `npm run readme:check`. The Stop hook in `.claude/settings.json` runs the same check
+when the branch touches `src/skills/` or `README.md`, and blocks until it passes.
+
+Each row ends its first cell with a stamp (`<!-- stamp: … -->`) hashing the skill's frontmatter
+`description:` and the `dependencies:` of its own `apm.yml`; a change to either makes the row stale.
+After writing a row, or judging a stale one still accurate, run `npm run readme:stamp`.
+
+#### README skill rows
+
+- The first cell links the name, `` [`<name>`](./src/skills/<path>) ``, followed by the stamp.
+- A skill with `disable-model-invocation: true` starts `` User-invoked (`/<name>`). ``
+- Then what it does for the person installing it, from its `SKILL.md`: what it takes, what it
+  produces, and where it stops for the user. Two to four sentences.
+- Then `` Needs `<skill>` `` for the katana skills it calls, and
+  `` Installs `<skill>` from `<owner/repo>` with it `` for the upstream skills its `apm.yml` declares.
+- Credit the skill it is adapted from, linked when the `SKILL.md` links it.
+- No trigger phrasing ("Use when …"): that is the `description:`'s job.
+
+#### The SDLC flow
+
+A Mermaid flowchart, top to bottom. Every skill under `src/skills/sdlc/` appears in it; the upstream
+skills the flow invokes appear dashed. Show a gate only where a `SKILL.md` stops or asks, or where the
+flow waits on people outside any skill (the PR review), in the shape of its kind:
+
+| Shape | Meaning |
+|---|---|
+| subgraph | a katana skill that moves the item along, with its gates inside |
+| rectangle | a katana skill another one invokes |
+| dashed rectangle | an upstream skill the flow invokes |
+| diamond | a human gate: the flow waits for a person's approval |
+| hexagon | a check the skill makes itself: it routes the item, or stops the run |
+| stadium | where an item enters or leaves the flow |
+| edge label | the tracker label an item carries along that edge |
+
+Keep it a DAG: an item that goes back to an earlier skill ends in a stadium that names the skill to
+rerun, instead of an edge back up the chart, which tangles the layout.
 
 ### Writing a changeset
 
@@ -226,9 +270,9 @@ PR, so it is the release note. The `0.2.0` entries in `CHANGELOG.md` are the ref
 - Leave out refactors, CI and repo tooling unless they change what a consumer gets.
 - More than two points: use a list.
 
-Choose the bump from what a consumer's pin does. Consumers pin `^0.2.0`, which in 0.x means
-`>=0.2.0 <0.3.0`: a patch reaches them on their next `apm install`, a minor waits until they edit
-their pin.
+Choose the bump from what a consumer's pin does. Consumers pin a caret range on a minor, `^0.Y.0`,
+which in 0.x admits only that minor's patches: a patch reaches them on their next `apm install`, a
+minor waits until they edit their pin.
 
 | Bump | When |
 |---|---|
@@ -247,7 +291,8 @@ Releases are automated by `.github/workflows/release.yml` (`changesets/action`).
 
 1. After each merge to `main`, the workflow opens or refreshes one **Version Packages** PR from
    `changeset-release/main`. Its commit is `npm run version`: bump `package.json` and every
-   `apm.yml`, write `CHANGELOG.md`, and `apm install` so the self-references hash the new version.
+   `apm.yml`, move the install examples' `ref:` pins (README, AGENTS.md, the skills' Markdown) to the
+   new tag, write `CHANGELOG.md`, and `apm install` so the self-references hash the new version.
 2. **Merge the Version PR when you want to release.** The workflow then tags the merge commit
    `vX.Y.Z` (annotated) and creates the GitHub Release, whose body is that version's
    `CHANGELOG.md` section.
@@ -282,9 +327,9 @@ One entry per skill, referencing its subpath:
 dependencies:
   apm:
     - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/branch-management/bare-clone-workflow
-      ref: v0.2.0                    # or "^0.2.0" on apm >= 0.16
+      ref: v0.2.3                    # or "^0.2.0" on apm >= 0.16
     - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/branch-management/branch-shutdown
-      ref: v0.2.0
+      ref: v0.2.3
 ```
 
 A bare repo-root reference deploys **nothing**: apm only auto-discovers `.apm/skills/<name>/` for a

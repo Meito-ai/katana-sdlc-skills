@@ -81,8 +81,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      # Both scripts are dependency-free, so there is deliberately no npm install.
+      # The scripts are dependency-free, so there is deliberately no npm install.
       - run: node scripts/sync-apm-version.js --check
       - run: node scripts/validate-skills.js
+      # Every skill has a README row, stamped since it last changed; see AGENTS.md.
+      - run: node scripts/sync-readme.js
       # Specs for the scripts that ship inside skills (e.g. visual-pr).
       - run: npm test
