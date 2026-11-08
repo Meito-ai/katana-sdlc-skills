@@ -173,12 +173,14 @@ which CI checks.
 
 **Three traps:**
 
-- **Never declare the same upstream repo twice with different subsets** in one install graph (the
-  root `devDependencies:` and a skill's `apm.yml` included). apm dedupes by repo and silently drops
-  one subset — no error, no warning. A direct entry beats a transitive one (verified with apm
-  0.32.0), so it is a skill's declared subset that gets dropped. That is harmless here, where the
-  root entry already lists `grilling`. A consumer whose own entry leaves the skill out silently goes
-  without it, which is why `setup-katana-skills` adds the skill to that entry.
+- **One upstream repo, one subset.** apm dedupes by repo, so when an install graph declares the same
+  upstream with different subsets (the root `devDependencies:` and each skill's `apm.yml` included),
+  it keeps one and silently drops the rest — no error, no warning. A direct entry beats a transitive
+  one (verified with apm 0.32.0), so the fix is a direct entry holding the union of every subset.
+  Here, that is the root entry: it lists every `mattpocock/skills` path a published skill declares
+  (`build-up-spec`'s and `implement-issue`'s), and a skill that declares a new path adds it there. In
+  a consumer, `setup-katana-skills` writes that union entry, since `build-up-spec` and
+  `implement-issue` declare different subsets of the same repo.
 - **A consumer's own pin wins, silently.** If a consumer already depends on `mattpocock/skills` at
   an older ref, that ref is what gets installed; our `^1.3.2` is ignored with no diagnostic. So
   every published skill must **also state its upstream requirement in prose in its own `SKILL.md`**

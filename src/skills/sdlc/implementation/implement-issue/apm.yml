@@ -1,0 +1,25 @@
+# Per-skill manifest: consumers install this skill by its subpath, and a
+# subpath install reads THIS file, not the repo root's.
+#
+# `version:` is kept equal to package.json by scripts/sync-apm-version.js.
+name: implement-issue
+version: 0.2.2
+description: Take one issue to an open PR, settling its design behind a gate when it is open
+license: MIT
+
+# Only the upstream skills the run invokes are declared. The katana skills it
+# uses when installed (bare-clone-workflow, visual-pr) are deliberately absent:
+# a transitive git copy of a katana skill replaces the local self-reference in
+# this repo (see AGENTS.md). build-up-spec declares a different subset of the
+# same repo, and apm keeps only one subset per repo, so setup-katana-skills
+# writes the consumer one direct entry holding the union. SKILL.md states the
+# requirement in prose as well, because a consumer's own pin wins silently.
+dependencies:
+  apm:
+    - git: mattpocock/skills
+      ref: "^1.3.2"
+      skills:
+        - engineering/tdd
+        - engineering/code-review
+        - engineering/codebase-design
+        - engineering/diagnosing-bugs

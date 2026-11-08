@@ -49,6 +49,13 @@ Score and rank epics and issues with the `wsjf` skill. WSJF scope: {{wsjf-scope}
 [if knowledge base] Knowledge base: {{knowledge-base}}.
 [if backlog] Backlog: {{backlog}}.
 
+### Implementation
+
+Implement an issue, or a trivial change described in text, with `/implement-issue`; or ask the agent to
+pick an issue up.
+[if knowledge base, and no Backlog items subsection] Knowledge base: {{knowledge-base}}.
+[if checks] Checks: {{checks}}.
+
 ### PR descriptions
 
 Write every PR description with the `visual-pr` skill, and refresh it after each push to a branch with
