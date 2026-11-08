@@ -133,6 +133,21 @@ describe('planLabels against the team labels', () => {
   });
 });
 
+describe('planLabels for a tracker that marks epics by type', () => {
+  test('an epic gets no Epic label', () => {
+    const plan = planLabels({ level: 'epic', epicLabel: false, type: 'product', text: '', available: ['product'] });
+    assert.deepEqual(plan, { add: ['product'], remove: [], missing: [] });
+  });
+
+  test('never offers to create the Epic label', () => {
+    assert.deepEqual(planLabels({ level: 'epic', epicLabel: false, text: '', available: [] }).missing, []);
+  });
+
+  test('an issue is labelled as before', () => {
+    assert.deepEqual(planLabels({ level: 'issue', epicLabel: false, text: ISSUE, available: TEAM }).add, ['ready-for-agent']);
+  });
+});
+
 describe('planLabels refining a needs-design item', () => {
   test('an issue whose design is filled loses needs-design and becomes ready for an agent', () => {
     const plan = planLabels({ level: 'issue', text: ISSUE, current: ['Tech', 'needs-design'], available: TEAM });
@@ -170,6 +185,22 @@ describe('cli', () => {
       remove: ['ready-for-agent'],
       missing: ['needs-design'],
     });
+  });
+
+  test('--epic-label no drops Epic', async () => {
+    const file = await textFile('');
+    const { stdout } = await run('node', [
+      CLI_PATH, 'plan', '--level', 'epic', '--epic-label', 'no', '--text', file, '--available', 'Epic',
+    ]);
+    assert.deepEqual(JSON.parse(stdout), { add: [], remove: [], missing: [] });
+  });
+
+  test('rejects an --epic-label other than yes or no', async () => {
+    const file = await textFile('');
+    await assert.rejects(
+      run('node', [CLI_PATH, 'plan', '--level', 'epic', '--epic-label', 'maybe', '--text', file]),
+      (error) => error.code === 1 && /--epic-label must be yes or no/.test(error.stderr),
+    );
   });
 
   test('rejects a --deferred other than yes or no', async () => {
