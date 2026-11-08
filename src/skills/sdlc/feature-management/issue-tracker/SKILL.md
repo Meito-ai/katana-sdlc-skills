@@ -37,7 +37,8 @@ The **tracker lines** are `Tracker:`, `Backlog:` and `WSJF scope:`. A skill reco
 chooses a value or changes a default:
 
 - **A local file.** When the block reads `Tracker lines: local, see <file>`, read and write every
-  tracker line in that file, and none in the block.
+  tracker line in that file's own `## Katana skills` block, under the same subsections, and none in
+  the committed block.
 - **The block.** Otherwise they go in the `## Katana skills` block of `AGENTS.md`, and of `CLAUDE.md`
   when it exists and never references `AGENTS.md`, creating the block (markers, heading and
   subsection) where it is missing. `Tracker:` goes under `### Issue tracker`, `Backlog:` under
