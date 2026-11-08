@@ -20,16 +20,18 @@ The duplicate check, the three reproduction outcomes and the triage notes are ad
 
 ## Requirements
 
-- **`slice-spec` and `wsjf`**, the katana skills this one uses. `setup-katana-skills` installs them
-  with this one. If either is missing, stop and name it, with the line that installs it.
-- **A tracker tool**: a Linear MCP, or `gh` for GitHub issues. Without one, step 6 hands the issue
-  back as text.
+- **`slice-spec`, `wsjf` and `issue-tracker`**, the katana skills this one uses. `setup-katana-skills`
+  installs them with this one. If any is missing, stop and name it, with the line that installs it.
+  Every tracker read and write is an operation of `issue-tracker`'s
+  [contract](../issue-tracker/SKILL.md), named below in bold, and the tracker's adapter is resolved as
+  it says before the first one. While no tracker tool is reachable, step 6 hands the issue back as
+  text.
 
 ## 1. Read the input
 
 - **Free text**: the report.
 - **A tracker item** (an identifier or a URL): the report, which this run **updates in place**. Fetch
-  its title, description, comments, labels, reporter and attachments. If it carries triage notes, see
+  its title, description, comments, labels, reporter and attachments (**Fetch an item**). If it carries triage notes, see
   [Resuming](#resuming).
 - **A URL or a file**: a source (a log, a screenshot, a stack trace, a support thread). Its facts
   count as sourced and are cited under `## Sources`.
@@ -43,29 +45,29 @@ Done when every source has been read and the user has seen the restatement.
 
 ## 2. Explore
 
-- **Knowledge base**: where `AGENTS.md` / `CLAUDE.md`, or the `Knowledge base:` line in the
-  `## Katana skills` block, says it lives. When neither says, ask the user where it is, or whether
-  there is none, and record the answer as that line (see [Repo choices](#repo-choices)). Read the
-  glossary terms, decisions and definition of done the report touches.
+- **Knowledge base**: the `Knowledge base:` line in the `## Katana skills` block, else where
+  `AGENTS.md` / `CLAUDE.md` says it lives, else a `docs/` directory. With none of them, carry on
+  without one and say so in the preview. Read the glossary terms, decisions and definition of done the
+  report touches.
 - **Code**: the area the report touches and the tests that cover it, read in this session rather than
   in a sub-agent: steps 3 and 4 build on it.
 - **Already works**: search the code and tests for the expected behaviour by domain concept, not just
   the report's wording, and report where you looked. A passing test or a code path that already
   produces it is a match.
-- **Duplicates**: search the tracker's open issues for the report's key terms (in the `Backlog:`
-  line's team, or the whole workspace), leaving out the item this run updates.
+- **Duplicates**: search the tracker's open issues for the report's key terms (**Search**, in the
+  `Backlog:` line's target, or across every target), leaving out the item this run updates.
 
 Show every match, and let the user pick:
 
 - For a **duplicate**: **refine it** (it becomes the item updated in place), **link it** as related
   (written in step 6), **mark the report as its duplicate**, or **carry on**. Marking ends the run: for
-  a tracker item, preview the relation and set it on the user's yes (on GitHub, a `Duplicate of #<n>`
-  comment).
+  a tracker item, preview it and, on the user's yes, close the report as a duplicate (**Close as
+  duplicate**).
 - For behaviour that **already works**: **close the report as working**, or **carry on**, since the
   report may describe a case the match misses. Closing ends the run: for a tracker item, preview a
-  comment naming the passing test or code path, and post it on the user's yes.
+  comment naming the passing test or code path, and post it on the user's yes (**Comment**).
 
-Done when the knowledge base is located or recorded as none, the code and its tests have been read,
+Done when the knowledge base is located or noted as absent, the code and its tests have been read,
 and the user has decided on every match.
 
 ## 3. Reproduce
@@ -144,29 +146,28 @@ reporter's) has a question, and the user has seen the issue and the notes.
 
 ## 6. Preview and publish
 
-1. **Target**: the `Backlog:` line, a team and a project or a GitHub repo, which the user may change
-   for this issue. With no line, ask, listing the teams and projects through the tracker tool. Record
-   a new or changed default (see [Repo choices](#repo-choices)).
+1. **Target**: the `Backlog:` line, a target in the tracker, which the user may change for this
+   issue. With no line, ask, listing the targets (**List targets**). Record a new or changed default
+   as `issue-tracker`'s [Tracker lines](../issue-tracker/SKILL.md#tracker-lines) says.
 2. **Labels.** Only these two, added to whatever the item already carries:
    - `ready-for-agent` after step 4, or `needs-info` after step 5. Moving to `ready-for-agent`
      removes `needs-info`.
-   - The team's `bug` type label: its label named `bug` (any case). When it is missing, offer once to
-     create it, and create it only on the user's yes.
+   - The target's `bug` type label: its label named `bug` (any case), from **Labels**. When it is
+     missing, offer once to create it, and create it only on the user's yes.
 
    When `AGENTS.md` / `CLAUDE.md` or the knowledge base maps these labels to other names, use those.
    Leave the tracker's priority field unchanged: the WSJF block is the ranking.
 3. **Preview** exactly what will be written: the title, the body, the labels, the related and duplicate
-   links, the triage notes, the target, and, for an item updated in place, what changes. Ask once:
-   _publish / edit_.
+   links with every text fallback the adapter applies to them, the triage notes, the target, and, for
+   an item updated in place, what changes. Where the adapter declares a body limit, warn when the body
+   exceeds it. Ask once: _publish / edit_.
 4. **Write.**
-   - On **Linear**: for an item updated in place, first post its original title and description as a
-     comment (`Original before bug-intake, <date>`). Create or update the issue with `save_issue`
-     (title, description, team, project, labels, `relatedTo`), leaving the state at the team's
-     default. Post the triage notes with `save_comment`.
-   - On **GitHub**: `gh issue create` or `gh issue edit`, with `--label`, and a `Related: #<n>` line
-     at the end of the body for each related issue. Post the original and the triage notes with
-     `gh issue comment`.
-   - With **no tracker tool**: hand back the issue and the notes as text.
+   - For an item updated in place, first post its original title and description as a comment
+     (**Comment**: `Original before bug-intake, <date>`).
+   - **Create an item** or **Update an item**: title, body, target, labels and related items, leaving
+     the state at the tracker's default.
+   - Post the triage notes (**Comment**).
+   - While no tracker tool is reachable: hand back the issue and the notes as text.
 
 Done when every write has succeeded and its link has been reported, or the text has been handed back.
 After step 5, also report the command that resumes once the reporter answers: `/bug-intake <issue id>`.
@@ -178,14 +179,6 @@ comments after the latest: an answered question moves to "established", with the
 and only the open ones are asked again. Show the user the updated picture, then run the steps again
 from step 2. Still blocked: post new notes. Reproduced: rewrite the description through step 4, and
 move the issue from `needs-info` to `ready-for-agent`.
-
-## Repo choices
-
-The `Knowledge base:` and `Backlog:` lines sit under `### Backlog items` in the `## Katana skills`
-block. Write them to every file `setup-katana-skills` writes the block to: `AGENTS.md`, and
-`CLAUDE.md` when it exists and never references `AGENTS.md`. Where the block is missing, create it
-(markers, heading and subsection). Leave the change uncommitted: these lines are the run's only writes
-to the repo.
 
 ## Severity
 

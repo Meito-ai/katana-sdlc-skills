@@ -4,11 +4,9 @@ An epic is published as two parts. The **card** is the epic issue's description:
 what `wsjf` scores. The **PRD** is the spec that agents slice and build from. Each fact lives in
 **one** of the two, and each part links to the other. Neither repeats what the other says.
 
-| Tracker | Card | PRD |
-|---|---|---|
-| Linear | the epic issue's description | a document attached to that issue |
-| GitHub | the epic issue's body | the same body, after the card, under a `# Spec` heading |
-| No tracker tool | text to paste | text to paste |
+The card is the epic's description. The PRD goes where the adapter's **Epic PRD** operation puts it
+(see `issue-tracker`): a document attached to the epic, or, as its text fallback, the same body after
+the card under a `# Spec` heading. While no tracker tool is reachable, both are text to paste.
 
 Both use the repo's glossary vocabulary, and contain no file paths and no code snippets. The exception
 is a snippet from a prototype that pins a decision more precisely than prose (a state machine, a
@@ -38,9 +36,10 @@ Spec: [<epic title>](<PRD link>). Read it before slicing or implementing.
 
 The draft handed to `outcome-framing` (step 6) is the card without its first line or its WSJF block.
 What comes back (a title and the four sections) is assembled into the card: the `Spec:` line, then
-the description `outcome-framing` returned, then the `## WSJF` block. On GitHub the card's `Spec:`
-line and the PRD's `Card:` line are both dropped, since the two parts share one body. `wsjf` rewrites its section only up to the next
-heading, so the `# Spec` heading keeps the PRD out of reach.
+the description `outcome-framing` returned, then the `## WSJF` block. Where the PRD is a `# Spec`
+section, the card's `Spec:` line and the PRD's `Card:` line are both dropped, since the two parts share
+one body. `wsjf` rewrites its section only up to the next heading, so the `# Spec` heading keeps the
+PRD out of reach.
 
 ## PRD
 
