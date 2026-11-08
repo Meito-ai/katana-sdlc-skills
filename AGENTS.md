@@ -246,8 +246,9 @@ flow waits on people outside any skill (the PR review), in the shape of its kind
 | subgraph | a katana skill that moves the item along, with its gates inside |
 | rectangle | a katana skill another one invokes |
 | dashed rectangle | an upstream skill the flow invokes |
-| diamond | a human gate: the flow waits for a person's approval |
-| hexagon | a check the skill makes itself: it routes the item, or stops the run |
+| diamond, `👤 ` label, `:::human` (amber) | a human gate: the flow waits for a person's approval |
+| hexagon, `:::check` (blue) | a check the skill makes itself: it routes the item, or stops the run |
+| rounded rectangle, `:::record` (green) | what the skill records: a design, ADRs, docs |
 | stadium | where an item enters or leaves the flow |
 | edge label | the tracker label an item carries along that edge |
 
