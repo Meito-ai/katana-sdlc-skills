@@ -9,6 +9,9 @@
  * the same number because apm mandates a semver `version:` and consumers pin
  * this repo by the matching git tag.
  *
+ * It also keeps the install examples that pin this repo (README.md, AGENTS.md,
+ * the skills' Markdown) on the version being released.
+ *
  * Run with --check to verify instead of write (used in CI).
  */
 import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
@@ -57,6 +60,55 @@ for (const manifest of ["apm.yml", ...findManifests(SKILLS_ROOT)]) {
     writeFileSync(manifest, source.replace(RE, `version: ${version}`));
     console.log(`✓ ${manifest} version ${found[1]} -> ${version}`);
   }
+}
+
+// Install examples that pin this repo: the `ref:` line of each
+// `git: <owner>/<name>/...` entry in README.md, AGENTS.md and the Markdown
+// under src/skills/. An exact tag follows every release; a caret range only
+// the minor, because `^X.Y.0` already admits every patch.
+const repo = JSON.parse(readFileSync("package.json", "utf8"))
+  .repository?.url?.match(/github\.com[/:]([^/]+\/[^/.]+)/)?.[1];
+if (!repo) {
+  console.error(`package.json has no GitHub repository.url to find this repo's install examples by.`);
+  process.exit(1);
+}
+const [major, minor] = version.split(".");
+const ownEntry = new RegExp(`git:\\s*["']?${repo.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:[/"'\\s]|$)`);
+
+/** Every .md file under dir, at any depth. */
+function findMarkdown(dir) {
+  return readdirSync(dir).flatMap((entry) => {
+    const full = join(dir, entry);
+    if (statSync(full).isDirectory()) return findMarkdown(full);
+    return entry.endsWith(".md") ? [full] : [];
+  });
+}
+
+for (const doc of ["README.md", "AGENTS.md", ...findMarkdown(SKILLS_ROOT)].filter((f) => existsSync(f))) {
+  const lines = readFileSync(doc, "utf8").split("\n");
+  let previous = "";
+  let changed = false;
+
+  lines.forEach((line, i) => {
+    if (/^\s*ref:/.test(line) && ownEntry.test(previous)) {
+      const pinned = line
+        .replace(/\bv\d+\.\d+\.\d+\b/g, `v${version}`)
+        .replace(/\^\d+\.\d+\.\d+\b/g, `^${major}.${minor}.0`);
+      if (pinned !== line) {
+        if (CHECK) {
+          console.error(`✗ pin drift: ${doc}:${i + 1} reads "${line.trim()}", package.json is ${version}.`);
+          drifted = true;
+        } else {
+          lines[i] = pinned;
+          changed = true;
+          console.log(`✓ ${doc}:${i + 1} -> "${pinned.trim()}"`);
+        }
+      }
+    }
+    if (line.trim()) previous = line;
+  });
+
+  if (changed) writeFileSync(doc, lines.join("\n"));
 }
 
 if (drifted) {

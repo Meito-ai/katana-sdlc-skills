@@ -14,6 +14,8 @@
     "version": "changeset version && node scripts/sync-apm-version.js && apm install",
     "check-version": "node scripts/sync-apm-version.js --check",
     "validate-skills": "node scripts/validate-skills.js",
+    "readme:check": "node scripts/sync-readme.js",
+    "readme:stamp": "node scripts/sync-readme.js --stamp",
     "test": "node --test \"test/**/*.spec.js\""
   },
   "devDependencies": {
