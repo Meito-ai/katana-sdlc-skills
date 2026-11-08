@@ -101,10 +101,10 @@ dependencies:
   - .claude/skills/implement-issue/apm.yml
   deployed_file_hashes:
     .agents/skills/implement-issue/LICENSE-mattpocock-skills: sha256:7633a2c99f37753b7aa18119e604743f2bbbeb838b719d530e6e9565eb3c99f5
-    .agents/skills/implement-issue/SKILL.md: sha256:c538c4b5e93278d45f310010e5973754dd10513828390ca1c8a0e86adc2334d8
+    .agents/skills/implement-issue/SKILL.md: sha256:522cf2ad8313b020b466705db46c30bfe32dc6267727d46d167901dfd5b92ea3
     .agents/skills/implement-issue/apm.yml: sha256:7675b6f38101cc6a0a03aed04d3432dc39a15a282c6a77bdb35e616ac9732616
     .claude/skills/implement-issue/LICENSE-mattpocock-skills: sha256:7633a2c99f37753b7aa18119e604743f2bbbeb838b719d530e6e9565eb3c99f5
-    .claude/skills/implement-issue/SKILL.md: sha256:c538c4b5e93278d45f310010e5973754dd10513828390ca1c8a0e86adc2334d8
+    .claude/skills/implement-issue/SKILL.md: sha256:522cf2ad8313b020b466705db46c30bfe32dc6267727d46d167901dfd5b92ea3
     .claude/skills/implement-issue/apm.yml: sha256:7675b6f38101cc6a0a03aed04d3432dc39a15a282c6a77bdb35e616ac9732616
   source: local
   local_path: ./src/skills/sdlc/implementation/implement-issue
@@ -800,7 +800,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/implementation/implement-issue
   active_owner: ./src/skills/sdlc/implementation/implement-issue
-  content_hash: sha256:c538c4b5e93278d45f310010e5973754dd10513828390ca1c8a0e86adc2334d8
+  content_hash: sha256:522cf2ad8313b020b466705db46c30bfe32dc6267727d46d167901dfd5b92ea3
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/implement-issue/apm.yml
@@ -1655,7 +1655,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/implementation/implement-issue
   active_owner: ./src/skills/sdlc/implementation/implement-issue
-  content_hash: sha256:c538c4b5e93278d45f310010e5973754dd10513828390ca1c8a0e86adc2334d8
+  content_hash: sha256:522cf2ad8313b020b466705db46c30bfe32dc6267727d46d167901dfd5b92ea3
 - kind: project-relative
   target: claude
   value: .claude/skills/implement-issue/apm.yml

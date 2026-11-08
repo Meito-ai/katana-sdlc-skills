@@ -131,8 +131,9 @@ step 9.
 
 **The gate.** Present it all together and stop: nothing is written or committed until the user
 approves. On approval, post the original description as a comment
-(`Original before implement-issue, <date>`), write the new one, remove `needs-design`, patch an amended
-PRD, and mark the ADRs accepted. With no tracker tool, hand the issue text back; step 10 carries the
+(`Original before implement-issue, <date>`), write the new one, replace `needs-design` with
+`ready-for-agent` as `build-up-spec` does (an epic only loses `needs-design`), patch an amended PRD, and
+mark the ADRs accepted. With no tracker tool, hand the issue text back; step 10 carries the
 design into the PR.
 
 Done when the user has approved, and every write has succeeded or been handed back.
