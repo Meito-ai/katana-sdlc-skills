@@ -90,9 +90,13 @@ Done when the user has seen the reference set and every problem in it has been n
 
 Fewer than 3 scored references: calibrate before scoring the target. Ask the user to name 3–5 open
 items at the same level, or to give their values; otherwise propose 3–5 that span the range (the
-smallest, the largest, one in between). Score them as in step 3, setting **the smallest item in each
-column to 1**. The anchors are verified and written back with the target, and become the reference
-set for every later run.
+smallest, the largest, one in between). For a **drafted** target (step 5), propose them without asking:
+the caller's preview is where the user sees them. Score them as in step 3, setting **the smallest item
+in each column to 1**. The anchors are verified and written back with the target, and become the
+reference set for every later run.
+
+An anchor whose description states no goal or scope (a list of links, a title alone) is a **weak
+anchor**: name it, and report the target's rank as provisional.
 
 ### 3. Score
 
@@ -122,8 +126,8 @@ with its new scores) and run `rank` again. Ties go to the smaller Size, then the
 
 One round, except for a **drafted** target: one a calling skill is still drafting. The caller shows
 its inputs, rationales and rank in its own preview, where the user accepts or edits them (see
-[For calling skills](#for-calling-skills)), so asking here would ask twice. Skip the round for it;
-cold-start anchors are existing items, and are still verified here.
+[For calling skills](#for-calling-skills)), so asking here would ask twice. Skip the round for it,
+and for the cold-start anchors scored with it: they go back to the caller with the target.
 
 - **Single-issue**: show each input with its rationale, then CoD, WSJF and the rank
   ("3rd of 12"), and the ranked table. Ask: _accept / edit_.
@@ -215,11 +219,26 @@ for both.
 
 A calling skill gets, per scored item: the four inputs with rationales, CoD, WSJF, rank, and the
 block. It owns nothing else: verification and write-back happen here, except for an item the caller
-is still drafting. That item's block is returned unverified, and the caller owes the user one look at
-the score before publishing:
+is still drafting. That item's block is returned unverified, together with the inputs, rationales and
+blocks of any cold-start anchors scored with it, and the caller owes the user one look at them before
+publishing:
 
-- **Show** each input with its rationale, the WSJF and the rank ("3rd of 12") in the caller's own
-  preview, beside the rest of the draft, not the bare block.
-- **An edit** to an input comes back here: re-run `rank` and `upsert` with the edited value, and show
-  the new position in one line, without another round.
-- **Publishing** the draft accepts its score.
+- **Show** the score in the caller's own preview, beside the rest of the draft, in this compact form
+  rather than the bare block or the ranked table:
+
+  ```
+  WSJF 8.1 (1st of 4) · BV 13 · RR/OE 8 · TC 5 · Size 13
+  - BV 13: <one line, naming the reference it is anchored on>
+  - RR/OE 8: <one line>
+  - TC 5: <one line>
+  - Size 13: <one line>
+  Anchors (new, written back on publish): ENG-7 3.2 · ENG-9 2.0 · ENG-4 2.0
+  ```
+
+  Drop the `Anchors` line when there was no cold start. A provisional rank reads
+  `(1st of 4, provisional: weak anchors ENG-4, ENG-9)`. The ranked table and the anchors' rationales
+  are shown on request.
+- **An edit** to an input, the target's or an anchor's, comes back here: re-run `rank` and `upsert`
+  with the edited value, and show the new position in one line, without another round.
+- **Publishing** the draft accepts its score and its anchors. The caller then writes each anchor's
+  block through the tracker tool, with `upsert` on the anchor's current description.

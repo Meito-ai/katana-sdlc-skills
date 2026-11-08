@@ -81,12 +81,10 @@ flowchart TD
   report([Bug report]) --> repro
 
   subgraph spec [build-up-spec]
-    grill[grilling]:::upstream --> reqOk{👤 Accept the requirements and seams?}:::human
-    reqOk -->|epic| framing[outcome-framing]
-    framing --> framingOk{👤 Accept the outcome?}:::human
-    framingOk --> specWsjf[wsjf]
-    reqOk -->|issue| specWsjf
-    specWsjf --> specPublish{👤 Publish? Preview shows the WSJF reasons}:::human
+    grill[grilling]:::upstream -->|epic| framing[outcome-framing]
+    framing --> specWsjf[wsjf]
+    grill -->|issue| specWsjf
+    specWsjf --> specPublish{👤 Publish? One preview: grounding fixes, framing, WSJF}:::human
   end
 
   subgraph bug [bug-intake]
