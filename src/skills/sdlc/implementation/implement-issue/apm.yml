@@ -3,7 +3,7 @@
 #
 # `version:` is kept equal to package.json by scripts/sync-apm-version.js.
 name: implement-issue
-version: 0.2.3
+version: 0.2.4
 description: Take one issue to an open PR, settling its design behind a gate when it is open
 license: MIT
 

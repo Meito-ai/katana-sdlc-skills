@@ -1,5 +1,11 @@
 # katana-sdlc-skills
 
+## 0.2.4
+
+### Patch Changes
+
+- [#19](https://github.com/Meito-ai/katana-sdlc-skills/pull/19) - `build-up-spec`, `bug-intake` and `slice-spec` no longer ask you to accept the WSJF score separately before their own preview. `wsjf` hands the score back unverified to a skill that is still drafting the item, and that skill's preview (its draft confirmation, for `bug-intake`) shows each input with its reason and the rank, where you accept or edit it with the rest. Running `wsjf` yourself is unchanged: it still asks before writing to the tracker.
+
 ## 0.2.3
 
 ### Patch Changes
