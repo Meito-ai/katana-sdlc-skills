@@ -74,11 +74,11 @@ dependencies:
   - .claude/skills/build-up-spec/scripts/labels.mjs
   - .claude/skills/build-up-spec/templates.md
   deployed_file_hashes:
-    .agents/skills/build-up-spec/SKILL.md: sha256:2da8acd0ca516d7d859f9036a6a781847b96a6fe883b34fd283be1f4b9d6c912
+    .agents/skills/build-up-spec/SKILL.md: sha256:7830654d611c6e5fc4530c3a583d605ca6286496b8ac918caa5c0b9848ec28a8
     .agents/skills/build-up-spec/apm.yml: sha256:964a8b897404190bf52db9fd940e4ebb9efc64f817d885067f2f55ec28970964
     .agents/skills/build-up-spec/scripts/labels.mjs: sha256:0d10eb6b072306a7a8a5d646faadf16a5df71f7ab9b5d9c63b40446d124db720
     .agents/skills/build-up-spec/templates.md: sha256:a5d4a2a5c94ef6e11430ce82abe1a814a8541111a5ff529aac169438e0a5325a
-    .claude/skills/build-up-spec/SKILL.md: sha256:2da8acd0ca516d7d859f9036a6a781847b96a6fe883b34fd283be1f4b9d6c912
+    .claude/skills/build-up-spec/SKILL.md: sha256:7830654d611c6e5fc4530c3a583d605ca6286496b8ac918caa5c0b9848ec28a8
     .claude/skills/build-up-spec/apm.yml: sha256:964a8b897404190bf52db9fd940e4ebb9efc64f817d885067f2f55ec28970964
     .claude/skills/build-up-spec/scripts/labels.mjs: sha256:0d10eb6b072306a7a8a5d646faadf16a5df71f7ab9b5d9c63b40446d124db720
     .claude/skills/build-up-spec/templates.md: sha256:a5d4a2a5c94ef6e11430ce82abe1a814a8541111a5ff529aac169438e0a5325a
@@ -122,9 +122,9 @@ dependencies:
   - .claude/skills/outcome-framing/SKILL.md
   - .claude/skills/outcome-framing/examples.md
   deployed_file_hashes:
-    .agents/skills/outcome-framing/SKILL.md: sha256:85b51f95f6a8c3a66ae645a8f93fbe32293ce591a1ebf2c0f3fac3910644e7a0
+    .agents/skills/outcome-framing/SKILL.md: sha256:e1ee675f495b3724fc09073fc21d9e2c223a79d704f321b6d4c50eee895ac597
     .agents/skills/outcome-framing/examples.md: sha256:e69e9035629cc1cfbe5f1d0b11568c126b003d148e04a10e1af19a000bab5b72
-    .claude/skills/outcome-framing/SKILL.md: sha256:85b51f95f6a8c3a66ae645a8f93fbe32293ce591a1ebf2c0f3fac3910644e7a0
+    .claude/skills/outcome-framing/SKILL.md: sha256:e1ee675f495b3724fc09073fc21d9e2c223a79d704f321b6d4c50eee895ac597
     .claude/skills/outcome-framing/examples.md: sha256:e69e9035629cc1cfbe5f1d0b11568c126b003d148e04a10e1af19a000bab5b72
   source: local
   local_path: ./src/skills/sdlc/feature-management/outcome-framing
@@ -302,9 +302,9 @@ dependencies:
   - .claude/skills/wsjf/SKILL.md
   - .claude/skills/wsjf/scripts/wsjf.mjs
   deployed_file_hashes:
-    .agents/skills/wsjf/SKILL.md: sha256:0392277b1264c927169b668946008a0fa9f3c4f281fdd7beeb6ca74f5c1068ae
+    .agents/skills/wsjf/SKILL.md: sha256:b64949b1a6382679d632784d842951ef86092f0077bf55a823d2cebcaba7e985
     .agents/skills/wsjf/scripts/wsjf.mjs: sha256:480e5f28c5a6a108f6291a646b87f5988926225a5de75c53779d987150dec5d4
-    .claude/skills/wsjf/SKILL.md: sha256:0392277b1264c927169b668946008a0fa9f3c4f281fdd7beeb6ca74f5c1068ae
+    .claude/skills/wsjf/SKILL.md: sha256:b64949b1a6382679d632784d842951ef86092f0077bf55a823d2cebcaba7e985
     .claude/skills/wsjf/scripts/wsjf.mjs: sha256:480e5f28c5a6a108f6291a646b87f5988926225a5de75c53779d987150dec5d4
   source: local
   local_path: ./src/skills/sdlc/feature-management/wsjf
@@ -584,7 +584,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/build-up-spec
   active_owner: ./src/skills/sdlc/feature-management/build-up-spec
-  content_hash: sha256:2da8acd0ca516d7d859f9036a6a781847b96a6fe883b34fd283be1f4b9d6c912
+  content_hash: sha256:7830654d611c6e5fc4530c3a583d605ca6286496b8ac918caa5c0b9848ec28a8
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/build-up-spec/apm.yml
@@ -827,7 +827,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/outcome-framing
   active_owner: ./src/skills/sdlc/feature-management/outcome-framing
-  content_hash: sha256:85b51f95f6a8c3a66ae645a8f93fbe32293ce591a1ebf2c0f3fac3910644e7a0
+  content_hash: sha256:e1ee675f495b3724fc09073fc21d9e2c223a79d704f321b6d4c50eee895ac597
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/outcome-framing/examples.md
@@ -1331,7 +1331,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/wsjf
   active_owner: ./src/skills/sdlc/feature-management/wsjf
-  content_hash: sha256:0392277b1264c927169b668946008a0fa9f3c4f281fdd7beeb6ca74f5c1068ae
+  content_hash: sha256:b64949b1a6382679d632784d842951ef86092f0077bf55a823d2cebcaba7e985
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/wsjf/scripts/wsjf.mjs
@@ -1439,7 +1439,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/build-up-spec
   active_owner: ./src/skills/sdlc/feature-management/build-up-spec
-  content_hash: sha256:2da8acd0ca516d7d859f9036a6a781847b96a6fe883b34fd283be1f4b9d6c912
+  content_hash: sha256:7830654d611c6e5fc4530c3a583d605ca6286496b8ac918caa5c0b9848ec28a8
 - kind: project-relative
   target: claude
   value: .claude/skills/build-up-spec/apm.yml
@@ -1682,7 +1682,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/outcome-framing
   active_owner: ./src/skills/sdlc/feature-management/outcome-framing
-  content_hash: sha256:85b51f95f6a8c3a66ae645a8f93fbe32293ce591a1ebf2c0f3fac3910644e7a0
+  content_hash: sha256:e1ee675f495b3724fc09073fc21d9e2c223a79d704f321b6d4c50eee895ac597
 - kind: project-relative
   target: claude
   value: .claude/skills/outcome-framing/examples.md
@@ -2186,7 +2186,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/wsjf
   active_owner: ./src/skills/sdlc/feature-management/wsjf
-  content_hash: sha256:0392277b1264c927169b668946008a0fa9f3c4f281fdd7beeb6ca74f5c1068ae
+  content_hash: sha256:b64949b1a6382679d632784d842951ef86092f0077bf55a823d2cebcaba7e985
 - kind: project-relative
   target: claude
   value: .claude/skills/wsjf/scripts/wsjf.mjs

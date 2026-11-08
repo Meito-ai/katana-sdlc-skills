@@ -19,6 +19,11 @@ Every statement in the item is **sourced**: it comes from the codebase, the know
 the user provided, or the user's own answer. A gap becomes a **placeholder** (`[add baseline]`,
 `[add bound]`, …) for the team to fill in.
 
+The user is asked in two places: grilling's rounds (step 4), where every decision is a numbered
+question with a recommended answer, and the preview (step 8), where the finished item is checked once.
+Every other step works through to its end and hands what needs deciding to one of those two. Only a
+stop (a missing skill, a bug) and the hand-off after publishing speak to the user elsewhere.
+
 One run shapes one feature: product, tech or compliance work. A bug (something broken) is out of
 scope. Say so, and point the user to `bug-intake` (`/bug-intake <report>`), which turns a bug report
 into an issue; when it is not installed, `/setup-katana-skills` adds it.
@@ -55,8 +60,9 @@ Decide whether this is a **design-deferred run**, where a product owner leaves t
 interfaces, contracts and testing seams) to the engineer who will refine the item later:
 
 - **Deferred** when the user says so in their own words ("design is for the engineer").
-- **Asked once** when the user says they are the product owner but not who designs: _shape the design
-  now, or defer it to the engineer?_
+- **Asked in grilling's first round** when the user says they are the product owner but not who
+  designs: _shape the design now, or defer it to the engineer?_ Until it is answered, step 4 holds
+  the Interfaces branch back.
 - **Not deferred** otherwise. Every step then runs exactly as written, and the deferral notes in steps
   4, 5 and 8 do not apply.
 
@@ -64,46 +70,59 @@ A tracker item labelled `needs-design` is the engineer's turn, so its run is not
 user defers again (see [Refining in place](#refining-in-place)).
 
 Done when every part of the input has been sorted, every source has been read, and the run is known to
-be design-deferred or not.
+be design-deferred, not deferred, or waiting on that question in grilling's first round.
 
 ## 2. Explore
 
 - **Knowledge base**: where `AGENTS.md` / `CLAUDE.md`, or the `Knowledge base:` line in the
-  `## Katana skills` block, says it lives. When neither says, ask the user where it is, or whether
-  there is none, and write the answer as that line, the way step 8 writes the `Backlog:` line. Read
-  the parts the item touches: glossary terms, recorded decisions, and the definition of done.
+  `## Katana skills` block, says it lives. When neither says, ask the user where it is (or whether there
+  is none) in grilling's first round, and write the answer as that line, the way step 8 writes the
+  `Backlog:` line. Read the parts the item touches: glossary terms, recorded
+  decisions, and the definition of done.
 - **Code**: the area the item touches. Explore it in this session rather than in a sub-agent:
   `slice-spec` runs next in the same window and builds on what is read here.
 - **Tracker**: search for **duplicates** using the item's key terms (in the team named on the
   `Backlog:` line, or across the whole workspace), and list the open epics that could be its parent
-  (issues labelled `Epic`). Show the matches. For each overlapping item the user picks one of:
-  refine it instead (it becomes the item refined in place), link it as related, mark the new item as
-  its duplicate (which ends the run), or carry on.
+  (issues labelled `Epic`). Each overlapping item becomes a question for grilling's first round,
+  with a recommended pick among: refine it instead (it becomes the item refined in place), link it as
+  related, mark the new item as its duplicate (which ends the run), or carry on. With no `Backlog:`
+  line, where to file the item is a question for that round too, listing the teams and projects
+  through the tracker tool.
 
-Done when the knowledge base has been located (or the guess reported), the code in the area has been
-read, and the user has decided on every duplicate match.
+Done when the knowledge base has been located (or its question queued), the code in the area has been
+read, and every duplicate match has its question queued.
 
 ## 3. Enrich
 
 Skip this step when there is no input.
 
 Restate the input as a problem: who has it, what happens today, and why it matters. Classify its type
-as product, tech or compliance, using step 1 (Type) of `outcome-framing`'s decision tree. Before
-grilling starts, show every fact you derived with its source, and every gap as a placeholder, so the
-user can strike anything wrong.
+as product, tech or compliance, using step 1 (Type) of `outcome-framing`'s decision tree. List every
+fact you derived with its source, and every gap as a placeholder: grilling's first round opens with
+this list, so the user can strike anything wrong.
 
-Done when every statement in the restatement is sourced or is a placeholder, the type has a one-line
-rationale, and the user has seen the list.
+Done when every statement in the restatement is sourced or is a placeholder, and the type has a
+one-line rationale.
 
 ## 4. Grill
 
-Invoke `grilling` on the restated problem, or on nothing when there was no input. Besides whatever the
-problem itself raises, its design tree must reach these branches:
+Invoke `grilling` on the restated problem, or on nothing when there was no input.
+
+Its **first round** opens with step 3's list of facts and placeholders, and asks, beside grilling's
+own frontier, every question steps 1 to 3 queued: striking a wrong fact, each duplicate match, where
+to file the item, where the knowledge base lives, and whether design is deferred. Each is numbered and carries a recommended
+answer, like the rest of the round.
+
+Besides whatever the problem itself raises, its design tree must reach these branches:
 
 - **Beneficiary and measure**: who gains, which KPI, DORA metric, fitness function or obligation
   moves, and from what baseline. This gives step 6 facts to frame instead of placeholders to leave.
 - **Scope boundary**: what is in scope, and what the user turns down. Everything turned down goes
   into `Out of scope`.
+- **Rollout**: what existing users or consumers must change, install, migrate or rerun once this
+  ships, and what breaks for them until they do. Settle the release impact here, against the release
+  or compatibility rules the knowledge base states (a versioning policy, a bump table). An epic
+  records it in `Implementation decisions`, an issue in `## What to build`.
 - **Interfaces**: the modules, types and contracts the change touches. When design is deferred, skip
   this branch: the engineer grills it when refining the item.
 - **Level**, asked last: propose epic or issue, with the reason. The test is: _can one fresh agent
@@ -119,7 +138,7 @@ Done when grilling's frontier is empty and the user has confirmed the level.
 
 ## 5. Requirements, DoD and seams
 
-Draft all of the following, then confirm it with the user in a single round:
+Draft all of the following from what grilling settled. The user checks it in step 8's preview:
 
 - **Requirements**, following `slice-spec`'s [EARS rules](../slice-spec/ears.md): `R1`, `R2`, … for
   an epic's PRD; `AC1`, `AC2`, … for an issue.
@@ -142,19 +161,21 @@ Draft all of the following, then confirm it with the user in a single round:
 - **A parent PRD whose seams are still `[add testing seams]`** has none to reuse: an issue that is not
   design-deferred drafts its own.
 
-Done when the user has accepted every requirement, the seams and (for an epic) the implementation
-decisions, and each requirement fails against today's behaviour. In a design-deferred run, the design
-placeholders stand in for the seams, implementation decisions and key interfaces.
+Done when every requirement, the seams and (for an epic) the implementation decisions are drafted,
+each requirement fails against today's behaviour, and each traces to a grilling answer or a sourced
+fact. In a design-deferred run, the design placeholders stand in for the seams, implementation
+decisions and key interfaces.
 
 ## 6. Frame the outcome
 
-- **Epic**: invoke `outcome-framing` with the draft card (see [templates](templates.md)). It runs
-  its own verification round. Take the title and description it returns. If the user rejects the
-  rewrite, keep the draft, placeholders included.
-- **Issue**: `outcome-framing` only frames epics, so settle the parent instead: the epic chosen in
-  step 2 or step 4, or none. A task always has a parent.
+- **Epic**: invoke `outcome-framing` with the draft card (see [templates](templates.md)), and tell
+  it the epic is still being drafted, so that it returns its output block without a verification
+  round of its own: step 8's preview is where the framing is checked. Take the title and description
+  it returns. If the user rejects the rewrite in the preview, keep the draft, placeholders included.
+- **Issue**: `outcome-framing` only frames epics, so settle the parent instead: the epic chosen while
+  grilling, or none. A task always has a parent.
 
-Done when the epic has an accepted title and card, or the issue's parent is settled.
+Done when the epic has a framed title and card, or the issue's parent is settled.
 
 ## 7. Score WSJF
 
@@ -168,16 +189,22 @@ Done when the item has a WSJF block, with each input's rationale and the rank, o
 
 ## 8. Preview and publish
 
-1. **Target.** Read the `Backlog:` line in the `## Katana skills` block: a team and a project, or a
+1. **Ground.** Re-read each statement of the draft against its source: the file, doc, tracker item or
+   user answer behind every line of the problem (an issue's current behaviour), the implementation
+   decisions and the testing seams. Check the decisions against the knowledge base's rules as well,
+   its release and compatibility rules above all. Correct a statement that misquotes its source. A
+   correction that changes a decision the user accepted goes to them in the preview, as a question.
+   Grounding is done when every statement has been re-read against its source.
+2. **Target.** Read the `Backlog:` line in the `## Katana skills` block: a team and a project, or a
    GitHub repo. Propose it, and let the user change it for this item.
-   - When there is no such line, ask, listing the teams and projects through the tracker tool. Write
-     the answer as the `Backlog:` line under `### Backlog items` in that block.
+   - When there is no such line, take the target answered in grilling's first round. Write it as the
+     `Backlog:` line under `### Backlog items` in that block.
    - When the user changes the default, update the line.
    - Write to every file `setup-katana-skills` writes the block to: `AGENTS.md`, and `CLAUDE.md` when
      it exists and never references `AGENTS.md`. If the block doesn't exist in one, create it there
      (markers, heading and subsection).
    - Leave the change uncommitted.
-2. **Labels.** Write the text about to be published to a file (an issue's body, or an epic's card
+3. **Labels.** Write the text about to be published to a file (an issue's body, or an epic's card
    followed by its PRD), list the team's labels (`list_issue_labels`, or `gh label list`), and run:
 
    ```bash
@@ -199,18 +226,22 @@ Done when the item has a WSJF block, with each input's rationale and the rank, o
      team has one.
 
    Then:
-   - For each `missing` label (only ever `Epic`, `needs-design` or a type label), offer once to create
-     it. Labels are only created with the user's yes. A label the user declines is left off, and the
-     preview says so.
+   - Each `missing` label (only ever `Epic`, `needs-design` or a type label) is offered in the preview,
+     which says that publishing creates it. Publishing creates the offered labels the user did not
+     strike; a struck label is left off the item.
    - When `AGENTS.md` / `CLAUDE.md` or the knowledge base maps these labels to other names, pass those
      names as `--map ready-for-agent=<label>,needs-design=<label>,…`.
    - Leave the tracker's own priority field unchanged: the WSJF block is the ranking.
-3. **Preview** exactly what will be written: the title; the card and PRD, or the issue body; the
-   labels, parent, related and duplicate links; the target; any PRD amendment; and, for an item
-   refined in place, what changes and what stays. Below it, the WSJF score as `wsjf`'s
-   [For calling skills](../wsjf/SKILL.md#for-calling-skills) says: each input with its rationale,
-   and the rank. Ask once: _publish / edit_. An edit to a WSJF input goes back to `wsjf`.
-4. **Write.**
+4. **Preview.** This is the one check of the finished item. Open with what needs the user's judgement:
+   the corrections grounding made, `outcome-framing`'s `Changed` list, the open placeholders, and the
+   labels offered for creation. Then show exactly what will be written: the title; the card and PRD,
+   or the issue body; the labels, parent, related and duplicate links; the target; any PRD amendment;
+   and, for an item refined in place, what changes and what stays. Last, the WSJF score in the compact
+   form `wsjf`'s [For calling skills](../wsjf/SKILL.md#for-calling-skills) gives. Ask once:
+   _publish / edit_. An edit goes back to the step that owns it, without a round of its own: the
+   framing to `outcome-framing`, a requirement or seam to step 5, a WSJF input to `wsjf`. Then show
+   what changed, and ask again.
+5. **Write.**
    - On **Linear**:
      - for an item refined in place, first post its original title and description as a comment
        (`Original before build-up-spec, <date>`);
@@ -219,12 +250,13 @@ Done when the item has a WSJF block, with each input's rationale and the rank, o
        team's default;
      - for an epic, create the PRD with `save_document`, with `issue` set to the epic, then point the
        card's `Spec:` line at it;
-     - for an amendment, patch the parent PRD's `## Requirements` with `save_document` and `patch`.
+     - for an amendment, patch the parent PRD's `## Requirements` with `save_document` and `patch`;
+     - for each cold-start anchor, write its WSJF block as `wsjf`'s For calling skills says.
    - On **GitHub**: `gh issue create` or `gh issue edit`, with `--parent` and `--label` (or
      `--add-label` and `--remove-label`). Post the original with `gh issue comment`. The PRD goes in
-     the body.
+     the body. Write each cold-start anchor's WSJF block as on Linear.
    - With **no tracker tool**: hand back the card and PRD, or the issue, as text.
-5. **Hand off.** An item labelled `needs-design` is not ready to slice or build: end the run with the
+6. **Hand off.** An item labelled `needs-design` is not ready to slice or build: end the run with the
    command the engineer runs next, `/build-up-spec <item id>`. Otherwise, for an epic, ask
    _"slice it now?"_. A yes invokes `slice-spec` on it in this conversation. A no ends the run with
    the command to run later: `/slice-spec <epic id>`.

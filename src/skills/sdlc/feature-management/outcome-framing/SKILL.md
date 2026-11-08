@@ -11,7 +11,8 @@ epic gets a **type**, a rung on the value **ladder**, a rewritten title and desc
 
 The skill reads and returns text; writing to a tracker belongs to whatever invoked it. Another skill
 may call it: after verification it gets back an [output block](#output-block) for every epic the
-user accepted, plus every skipped item.
+user accepted, plus every skipped item. A caller that is still **drafting** the epic, and will show
+it to the user in its own preview, says so: step 7 is then skipped (see there).
 
 ## Scope
 
@@ -174,7 +175,13 @@ re-check only the edited text for smells, a missing measure, and new placeholder
 find in one line, without a second round. An edited block counts as accepted; a rejected block is
 dropped from what you return.
 
-Done when the user has accepted, edited or rejected every block.
+For a **drafted** epic, skip the round: return its output block unverified. The caller shows it in
+its own preview, with the `Changed` list and the open placeholders, and publishing it there accepts
+it. An edit made there comes back here, and is re-checked as above; a rejection keeps the caller's
+draft.
+
+Done when the user has accepted, edited or rejected every block, or every block of a drafted epic is
+returned.
 
 ## Output block
 
