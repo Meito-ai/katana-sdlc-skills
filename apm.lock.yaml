@@ -333,9 +333,9 @@ dependencies:
   - .claude/skills/wsjf/SKILL.md
   - .claude/skills/wsjf/scripts/wsjf.mjs
   deployed_file_hashes:
-    .agents/skills/wsjf/SKILL.md: sha256:7306b29a395c8b72c50e35245a90caa7cc90229b642a8797a34ebb7d3797d006
+    .agents/skills/wsjf/SKILL.md: sha256:090d0160c39d9b60da7495bc9f283a04b5f6c7fb8964afd9887e9f9a35cf6e94
     .agents/skills/wsjf/scripts/wsjf.mjs: sha256:480e5f28c5a6a108f6291a646b87f5988926225a5de75c53779d987150dec5d4
-    .claude/skills/wsjf/SKILL.md: sha256:7306b29a395c8b72c50e35245a90caa7cc90229b642a8797a34ebb7d3797d006
+    .claude/skills/wsjf/SKILL.md: sha256:090d0160c39d9b60da7495bc9f283a04b5f6c7fb8964afd9887e9f9a35cf6e94
     .claude/skills/wsjf/scripts/wsjf.mjs: sha256:480e5f28c5a6a108f6291a646b87f5988926225a5de75c53779d987150dec5d4
   source: local
   local_path: ./src/skills/sdlc/feature-management/wsjf
@@ -1416,7 +1416,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/wsjf
   active_owner: ./src/skills/sdlc/feature-management/wsjf
-  content_hash: sha256:7306b29a395c8b72c50e35245a90caa7cc90229b642a8797a34ebb7d3797d006
+  content_hash: sha256:090d0160c39d9b60da7495bc9f283a04b5f6c7fb8964afd9887e9f9a35cf6e94
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/wsjf/scripts/wsjf.mjs
@@ -2325,7 +2325,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/wsjf
   active_owner: ./src/skills/sdlc/feature-management/wsjf
-  content_hash: sha256:7306b29a395c8b72c50e35245a90caa7cc90229b642a8797a34ebb7d3797d006
+  content_hash: sha256:090d0160c39d9b60da7495bc9f283a04b5f6c7fb8964afd9887e9f9a35cf6e94
 - kind: project-relative
   target: claude
   value: .claude/skills/wsjf/scripts/wsjf.mjs

@@ -245,4 +245,4 @@ publishing:
 - **An edit** to an input, the target's or an anchor's, comes back here: re-run `rank` and `upsert`
   with the edited value, and show the new position in one line, without another round.
 - **Publishing** the draft accepts its score and its anchors. The caller then writes each anchor's
-  block through the tracker tool, with `upsert` on the anchor's current description.
+  block (**Update an item**), with `upsert` on the anchor's current description.
