@@ -1,5 +1,5 @@
 ---
-"katana-sdlc-skills": minor
+"katana-sdlc-skills": patch
 ---
 
 `setup-katana-skills` now asks which tracker the repo uses. It proposes one from your `origin`, your

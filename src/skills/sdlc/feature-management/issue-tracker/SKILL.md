@@ -16,9 +16,10 @@ host repo keeps. Where the tracker cannot do an operation natively, the adapter 
 Before a run's first operation:
 
 1. **Read the `Tracker:` line**, under `### Issue tracker` in the `## Katana skills` block, or in the
-   local file the block names (see [Tracker lines](#tracker-lines)):
-   - `linear`, `github`, `jira`: the shipped adapter `trackers/<name>.md` in this skill's directory.
-   - `gitlab (free)` or `gitlab (premium)`: `trackers/gitlab.md`, on that tier.
+   local file the block names (see [Tracker lines](#tracker-lines)). Its value is what follows
+   `Tracker:`, without a trailing period:
+   - A name with a shipped adapter `trackers/<name>.md` in this skill's directory (`linear`,
+     `github`, `jira`), or `gitlab (free)` / `gitlab (premium)`: `trackers/gitlab.md`, on that tier.
    - A path: the host repo's adapter file at that path, from the repo root.
    - Anything else, or a path with no file: stop before any write, and name the line.
 2. **No `Tracker:` line**: infer the tracker from the `Backlog:` or `WSJF scope:` line. A Linear team
@@ -52,6 +53,9 @@ chooses a value or changes a default:
 
 Leave the change uncommitted.
 
+Done when every tracker line the run chose or changed is written in one place: the local file, or the
+block, after the user chose where on a public repo.
+
 ## Operations
 
 Each operation names its inputs and outputs, and the text fallback an adapter applies where the
@@ -65,8 +69,8 @@ a team, project or repo, written the way the `Backlog:` line writes it.
 
 ### 2. Fetch an item
 
-- **In**: an id or a URL. **Out**: title, body, state, labels, comments, parent, children, relations
-  (blocked by, blocks, related, duplicate of), and an epic's PRD.
+- **In**: an id or a URL. **Out**: title, body, state, author, labels, comments, attachments,
+  parent, children, relations (blocked by, blocks, related, duplicate of), and an epic's PRD.
 - **Fallback**: the parent from a `Part of <id>` line, blockers from a `Blocked by: <id>, …` line,
   related items from a `Related: <id>, …` line, and the PRD from the body's `# Spec` section.
 

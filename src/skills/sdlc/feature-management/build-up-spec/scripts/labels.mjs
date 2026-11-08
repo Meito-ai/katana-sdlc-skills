@@ -75,6 +75,13 @@ function parseOptions(values) {
   return options;
 }
 
+/** A `--<name> yes|no` option as a boolean, `fallback` when it is absent. */
+function yesOrNo(options, name, fallback) {
+  const value = options[name] ?? fallback;
+  if (value !== 'yes' && value !== 'no') throw new Error(`--${name} must be yes or no; got ${value}`);
+  return value === 'yes';
+}
+
 const list = (value) => (value ? value.split(',').map((label) => label.trim()).filter(Boolean) : []);
 
 const USAGE = `Usage:
@@ -87,15 +94,11 @@ export async function main(argv) {
   if (command !== 'plan') throw new Error(USAGE);
   const options = parseOptions(rest);
   if (!options.text) throw new Error('plan needs --text <file>');
-  const deferred = options.deferred ?? 'no';
-  if (deferred !== 'yes' && deferred !== 'no') throw new Error(`--deferred must be yes or no; got ${deferred}`);
-  const epicLabel = options['epic-label'] ?? 'yes';
-  if (epicLabel !== 'yes' && epicLabel !== 'no') throw new Error(`--epic-label must be yes or no; got ${epicLabel}`);
 
   const plan = planLabels({
     level: options.level,
-    deferred: deferred === 'yes',
-    epicLabel: epicLabel === 'yes',
+    deferred: yesOrNo(options, 'deferred', 'no'),
+    epicLabel: yesOrNo(options, 'epic-label', 'yes'),
     type: options.type,
     text: await readFile(options.text, 'utf8'),
     current: list(options.current),

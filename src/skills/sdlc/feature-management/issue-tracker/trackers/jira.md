@@ -42,7 +42,9 @@ Comments: `listJiraIssueComments`. Children: `searchJiraIssuesUsingJql` with `pa
 
 **Native.** `createJiraIssue` with `projectKey`, `issueType` (`Epic` for an epic; otherwise the
 project's standard type, such as `Task`, or `Bug` for a bug), `summary`, `description`, `parent` (the
-epic's key), and the labels in `additional_fields` as `{"labels": [...]}`. Relations take a second
+epic's key), and the labels in `additional_fields` as `{"labels": [...]}`: the MCP server documents
+no label parameter, so `discover` `createJiraIssue` and `editJiraIssue` first, and when neither takes
+labels, say so in the preview and leave them off. Relations take a second
 call each, `createJiraIssueLink`: `Blocks` with the blocker as the outward issue, `Relates`, or
 `Duplicate`. `listJiraIssueLinkTypes` gives the site's link type names.
 

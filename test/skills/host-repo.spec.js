@@ -17,8 +17,12 @@ const KNOWLEDGE_BASE_READERS = [
   text: read(`${path}/SKILL.md`),
 }));
 
-// The skills that write a Backlog: line, a tracker line.
-const TRACKER_LINE_WRITERS = ['sdlc/feature-management/bug-intake', 'sdlc/feature-management/build-up-spec'];
+// The skills that read or write a Backlog: or WSJF scope: line, a tracker line.
+const TRACKER_LINE_USERS = [
+  'sdlc/feature-management/bug-intake',
+  'sdlc/feature-management/build-up-spec',
+  'sdlc/feature-management/wsjf',
+];
 
 /** The paragraph (or list item and its continuation lines) holding `needle`. */
 function paragraph(text, needle) {
@@ -70,9 +74,9 @@ describe('tracker lines in a public repo', () => {
     assert.match(rules, /`Tracker lines: local, see <file>`/);
   });
 
-  test('every skill that writes a Backlog line records it through issue-tracker', () => {
-    for (const path of TRACKER_LINE_WRITERS) {
-      assert.match(read(`${path}/SKILL.md`), /\]\(\.\.\/issue-tracker\/SKILL\.md#tracker-lines\)/, `${path} writes tracker lines itself`);
+  test('every skill that reads or writes a tracker line finds it through issue-tracker', () => {
+    for (const path of TRACKER_LINE_USERS) {
+      assert.match(read(`${path}/SKILL.md`), /\]\(\.\.\/issue-tracker\/SKILL\.md#tracker-lines\)/, `${path} places tracker lines itself`);
     }
   });
 

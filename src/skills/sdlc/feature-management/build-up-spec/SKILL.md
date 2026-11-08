@@ -195,8 +195,8 @@ Done when the item has a WSJF block, with each input's rationale and the rank, o
    its release and compatibility rules above all. Correct a statement that misquotes its source. A
    correction that changes a decision the user accepted goes to them in the preview, as a question.
    Grounding is done when every statement has been re-read against its source.
-2. **Target.** Read the `Backlog:` line: a target in the tracker. Propose it, and let the user change
-   it for this item.
+2. **Target.** Read the `Backlog:` line, where [Tracker lines](../issue-tracker/SKILL.md#tracker-lines)
+   says it lives: a target in the tracker. Propose it, and let the user change it for this item.
    - When there is no such line, take the target answered in grilling's first round, and record it as
      the `Backlog:` line.
    - When the user changes the default, update the line.
@@ -210,8 +210,9 @@ Done when the item has a WSJF block, with each input's rationale and the rank, o
      --current <the item's labels> --available <the target's labels>
    ```
 
-   `--deferred` is step 1's decision, and `--epic-label` the adapter's `Epic label:`. It prints the
-   labels to `add`, the labels to `remove`, and the added labels the team is `missing`. `--current` is empty for a new item. The script applies these
+   `--deferred` is step 1's decision, and `--epic-label` the adapter's `Epic label:` (on GitLab, the
+   value for the `Tracker:` line's tier). It prints the labels to `add`, the labels to `remove`, and the
+   added labels the target is `missing`. `--current` is empty for a new item. The script applies these
    rules:
    - An issue gets `ready-for-agent`, or `needs-info` while a placeholder is left in its criteria.
    - A design-deferred item gets `needs-design`, and never `ready-for-agent`: no agent picks it up
@@ -219,8 +220,8 @@ Done when the item has a WSJF block, with each input's rationale and the rank, o
      already on the item.
    - An epic gets `Epic` (unless the adapter marks epics by type), and never `ready-for-agent`: an
      agent polling for that label would try to build the whole epic in one run.
-   - The type label is the team's label named `product`, `tech` or `compliance` (any case), when the
-     team has one.
+   - The type label is the target's label named `product`, `tech` or `compliance` (any case), when
+     the target has one.
 
    Then:
    - Each `missing` label (only ever `Epic`, `needs-design` or a type label) is offered in the preview,
@@ -272,6 +273,6 @@ copy.
 - **Issue → epic**, when grilling finds more work than one session can hold: mark it an epic the way
   the adapter's `## Epics` says, attach a PRD, and rewrite the description as a card. Existing
   children stay, and `slice-spec` counts them towards coverage before it proposes new slices.
-- **Epic → issue**, only when it has no sub-issues: its PRD stays attached, with its first line
+- **Epic → issue**, only when it has no children: its PRD stays attached, with its first line
   changed to `Superseded: folded into <issue link> on <date>`. Nothing is deleted.
 - An existing epic without a PRD gets one. An existing `## WSJF` block is re-scored in step 7.

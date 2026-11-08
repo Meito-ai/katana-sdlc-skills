@@ -1,5 +1,5 @@
 ---
-"katana-sdlc-skills": minor
+"katana-sdlc-skills": patch
 ---
 
 `implement-issue` now opens a merge request when your `origin` is on GitLab, instead of handing back

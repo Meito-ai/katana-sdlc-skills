@@ -8,9 +8,9 @@ Body limit: 1000000 characters
 
 ## Check
 
-`glab auth status` exits 0. On Premium, `glab work-items list --type epic -g <group>` also succeeds:
-it fails on a Free group. (`glab work-items` is experimental, so read its `--help` when a flag below
-is refused.)
+`glab auth status` exits 0. On Premium, `glab work-items list --type epic -g <group>` also lists the
+group's epics. The tier itself is the user's answer at setup, recorded on the `Tracker:` line.
+(`glab work-items` is experimental, so read its `--help` when a flag below is refused.)
 
 ## Epics
 

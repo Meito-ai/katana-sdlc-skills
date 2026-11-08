@@ -43,7 +43,7 @@ worktree: it proves the work survives on `{{default-branch}}` before deleting an
 ### Issue tracker
 
 The katana SDLC skills read and write the tracker through the `issue-tracker` skill.
-[if tracker lines in the block] Tracker: {{tracker}}.
+[if tracker lines in the block] Tracker: {{tracker}}
 [if tracker lines local] Tracker lines: local, see {{local-file}}.
 
 ### WSJF

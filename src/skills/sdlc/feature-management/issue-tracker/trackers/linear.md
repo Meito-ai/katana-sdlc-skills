@@ -73,4 +73,5 @@ the state check is yours.
 
 **Native.** With the workspace's GitHub or GitLab integration connected: `Closes <ID>` in a GitHub
 PR's description (or title), or in a GitLab merge request's description. Merging closes the item on
-both code hosts. A PR that only contributes: `Refs <ID>`.
+GitHub, and on GitLab 15.6 or later (a self-managed instance must be reachable from Linear). A PR that
+only contributes: `Refs <ID>`.

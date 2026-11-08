@@ -13,7 +13,7 @@ that is installed but not wired is dead weight; wiring is the point.
 Keep the footprint minimal: setup writes `apm.yml` and one marker-delimited block in `AGENTS.md` (and
 in `CLAUDE.md` when that file does not reference `AGENTS.md`), plus, each only when the user wants it:
 one line in a PR workflow doc, one hook in `.claude/settings.json`, a local file holding the tracker
-lines, and the host repo's own tracker adapter. It deletes only what the user agreed to: a local
+lines (and its `.gitignore` entry), and the host repo's own tracker adapter. It deletes only what the user agreed to: a local
 skill a katana skill replaces, and apm's generated output. Whatever a skill's own `SKILL.md` already
 says stays out of the block.
 
@@ -120,8 +120,8 @@ recommended answer so the user can accept it in a word. Skip a question explorat
    whether to install it anyway. Picking `build-up-spec` also picks `outcome-framing`, `wsjf` and
    `slice-spec`; picking `slice-spec` also picks `wsjf`. Picking `bug-intake` also picks `slice-spec`
    and `wsjf`. Picking any of `build-up-spec`, `slice-spec`, `bug-intake`, `wsjf` and
-   `implement-issue` also picks `issue-tracker`. A skill that a picked skill needs stays picked: when the user unselects one, name the
-   skill that needs it. When a picked skill has a same-name local skill, name it and recommend
+   `implement-issue` also picks `issue-tracker`. A skill that a picked skill needs stays picked: when
+   the user unselects one, name the skill that needs it. When a picked skill has a same-name local skill, name it and recommend
    removing it: two skills with one name cannot both deploy.
 2. **Upstream pins** (per-path entries found for an upstream that a picked skill declares). Per-path
    entries do not override the declared requirement, so apm resolves a second copy of the upstream and
@@ -152,7 +152,8 @@ recommended answer so the user can accept it in a word. Skip a question explorat
      user picks again or accepts it unverified.
    - **Other**: ask the user to describe the tracker (its tool, how an epic, its children and its
      blockers are represented, where a long spec goes, how a PR links an item), then draft an adapter
-     in the shape of the `## Adapter file` section of `issue-tracker`'s `SKILL.md`, every operation filled from the description or marked `**Fallback.**`, at a path the user confirms
+     in the shape of the `## Adapter file` section of `issue-tracker`'s `SKILL.md`, every operation
+     filled from the description or marked `**Fallback.**`, at a path the user confirms
      (such as `docs/agents/tracker.md`). The `Tracker:` line holds that path.
 9. **Tracker lines** (the repo is public, or its visibility is unknown, and the lines are not local
    yet). Recommend keeping `Tracker:`, `Backlog:` and `WSJF scope:` out of committed files, in a local

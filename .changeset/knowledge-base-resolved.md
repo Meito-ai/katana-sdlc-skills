@@ -1,5 +1,5 @@
 ---
-"katana-sdlc-skills": minor
+"katana-sdlc-skills": patch
 ---
 
 `build-up-spec`, `slice-spec`, `bug-intake` and `implement-issue` no longer ask where your knowledge

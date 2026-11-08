@@ -43,11 +43,11 @@ design.
   the list was drafted, and leave `Spec:` and `Covers:` off the tickets.
 - **The testing seams**: the PRD's `## Testing seams`. An epic without a PRD has none listed, so
   every seam step 3 proposes is new.
-- **Existing sub-issues**: read each one and note the requirements it already covers. They count
+- **Existing children**: read each one and note the requirements it already covers. They count
   towards coverage and are never proposed again.
 
 Done when the epic is known not to need design, and the requirement list, the seams, the existing
-sub-issues and what each of them covers are all known.
+children and what each of them covers are all known.
 
 ## 2. Explore the codebase
 

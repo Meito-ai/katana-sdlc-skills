@@ -1,5 +1,5 @@
 ---
-"katana-sdlc-skills": minor
+"katana-sdlc-skills": patch
 ---
 
 `issue-tracker` is a new skill that lets the SDLC skills run on Jira Cloud and GitLab as well as Linear

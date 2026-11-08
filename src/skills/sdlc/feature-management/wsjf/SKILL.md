@@ -73,8 +73,9 @@ The script reads only the four inputs and the date, and recomputes CoD and WSJF 
 ### 1. Reference set
 
 1. **Level**: epic or issue, by the test in [What gets scored](#what-gets-scored).
-2. **Scope**: the `WSJF scope` line in the repo's `## Katana skills` block (a target in the tracker:
-   a team, a project or a repo). No such line: ask the user.
+2. **Scope**: the `WSJF scope` line, read where `issue-tracker`'s
+   [Tracker lines](../issue-tracker/SKILL.md#tracker-lines) says it lives (a target in the tracker: a
+   team, a project or a repo). No such line: ask the user.
 3. **Fetch** the open items at that level in that scope, with their descriptions (**Search**). Done
    items are out: their delay has stopped costing anything.
 4. Write them as JSON, `[{ "id", "title", "description" }]`, to a scratch file and run:

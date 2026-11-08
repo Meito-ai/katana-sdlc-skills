@@ -31,7 +31,8 @@ The duplicate check, the three reproduction outcomes and the triage notes are ad
 
 - **Free text**: the report.
 - **A tracker item** (an identifier or a URL): the report, which this run **updates in place**. Fetch
-  its title, description, comments, labels, reporter and attachments (**Fetch an item**). If it carries triage notes, see
+  its title, description, comments, labels, reporter and attachments (**Fetch an item**). If it
+  carries triage notes, see
   [Resuming](#resuming).
 - **A URL or a file**: a source (a log, a screenshot, a stack trace, a support thread). Its facts
   count as sourced and are cited under `## Sources`.
@@ -83,7 +84,8 @@ Report one outcome with its evidence:
   question. Go to step 4.
 - **Insufficient detail**: the steps can't be run as written. Name each missing fact, and go to step 5.
 - **Failed**: the steps ran and behaved correctly. List what was tried and where. The user picks step 5
-  (ask for the condition that differs) or stopping (for a tracker item, offer to post what was tried).
+  (ask for the condition that differs) or stopping (for a tracker item, offer to post what was tried, as
+  a **Comment**).
 
 When the user supplies the missing detail now, fold it into the restatement and reproduce again.
 
@@ -146,9 +148,10 @@ reporter's) has a question, and the user has seen the issue and the notes.
 
 ## 6. Preview and publish
 
-1. **Target**: the `Backlog:` line, a target in the tracker, which the user may change for this
-   issue. With no line, ask, listing the targets (**List targets**). Record a new or changed default
-   as `issue-tracker`'s [Tracker lines](../issue-tracker/SKILL.md#tracker-lines) says.
+1. **Target**: the `Backlog:` line (read where [Tracker lines](../issue-tracker/SKILL.md#tracker-lines)
+   says it lives), a target in the tracker, which the user may change for this issue. With no line, ask,
+   listing the targets (**List targets**). Record a new or changed default as `issue-tracker`'s
+   [Tracker lines](../issue-tracker/SKILL.md#tracker-lines) says.
 2. **Labels.** Only these two, added to whatever the item already carries:
    - `ready-for-agent` after step 4, or `needs-info` after step 5. Moving to `ready-for-agent`
      removes `needs-info`.
@@ -176,9 +179,9 @@ After step 5, also report the command that resumes once the reporter answers: `/
 
 A tracker item carrying `## Triage notes` comments resumes from them. Read every set of notes and the
 comments after the latest: an answered question moves to "established", with the answer as its source,
-and only the open ones are asked again. Show the user the updated picture, then run the steps again
-from step 2. Still blocked: post new notes. Reproduced: rewrite the description through step 4, and
-move the issue from `needs-info` to `ready-for-agent`.
+and only the open ones are asked again. Show the user the updated picture, then run the steps again from
+step 2. Still blocked: post new notes (**Comment**). Reproduced: rewrite the description through step 4,
+and move the issue from `needs-info` to `ready-for-agent` (**Update an item**).
 
 ## Severity
 

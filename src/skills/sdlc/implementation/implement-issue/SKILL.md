@@ -27,6 +27,8 @@ issue fetch, `tdd` at agreed seams, the check cadence, `code-review` and the com
   operations are named below in bold (**Fetch an item**, **Frontier**, …), and the tracker's adapter is
   resolved as it says before the first one. While no tracker tool is reachable, the issue arrives and
   the design leaves as text.
+- **`glab`**, on a GitLab `origin`, to open the merge request (step 10). Without it, step 10 hands
+  back the branch to paste.
 - **When installed:** `bare-clone-workflow` for a bare-clone layout, `visual-pr` for the PR
   description, and `slice-spec` for its EARS rules (`ears.md`). `/setup-katana-skills` installs them.
 
@@ -78,7 +80,8 @@ Lines the intake skills leave uncommitted in the `## Katana skills` block don't 
 come along to the issue's branch (copied into a new worktree), and step 4 commits them.
 
 Name the branch by the convention `AGENTS.md` / `CLAUDE.md` states, or `<prefix>-<key>-<slug>`: `fix`
-for a bug, `tech` for tech work, `doc` for a docs-only change, `feat` otherwise; the key in lower case.
+for a bug, `tech` for tech work, `doc` for a docs-only change, `feat` otherwise; the key in lower case,
+unless the adapter's **PR link** reads the key from the branch name, which then keeps its case.
 
 Done when the working tree is on a branch that belongs to the issue.
 
@@ -129,8 +132,9 @@ in for `## Key interfaces`, `## Further notes` for `## Rollout`, and its new cri
 Present each open choice with its options and a recommendation. Leave the knowledge-base docs for
 step 9.
 
-**The gate.** Present it all together and stop: nothing is written or committed until the user
-approves. On approval, post the original description as a comment (**Comment**:
+**The gate.** Present it all together, with every text fallback the adapter applies to what will be
+written and a warning where a body exceeds its body limit, and stop: nothing is written or committed
+until the user approves. On approval, post the original description as a comment (**Comment**:
 `Original before implement-issue, <date>`), write the new one (**Update an item**), replace
 `needs-design` with `ready-for-agent` as `build-up-spec` does (an epic only loses `needs-design`), patch
 an amended PRD (**Epic PRD**), and mark the ADRs accepted. While no tracker tool is reachable, hand the
@@ -178,8 +182,9 @@ Push. The **code host** is `origin`'s host; it need not be the tracker. The desc
 fills the repo's PR template and carries the item's **closing reference**, the link text the adapter
 gives for that code host (**PR link**: `Closes #<n>`, `Closes <ID>`, …), the **triage line**
 (`Design: settled in <issue>` or `Design: approved at pickup in <issue>`) and, while no tracker tool is
-reachable, the approved design. Where the adapter says merging on that code host cannot close the item,
-the description ends with `Close <id> on merge`.
+reachable, the approved design. Where the adapter puts the link in the title too, the title carries
+it as the adapter says. Where the adapter says merging on that code host cannot close the item, the
+description ends with `Close <id> on merge`.
 
 - **GitHub**: open the PR against the base, and write its description with `visual-pr` when installed,
   else with `gh pr create`.
@@ -206,11 +211,11 @@ place of the closing reference and the triage line. When it turns out to touch b
 ## Resuming
 
 A branch that belongs to the issue and has commits ahead of the base picks up where the last run
-stopped. Triage again against the issue as it now stands: a design approved at the gate was written
-back (while no tracker tool was reachable, into the open PR), so it reads `Design: settled`; the triage line still
-says `approved at pickup` when an `Original before implement-issue` comment or the open PR shows the
-gate ran. Committed ADRs count as approved, the full suite shows which criteria still fail, and an open
-PR is refreshed.
+stopped. Triage again against the issue as it now stands: a design approved at the gate was written back
+(while no tracker tool was reachable, into the open PR), so it reads `Design: settled`; the triage line
+still says `approved at pickup` when an `Original before implement-issue` comment or the open PR shows
+the gate ran. Committed ADRs count as approved, the full suite shows which criteria still fail, and an
+open PR is refreshed.
 
 ## ADRs
 
