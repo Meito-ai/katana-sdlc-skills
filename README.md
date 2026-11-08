@@ -19,7 +19,7 @@ Add the setup skill to your `apm.yml`, install, then run it:
 dependencies:
   apm:
     - git: Meito-ai/katana-sdlc-skills/src/skills/setup-katana-skills
-      ref: v0.2.4        # or "^0.2.0" on apm >= 0.16.0
+      ref: v0.2.5        # or "^0.2.0" on apm >= 0.16.0
 ```
 
 ```bash
@@ -41,9 +41,9 @@ Reference each skill you want by its subpath:
 dependencies:
   apm:
     - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/branch-management/bare-clone-workflow
-      ref: v0.2.4
+      ref: v0.2.5
     - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/branch-management/branch-shutdown
-      ref: v0.2.4
+      ref: v0.2.5
 ```
 
 ```bash
