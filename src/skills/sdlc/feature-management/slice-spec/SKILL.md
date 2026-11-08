@@ -142,21 +142,25 @@ by at least one of its criteria, and each criterion sits under a seam.
 Apply `wsjf`'s value test to each ticket: _if this shipped alone, would someone gain measurable
 value?_
 
-- **Tickets that pass**: invoke `wsjf` once with all of them as targets, so there is one verification
-  round. The tickets are not in the tracker yet, so `wsjf` hands each block back to this skill.
+- **Tickets that pass**: invoke `wsjf` once with all of them as targets. The tickets are not in the
+  tracker yet, so `wsjf` hands each block back to this skill without asking the user: step 7's
+  preview is where the scores are checked.
 - **Tasks** (prefactoring, expand and migrate batches, walking skeletons): write
   `Inherits <epic>'s priority.` in the `## WSJF` section.
 
 Blocking edges still decide what can start: WSJF only orders the tickets that are not blocked.
 
-Done when every ticket that passes has an accepted WSJF block and every task has the inherits line.
+Done when every ticket that passes has a WSJF block, with each input's rationale and the rank, and
+every task has the inherits line.
 
 ## 7. Preview and publish
 
 Show every ticket in full, in dependency order (blockers first), each with its labels:
 `ready-for-agent`, or `needs-info` when a placeholder is still left in its criteria. When `AGENTS.md`
-/ `CLAUDE.md` or the knowledge base maps these labels to other names, use those. Ask once: _publish
-all / edit N_.
+/ `CLAUDE.md` or the knowledge base maps these labels to other names, use those. Below the tickets,
+show the scored ones ranked, as `wsjf`'s [For calling skills](../wsjf/SKILL.md#for-calling-skills)
+says: each input with its rationale, and the rank. Ask once: _publish all / edit N_. An edit to a
+WSJF input goes back to `wsjf`.
 
 Publish in dependency order, so that every blocker already has an identifier when the tickets it
 blocks are created:

@@ -52,9 +52,9 @@ dependencies:
   - .claude/skills/bug-intake/SKILL.md
   deployed_file_hashes:
     .agents/skills/bug-intake/LICENSE-mattpocock-skills: sha256:e7bb8f1efcf780ceab438f8400293730546ff1ce9e9fafd91c51266430aadc33
-    .agents/skills/bug-intake/SKILL.md: sha256:ab9883e91a6b91c36c222652221ba1b88e1e2b9b927d509dea583627d4d3925b
+    .agents/skills/bug-intake/SKILL.md: sha256:9ec3d66ef63b1212128627b2a58f9b7070265b4c0dd57edb4c0f160a1341d422
     .claude/skills/bug-intake/LICENSE-mattpocock-skills: sha256:e7bb8f1efcf780ceab438f8400293730546ff1ce9e9fafd91c51266430aadc33
-    .claude/skills/bug-intake/SKILL.md: sha256:ab9883e91a6b91c36c222652221ba1b88e1e2b9b927d509dea583627d4d3925b
+    .claude/skills/bug-intake/SKILL.md: sha256:9ec3d66ef63b1212128627b2a58f9b7070265b4c0dd57edb4c0f160a1341d422
   source: local
   local_path: ./src/skills/sdlc/feature-management/bug-intake
   is_dev: true
@@ -74,11 +74,11 @@ dependencies:
   - .claude/skills/build-up-spec/scripts/labels.mjs
   - .claude/skills/build-up-spec/templates.md
   deployed_file_hashes:
-    .agents/skills/build-up-spec/SKILL.md: sha256:14fb64d011e9c1e36e71698689acb3f06e50e4443066ab0f41c7463c29ab1f82
+    .agents/skills/build-up-spec/SKILL.md: sha256:2da8acd0ca516d7d859f9036a6a781847b96a6fe883b34fd283be1f4b9d6c912
     .agents/skills/build-up-spec/apm.yml: sha256:43979daae3a0dd7296aeee8ceb4738f2cdb8ffda7c816e6989684147e62b1222
     .agents/skills/build-up-spec/scripts/labels.mjs: sha256:0d10eb6b072306a7a8a5d646faadf16a5df71f7ab9b5d9c63b40446d124db720
     .agents/skills/build-up-spec/templates.md: sha256:a5d4a2a5c94ef6e11430ce82abe1a814a8541111a5ff529aac169438e0a5325a
-    .claude/skills/build-up-spec/SKILL.md: sha256:14fb64d011e9c1e36e71698689acb3f06e50e4443066ab0f41c7463c29ab1f82
+    .claude/skills/build-up-spec/SKILL.md: sha256:2da8acd0ca516d7d859f9036a6a781847b96a6fe883b34fd283be1f4b9d6c912
     .claude/skills/build-up-spec/apm.yml: sha256:43979daae3a0dd7296aeee8ceb4738f2cdb8ffda7c816e6989684147e62b1222
     .claude/skills/build-up-spec/scripts/labels.mjs: sha256:0d10eb6b072306a7a8a5d646faadf16a5df71f7ab9b5d9c63b40446d124db720
     .claude/skills/build-up-spec/templates.md: sha256:a5d4a2a5c94ef6e11430ce82abe1a814a8541111a5ff529aac169438e0a5325a
@@ -245,11 +245,11 @@ dependencies:
   - .claude/skills/slice-spec/issue-template.md
   deployed_file_hashes:
     .agents/skills/slice-spec/LICENSE-mattpocock-skills: sha256:a35c814fa5eb666cb73841f7c3e711c80c1a414871c77c5d182943c98f8cbd5d
-    .agents/skills/slice-spec/SKILL.md: sha256:4607baaf98b6b44d9b7ac7a0c528b82d6083f2d0c872dc11d22ef902abece472
+    .agents/skills/slice-spec/SKILL.md: sha256:5b4d8147cbb005bad5b3fd4616b9a1b5675ddedbb0648945b5953f7936712a84
     .agents/skills/slice-spec/ears.md: sha256:77c3957decf08d96efdecb8f0856c70277ca4562489a4e3cd9ef0ab013155268
     .agents/skills/slice-spec/issue-template.md: sha256:b5009e5f094c378031f385630f456426fcccb102ab1e34dbfed1b6042f041d93
     .claude/skills/slice-spec/LICENSE-mattpocock-skills: sha256:a35c814fa5eb666cb73841f7c3e711c80c1a414871c77c5d182943c98f8cbd5d
-    .claude/skills/slice-spec/SKILL.md: sha256:4607baaf98b6b44d9b7ac7a0c528b82d6083f2d0c872dc11d22ef902abece472
+    .claude/skills/slice-spec/SKILL.md: sha256:5b4d8147cbb005bad5b3fd4616b9a1b5675ddedbb0648945b5953f7936712a84
     .claude/skills/slice-spec/ears.md: sha256:77c3957decf08d96efdecb8f0856c70277ca4562489a4e3cd9ef0ab013155268
     .claude/skills/slice-spec/issue-template.md: sha256:b5009e5f094c378031f385630f456426fcccb102ab1e34dbfed1b6042f041d93
   source: local
@@ -302,9 +302,9 @@ dependencies:
   - .claude/skills/wsjf/SKILL.md
   - .claude/skills/wsjf/scripts/wsjf.mjs
   deployed_file_hashes:
-    .agents/skills/wsjf/SKILL.md: sha256:c020ba3121844af53b76a27cb7cfb747e1109e3c4f0e3657308c8bc1d7226c70
+    .agents/skills/wsjf/SKILL.md: sha256:0392277b1264c927169b668946008a0fa9f3c4f281fdd7beeb6ca74f5c1068ae
     .agents/skills/wsjf/scripts/wsjf.mjs: sha256:480e5f28c5a6a108f6291a646b87f5988926225a5de75c53779d987150dec5d4
-    .claude/skills/wsjf/SKILL.md: sha256:c020ba3121844af53b76a27cb7cfb747e1109e3c4f0e3657308c8bc1d7226c70
+    .claude/skills/wsjf/SKILL.md: sha256:0392277b1264c927169b668946008a0fa9f3c4f281fdd7beeb6ca74f5c1068ae
     .claude/skills/wsjf/scripts/wsjf.mjs: sha256:480e5f28c5a6a108f6291a646b87f5988926225a5de75c53779d987150dec5d4
   source: local
   local_path: ./src/skills/sdlc/feature-management/wsjf
@@ -566,7 +566,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/bug-intake
   active_owner: ./src/skills/sdlc/feature-management/bug-intake
-  content_hash: sha256:ab9883e91a6b91c36c222652221ba1b88e1e2b9b927d509dea583627d4d3925b
+  content_hash: sha256:9ec3d66ef63b1212128627b2a58f9b7070265b4c0dd57edb4c0f160a1341d422
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/build-up-spec
@@ -584,7 +584,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/build-up-spec
   active_owner: ./src/skills/sdlc/feature-management/build-up-spec
-  content_hash: sha256:14fb64d011e9c1e36e71698689acb3f06e50e4443066ab0f41c7463c29ab1f82
+  content_hash: sha256:2da8acd0ca516d7d859f9036a6a781847b96a6fe883b34fd283be1f4b9d6c912
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/build-up-spec/apm.yml
@@ -1151,7 +1151,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/slice-spec
   active_owner: ./src/skills/sdlc/feature-management/slice-spec
-  content_hash: sha256:4607baaf98b6b44d9b7ac7a0c528b82d6083f2d0c872dc11d22ef902abece472
+  content_hash: sha256:5b4d8147cbb005bad5b3fd4616b9a1b5675ddedbb0648945b5953f7936712a84
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/slice-spec/ears.md
@@ -1331,7 +1331,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/wsjf
   active_owner: ./src/skills/sdlc/feature-management/wsjf
-  content_hash: sha256:c020ba3121844af53b76a27cb7cfb747e1109e3c4f0e3657308c8bc1d7226c70
+  content_hash: sha256:0392277b1264c927169b668946008a0fa9f3c4f281fdd7beeb6ca74f5c1068ae
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/wsjf/scripts/wsjf.mjs
@@ -1421,7 +1421,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/bug-intake
   active_owner: ./src/skills/sdlc/feature-management/bug-intake
-  content_hash: sha256:ab9883e91a6b91c36c222652221ba1b88e1e2b9b927d509dea583627d4d3925b
+  content_hash: sha256:9ec3d66ef63b1212128627b2a58f9b7070265b4c0dd57edb4c0f160a1341d422
 - kind: project-relative
   target: claude
   value: .claude/skills/build-up-spec
@@ -1439,7 +1439,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/build-up-spec
   active_owner: ./src/skills/sdlc/feature-management/build-up-spec
-  content_hash: sha256:14fb64d011e9c1e36e71698689acb3f06e50e4443066ab0f41c7463c29ab1f82
+  content_hash: sha256:2da8acd0ca516d7d859f9036a6a781847b96a6fe883b34fd283be1f4b9d6c912
 - kind: project-relative
   target: claude
   value: .claude/skills/build-up-spec/apm.yml
@@ -2006,7 +2006,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/slice-spec
   active_owner: ./src/skills/sdlc/feature-management/slice-spec
-  content_hash: sha256:4607baaf98b6b44d9b7ac7a0c528b82d6083f2d0c872dc11d22ef902abece472
+  content_hash: sha256:5b4d8147cbb005bad5b3fd4616b9a1b5675ddedbb0648945b5953f7936712a84
 - kind: project-relative
   target: claude
   value: .claude/skills/slice-spec/ears.md
@@ -2186,7 +2186,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/wsjf
   active_owner: ./src/skills/sdlc/feature-management/wsjf
-  content_hash: sha256:c020ba3121844af53b76a27cb7cfb747e1109e3c4f0e3657308c8bc1d7226c70
+  content_hash: sha256:0392277b1264c927169b668946008a0fa9f3c4f281fdd7beeb6ca74f5c1068ae
 - kind: project-relative
   target: claude
   value: .claude/skills/wsjf/scripts/wsjf.mjs

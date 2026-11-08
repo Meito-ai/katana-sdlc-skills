@@ -159,11 +159,12 @@ Done when the epic has an accepted title and card, or the issue's parent is sett
 ## 7. Score WSJF
 
 - **An epic, or an issue that passes `wsjf`'s value test**: invoke `wsjf` on the draft, and tell it
-  the item is still being drafted so that it returns the block instead of writing it. This also
-  applies to an item refined in place, because step 8 rewrites its description.
+  the item is still being drafted so that it returns the block instead of writing it, without asking
+  the user: step 8's preview is where the score is checked. This also applies to an item refined in
+  place, because step 8 rewrites its description.
 - **A task**: no score. Its `## WSJF` section reads `Inherits <epic>'s priority.`
 
-Done when the item has an accepted WSJF block, or the inherits line.
+Done when the item has a WSJF block, with each input's rationale and the rank, or the inherits line.
 
 ## 8. Preview and publish
 
@@ -206,7 +207,9 @@ Done when the item has an accepted WSJF block, or the inherits line.
    - Leave the tracker's own priority field unchanged: the WSJF block is the ranking.
 3. **Preview** exactly what will be written: the title; the card and PRD, or the issue body; the
    labels, parent, related and duplicate links; the target; any PRD amendment; and, for an item
-   refined in place, what changes and what stays. Ask once: _publish / edit_.
+   refined in place, what changes and what stays. Below it, the WSJF score as `wsjf`'s
+   [For calling skills](../wsjf/SKILL.md#for-calling-skills) says: each input with its rationale,
+   and the rank. Ask once: _publish / edit_. An edit to a WSJF input goes back to `wsjf`.
 4. **Write.**
    - On **Linear**:
      - for an item refined in place, first post its original title and description as a comment

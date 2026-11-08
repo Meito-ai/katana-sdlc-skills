@@ -44,7 +44,7 @@ backlog, every type in one set. One set never mixes the two levels.
 
 - **Single-issue** (default): score one target against the reference set, report its WSJF and rank.
   A calling skill may hand over several new items at once (the slices of an epic): each one is a
-  target, and they share one verification round.
+  target, scored in the same run.
 - **Backlog**: score or re-score a whole set and return the ranked table. Use it when asked to rank
   a backlog, after a cold start leaves several items unscored, or when single-issue mode reports
   stale references.
@@ -120,7 +120,10 @@ with its new scores) and run `rank` again. Ties go to the smaller Size, then the
 
 ### 5. Verify
 
-One round.
+One round, except for a **drafted** target: one a calling skill is still drafting. The caller shows
+its inputs, rationales and rank in its own preview, where the user accepts or edits them (see
+[For calling skills](#for-calling-skills)), so asking here would ask twice. Skip the round for it;
+cold-start anchors are existing items, and are still verified here.
 
 - **Single-issue**: show each input with its rationale, then CoD, WSJF and the rank
   ("3rd of 12"), and the ranked table. Ask: _accept / edit_.
@@ -128,7 +131,7 @@ One round.
 
 After an edit, re-run `rank` and show the new position in one line, without a second round.
 
-Done when the user has accepted every score.
+Done when the user has accepted every score but a drafted target's.
 
 ### 6. Write back
 
@@ -212,4 +215,11 @@ for both.
 
 A calling skill gets, per scored item: the four inputs with rationales, CoD, WSJF, rank, and the
 block. It owns nothing else: verification and write-back happen here, except for an item the caller
-is still drafting, whose block is returned for the caller to place.
+is still drafting. That item's block is returned unverified, and the caller owes the user one look at
+the score before publishing:
+
+- **Show** each input with its rationale, the WSJF and the rank ("3rd of 12") in the caller's own
+  preview, beside the rest of the draft, not the bare block.
+- **An edit** to an input comes back here: re-run `rank` and `upsert` with the edited value, and show
+  the new position in one line, without another round.
+- **Publishing** the draft accepts its score.

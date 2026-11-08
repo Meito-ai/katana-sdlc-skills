@@ -105,10 +105,12 @@ Draft the issue from the template:
 - **Out of scope**: other defects noticed on the way, and any redesign beyond the fix.
 - **Sources**: the report, each source read, and the reproduction (what was run, and when).
 - **WSJF**: invoke `wsjf` on the draft with its severity and reach, telling it the item is still
-  being drafted so that it returns the block. For a **Critical** bug, also tell the user it should be
-  fixed now rather than wait for its rank.
+  being drafted so that it returns the block without asking the user. For a **Critical** bug, also
+  tell the user it should be fixed now rather than wait for its rank.
 
-Confirm the draft with the user in a single round.
+Confirm the draft with the user in a single round, showing the WSJF score as `wsjf`'s
+[For calling skills](../wsjf/SKILL.md#for-calling-skills) says: each input with its rationale, and the
+rank. An edit to a WSJF input goes back to `wsjf`.
 
 Done when the user has accepted the draft, the severity has a level, every criterion sits under a
 seam, and the WSJF section is filled.

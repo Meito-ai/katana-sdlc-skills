@@ -86,14 +86,12 @@ flowchart TD
     framing --> framingOk{👤 Accept the outcome?}:::human
     framingOk --> specWsjf[wsjf]
     reqOk -->|issue| specWsjf
-    specWsjf --> specWsjfOk{👤 Accept the score?}:::human
-    specWsjfOk --> specPublish{👤 Publish?}:::human
+    specWsjf --> specPublish{👤 Publish? Preview shows the WSJF reasons}:::human
   end
 
   subgraph bug [bug-intake]
     repro{{Reproduced?}}:::check -->|yes| bugWsjf[wsjf]
-    bugWsjf --> bugWsjfOk{👤 Accept the score?}:::human
-    bugWsjfOk --> bugDraftOk{👤 Accept the fix?}:::human
+    bugWsjf --> bugDraftOk{👤 Accept the fix and its WSJF?}:::human
     bugDraftOk --> bugPublish{👤 Publish?}:::human
     repro -->|no: triage notes for the reporter| bugPublish
   end
@@ -104,8 +102,7 @@ flowchart TD
   subgraph slice [slice-spec]
     designed{{Design agreed?}}:::check -->|yes| breakdown{👤 Approve the breakdown?}:::human
     breakdown --> sliceWsjf[wsjf]
-    sliceWsjf --> sliceWsjfOk{👤 Accept the scores?}:::human
-    sliceWsjfOk --> slicePublish{👤 Publish all?}:::human
+    sliceWsjf --> slicePublish{👤 Publish all? Preview shows the WSJF reasons}:::human
   end
 
   specPublish -->|epic: slice it now?| designed
@@ -160,7 +157,7 @@ Each skill lives at [`src/skills/`](./src/skills).
 | [`branch-shutdown`](./src/skills/sdlc/branch-management/branch-shutdown) <!-- stamp: f122a7c7da68 --> | Retires a merged or abandoned branch. Fetches from the remote and proves the work survives on the default branch — including squash-merges — before deleting the worktree, the local branch or the remote branch. |
 | [`visual-pr`](./src/skills/sdlc/code-review/visual-pr) <!-- stamp: ca986d3a46a4 --> | Writes the PR description a reviewer reads first: a visual of the change (a Mermaid diagram, a control-flow or file-tree diff), before/after evidence, and merge danger. Kept in one marked block stamped with the PR head sha and refreshed after every push; text outside the block is left alone. A bundled Claude Code hook flags a description left stale by a push. Inspired by the [`pr` skill](https://github.com/mattpocock/skills/tree/v1.3.1/skills/engineering/pr) in `mattpocock/skills`. GitHub only; needs `gh` and Node.js >= 20 on the machine, but not a Node repo. |
 | [`outcome-framing`](./src/skills/sdlc/feature-management/outcome-framing) <!-- stamp: 29957d7a9fd8 --> | Refines an epic into outcome framing: classifies it as product, tech or compliance and on the Input-to-Impact ladder, flags prescriptive language, and rewrites its title and description around a measurable result (a KPI, a DORA metric, a fitness function, or a met obligation), confirmed with you in one round. |
-| [`wsjf`](./src/skills/sdlc/feature-management/wsjf) <!-- stamp: 6c92a4628f57 --> | Scores and ranks epics and issues (product, tech, compliance and bug fixes) by WSJF: cost of delay ((value + risk reduction/opportunity enablement) × time criticality) over job size, each a Fibonacci score relative to already-scored items. Calibrates a reference set on a cold start, ranks with a bundled dependency-free script, and writes a `## WSJF` block back to the tracker after one round of verification. |
+| [`wsjf`](./src/skills/sdlc/feature-management/wsjf) <!-- stamp: 6c92a4628f57 --> | Scores and ranks epics and issues (product, tech, compliance and bug fixes) by WSJF: cost of delay ((value + risk reduction/opportunity enablement) × time criticality) over job size, each a Fibonacci score relative to already-scored items. Calibrates a reference set on a cold start, ranks with a bundled dependency-free script, and writes a `## WSJF` block back to the tracker after one round of verification. When another skill is drafting the item, the block goes back to it unverified and that skill's preview shows the reasons instead, so you are asked once. |
 | [`build-up-spec`](./src/skills/sdlc/feature-management/build-up-spec) <!-- stamp: 5d9037239df5 --> | User-invoked (`/build-up-spec`). Turns an idea, a raw backlog item or nothing at all into an **epic** (an issue card plus an attached PRD) or an **issue** one agent session can finish. Explores the repo, searches the tracker for duplicates, grills you on the scope, writes EARS requirements, then hands off to `outcome-framing` and `wsjf` before publishing. Every fact is sourced or left as a placeholder. A product owner can defer the design to the engineer: the item is then published `needs-design` until an engineer refines it. Installs `grilling` from `mattpocock/skills` with it, and needs `outcome-framing`, `wsjf` and `slice-spec`. |
 | [`slice-spec`](./src/skills/sdlc/feature-management/slice-spec) <!-- stamp: 155de9ae2c62 --> | Slices an epic into tracer-bullet issues sized for one fresh agent session, each covering requirements from the epic's PRD, with EARS acceptance criteria, native blocking links, and WSJF for the slices that deliver value on their own. Refuses an epic still labelled `needs-design`. Adapted from `to-tickets` in `mattpocock/skills`. Needs `wsjf`. |
 | [`bug-intake`](./src/skills/sdlc/feature-management/bug-intake) <!-- stamp: 208ebb0f8397 --> | User-invoked (`/bug-intake`). Turns a bug report (free text, a tracker item or a URL) into an issue one agent session can fix: checks for duplicates and behaviour that already works, reproduces the bug, rates its severity, and publishes the confirmed reproduction, the fixed behaviour, the seam the failing test attaches at and EARS criteria, labelled `ready-for-agent`. When the report can't be reproduced it labels the issue `needs-info` and posts triage notes for the reporter, which a later run resumes from. Root-cause diagnosis stays with the implementer. Adapted from `triage` in `mattpocock/skills`. Needs `slice-spec` and `wsjf`. |
