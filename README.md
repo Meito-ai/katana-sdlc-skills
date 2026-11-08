@@ -66,9 +66,13 @@ skills you want explicitly.
 ## How the skills fit together
 
 The skills under [`src/skills/sdlc/`](./src/skills/sdlc) form one flow, from an idea or a bug report to
-a merged PR and a retired branch. Each box is a skill; inside it are the points where it waits for you
-(diamonds) or checks the item and stops itself (hexagons). Dashed boxes are upstream skills the flow
-invokes, and edge labels are the tracker labels an item carries along that edge.
+a merged PR and a retired branch. Each box is a skill, holding its steps:
+
+- **👤 Amber diamonds** are the human gates: the flow waits for your approval there.
+- **Blue hexagons** are checks the skill makes itself; it routes the item or stops.
+- **Green boxes** are what the skill records: the design, ADRs and docs.
+- **Dashed boxes** are upstream skills the flow invokes.
+- **Edge labels** are the tracker labels an item carries along that edge.
 
 <!-- sdlc-flow:start -->
 ```mermaid
@@ -77,31 +81,31 @@ flowchart TD
   report([Bug report]) --> repro
 
   subgraph spec [build-up-spec]
-    grill[grilling]:::upstream --> reqOk{Accept the requirements and seams?}
+    grill[grilling]:::upstream --> reqOk{👤 Accept the requirements and seams?}:::human
     reqOk -->|epic| framing[outcome-framing]
-    framing --> framingOk{Accept the outcome?}
+    framing --> framingOk{👤 Accept the outcome?}:::human
     framingOk --> specWsjf[wsjf]
     reqOk -->|issue| specWsjf
-    specWsjf --> specWsjfOk{Accept the score?}
-    specWsjfOk --> specPublish{Publish?}
+    specWsjf --> specWsjfOk{👤 Accept the score?}:::human
+    specWsjfOk --> specPublish{👤 Publish?}:::human
   end
 
   subgraph bug [bug-intake]
-    repro{{Reproduced?}} -->|yes| bugWsjf[wsjf]
-    bugWsjf --> bugWsjfOk{Accept the score?}
-    bugWsjfOk --> bugDraftOk{Accept the fix?}
-    bugDraftOk --> bugPublish{Publish?}
-    repro -->|no: triage notes| bugPublish
+    repro{{Reproduced?}}:::check -->|yes| bugWsjf[wsjf]
+    bugWsjf --> bugWsjfOk{👤 Accept the score?}:::human
+    bugWsjfOk --> bugDraftOk{👤 Accept the fix?}:::human
+    bugDraftOk --> bugPublish{👤 Publish?}:::human
+    repro -->|no: triage notes for the reporter| bugPublish
   end
 
   specPublish -->|needs-design| redesign([An engineer reruns build-up-spec on it])
   bugPublish -->|needs-info| reporter([bug-intake resumes once the reporter answers])
 
   subgraph slice [slice-spec]
-    designed{{Design agreed?}} -->|yes| breakdown{Approve the breakdown?}
+    designed{{Design agreed?}}:::check -->|yes| breakdown{👤 Approve the breakdown?}:::human
     breakdown --> sliceWsjf[wsjf]
-    sliceWsjf --> sliceWsjfOk{Accept the scores?}
-    sliceWsjfOk --> slicePublish{Publish all?}
+    sliceWsjf --> sliceWsjfOk{👤 Accept the scores?}:::human
+    sliceWsjfOk --> slicePublish{👤 Publish all?}:::human
   end
 
   specPublish -->|epic: slice it now?| designed
@@ -113,29 +117,35 @@ flowchart TD
   slicePublish -->|ready-for-agent or needs-info| backlog
 
   subgraph impl [implement-issue]
-    ready{{Ready to build?}} -->|yes| triage{{Design settled?}}
+    ready{{Ready to build?}}:::check -->|yes| triage{{Design settled?}}:::check
     ready -.->|bare-clone layout| worktree[bare-clone-workflow]
     worktree -.->|new session there| triage
-    triage -->|no| designOk{Approve the design?}
-    triage -->|yes| build[tdd, or diagnosing-bugs for a bug]:::upstream
-    designOk --> build
+    triage -->|no| designOk{👤 Approve the design?}:::human
+    designOk --> writeDesign(Design written to the issue and PRD):::record
+    writeDesign --> adrs(ADRs committed before any code):::record
+    triage -->|yes| adrs
+    adrs --> build[tdd, or diagnosing-bugs for a bug]:::upstream
     build --> review[code-review]:::upstream
-    review --> pr[visual-pr]
+    review --> docs(Knowledge-base docs brought up to date):::record
+    docs --> pr[visual-pr]
   end
 
   backlog -->|ready-for-agent| ready
   ready -->|open blocker or needs-info| intake([Stops, naming the intake skill to rerun])
 
-  pr --> merge{Review and merge}
+  pr --> merge{👤 Review and merge}:::human
 
   subgraph shutdown [branch-shutdown]
-    proof{{Work survives on the default branch?}} -->|yes| teardownOk{Confirm the teardown?}
+    proof{{Work survives on the default branch?}}:::check -->|yes| teardownOk{👤 Confirm the teardown?}:::human
   end
 
   merge --> proof
   teardownOk --> done([Worktree and branches removed])
 
   classDef upstream stroke-dasharray: 5 4
+  classDef human fill:#fde68a,stroke:#b45309,stroke-width:2px,color:#422006
+  classDef check fill:#dbeafe,stroke:#1d4ed8,color:#172554
+  classDef record fill:#dcfce7,stroke:#15803d,color:#052e16
 ```
 <!-- sdlc-flow:end -->
 
