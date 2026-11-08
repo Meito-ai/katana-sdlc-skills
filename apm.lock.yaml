@@ -76,11 +76,11 @@ dependencies:
   deployed_file_hashes:
     .agents/skills/build-up-spec/SKILL.md: sha256:7830654d611c6e5fc4530c3a583d605ca6286496b8ac918caa5c0b9848ec28a8
     .agents/skills/build-up-spec/apm.yml: sha256:964a8b897404190bf52db9fd940e4ebb9efc64f817d885067f2f55ec28970964
-    .agents/skills/build-up-spec/scripts/labels.mjs: sha256:0d10eb6b072306a7a8a5d646faadf16a5df71f7ab9b5d9c63b40446d124db720
+    .agents/skills/build-up-spec/scripts/labels.mjs: sha256:4926ad244fa7d80d38988e93286e5448bd0225109204f361aa68768aa7dfda65
     .agents/skills/build-up-spec/templates.md: sha256:a5d4a2a5c94ef6e11430ce82abe1a814a8541111a5ff529aac169438e0a5325a
     .claude/skills/build-up-spec/SKILL.md: sha256:7830654d611c6e5fc4530c3a583d605ca6286496b8ac918caa5c0b9848ec28a8
     .claude/skills/build-up-spec/apm.yml: sha256:964a8b897404190bf52db9fd940e4ebb9efc64f817d885067f2f55ec28970964
-    .claude/skills/build-up-spec/scripts/labels.mjs: sha256:0d10eb6b072306a7a8a5d646faadf16a5df71f7ab9b5d9c63b40446d124db720
+    .claude/skills/build-up-spec/scripts/labels.mjs: sha256:4926ad244fa7d80d38988e93286e5448bd0225109204f361aa68768aa7dfda65
     .claude/skills/build-up-spec/templates.md: sha256:a5d4a2a5c94ef6e11430ce82abe1a814a8541111a5ff529aac169438e0a5325a
   source: local
   local_path: ./src/skills/sdlc/feature-management/build-up-spec
@@ -110,6 +110,37 @@ dependencies:
   local_path: ./src/skills/sdlc/implementation/implement-issue
   is_dev: true
   declared_license: MIT
+- repo_url: _local/issue-tracker
+  name: issue-tracker
+  version: unknown
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/issue-tracker
+  - .agents/skills/issue-tracker/SKILL.md
+  - .agents/skills/issue-tracker/trackers/github.md
+  - .agents/skills/issue-tracker/trackers/gitlab.md
+  - .agents/skills/issue-tracker/trackers/jira.md
+  - .agents/skills/issue-tracker/trackers/linear.md
+  - .claude/skills/issue-tracker
+  - .claude/skills/issue-tracker/SKILL.md
+  - .claude/skills/issue-tracker/trackers/github.md
+  - .claude/skills/issue-tracker/trackers/gitlab.md
+  - .claude/skills/issue-tracker/trackers/jira.md
+  - .claude/skills/issue-tracker/trackers/linear.md
+  deployed_file_hashes:
+    .agents/skills/issue-tracker/SKILL.md: sha256:26de0f9258cb3648282fa8e897f330a19d7f6b5182c577abaad9852a743f0701
+    .agents/skills/issue-tracker/trackers/github.md: sha256:dddfc88a685df00d3062b8965d810213d0cfc3d69adee6179c3da9ee0097677e
+    .agents/skills/issue-tracker/trackers/gitlab.md: sha256:4085132ae0db6538e98561ca81f2a2d6d3fcb89c49c66685b6e23e3cc889be3d
+    .agents/skills/issue-tracker/trackers/jira.md: sha256:370654f5612c6ae916c2f8ef116897f57f22223697c48ce788ed3aa607e89983
+    .agents/skills/issue-tracker/trackers/linear.md: sha256:065fbbfa67379f2d281be042a9acde8fc0a51e9032471a1be9c2fc529157facb
+    .claude/skills/issue-tracker/SKILL.md: sha256:26de0f9258cb3648282fa8e897f330a19d7f6b5182c577abaad9852a743f0701
+    .claude/skills/issue-tracker/trackers/github.md: sha256:dddfc88a685df00d3062b8965d810213d0cfc3d69adee6179c3da9ee0097677e
+    .claude/skills/issue-tracker/trackers/gitlab.md: sha256:4085132ae0db6538e98561ca81f2a2d6d3fcb89c49c66685b6e23e3cc889be3d
+    .claude/skills/issue-tracker/trackers/jira.md: sha256:370654f5612c6ae916c2f8ef116897f57f22223697c48ce788ed3aa607e89983
+    .claude/skills/issue-tracker/trackers/linear.md: sha256:065fbbfa67379f2d281be042a9acde8fc0a51e9032471a1be9c2fc529157facb
+  source: local
+  local_path: ./src/skills/sdlc/feature-management/issue-tracker
+  is_dev: true
 - repo_url: _local/outcome-framing
   name: outcome-framing
   version: unknown
@@ -602,7 +633,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/build-up-spec
   active_owner: ./src/skills/sdlc/feature-management/build-up-spec
-  content_hash: sha256:0d10eb6b072306a7a8a5d646faadf16a5df71f7ab9b5d9c63b40446d124db720
+  content_hash: sha256:4926ad244fa7d80d38988e93286e5448bd0225109204f361aa68768aa7dfda65
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/build-up-spec/templates.md
@@ -810,6 +841,60 @@ deployments:
   - ./src/skills/sdlc/implementation/implement-issue
   active_owner: ./src/skills/sdlc/implementation/implement-issue
   content_hash: sha256:c2ebbb6e99bf39fce83aa252a21dbba92c4150dfb840b4246354f321e208f4b4
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/issue-tracker
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/issue-tracker
+  active_owner: ./src/skills/sdlc/feature-management/issue-tracker
+  content_hash: null
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/issue-tracker/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/issue-tracker
+  active_owner: ./src/skills/sdlc/feature-management/issue-tracker
+  content_hash: sha256:26de0f9258cb3648282fa8e897f330a19d7f6b5182c577abaad9852a743f0701
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/issue-tracker/trackers/github.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/issue-tracker
+  active_owner: ./src/skills/sdlc/feature-management/issue-tracker
+  content_hash: sha256:dddfc88a685df00d3062b8965d810213d0cfc3d69adee6179c3da9ee0097677e
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/issue-tracker/trackers/gitlab.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/issue-tracker
+  active_owner: ./src/skills/sdlc/feature-management/issue-tracker
+  content_hash: sha256:4085132ae0db6538e98561ca81f2a2d6d3fcb89c49c66685b6e23e3cc889be3d
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/issue-tracker/trackers/jira.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/issue-tracker
+  active_owner: ./src/skills/sdlc/feature-management/issue-tracker
+  content_hash: sha256:370654f5612c6ae916c2f8ef116897f57f22223697c48ce788ed3aa607e89983
+- kind: project-relative
+  target: agent-skills
+  value: .agents/skills/issue-tracker/trackers/linear.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/issue-tracker
+  active_owner: ./src/skills/sdlc/feature-management/issue-tracker
+  content_hash: sha256:065fbbfa67379f2d281be042a9acde8fc0a51e9032471a1be9c2fc529157facb
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/outcome-framing
@@ -1457,7 +1542,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/feature-management/build-up-spec
   active_owner: ./src/skills/sdlc/feature-management/build-up-spec
-  content_hash: sha256:0d10eb6b072306a7a8a5d646faadf16a5df71f7ab9b5d9c63b40446d124db720
+  content_hash: sha256:4926ad244fa7d80d38988e93286e5448bd0225109204f361aa68768aa7dfda65
 - kind: project-relative
   target: claude
   value: .claude/skills/build-up-spec/templates.md
@@ -1665,6 +1750,60 @@ deployments:
   - ./src/skills/sdlc/implementation/implement-issue
   active_owner: ./src/skills/sdlc/implementation/implement-issue
   content_hash: sha256:c2ebbb6e99bf39fce83aa252a21dbba92c4150dfb840b4246354f321e208f4b4
+- kind: project-relative
+  target: claude
+  value: .claude/skills/issue-tracker
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/issue-tracker
+  active_owner: ./src/skills/sdlc/feature-management/issue-tracker
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/issue-tracker/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/issue-tracker
+  active_owner: ./src/skills/sdlc/feature-management/issue-tracker
+  content_hash: sha256:26de0f9258cb3648282fa8e897f330a19d7f6b5182c577abaad9852a743f0701
+- kind: project-relative
+  target: claude
+  value: .claude/skills/issue-tracker/trackers/github.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/issue-tracker
+  active_owner: ./src/skills/sdlc/feature-management/issue-tracker
+  content_hash: sha256:dddfc88a685df00d3062b8965d810213d0cfc3d69adee6179c3da9ee0097677e
+- kind: project-relative
+  target: claude
+  value: .claude/skills/issue-tracker/trackers/gitlab.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/issue-tracker
+  active_owner: ./src/skills/sdlc/feature-management/issue-tracker
+  content_hash: sha256:4085132ae0db6538e98561ca81f2a2d6d3fcb89c49c66685b6e23e3cc889be3d
+- kind: project-relative
+  target: claude
+  value: .claude/skills/issue-tracker/trackers/jira.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/issue-tracker
+  active_owner: ./src/skills/sdlc/feature-management/issue-tracker
+  content_hash: sha256:370654f5612c6ae916c2f8ef116897f57f22223697c48ce788ed3aa607e89983
+- kind: project-relative
+  target: claude
+  value: .claude/skills/issue-tracker/trackers/linear.md
+  runtime: null
+  scope: project
+  owners:
+  - ./src/skills/sdlc/feature-management/issue-tracker
+  active_owner: ./src/skills/sdlc/feature-management/issue-tracker
+  content_hash: sha256:065fbbfa67379f2d281be042a9acde8fc0a51e9032471a1be9c2fc529157facb
 - kind: project-relative
   target: claude
   value: .claude/skills/outcome-framing
