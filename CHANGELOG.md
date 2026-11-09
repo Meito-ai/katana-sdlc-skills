@@ -1,5 +1,23 @@
 # katana-sdlc-skills
 
+## 0.2.5
+
+### Patch Changes
+
+- [#21](https://github.com/Meito-ai/katana-sdlc-skills/pull/21) - `build-up-spec` now checks the draft before it shows you the preview. It re-reads each statement of the problem, the implementation decisions and the testing seams against its source, and checks the decisions against your knowledge base's release and compatibility rules. The preview lists every correction it made, and asks you about any correction that would change a decision you already accepted. Grilling also covers a new **Rollout** branch: what existing users must change, install or rerun once the work ships, and the release impact that follows from it.
+
+- [#21](https://github.com/Meito-ai/katana-sdlc-skills/pull/21) - `build-up-spec` now asks you things in two places only: the grilling rounds and the final preview.
+  
+  - The questions it used to ask while exploring (a duplicate match, where to file the item, where the knowledge base lives, whether design is deferred) now arrive in the first grilling round, numbered and with a recommended answer, along with the facts it derived for you to strike.
+  - Requirements, seams and the outcome framing are drafted without stopping. You check the whole item once in the preview, which opens with what needs your judgement: grounding corrections, what the framing changed, open placeholders, and labels it offers to create. Publishing creates the labels you did not strike. An edit goes back to the step that owns it.
+
+- [#21](https://github.com/Meito-ai/katana-sdlc-skills/pull/21) - `outcome-framing` skips its verification round when a calling skill says the epic is still being drafted. It hands its rewrite back unverified, and you check it in that skill's preview (`build-up-spec`'s, for example). Running `outcome-framing` yourself is unchanged.
+
+- [#21](https://github.com/Meito-ai/katana-sdlc-skills/pull/21) - `wsjf` shows its score in a calling skill's preview in a compact form: one line with the score, the rank and the four inputs, then one line of reasoning per input. The ranked table is shown on request.
+  
+  - When the backlog has too few scored items to compare against, the anchors `wsjf` scores for comparison now appear in the same preview, instead of in a separate round of questions. Publishing writes their scores too.
+  - An anchor with no stated goal or scope is flagged as weak, and the rank is marked provisional.
+
 ## 0.2.4
 
 ### Patch Changes
