@@ -23,20 +23,23 @@ issue fetch, `tdd` at agreed seams, the check cadence, `code-review` and the com
   pin and subset, silently. So before step 1, check that each is deployed (`.claude/skills/<name>/` or
   `.agents/skills/<name>/`); when one is missing, stop and name the `engineering/<name>` path to add to
   the `mattpocock/skills` entry in `apm.yml`.
-- **A tracker tool** (a Linear MCP, or `gh` >= 2.94) to read the issue and its relations, and write the
-  approved design. Without one, the issue arrives and the design leaves as text.
+- **`issue-tracker`**, the katana skill every tracker read and write goes through: its contract's
+  operations are named below in bold (**Fetch an item**, **Frontier**, …), and the tracker's adapter is
+  resolved as it says before the first one. While no tracker tool is reachable, the issue arrives and
+  the design leaves as text.
+- **`glab`**, on a GitLab `origin`, to open the merge request (step 10). Without it, step 10 hands
+  back the branch to paste.
 - **When installed:** `bare-clone-workflow` for a bare-clone layout, `visual-pr` for the PR
   description, and `slice-spec` for its EARS rules (`ears.md`). `/setup-katana-skills` installs them.
 
 ## 1. Read the input
 
-- **An issue** (an identifier or a URL): fetch it, state its title, and read its labels, comments,
-  parent, blockers and, under an epic, the epic's **PRD**: the document a `Spec:` line links, or on
-  GitHub the epic's body below `# Spec`. Pasted text with the issue's sections is an issue with no
-  tracker to write to.
-- **An epic with sub-issues**: list its **frontier**, the open sub-issues with no open blocker, highest
-  WSJF first, and continue with the one the user picks as the issue.
-- **An epic with no sub-issues**: fetch it and its PRD, and say whether one fresh session can finish it
+- **An issue** (an identifier or a URL): fetch it (**Fetch an item**), state its title, and read its
+  labels, comments, parent, blockers and, under an epic, the epic's **PRD** (**Epic PRD**). Pasted
+  text with the issue's sections is an issue with no tracker to write to.
+- **An epic with children**: list its **frontier** (**Frontier**), the open children with no open
+  blocker, highest WSJF first, and continue with the one the user picks as the issue.
+- **An epic with no children**: fetch it and its PRD, and say whether one fresh session can finish it
   end to end and verify it, and why. When it can, the epic is the issue: the PRD's requirements are its
   criteria and the PRD's seams its testing seams, its PR closes the epic, and the card's success
   measures are judged after release rather than by the build. Otherwise stop and name
@@ -77,26 +80,26 @@ Lines the intake skills leave uncommitted in the `## Katana skills` block don't 
 come along to the issue's branch (copied into a new worktree), and step 4 commits them.
 
 Name the branch by the convention `AGENTS.md` / `CLAUDE.md` states, or `<prefix>-<key>-<slug>`: `fix`
-for a bug, `tech` for tech work, `doc` for a docs-only change, `feat` otherwise; the key in lower case.
+for a bug, `tech` for tech work, `doc` for a docs-only change, `feat` otherwise; the key in lower case,
+unless the adapter's **PR link** reads the key from the branch name, which then keeps its case.
 
 Done when the working tree is on a branch that belongs to the issue.
 
 ## 4. Read the repo facts
 
-- **Knowledge base**: where `AGENTS.md` / `CLAUDE.md`, or the `Knowledge base:` line in the
-  `## Katana skills` block, says it lives. When neither says, ask the user where it is, or whether there
-  is none, and record the answer as that line. Read what the issue touches: glossary, ADRs, docs,
-  definition of done.
+- **Knowledge base**: the `Knowledge base:` line in the `## Katana skills` block, else where
+  `AGENTS.md` / `CLAUDE.md` says it lives, else a `docs/` directory. With none of them, carry on
+  without one and say so in the PR. Read what the issue touches: glossary, ADRs, docs, definition of
+  done.
 - **Checks**: the typecheck, single-test-file and full-suite commands, from `AGENTS.md` / `CLAUDE.md` or
   the block's `Checks:` line. Otherwise infer them from the manifests, confirm them with the user once,
   and record them as that line.
 
-To **record** a line, write it into the block in `AGENTS.md`, and in `CLAUDE.md` when it exists and
-never references `AGENTS.md`, creating the block where it is missing. `Knowledge base:` goes under
-`### Backlog items` when the block has it, otherwise under `### Implementation` beside `Checks:`. Commit
-it on its own: `chore: record <line> in the katana block`.
+To **record** the `Checks:` line, write it under `### Implementation` in the block in `AGENTS.md`, and
+in `CLAUDE.md` when it exists and never references `AGENTS.md`, creating the block where it is missing.
+Commit it on its own: `chore: record <line> in the katana block`.
 
-Done when the knowledge base is located or recorded as none, and the checks are known.
+Done when the knowledge base is located or noted as absent, and the checks are known.
 
 ## 5. Triage the design
 
@@ -129,12 +132,13 @@ in for `## Key interfaces`, `## Further notes` for `## Rollout`, and its new cri
 Present each open choice with its options and a recommendation. Leave the knowledge-base docs for
 step 9.
 
-**The gate.** Present it all together and stop: nothing is written or committed until the user
-approves. On approval, post the original description as a comment
-(`Original before implement-issue, <date>`), write the new one, replace `needs-design` with
-`ready-for-agent` as `build-up-spec` does (an epic only loses `needs-design`), patch an amended PRD, and
-mark the ADRs accepted. With no tracker tool, hand the issue text back; step 10 carries the
-design into the PR.
+**The gate.** Present it all together, with every text fallback the adapter applies to what will be
+written and a warning where a body exceeds its body limit, and stop: nothing is written or committed
+until the user approves. On approval, post the original description as a comment (**Comment**:
+`Original before implement-issue, <date>`), write the new one (**Update an item**), replace
+`needs-design` with `ready-for-agent` as `build-up-spec` does (an epic only loses `needs-design`), patch
+an amended PRD (**Epic PRD**), and mark the ADRs accepted. While no tracker tool is reachable, hand the
+issue text back; step 10 carries the design into the PR.
 
 Done when the user has approved, and every write has succeeded or been handed back.
 
@@ -174,14 +178,26 @@ Done when no doc the change made stale is left.
 
 ## 10. Open the PR
 
-Push. The description's author text fills the repo's PR template and carries the tracker's **closing
-reference** (`Closes #<n>`, `Closes <ID>`), the **triage line** (`Design: settled in <issue>` or
-`Design: approved at pickup in <issue>`) and, with no tracker tool, the approved design. On GitHub, open
-the PR against the base and write its description with `visual-pr` when installed, else with
-`gh pr create`; on another host, report the branch, its base and the description to paste. Refresh an
-open PR rather than opening another.
+Push. The **code host** is `origin`'s host; it need not be the tracker. The description's author text
+fills the repo's PR template and carries the item's **closing reference**, the link text the adapter
+gives for that code host (**PR link**: `Closes #<n>`, `Closes <ID>`, …), the **triage line**
+(`Design: settled in <issue>` or `Design: approved at pickup in <issue>`) and, while no tracker tool is
+reachable, the approved design. Where the adapter puts the link in the title too, the title carries
+it as the adapter says. Where the adapter says merging on that code host cannot close the item, the
+description ends with `Close <id> on merge`.
 
-Done when the PR is open (or the branch reported) and its description matches `HEAD`.
+- **GitHub**: open the PR against the base, and write its description with `visual-pr` when installed,
+  else with `gh pr create`.
+- **GitLab**: open a merge request against the base with
+  `glab mr create --target-branch <base> --title <title> --description <description> --yes`. When it
+  fails, report the failing command and its output, then hand back the branch, its base and the
+  description to paste.
+- **Another host**: report the branch, its base and the description to paste.
+
+Refresh an open PR or merge request rather than opening another.
+
+Done when the PR or merge request is open (or the branch reported) and its description matches
+`HEAD`.
 
 ## Trivial changes
 
@@ -195,11 +211,11 @@ place of the closing reference and the triage line. When it turns out to touch b
 ## Resuming
 
 A branch that belongs to the issue and has commits ahead of the base picks up where the last run
-stopped. Triage again against the issue as it now stands: a design approved at the gate was written
-back (with no tracker tool, into the open PR), so it reads `Design: settled`; the triage line still
-says `approved at pickup` when an `Original before implement-issue` comment or the open PR shows the
-gate ran. Committed ADRs count as approved, the full suite shows which criteria still fail, and an open
-PR is refreshed.
+stopped. Triage again against the issue as it now stands: a design approved at the gate was written back
+(while no tracker tool was reachable, into the open PR), so it reads `Design: settled`; the triage line
+still says `approved at pickup` when an `Original before implement-issue` comment or the open PR shows
+the gate ran. Committed ADRs count as approved, the full suite shows which criteria still fail, and an
+open PR is refreshed.
 
 ## ADRs
 

@@ -31,15 +31,17 @@ function section(text, heading) {
  * `product`, `tech` or `compliance`; `text` is everything about to be
  * published (an issue's body, or an epic's card and PRD). `map` renames the
  * canonical labels to the strings a repo's triage-labels.md maps them to.
- * Every comparison ignores case, and a label the team has keeps its spelling.
+ * `epicLabel` is false for a tracker whose adapter marks an epic by its type
+ * rather than by the `Epic` label. Every comparison ignores case, and a label
+ * the team has keeps its spelling.
  */
-export function planLabels({ level, deferred = false, type, text, current = [], available = [], map = {} }) {
+export function planLabels({ level, deferred = false, epicLabel = true, type, text, current = [], available = [], map = {} }) {
   if (level !== 'epic' && level !== 'issue') throw new Error(`level must be epic or issue; got ${level}`);
   const isIssue = level === 'issue';
   const needsInfo = isIssue && PLACEHOLDER.test(section(text, 'acceptance criteria'));
 
   const wanted = [];
-  if (!isIssue) wanted.push('Epic');
+  if (!isIssue && epicLabel) wanted.push('Epic');
   if (deferred) wanted.push('needs-design');
   if (needsInfo) wanted.push('needs-info');
   if (isIssue && !deferred && !needsInfo) wanted.push('ready-for-agent');
@@ -73,23 +75,30 @@ function parseOptions(values) {
   return options;
 }
 
+/** A `--<name> yes|no` option as a boolean, `fallback` when it is absent. */
+function yesOrNo(options, name, fallback) {
+  const value = options[name] ?? fallback;
+  if (value !== 'yes' && value !== 'no') throw new Error(`--${name} must be yes or no; got ${value}`);
+  return value === 'yes';
+}
+
 const list = (value) => (value ? value.split(',').map((label) => label.trim()).filter(Boolean) : []);
 
 const USAGE = `Usage:
-  labels.mjs plan --level epic|issue --text <file> [--deferred yes|no] [--type product|tech|compliance]
-                  [--current <label,...>] [--available <label,...>] [--map <canonical=label,...>]`;
+  labels.mjs plan --level epic|issue --text <file> [--deferred yes|no] [--epic-label yes|no]
+                  [--type product|tech|compliance] [--current <label,...>] [--available <label,...>]
+                  [--map <canonical=label,...>]`;
 
 export async function main(argv) {
   const [command, ...rest] = argv;
   if (command !== 'plan') throw new Error(USAGE);
   const options = parseOptions(rest);
   if (!options.text) throw new Error('plan needs --text <file>');
-  const deferred = options.deferred ?? 'no';
-  if (deferred !== 'yes' && deferred !== 'no') throw new Error(`--deferred must be yes or no; got ${deferred}`);
 
   const plan = planLabels({
     level: options.level,
-    deferred: deferred === 'yes',
+    deferred: yesOrNo(options, 'deferred', 'no'),
+    epicLabel: yesOrNo(options, 'epic-label', 'yes'),
     type: options.type,
     text: await readFile(options.text, 'utf8'),
     current: list(options.current),

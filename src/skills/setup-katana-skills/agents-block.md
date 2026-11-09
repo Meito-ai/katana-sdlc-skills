@@ -1,13 +1,16 @@
 # Template: the `## Katana skills` block
 
 Copied into `AGENTS.md`, and into `CLAUDE.md` unless it references `AGENTS.md`, by step 6 of
-[SKILL.md](SKILL.md). It is the only file setup
-writes besides `apm.yml`, so it carries the always-on rules and the few repo facts the skills defer to
-the host repo for, and nothing the skills already say.
+[SKILL.md](SKILL.md). It is the one file setup writes into every repo besides `apm.yml`, so it carries
+the always-on rules and the few repo facts the skills defer to the host repo for, and nothing the
+skills already say.
 
-Keep the markers, the heading and the intro line; keep only the subsections of the chosen skills. Fill
-every `{{...}}` (a `<...>` is literal text; keep it). Drop a line marked `[if ...]` when its condition
-is false, and strip the marker when it is true.
+Keep the markers, the heading and the intro line; keep only the subsections of the chosen skills
+(`### Issue tracker` belongs to `issue-tracker`). Fill every `{{...}}` (a `<...>` is literal text; keep
+it). Drop a line marked `[if ...]` when its condition is false, and strip the marker when it is true.
+
+When the tracker lines are local, the local file gets its own block, between the same markers, with
+only the `Tracker:`, `Backlog:` and `WSJF scope:` lines under these same subsection headings.
 
 In the bootstrap sentence, `{{copy-files}}` lists the files to copy, each followed by `when <condition>`
 when the user gave one (e.g. `.claude/skills/` when the sibling's `apm.lock.yaml` matches).
@@ -37,9 +40,16 @@ Bootstrap a new worktree: copy {{copy-files}} from a sibling worktree, symlink {
 Retire a merged or abandoned branch with the `branch-shutdown` skill, run from the `{{default-branch}}`
 worktree: it proves the work survives on `{{default-branch}}` before deleting anything.
 
+### Issue tracker
+
+The katana SDLC skills read and write the tracker through the `issue-tracker` skill.
+[if tracker lines in the block] Tracker: {{tracker}}
+[if tracker lines local] Tracker lines: local, see {{local-file}}.
+
 ### WSJF
 
-Score and rank epics and issues with the `wsjf` skill. WSJF scope: {{wsjf-scope}}.
+Score and rank epics and issues with the `wsjf` skill.
+[if wsjf scope, and tracker lines in the block] WSJF scope: {{wsjf-scope}}.
 
 ### Backlog items
 
@@ -47,7 +57,7 @@ Score and rank epics and issues with the `wsjf` skill. WSJF scope: {{wsjf-scope}
 [if slice-spec] Slice an epic into agent-sized issues with the `slice-spec` skill.
 [if bug-intake] Turn a bug report into an agent-sized issue with `/bug-intake`.
 [if knowledge base] Knowledge base: {{knowledge-base}}.
-[if backlog] Backlog: {{backlog}}.
+[if backlog, and tracker lines in the block] Backlog: {{backlog}}.
 
 ### Implementation
 

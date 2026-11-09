@@ -1,6 +1,6 @@
 ---
 name: setup-katana-skills
-description: "Pick which katana skills this repo uses, install them with apm, and wire each one into the repo's agent instructions so it works in this repo's SDLC. Converts the clone to the bare-clone layout when bare-clone-workflow is picked."
+description: "Pick which katana skills this repo uses, install them with apm, and wire each one into the repo's agent instructions so it works in this repo's SDLC: its tracker, knowledge base and checks. Converts the clone to the bare-clone layout when bare-clone-workflow is picked."
 disable-model-invocation: true
 ---
 
@@ -11,8 +11,9 @@ agent must see every session, plus the repo-specific facts a skill defers to the
 that is installed but not wired is dead weight; wiring is the point.
 
 Keep the footprint minimal: setup writes `apm.yml` and one marker-delimited block in `AGENTS.md` (and
-in `CLAUDE.md` when that file does not reference `AGENTS.md`), plus one optional line in a PR workflow
-doc and one optional hook in `.claude/settings.json`. It deletes only what the user agreed to: a local
+in `CLAUDE.md` when that file does not reference `AGENTS.md`), plus, each only when the user wants it:
+one line in a PR workflow doc, one hook in `.claude/settings.json`, a local file holding the tracker
+lines (and its `.gitignore` entry), and the host repo's own tracker adapter. It deletes only what the user agreed to: a local
 skill a katana skill replaces, and apm's generated output. Whatever a skill's own `SKILL.md` already
 says stays out of the block.
 
@@ -24,12 +25,23 @@ The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/sk
 | `branch-shutdown` | `sdlc/branch-management/branch-shutdown` | one rule naming the default branch | always |
 | `visual-pr` | `sdlc/code-review/visual-pr` | the PR description rule | `origin` is on GitHub |
 | `outcome-framing` | `sdlc/feature-management/outcome-framing` | none: invoked on demand or by `build-up-spec` | always |
-| `wsjf` | `sdlc/feature-management/wsjf` | the default comparison scope | always |
-| `build-up-spec` | `sdlc/feature-management/build-up-spec` | the knowledge base and backlog lines; needs `outcome-framing`, `wsjf`, `slice-spec`, and `grilling` from `mattpocock/skills` | always |
-| `slice-spec` | `sdlc/feature-management/slice-spec` | the knowledge base line; needs `wsjf` | always |
-| `bug-intake` | `sdlc/feature-management/bug-intake` | the knowledge base and backlog lines; needs `slice-spec` and `wsjf` | always |
-| `implement-issue` | `sdlc/implementation/implement-issue` | the knowledge base and checks lines; needs `tdd`, `code-review`, `codebase-design` and `diagnosing-bugs` from `mattpocock/skills`; uses `bare-clone-workflow` and `visual-pr` when installed | always |
+| `issue-tracker` | `sdlc/feature-management/issue-tracker` | the tracker line, and where the tracker lines live | always |
+| `wsjf` | `sdlc/feature-management/wsjf` | the default comparison scope; needs `issue-tracker` | always |
+| `build-up-spec` | `sdlc/feature-management/build-up-spec` | the knowledge base and backlog lines; needs `outcome-framing`, `wsjf`, `slice-spec`, `issue-tracker`, and `grilling` from `mattpocock/skills` | always |
+| `slice-spec` | `sdlc/feature-management/slice-spec` | the knowledge base line; needs `wsjf` and `issue-tracker` | always |
+| `bug-intake` | `sdlc/feature-management/bug-intake` | the knowledge base and backlog lines; needs `slice-spec`, `wsjf` and `issue-tracker` | always |
+| `implement-issue` | `sdlc/implementation/implement-issue` | the knowledge base and checks lines; needs `issue-tracker`, and `tdd`, `code-review`, `codebase-design` and `diagnosing-bugs` from `mattpocock/skills`; uses `bare-clone-workflow` and `visual-pr` when installed | always |
 | `paas-pulumi-infra-setup` | `paas/paas-pulumi-infra-setup` | none: a one-time, user-run scaffold that writes its own pointer line when run | always |
+
+The trackers `issue-tracker` ships an adapter for, each at `trackers/<name>.md` in that skill's
+directory:
+
+| Tracker | Adapter | Signals |
+|---|---|---|
+| `linear` | `trackers/linear.md` | a connected Linear MCP server |
+| `github` | `trackers/github.md` | a GitHub `origin`; `gh` installed |
+| `jira` | `trackers/jira.md` | a connected Atlassian Rovo MCP server; `acli` installed |
+| `gitlab` | `trackers/gitlab.md` | a GitLab `origin`; `glab` installed |
 
 This is a prompt-driven skill. Explore, present, confirm, then write. Nothing is committed: the user
 reviews and commits the result.
@@ -69,13 +81,19 @@ Read the repo's actual state; assume nothing.
   already run `visual-pr/scripts/hook.mjs`.
 - **PR workflow doc** (for `visual-pr`): a doc describing how PRs are opened here, e.g.
   `CONTRIBUTING.md` or `docs/**/development*.md`.
-- **Tracker** (for `wsjf`, `build-up-spec` and `bug-intake`): where this repo's epics live and where
-  new items are filed. A GitHub `origin` suggests its issues; a connected Linear MCP can list teams
-  and projects. Existing `WSJF scope` and `Backlog` lines in the block win.
-- **Knowledge base** (for `build-up-spec`, `slice-spec`, `bug-intake` and `implement-issue`): whether
-  `AGENTS.md` / `CLAUDE.md` already says where the repo's docs live (glossary, decision records, a
-  definition of done). If not, the directories that hold them. An existing `Knowledge base` line in the
-  block wins.
+- **Tracker** (for `issue-tracker` and the skills that need it): the signals in the tracker table
+  (the `origin` host, the connected MCP servers, `gh`, `glab` and `acli` on the `PATH`), and where new
+  items are filed. An existing `Tracker:` line wins, wherever the tracker lines live. With none, an
+  existing `Backlog:` or `WSJF scope:` line naming a Linear team or a GitHub repo settles the tracker
+  as `issue-tracker` infers it, so an earlier install keeps its tracker without being asked again.
+  Existing `WSJF scope` and `Backlog` lines win too.
+- **Visibility** (for the tracker lines): whether the repo is public, from the code host
+  (`gh repo view --json visibility`, `glab repo view`), and whether the block already reads
+  `Tracker lines: local, see <file>`.
+- **Knowledge base** (for `build-up-spec`, `slice-spec`, `bug-intake` and `implement-issue`): an
+  existing `Knowledge base` line in the block wins; else what `AGENTS.md` / `CLAUDE.md` says about
+  where the repo's docs live (glossary, decision records, a definition of done); else a `docs/`
+  directory.
 - **Checks** (for `implement-issue`): whether `AGENTS.md` / `CLAUDE.md` already names the commands for
   the typecheck, a single test file and the full suite. If not, the manifests and tool configs that
   define them (package scripts, `Makefile` targets). An existing `Checks` line in the block wins.
@@ -101,8 +119,9 @@ recommended answer so the user can accept it in a word. Skip a question explorat
    removes it. When `visual-pr` is picked but `node` or `gh` failed its check, say which and ask
    whether to install it anyway. Picking `build-up-spec` also picks `outcome-framing`, `wsjf` and
    `slice-spec`; picking `slice-spec` also picks `wsjf`. Picking `bug-intake` also picks `slice-spec`
-   and `wsjf`. A skill that a picked skill needs stays picked: when the user unselects one, name the
-   skill that needs it. When a picked skill has a same-name local skill, name it and recommend
+   and `wsjf`. Picking any of `build-up-spec`, `slice-spec`, `bug-intake`, `wsjf` and
+   `implement-issue` also picks `issue-tracker`. A skill that a picked skill needs stays picked: when
+   the user unselects one, name the skill that needs it. When a picked skill has a same-name local skill, name it and recommend
    removing it: two skills with one name cannot both deploy.
 2. **Upstream pins** (per-path entries found for an upstream that a picked skill declares). Per-path
    entries do not override the declared requirement, so apm resolves a second copy of the upstream and
@@ -124,16 +143,34 @@ recommended answer so the user can accept it in a word. Skip a question explorat
 7. **Refresh hook** (`visual-pr` picked, the team uses Claude Code). Recommend yes: model invocation
    reliably covers opening a PR but not refreshing it after a later push, and the hook reminds the agent
    whenever a push leaves the description's stamp behind `HEAD`. Other agents ignore the file.
-8. **WSJF scope** (`wsjf` picked). Propose the default comparison scope from the tracker signals: a
-   Linear team or project, or the GitHub repo. The user may leave it unset; the skill then asks on
-   each run, and the `### WSJF` subsection is dropped.
-9. **Knowledge base** (`build-up-spec`, `slice-spec`, `bug-intake` or `implement-issue` picked, and
-   `AGENTS.md` / `CLAUDE.md` does not already say where it lives). Propose the paths exploration found.
-   The user may leave it unset; each skill then asks on its first run and writes the line itself.
-10. **Backlog** (`build-up-spec` or `bug-intake` picked). Propose where new epics and issues are
-   filed: a Linear team and project, or the GitHub repo. The user may leave it unset; each skill then
-   asks on its first run and writes the line itself.
-11. **Checks** (`implement-issue` picked, and `AGENTS.md` / `CLAUDE.md` does not already name them).
+8. **Tracker** (`issue-tracker` picked, and no `Tracker:` line exists or is inferred). List every
+   tracker in the tracker table, and "other". When a signal points to one, recommend it and lead with
+   it; when none does, list them all without a recommendation.
+   - **GitLab**: ask the tier, and record `gitlab (premium)` (Premium or Ultimate) or `gitlab (free)`.
+   - **A shipped tracker**: read its adapter and run its `## Check` before drafting the line. When the
+     check fails, show the failing command or call and its output, and record the line only once the
+     user picks again or accepts it unverified.
+   - **Other**: ask the user to describe the tracker (its tool, how an epic, its children and its
+     blockers are represented, where a long spec goes, how a PR links an item), then draft an adapter
+     in the shape of the `## Adapter file` section of `issue-tracker`'s `SKILL.md`, every operation
+     filled from the description or marked `**Fallback.**`, at a path the user confirms
+     (such as `docs/agents/tracker.md`). The `Tracker:` line holds that path.
+9. **Tracker lines** (the repo is public, or its visibility is unknown, and the lines are not local
+   yet). Recommend keeping `Tracker:`, `Backlog:` and `WSJF scope:` out of committed files, in a local
+   file that agents load and git ignores: `CLAUDE.local.md`, or in a bare-clone layout the container's
+   `CLAUDE.md`, outside every worktree. The committed block then names only where they live:
+   `Tracker lines: local, see <file>`. The user may keep them in the block instead.
+10. **WSJF scope** (`wsjf` picked). Propose the default comparison scope from the tracker signals: a
+   target in the tracker (the adapter's **List targets**). The user may leave it unset; the skill then
+   asks on each run, and the scope line is dropped.
+11. **Knowledge base** (`build-up-spec`, `slice-spec`, `bug-intake` or `implement-issue` picked, and no
+   `Knowledge base` line yet). Propose what `AGENTS.md` / `CLAUDE.md` says, else the `docs/` directory
+   exploration found. With neither, there is no line: the skills carry on without a knowledge base and
+   say so.
+12. **Backlog** (`build-up-spec` or `bug-intake` picked). Propose where new epics and issues are
+   filed: a target in the tracker. The user may leave it unset; each skill then asks on its first run
+   and records the line itself.
+13. **Checks** (`implement-issue` picked, and `AGENTS.md` / `CLAUDE.md` does not already name them).
    Propose the typecheck, single-test-file and full-suite commands exploration found. The user may
    leave them unset; `implement-issue` then asks on its first run and writes the line itself.
 
@@ -145,6 +182,8 @@ Show the user, and let them edit before anything is written:
   remove (with its directory);
 - the `## Katana skills` block, from [agents-block.md](agents-block.md), keeping only the subsections
   of the chosen skills, placeholders filled;
+- the local file and the tracker lines it holds, when the tracker lines are local;
+- the host repo's tracker adapter, when the tracker is "other";
 - the PR workflow line and the refresh hook, if any.
 
 Read every file in this skill folder before step 4: conversion moves this folder along with the rest of
@@ -229,6 +268,13 @@ create `CLAUDE.md`.
 end of the file. Both files get the identical block. Everything outside the markers is the user's;
 leave it byte-for-byte.
 
+**Write the tracker lines' local file** when the user chose one: its own `## Katana skills` block,
+between the same markers, holding only the `Tracker:`, `Backlog:` and `WSJF scope:` lines under the
+subsections they sit in. Then check it with `git check-ignore <file>`; when git does not ignore it, add
+it to `.gitignore` (a bare-clone container's `CLAUDE.md` is outside every worktree and needs nothing).
+
+**Write the host repo's adapter** when the tracker is "other", at the confirmed path.
+
 **Write the PR workflow line** if the user wanted it; remove it when `visual-pr` was unselected.
 
 **Write the refresh hook** if the user wanted it: add this entry to the `hooks.PostToolUse` array of
@@ -250,7 +296,8 @@ and hook. Remove the entry when `visual-pr` was unselected or the user declined 
 
 Done when `AGENTS.md` has the block, `CLAUDE.md` has an identical one exactly when it exists and never
 references `AGENTS.md`, the block has a subsection for exactly the chosen skills that have one in
-[agents-block.md](agents-block.md), no `{{` is left in it, and `.claude/settings.json` runs the refresh
+[agents-block.md](agents-block.md), no `{{` is left in it, no committed file holds a tracker line the
+user chose to keep local (and git ignores the local file), and `.claude/settings.json` runs the refresh
 hook exactly when the user wanted it (`jq empty .claude/settings.json` passes).
 
 ## 7. Report
@@ -263,6 +310,8 @@ hook exactly when the user wanted it (`jq empty .claude/settings.json` passes).
 - `build-up-spec` installed: run `/build-up-spec` to shape an epic or an issue.
 - `bug-intake` installed: run `/bug-intake` to turn a bug report into an issue.
 - `implement-issue` installed: run `/implement-issue <issue>`, or ask the agent to pick an issue up.
+- The tracker, whether its check passed or the user accepted it unverified, and where the tracker
+  lines live.
 - After a conversion: the new worktree path, and that the session must be restarted there, since the
   old directory is now the container. Undoing it is the Rollback section of `bare-clone-workflow`'s
   `reference.md`.

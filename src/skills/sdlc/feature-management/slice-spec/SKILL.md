@@ -14,46 +14,47 @@ card and PRD stay exactly as they are.
 
 The slicing rules come from the `to-tickets` skill of `mattpocock/skills` v1.3.1 and are kept as they
 were ([licence](LICENSE-mattpocock-skills)). The additions are requirement coverage, EARS criteria,
-WSJF for the tickets that deliver value on their own, and native tracker publishing.
+WSJF for the tickets that deliver value on their own, and publishing to the repo's tracker.
 
 ## Requirements
 
-- **`wsjf`**, the katana skill that scores the slices that pass its value test. Step 6 needs it; when
-  it is not deployed, stop and say that the user should install it alongside this skill.
-- **A tracker tool**: a Linear MCP, or `gh` >= 2.94 for GitHub issues (it has `--parent` and
-  `--blocked-by`). Without one, step 7 hands the tickets back as text to paste.
+- **`wsjf`** and **`issue-tracker`**, the katana skills this one uses: `wsjf` scores the slices that
+  pass its value test (step 6), and every tracker read and write is an operation of `issue-tracker`'s
+  [contract](../issue-tracker/SKILL.md), named below in bold. When either is not deployed, stop and say
+  that the user should install it alongside this skill. While no tracker tool is reachable, step 7
+  hands the tickets back as text to paste.
 
 ## 1. Gather the epic
 
 Work from the epic reference the user gave, or from an epic published earlier in this conversation,
-which is already in context. Fetch nothing twice.
+which is already in context. Fetch nothing twice. Resolve the tracker's adapter as `issue-tracker`
+says, unless this conversation already has.
 
 Read the epic's labels first. An epic labelled `needs-design` (or the name `AGENTS.md` / `CLAUDE.md` or
 the knowledge base maps it to) has a design that no engineer has agreed yet. Stop before drafting any
 slice, say so, and name the next step: `/build-up-spec <epic id>`, run by the engineer who fills in the
 design.
 
-- **The card**: the epic issue's description, comments and existing sub-issues.
-- **The PRD**: on Linear, the document attached to the epic issue (`get_issue` with `documents`,
-  then `get_document`); on GitHub, the PRD sections in the epic's body, below the card.
+- **The card**: the epic's description, comments and existing children (**Fetch an item**).
+- **The PRD**: wherever the adapter keeps it (**Epic PRD**): a document attached to the epic, or the
+  `# Spec` section of its body, below the card.
 - **The requirements**: the PRD's `## Requirements`, `R1`, `R2`, … An epic without a PRD gets a
   numbered list drafted from its description, used only to check coverage in this run. Tell the user
   the list was drafted, and leave `Spec:` and `Covers:` off the tickets.
 - **The testing seams**: the PRD's `## Testing seams`. An epic without a PRD has none listed, so
   every seam step 3 proposes is new.
-- **Existing sub-issues**: read each one and note the requirements it already covers. They count
+- **Existing children**: read each one and note the requirements it already covers. They count
   towards coverage and are never proposed again.
 
 Done when the epic is known not to need design, and the requirement list, the seams, the existing
-sub-issues and what each of them covers are all known.
+children and what each of them covers are all known.
 
 ## 2. Explore the codebase
 
 Skip this when the same area was already explored in this conversation (by `build-up-spec`, for
-example). Otherwise, find the knowledge base where `AGENTS.md` / `CLAUDE.md`, or the `Knowledge base:`
-line in the `## Katana skills` block, says it lives. When neither says, ask the user where it is, or
-whether there is none, and write the answer as that line under `### Backlog items`, in every file
-`setup-katana-skills` writes the block to, uncommitted. Read the code in the area. Ticket titles and
+example). Otherwise, find the knowledge base: the `Knowledge base:` line in the `## Katana skills`
+block, else where `AGENTS.md` / `CLAUDE.md` says it lives, else a `docs/` directory. With none of them,
+carry on without one and say so in the report. Read the code in the area. Ticket titles and
 descriptions use the knowledge base's vocabulary and respect its recorded decisions.
 
 Look for prefactoring opportunities: "Make the change easy, then make the easy change."
@@ -165,13 +166,13 @@ WSJF input goes back to `wsjf`.
 Publish in dependency order, so that every blocker already has an identifier when the tickets it
 blocks are created:
 
-- **Linear**: `save_issue` with the epic's team and project, `parentId` set to the epic,
-  `blockedBy` set to the blockers' identifiers, and the labels. Leave the state at the team's
-  default.
-- **GitHub**: `gh issue create --parent <epic> --blocked-by <n,n> --label <labels>`.
-- **No tracker tool**: hand back every ticket as text, with its `Blocked by:` line.
+- **Create an item** for each ticket, in the epic's target, with the epic as its parent, the
+  blockers' ids as blocked by, and the labels, leaving the state at the tracker's default. The preview
+  shows every text fallback the adapter applies (`Part of`, `Blocked by:` lines), and warns where a
+  body exceeds the adapter's body limit.
+- **While no tracker tool is reachable**: hand back every ticket as text, with its `Blocked by:` line.
 
-Then report: each ticket's link in order; the **frontier**, meaning the tickets with no open blockers
-that can start now; and every requirement left uncovered, with its reason.
+Then report: each ticket's link in order; the **frontier** (**Frontier**), meaning the tickets with no
+open blockers that can start now; and every requirement left uncovered, with its reason.
 
 Done when every ticket has been published or handed back, and the report has been shown.

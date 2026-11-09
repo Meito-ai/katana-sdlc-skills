@@ -23,14 +23,17 @@ looks.
 The agent judges the four inputs; [`scripts/wsjf.mjs`](scripts/wsjf.mjs) does every calculation,
 validation, ranking and block edit. Never compute a CoD, a WSJF or a rank in prose.
 
-Requires nothing upstream. Writing the score back needs a tracker tool (a Linear MCP, `gh` for GitHub
-issues); without one the skill hands back text to paste.
+Needs `issue-tracker`, the katana skill every tracker read and write goes through: its
+[contract](../issue-tracker/SKILL.md)'s operations are named below in bold, and the tracker's adapter is
+resolved as it says before the first one. While no tracker tool is reachable, the skill hands back text
+to paste.
 
 ## What gets scored
 
 Anything that delivers value on its own:
 
-- **Epics and projects.** On a tracker an epic is a project, or an issue labelled `Epic`.
+- **Epics and projects.** On a tracker an epic is a project, or an item the tracker's adapter marks as
+  one (its `## Epics` section).
 - **Issues** that pass the **value test**: _"if this shipped alone, would someone gain measurable
   value?"_ Any type passes: product, tech or compliance work (see [Type hints](#type-hints)), or a
   **bug fix**, which makes behaviour that is broken today work again (see [Bug](#bug)).
@@ -70,10 +73,11 @@ The script reads only the four inputs and the date, and recomputes CoD and WSJF 
 ### 1. Reference set
 
 1. **Level**: epic or issue, by the test in [What gets scored](#what-gets-scored).
-2. **Scope**: the `WSJF scope` line in the repo's `## Katana skills` block (a Linear team or project,
-   a GitHub repo). No such line: ask the user.
-3. **Fetch** the open items at that level in that scope, with their descriptions, through the
-   tracker tool. Done items are out: their delay has stopped costing anything.
+2. **Scope**: the `WSJF scope` line, read where `issue-tracker`'s
+   [Tracker lines](../issue-tracker/SKILL.md#tracker-lines) says it lives (a target in the tracker: a
+   team, a project or a repo). No such line: ask the user.
+3. **Fetch** the open items at that level in that scope, with their descriptions (**Search**). Done
+   items are out: their delay has stopped costing anything.
 4. Write them as JSON, `[{ "id", "title", "description" }]`, to a scratch file and run:
    ```bash
    node <skill-dir>/scripts/wsjf.mjs rank --input <items.json> --today <YYYY-MM-DD>
@@ -139,14 +143,15 @@ Done when the user has accepted every score but a drafted target's.
 
 ### 6. Write back
 
-For each accepted item, build the new description and write it through the tracker tool:
+For each accepted item, build the new description from its current one, and write it back whole
+(**Update an item**):
 
 ```bash
 node <skill-dir>/scripts/wsjf.mjs upsert --description <current.md> --bv N --rroe N --tc N --size N --scored <YYYY-MM-DD>
 ```
 
 `upsert` replaces the `## WSJF` section in place, or appends it, and leaves every other line as it
-was. When there is no tracker tool, give the user the block to paste. When a calling skill is still
+was. While no tracker tool is reachable, give the user the block to paste. When a calling skill is still
 drafting the item (it is not in a tracker yet, or the caller is about to rewrite its description),
 return the block to the caller.
 
@@ -241,4 +246,4 @@ publishing:
 - **An edit** to an input, the target's or an anchor's, comes back here: re-run `rank` and `upsert`
   with the edited value, and show the new position in one line, without another round.
 - **Publishing** the draft accepts its score and its anchors. The caller then writes each anchor's
-  block through the tracker tool, with `upsert` on the anchor's current description.
+  block (**Update an item**), with `upsert` on the anchor's current description.

@@ -59,6 +59,6 @@ Epic: <epic link> · Spec: <PRD link> · Covers: R2, R5
   inherits line.
 
 The epic, and any blocking issues, are set as the tracker's own parent and blocking relations, not
-written into the body. The exception is text handed back for pasting when there is no tracker tool:
-then add a `Blocked by: <titles>` line under the first line, or
-`Blocked by: none (can start immediately)`.
+written into the body, except where the adapter applies a text fallback (`issue-tracker`'s **Create an
+item**). Text handed back for pasting, while no tracker tool is reachable, adds a
+`Blocked by: <titles>` line under the first line, or `Blocked by: none (can start immediately)`.

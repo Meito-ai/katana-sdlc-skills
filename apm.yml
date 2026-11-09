@@ -61,6 +61,7 @@ devDependencies:
     - ./src/skills/sdlc/feature-management/build-up-spec
     - ./src/skills/sdlc/feature-management/slice-spec
     - ./src/skills/sdlc/feature-management/bug-intake
+    - ./src/skills/sdlc/feature-management/issue-tracker
     - ./src/skills/sdlc/implementation/implement-issue
     - ./src/skills/setup-katana-skills
     - ./src/skills/paas/paas-pulumi-infra-setup

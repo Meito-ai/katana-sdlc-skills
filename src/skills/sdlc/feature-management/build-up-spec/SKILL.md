@@ -32,24 +32,25 @@ into an issue; when it is not installed, `/setup-katana-skills` adds it.
 
 - **`grilling`** from `mattpocock/skills` >= v1.3.2. This skill's `apm.yml` declares it, but a repo
   that already pins `mattpocock/skills` keeps its own pin and subset, silently.
-- **`outcome-framing`, `wsjf` and `slice-spec`**, the katana skills this one calls.
-  `setup-katana-skills` installs them along with this one; when installing by hand, add all three.
-- **A tracker tool**: a Linear MCP, or `gh` >= 2.94 for GitHub issues. Without one, step 8 hands the
-  item back as text to paste.
+- **`outcome-framing`, `wsjf`, `slice-spec` and `issue-tracker`**, the katana skills this one calls.
+  `setup-katana-skills` installs them along with this one; when installing by hand, add all four.
+  Every tracker read and write is an operation of `issue-tracker`'s
+  [contract](../issue-tracker/SKILL.md), named below in bold (**Fetch an item**, **Search**, …).
+  While no tracker tool is reachable, step 8 hands the item back as text to paste.
 
 ## 1. Read the input
 
-Check that `grilling`, `outcome-framing`, `wsjf` and `slice-spec` are each deployed (under
-`.claude/skills/<name>/` or `.agents/skills/<name>/`). If any are missing, stop and name them,
-with the line that installs each one.
+Check that `grilling`, `outcome-framing`, `wsjf`, `slice-spec` and `issue-tracker` are each deployed
+(under `.claude/skills/<name>/` or `.agents/skills/<name>/`). If any are missing, stop and name them,
+with the line that installs each one. Then resolve the tracker's adapter, as `issue-tracker` says.
 
 Sort what the user gave:
 
 - **Free text**: the idea to enrich.
 - **Nothing**: skip step 3; grilling opens on the problem itself.
 - **A tracker item** (an identifier or a URL): this run **refines it in place** (see
-  [Refining in place](#refining-in-place)). Fetch its title, description, comments, labels, parent,
-  sub-issues and attached documents.
+  [Refining in place](#refining-in-place)). Fetch it (**Fetch an item**): its title, description,
+  comments, labels, parent, children and PRD.
 - **A URL or a file**: a source. Read it; its facts count as sourced and are cited under
   `## Sources`.
 - **A bug**: stop, as described above.
@@ -74,22 +75,21 @@ be design-deferred, not deferred, or waiting on that question in grilling's firs
 
 ## 2. Explore
 
-- **Knowledge base**: where `AGENTS.md` / `CLAUDE.md`, or the `Knowledge base:` line in the
-  `## Katana skills` block, says it lives. When neither says, ask the user where it is (or whether there
-  is none) in grilling's first round, and write the answer as that line, the way step 8 writes the
-  `Backlog:` line. Read the parts the item touches: glossary terms, recorded
+- **Knowledge base**: the `Knowledge base:` line in the `## Katana skills` block, else where
+  `AGENTS.md` / `CLAUDE.md` says it lives, else a `docs/` directory. With none of them, carry on
+  without one and say so in the preview. Read the parts the item touches: glossary terms, recorded
   decisions, and the definition of done.
 - **Code**: the area the item touches. Explore it in this session rather than in a sub-agent:
   `slice-spec` runs next in the same window and builds on what is read here.
-- **Tracker**: search for **duplicates** using the item's key terms (in the team named on the
-  `Backlog:` line, or across the whole workspace), and list the open epics that could be its parent
-  (issues labelled `Epic`). Each overlapping item becomes a question for grilling's first round,
-  with a recommended pick among: refine it instead (it becomes the item refined in place), link it as
+- **Tracker**: search for **duplicates** using the item's key terms (**Search**, in the `Backlog:`
+  line's target, or across every target), and list the open epics that could be its parent
+  (**Search**, for epics). Each overlapping item becomes a question for grilling's first round, with a
+  recommended pick among: refine it instead (it becomes the item refined in place), link it as
   related, mark the new item as its duplicate (which ends the run), or carry on. With no `Backlog:`
-  line, where to file the item is a question for that round too, listing the teams and projects
-  through the tracker tool.
+  line, where to file the item is a question for that round too, listing the targets
+  (**List targets**).
 
-Done when the knowledge base has been located (or its question queued), the code in the area has been
+Done when the knowledge base has been located (or its absence noted), the code in the area has been
 read, and every duplicate match has its question queued.
 
 ## 3. Enrich
@@ -110,8 +110,8 @@ Invoke `grilling` on the restated problem, or on nothing when there was no input
 
 Its **first round** opens with step 3's list of facts and placeholders, and asks, beside grilling's
 own frontier, every question steps 1 to 3 queued: striking a wrong fact, each duplicate match, where
-to file the item, where the knowledge base lives, and whether design is deferred. Each is numbered and carries a recommended
-answer, like the rest of the round.
+to file the item, and whether design is deferred. Each is numbered and carries a recommended answer,
+like the rest of the round.
 
 Besides whatever the problem itself raises, its design tree must reach these branches:
 
@@ -195,67 +195,60 @@ Done when the item has a WSJF block, with each input's rationale and the rank, o
    its release and compatibility rules above all. Correct a statement that misquotes its source. A
    correction that changes a decision the user accepted goes to them in the preview, as a question.
    Grounding is done when every statement has been re-read against its source.
-2. **Target.** Read the `Backlog:` line in the `## Katana skills` block: a team and a project, or a
-   GitHub repo. Propose it, and let the user change it for this item.
-   - When there is no such line, take the target answered in grilling's first round. Write it as the
-     `Backlog:` line under `### Backlog items` in that block.
+2. **Target.** Read the `Backlog:` line, where [Tracker lines](../issue-tracker/SKILL.md#tracker-lines)
+   says it lives: a target in the tracker. Propose it, and let the user change it for this item.
+   - When there is no such line, take the target answered in grilling's first round, and record it as
+     the `Backlog:` line.
    - When the user changes the default, update the line.
-   - Write to every file `setup-katana-skills` writes the block to: `AGENTS.md`, and `CLAUDE.md` when
-     it exists and never references `AGENTS.md`. If the block doesn't exist in one, create it there
-     (markers, heading and subsection).
-   - Leave the change uncommitted.
+   - Record it as `issue-tracker`'s [Tracker lines](../issue-tracker/SKILL.md#tracker-lines) says.
 3. **Labels.** Write the text about to be published to a file (an issue's body, or an epic's card
-   followed by its PRD), list the team's labels (`list_issue_labels`, or `gh label list`), and run:
+   followed by its PRD), list the target's labels (**Labels**), and run:
 
    ```bash
    node <skill-dir>/scripts/labels.mjs plan --level <epic|issue> --deferred <yes|no> \
-     --type <product|tech|compliance> --text <file> --current <the item's labels> \
-     --available <the team's labels>
+     --epic-label <yes|no> --type <product|tech|compliance> --text <file> \
+     --current <the item's labels> --available <the target's labels>
    ```
 
-   `--deferred` is step 1's decision. It prints the labels to `add`, the labels to `remove`, and the
-   added labels the team is `missing`. `--current` is empty for a new item. The script applies these
+   `--deferred` is step 1's decision, and `--epic-label` the adapter's `Epic label:` (on GitLab, the
+   value for the `Tracker:` line's tier). It prints the labels to `add`, the labels to `remove`, and the
+   added labels the target is `missing`. `--current` is empty for a new item. The script applies these
    rules:
    - An issue gets `ready-for-agent`, or `needs-info` while a placeholder is left in its criteria.
    - A design-deferred item gets `needs-design`, and never `ready-for-agent`: no agent picks it up
      before an engineer has agreed its seams. A run that is not deferred removes a `needs-design`
      already on the item.
-   - An epic gets `Epic`, and never `ready-for-agent`: an agent polling for that label would try to
-     build the whole epic in one run.
-   - The type label is the team's label named `product`, `tech` or `compliance` (any case), when the
-     team has one.
+   - An epic gets `Epic` (unless the adapter marks epics by type), and never `ready-for-agent`: an
+     agent polling for that label would try to build the whole epic in one run.
+   - The type label is the target's label named `product`, `tech` or `compliance` (any case), when
+     the target has one.
 
    Then:
    - Each `missing` label (only ever `Epic`, `needs-design` or a type label) is offered in the preview,
-     which says that publishing creates it. Publishing creates the offered labels the user did not
-     strike; a struck label is left off the item.
+     which says that publishing creates it (**Labels**). Publishing creates the offered labels the user
+     did not strike; a struck label is left off the item.
    - When `AGENTS.md` / `CLAUDE.md` or the knowledge base maps these labels to other names, pass those
      names as `--map ready-for-agent=<label>,needs-design=<label>,…`.
    - Leave the tracker's own priority field unchanged: the WSJF block is the ranking.
 4. **Preview.** This is the one check of the finished item. Open with what needs the user's judgement:
    the corrections grounding made, `outcome-framing`'s `Changed` list, the open placeholders, and the
    labels offered for creation. Then show exactly what will be written: the title; the card and PRD,
-   or the issue body; the labels, parent, related and duplicate links; the target; any PRD amendment;
-   and, for an item refined in place, what changes and what stays. Last, the WSJF score in the compact
-   form `wsjf`'s [For calling skills](../wsjf/SKILL.md#for-calling-skills) gives. Ask once:
-   _publish / edit_. An edit goes back to the step that owns it, without a round of its own: the
-   framing to `outcome-framing`, a requirement or seam to step 5, a WSJF input to `wsjf`. Then show
-   what changed, and ask again.
+   or the issue body; the labels, parent, related and duplicate links, and every text fallback the
+   adapter applies to them; the target; any PRD amendment; and, for an item refined in place, what
+   changes and what stays. Where the adapter declares a body limit, warn when a body exceeds it. Last,
+   the WSJF score in the compact form `wsjf`'s [For calling skills](../wsjf/SKILL.md#for-calling-skills)
+   gives. Ask once: _publish / edit_. An edit goes back to the step that owns it, without a round of
+   its own: the framing to `outcome-framing`, a requirement or seam to step 5, a WSJF input to `wsjf`.
+   Then show what changed, and ask again.
 5. **Write.**
-   - On **Linear**:
-     - for an item refined in place, first post its original title and description as a comment
-       (`Original before build-up-spec, <date>`);
-     - create or update the issue with `save_issue`: title, description, team, project, labels (the
-       item's labels plus `add`, minus `remove`), `parentId` and `relatedTo`, leaving the state at the
-       team's default;
-     - for an epic, create the PRD with `save_document`, with `issue` set to the epic, then point the
-       card's `Spec:` line at it;
-     - for an amendment, patch the parent PRD's `## Requirements` with `save_document` and `patch`;
-     - for each cold-start anchor, write its WSJF block as `wsjf`'s For calling skills says.
-   - On **GitHub**: `gh issue create` or `gh issue edit`, with `--parent` and `--label` (or
-     `--add-label` and `--remove-label`). Post the original with `gh issue comment`. The PRD goes in
-     the body. Write each cold-start anchor's WSJF block as on Linear.
-   - With **no tracker tool**: hand back the card and PRD, or the issue, as text.
+   - For an item refined in place, first post its original title and description as a comment
+     (**Comment**: `Original before build-up-spec, <date>`).
+   - **Create an item** or **Update an item**: title, body, target, labels (`add` added, `remove`
+     removed), parent and related items, leaving the state at the tracker's default.
+   - For an epic, attach the PRD (**Epic PRD**), and point the card's `Spec:` line at it.
+   - For an amendment, patch the parent PRD's `## Requirements` (**Epic PRD**).
+   - For each cold-start anchor, write its WSJF block as `wsjf`'s For calling skills says.
+   - While no tracker tool is reachable: hand back the card and PRD, or the issue, as text.
 6. **Hand off.** An item labelled `needs-design` is not ready to slice or build: end the run with the
    command the engineer runs next, `/build-up-spec <item id>`. Otherwise, for an epic, ask
    _"slice it now?"_. A yes invokes `slice-spec` on it in this conversation. A no ends the run with
@@ -277,9 +270,9 @@ copy.
   `needs-design` and gives an issue `ready-for-agent` (or `needs-info`, while its criteria still hold
   a placeholder).
 - The original title and description are posted as a comment before the rewrite (step 8).
-- **Issue → epic**, when grilling finds more work than one session can hold: add the `Epic` label,
-  attach a PRD, and rewrite the description as a card. Existing sub-issues stay, and `slice-spec`
-  counts them towards coverage before it proposes new slices.
-- **Epic → issue**, only when it has no sub-issues: its PRD stays attached, with its first line
+- **Issue → epic**, when grilling finds more work than one session can hold: mark it an epic the way
+  the adapter's `## Epics` says, attach a PRD, and rewrite the description as a card. Existing
+  children stay, and `slice-spec` counts them towards coverage before it proposes new slices.
+- **Epic → issue**, only when it has no children: its PRD stays attached, with its first line
   changed to `Superseded: folded into <issue link> on <date>`. Nothing is deleted.
 - An existing epic without a PRD gets one. An existing `## WSJF` block is re-scored in step 7.
