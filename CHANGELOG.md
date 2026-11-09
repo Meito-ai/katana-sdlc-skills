@@ -1,5 +1,50 @@
 # katana-sdlc-skills
 
+## 0.3.0
+
+### Minor Changes
+
+- [#23](https://github.com/Meito-ai/katana-sdlc-skills/pull/23) - `build-up-spec`, `slice-spec`, `bug-intake`, `wsjf` and `implement-issue` now need `issue-tracker`, a new
+  skill that holds every tracker read and write they make. **Rerun `/setup-katana-skills`** after
+  upgrading: it adds `issue-tracker` to your `apm.yml` and a `### Issue tracker` subsection to your
+  `## Katana skills` block. If you already file into Linear or GitHub, your `Backlog:` or `WSJF scope:`
+  line settles the tracker, so you are not asked to choose it again.
+
+### Patch Changes
+
+- [#23](https://github.com/Meito-ai/katana-sdlc-skills/pull/23) - `implement-issue` now opens a merge request when your `origin` is on GitLab, instead of handing back
+  the branch to paste. The description carries the link text your tracker's adapter gives for that code
+  host, and ends with `Close <id> on merge` where merging cannot close the item (a Jira issue, or a
+  GitHub issue from a GitLab merge request). If the merge request cannot be opened, it reports the
+  failing command and hands back the branch, its base and the description.
+
+- [#23](https://github.com/Meito-ai/katana-sdlc-skills/pull/23) - `issue-tracker` is a new skill that lets the SDLC skills run on Jira Cloud and GitLab as well as Linear
+  and GitHub. It defines one contract of eleven operations (fetch, search, create, update, comment,
+  labels, the epic's PRD, close as duplicate, the frontier of unblocked work, and the PR link) and ships
+  an adapter per tracker:
+  
+  - **Jira Cloud**, through the Atlassian Rovo MCP server: an epic is a native Epic issue with its
+    slices as children, and blockers are "is blocked by" links.
+  - **GitLab Free and Premium**, through `glab`: Premium uses native epics and blocking links; Free
+    marks an epic with an `Epic` label and writes blockers as `Blocked by:` lines.
+  - **Any other tracker**: `/setup-katana-skills` writes an adapter for it from your description.
+  
+  Where a tracker lacks an operation, the adapter falls back to text (`Blocked by:` and `Part of` lines,
+  a `# Spec` section for the PRD), and the preview shows it before anything is written. A preview also
+  warns when a body exceeds the tracker's limit, such as Jira's 32,767 characters.
+
+- [#23](https://github.com/Meito-ai/katana-sdlc-skills/pull/23) - `build-up-spec`, `slice-spec`, `bug-intake` and `implement-issue` no longer ask where your knowledge
+  base lives. They read the `Knowledge base:` line, then what `AGENTS.md` / `CLAUDE.md` says, then a
+  `docs/` directory, and carry on without one when none exists, saying so. `/setup-katana-skills` writes
+  the line from what it finds.
+
+- [#23](https://github.com/Meito-ai/katana-sdlc-skills/pull/23) - `setup-katana-skills` now asks which tracker the repo uses. It proposes one from your `origin`, your
+  connected MCP servers and the CLIs on your machine, runs that tracker's check before recording it
+  (showing the failing command if it fails), and asks the tier on GitLab. On a public repo it offers to
+  keep the `Tracker:`, `Backlog:` and `WSJF scope:` lines in a local file git ignores, such as
+  `CLAUDE.local.md`, so your committed `AGENTS.md` never names your tracker's teams or projects; the
+  skills then read and write those lines there, and stop to ask before writing one into a committed file.
+
 ## 0.2.5
 
 ### Patch Changes

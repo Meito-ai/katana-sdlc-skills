@@ -328,9 +328,9 @@ One entry per skill, referencing its subpath:
 dependencies:
   apm:
     - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/branch-management/bare-clone-workflow
-      ref: v0.2.5                    # or "^0.2.0" on apm >= 0.16
+      ref: v0.3.0                    # or "^0.3.0" on apm >= 0.16
     - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/branch-management/branch-shutdown
-      ref: v0.2.5
+      ref: v0.3.0
 ```
 
 A bare repo-root reference deploys **nothing**: apm only auto-discovers `.apm/skills/<name>/` for a
