@@ -30,7 +30,7 @@ The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/sk
 | `build-up-spec` | `sdlc/flows/build-up-spec` | the knowledge base and backlog lines; needs `outcome-framing`, `wsjf`, `slice-spec`, `issue-tracker`, and `grilling` from `mattpocock/skills` | always |
 | `slice-spec` | `sdlc/flows/slice-spec` | the knowledge base line; needs `wsjf` and `issue-tracker` | always |
 | `bug-intake` | `sdlc/flows/bug-intake` | the knowledge base and backlog lines; needs `slice-spec`, `wsjf` and `issue-tracker` | always |
-| `implement-issue` | `sdlc/flows/implement-issue` | the knowledge base and checks lines; needs `issue-tracker`, and `tdd`, `code-review`, `codebase-design` and `diagnosing-bugs` from `mattpocock/skills`; uses `bare-clone-workflow` and `visual-pr` when installed | always |
+| `implement-issue` | `sdlc/flows/implement-issue` | the knowledge base, checks, e2e, mutation and formal model lines; needs `issue-tracker`, and `tdd`, `code-review`, `codebase-design` and `diagnosing-bugs` from `mattpocock/skills`; uses `bare-clone-workflow` and `visual-pr` when installed | always |
 | `paas-pulumi-infra-setup` | `paas/paas-pulumi-infra-setup` | none: a one-time, user-run scaffold that writes its own pointer line when run | always |
 
 ### Moved paths
@@ -117,6 +117,8 @@ Read the repo's actual state; assume nothing.
 - **Checks** (for `implement-issue`): whether `AGENTS.md` / `CLAUDE.md` already names the commands for
   the typecheck, a single test file and the full suite. If not, the manifests and tool configs that
   define them (package scripts, `Makefile` targets). An existing `Checks` line in the block wins.
+  Existing `E2E`, `Mutation` and `Formal model` lines carry over as they are: `implement-issue` records
+  the first two on its first run, and the third at a design gate, so setup never proposes them.
 - **Upstream pins**: the upstreams the chosen skills declare in their own `apm.yml`: `build-up-spec`
   declares `mattpocock/skills` (`productivity/grilling`), `implement-issue` declares `mattpocock/skills`
   (`engineering/tdd`, `engineering/code-review`, `engineering/codebase-design`,
