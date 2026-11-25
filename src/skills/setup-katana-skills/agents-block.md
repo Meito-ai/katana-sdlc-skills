@@ -65,6 +65,9 @@ Implement an issue, or a trivial change described in text, with `/implement-issu
 pick an issue up.
 [if knowledge base, and no Backlog items subsection] Knowledge base: {{knowledge-base}}.
 [if checks] Checks: {{checks}}.
+[if e2e] E2E: {{e2e}}.
+[if mutation] Mutation: {{mutation}}.
+[if formal model] Formal model: {{formal-model}}.
 
 ### PR descriptions
 

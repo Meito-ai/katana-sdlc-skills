@@ -94,12 +94,19 @@ Done when the working tree is on a branch that belongs to the issue.
 - **Checks**: the typecheck, single-test-file and full-suite commands, from `AGENTS.md` / `CLAUDE.md` or
   the block's `Checks:` line. Otherwise infer them from the manifests, confirm them with the user once,
   and record them as that line.
+- **E2E and mutation**: the end-to-end test command and the mutation-testing command, from
+  `AGENTS.md` / `CLAUDE.md` or the block's `E2E:` and `Mutation:` lines. Otherwise infer them the way
+  `Checks:` is inferred, confirm them with the user once together with the checks, and record each as its
+  line. A repo with no e2e or mutation tool records `none` on that line.
+- **Formal model**: the modelling tool, from the block's `Formal model:` line, never inferred; step 6
+  records it at the gate when a design needs a model.
 
-To **record** the `Checks:` line, write it under `### Implementation` in the block in `AGENTS.md`, and
+To **record** the `Checks:`, `E2E:` and `Mutation:` lines, write each under `### Implementation` in the block in `AGENTS.md`, and
 in `CLAUDE.md` when it exists and never references `AGENTS.md`, creating the block where it is missing.
-Commit it on its own: `chore: record <line> in the katana block`.
+Commit them on their own: `chore: record <line> in the katana block`.
 
-Done when the knowledge base is located or noted as absent, and the checks are known.
+Done when the knowledge base is located or noted as absent, and the checks, e2e and mutation commands
+are known or recorded as `none`.
 
 ## 5. Triage the design
 
@@ -128,6 +135,19 @@ Draft each part where it will live, in `codebase-design`'s vocabulary:
 
 An epic built as the issue drafts all of it into its PRD, in place: `## Implementation decisions` stands
 in for `## Key interfaces`, `## Further notes` for `## Rollout`, and its new criteria are `R` numbers.
+
+**A formal model.** When the design involves concurrency, distributed state, a protocol or a state
+machine whose invariants tests can't cover well, draft a formal model in the tool the `Formal model:`
+line names, and check the model before the gate. Then:
+
+- The check passes: add an acceptance criterion for each invariant, in EARS and as the next `AC`
+  numbers, each covered by a property test at the issue's seam.
+- The check finds a counterexample: show it at the gate and revise the design before approval; the
+  gate does not close on a model that fails.
+- There is no `Formal model:` line: sketch the invariants in prose, ask for the tool at the gate, draft
+  and check the model in it before approval, and record the line as step 4 records `Checks:`.
+
+The gate shows the model, the check's result and the criteria they add.
 
 Present each open choice with its options and a recommendation. Leave the knowledge-base docs for
 step 9.
