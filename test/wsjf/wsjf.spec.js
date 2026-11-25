@@ -14,9 +14,9 @@ import {
   renderWsjfBlock,
   upsertWsjfSection,
   WSJF_MARKER,
-} from '../../src/skills/sdlc/feature-management/wsjf/scripts/wsjf.mjs';
+} from '../../src/skills/sdlc/flows/wsjf/scripts/wsjf.mjs';
 
-const CLI_PATH = new URL('../../src/skills/sdlc/feature-management/wsjf/scripts/wsjf.mjs', import.meta.url).pathname;
+const CLI_PATH = new URL('../../src/skills/sdlc/flows/wsjf/scripts/wsjf.mjs', import.meta.url).pathname;
 const run = promisify(execFile);
 
 const SCORES = { bv: 8, rroe: 3, tc: 5, size: 5, scored: '2026-10-24' };

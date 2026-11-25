@@ -18,7 +18,9 @@
  *     publishes to consumers, but `apm install` does not deploy it into this
  *     repo's .claude/skills/ -- so you cannot use or test your own skill while
  *     writing it, and nothing tells you why.
- *  4. A skill's own apm.yml must not declare a dependency on this repo. The
+ *  4. An SDLC skill (anything under src/skills/sdlc/) sits in the folder named
+ *     for its kind: sdlc/flows/<name> or sdlc/atomic/<name>.
+ *  5. A skill's own apm.yml must not declare a dependency on this repo. The
  *     transitive git copy replaces the local self-reference on `apm install`
  *     ("last installed wins", in either entry order), so the published
  *     version of the sibling would overwrite the one being edited.
@@ -50,7 +52,7 @@ function findSkills(dir) {
 
 const skillDirs = findSkills(ROOT);
 
-// Self-reference entries in apm.yml, e.g. "- ./src/skills/sdlc/branch-management/branch-shutdown".
+// Self-reference entries in apm.yml, e.g. "- ./src/skills/sdlc/flows/branch-shutdown".
 const apmYml = readFileSync(APM_YML, "utf8");
 const selfRefs = new Set(
   [...apmYml.matchAll(/^\s*-\s+\.\/(src\/skills\/[^\s#]+?)\/?\s*$/gm)].map((m) => m[1])
@@ -98,6 +100,14 @@ for (const dir of skillDirs) {
           `    State the sibling in SKILL.md and let setup-katana-skills install it.`
       );
     }
+  }
+
+  const rel = relative(ROOT, dir).split(sep).join("/");
+  if (/^sdlc(\/|$)/.test(rel) && !/^sdlc\/(flows|atomic)\/[^/]+$/.test(rel)) {
+    errors.push(
+      `${dir} is an SDLC skill outside the atomic and flows folders.\n` +
+        `    Move it to ${ROOT}/sdlc/flows/${name} (or sdlc/atomic/${name} once it meets the atomic contract).`
+    );
   }
 
   const refPath = relative(".", dir).split(sep).join("/");

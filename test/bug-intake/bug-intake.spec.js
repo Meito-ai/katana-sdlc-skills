@@ -5,7 +5,7 @@ import { describe, test } from 'node:test';
 const SKILLS = new URL('../../src/skills/', import.meta.url);
 const read = (path) => readFileSync(new URL(path, SKILLS), 'utf8');
 
-const BUG_INTAKE = 'sdlc/feature-management/bug-intake/';
+const BUG_INTAKE = 'sdlc/flows/bug-intake/';
 const skill = read(`${BUG_INTAKE}SKILL.md`);
 
 // What triage writes and labels that intake leaves to the repo and to build-up-spec.
@@ -51,7 +51,7 @@ describe('bug-intake', () => {
 });
 
 describe('wsjf', () => {
-  const wsjf = read('sdlc/feature-management/wsjf/SKILL.md');
+  const wsjf = read('sdlc/flows/wsjf/SKILL.md');
 
   test('scores a bug fix as an issue, from its severity', () => {
     assert.match(section(wsjf, '## What gets scored'), /\*\*bug fix\*\*/);
@@ -63,7 +63,7 @@ describe('wsjf', () => {
 
 describe('build-up-spec', () => {
   test('sends a bug to bug-intake', () => {
-    const refusal = read('sdlc/feature-management/build-up-spec/SKILL.md')
+    const refusal = read('sdlc/flows/build-up-spec/SKILL.md')
       .split('\n\n')
       .find((paragraph) => paragraph.includes('A bug (something broken) is out of'));
     assert.ok(refusal, 'no bug refusal paragraph');
@@ -78,7 +78,7 @@ describe('setup-katana-skills', () => {
       .find((line) => line.startsWith('| `bug-intake` |'));
     assert.ok(row, 'no bug-intake row in the skill table');
     const path = row.match(/^\| `bug-intake` \| `([^`]+)` \|/)?.[1];
-    assert.equal(path, 'sdlc/feature-management/bug-intake');
+    assert.equal(path, 'sdlc/flows/bug-intake');
     assert.ok(existsSync(new URL(`${path}/SKILL.md`, SKILLS)), `${path}/SKILL.md does not exist`);
   });
 

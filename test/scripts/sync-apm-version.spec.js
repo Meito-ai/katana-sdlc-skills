@@ -18,7 +18,7 @@ dependencies:
 CI pins \`v0.32.0\`.
 `;
 
-const SKILL_EXAMPLE = `    - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/branch-management/branch-shutdown
+const SKILL_EXAMPLE = `    - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/flows/branch-shutdown
 
       ref: "^0.2.0"
 `;

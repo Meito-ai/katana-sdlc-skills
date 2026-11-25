@@ -8,11 +8,11 @@ import { describe, test } from 'node:test';
 
 const SKILLS = new URL('../../src/skills/', import.meta.url);
 const SDLC_SKILLS = [
-  'sdlc/feature-management/build-up-spec',
-  'sdlc/feature-management/slice-spec',
-  'sdlc/feature-management/bug-intake',
-  'sdlc/feature-management/wsjf',
-  'sdlc/implementation/implement-issue',
+  'sdlc/flows/build-up-spec',
+  'sdlc/flows/slice-spec',
+  'sdlc/flows/bug-intake',
+  'sdlc/flows/wsjf',
+  'sdlc/flows/implement-issue',
 ];
 
 const TRACKER_NAMES = [

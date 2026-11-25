@@ -5,9 +5,9 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, test } from 'node:test';
 
-import { BLOCK_END, BLOCK_START } from '../../src/skills/sdlc/code-review/visual-pr/scripts/contract.mjs';
+import { BLOCK_END, BLOCK_START } from '../../src/skills/sdlc/flows/visual-pr/scripts/contract.mjs';
 
-const CLI_PATH = new URL('../../src/skills/sdlc/code-review/visual-pr/scripts/cli.mjs', import.meta.url).pathname;
+const CLI_PATH = new URL('../../src/skills/sdlc/flows/visual-pr/scripts/cli.mjs', import.meta.url).pathname;
 const HEAD_SHA = 'a1b2c3d4e5f60718293a4b5c6d7e8f9012345678';
 
 const CONTENT = [

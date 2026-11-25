@@ -8,10 +8,10 @@ const prose = (path) => read(path).replace(/\s+/g, ' ');
 
 // The skills that read the host repo's knowledge base.
 const KNOWLEDGE_BASE_READERS = [
-  'sdlc/feature-management/bug-intake',
-  'sdlc/feature-management/build-up-spec',
-  'sdlc/feature-management/slice-spec',
-  'sdlc/implementation/implement-issue',
+  'sdlc/flows/bug-intake',
+  'sdlc/flows/build-up-spec',
+  'sdlc/flows/slice-spec',
+  'sdlc/flows/implement-issue',
 ].map((path) => ({
   name: path.split('/').pop(),
   text: read(`${path}/SKILL.md`),
@@ -19,9 +19,9 @@ const KNOWLEDGE_BASE_READERS = [
 
 // The skills that read or write a Backlog: or WSJF scope: line, a tracker line.
 const TRACKER_LINE_USERS = [
-  'sdlc/feature-management/bug-intake',
-  'sdlc/feature-management/build-up-spec',
-  'sdlc/feature-management/wsjf',
+  'sdlc/flows/bug-intake',
+  'sdlc/flows/build-up-spec',
+  'sdlc/flows/wsjf',
 ];
 
 /** The paragraph (or list item and its continuation lines) holding `needle`. */
@@ -63,7 +63,7 @@ describe('the knowledge base', () => {
 });
 
 describe('tracker lines in a public repo', () => {
-  const issueTracker = read('sdlc/feature-management/issue-tracker/SKILL.md');
+  const issueTracker = read('sdlc/flows/issue-tracker/SKILL.md');
 
   test('issue-tracker stops and asks before writing one into a committed file of a public repo', () => {
     const start = issueTracker.indexOf('\n## Tracker lines\n');

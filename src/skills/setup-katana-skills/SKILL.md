@@ -21,17 +21,35 @@ The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/sk
 
 | Skill | `<path>` | Wiring it needs | Available when |
 |---|---|---|---|
-| `bare-clone-workflow` | `sdlc/branch-management/bare-clone-workflow` | worktree rules, bootstrap commands, the layout itself | always |
-| `branch-shutdown` | `sdlc/branch-management/branch-shutdown` | one rule naming the default branch | always |
-| `visual-pr` | `sdlc/code-review/visual-pr` | the PR description rule | `origin` is on GitHub |
-| `outcome-framing` | `sdlc/feature-management/outcome-framing` | none: invoked on demand or by `build-up-spec` | always |
-| `issue-tracker` | `sdlc/feature-management/issue-tracker` | the tracker line, and where the tracker lines live | always |
-| `wsjf` | `sdlc/feature-management/wsjf` | the default comparison scope; needs `issue-tracker` | always |
-| `build-up-spec` | `sdlc/feature-management/build-up-spec` | the knowledge base and backlog lines; needs `outcome-framing`, `wsjf`, `slice-spec`, `issue-tracker`, and `grilling` from `mattpocock/skills` | always |
-| `slice-spec` | `sdlc/feature-management/slice-spec` | the knowledge base line; needs `wsjf` and `issue-tracker` | always |
-| `bug-intake` | `sdlc/feature-management/bug-intake` | the knowledge base and backlog lines; needs `slice-spec`, `wsjf` and `issue-tracker` | always |
-| `implement-issue` | `sdlc/implementation/implement-issue` | the knowledge base and checks lines; needs `issue-tracker`, and `tdd`, `code-review`, `codebase-design` and `diagnosing-bugs` from `mattpocock/skills`; uses `bare-clone-workflow` and `visual-pr` when installed | always |
+| `bare-clone-workflow` | `sdlc/flows/bare-clone-workflow` | worktree rules, bootstrap commands, the layout itself | always |
+| `branch-shutdown` | `sdlc/flows/branch-shutdown` | one rule naming the default branch | always |
+| `visual-pr` | `sdlc/flows/visual-pr` | the PR description rule | `origin` is on GitHub |
+| `outcome-framing` | `sdlc/flows/outcome-framing` | none: invoked on demand or by `build-up-spec` | always |
+| `issue-tracker` | `sdlc/flows/issue-tracker` | the tracker line, and where the tracker lines live | always |
+| `wsjf` | `sdlc/flows/wsjf` | the default comparison scope; needs `issue-tracker` | always |
+| `build-up-spec` | `sdlc/flows/build-up-spec` | the knowledge base and backlog lines; needs `outcome-framing`, `wsjf`, `slice-spec`, `issue-tracker`, and `grilling` from `mattpocock/skills` | always |
+| `slice-spec` | `sdlc/flows/slice-spec` | the knowledge base line; needs `wsjf` and `issue-tracker` | always |
+| `bug-intake` | `sdlc/flows/bug-intake` | the knowledge base and backlog lines; needs `slice-spec`, `wsjf` and `issue-tracker` | always |
+| `implement-issue` | `sdlc/flows/implement-issue` | the knowledge base and checks lines; needs `issue-tracker`, and `tdd`, `code-review`, `codebase-design` and `diagnosing-bugs` from `mattpocock/skills`; uses `bare-clone-workflow` and `visual-pr` when installed | always |
 | `paas-pulumi-infra-setup` | `paas/paas-pulumi-infra-setup` | none: a one-time, user-run scaffold that writes its own pointer line when run | always |
+
+### Moved paths
+
+Skills once published under an area folder. A consumer's `apm.yml` may still pin the old path, which no
+longer exists at the new tags:
+
+| Old `<path>` | New `<path>` |
+|---|---|
+| `sdlc/branch-management/bare-clone-workflow` | `sdlc/flows/bare-clone-workflow` |
+| `sdlc/branch-management/branch-shutdown` | `sdlc/flows/branch-shutdown` |
+| `sdlc/code-review/visual-pr` | `sdlc/flows/visual-pr` |
+| `sdlc/feature-management/outcome-framing` | `sdlc/flows/outcome-framing` |
+| `sdlc/feature-management/issue-tracker` | `sdlc/flows/issue-tracker` |
+| `sdlc/feature-management/wsjf` | `sdlc/flows/wsjf` |
+| `sdlc/feature-management/build-up-spec` | `sdlc/flows/build-up-spec` |
+| `sdlc/feature-management/slice-spec` | `sdlc/flows/slice-spec` |
+| `sdlc/feature-management/bug-intake` | `sdlc/flows/bug-intake` |
+| `sdlc/implementation/implement-issue` | `sdlc/flows/implement-issue` |
 
 The trackers `issue-tracker` ships an adapter for, each at `trackers/<name>.md` in that skill's
 directory:
@@ -58,6 +76,8 @@ Read the repo's actual state; assume nothing.
   and its `ref:` string. Every skill this run adds gets that exact string. No such entry: ask for the ref.
 - **Installed katana skills**: `apm.yml` entries under `Meito-ai/katana-sdlc-skills/src/skills/`, and
   deployed copies in `.claude/skills/<name>/` or `.agents/skills/<name>/`. These arrive pre-selected.
+  An entry whose `<path>` is in the **Moved paths** table is installed all the same: it is the skill,
+  at its old path. Collect those entries for the preview.
 - **Local skills**: `apm.yml` entries `./<path>` (e.g. `./.apm/skills/branch-shutdown`) and directories
   under `.apm/skills/`, whose skill name equals a katana skill's name. apm deploys `.apm/skills/` from
   the project root even without an entry.
@@ -114,7 +134,9 @@ Done when every bullet has an answer.
 Summarise what exploration found. Then take the questions in order, one answer each, leading with the
 recommended answer so the user can accept it in a word. Skip a question exploration already settled.
 
-1. **Skills.** List the skills with their state (installed / not installed / unavailable, with the
+1. **Skills.** When exploration collected entries at an old path, list each one first, before
+   anything is written: `<old path>` -> `<new path>`, with its `ref:` as it stands. The user's yes to
+   the plan covers the rewrite. List the skills with their state (installed / not installed / unavailable, with the
    reason). Installed skills are pre-selected. The user picks any subset; unselecting an installed skill
    removes it. When `visual-pr` is picked but `node` or `gh` failed its check, say which and ask
    whether to install it anyway. Picking `build-up-spec` also picks `outcome-framing`, `wsjf` and
@@ -195,7 +217,7 @@ Only when the user said yes to the conversion.
 
 Follow the in-place procedure in `bare-clone-workflow`'s `reference.md`. When that skill is not
 deployed yet, fetch the procedure without touching the repo: in a scratch directory outside it, write an
-`apm.yml` whose one dependency is `Meito-ai/katana-sdlc-skills/src/skills/sdlc/branch-management/bare-clone-workflow` at
+`apm.yml` whose one dependency is `Meito-ai/katana-sdlc-skills/src/skills/sdlc/flows/bare-clone-workflow` at
 setup's ref (targets: `agent-skills`), run `apm install`, and read
 `.agents/skills/bare-clone-workflow/reference.md` there.
 
@@ -222,6 +244,9 @@ same residue changes as before the conversion, and the verify command passed the
      ref: <setup's ref, verbatim>
    ```
    Leave the ref of an already-installed skill as it is.
+   Rewrite each entry at an old path (see **Moved paths**) to its new path, and give it setup's
+   ref: the new path does not exist at the tag the old entry pins. Rewrite the same paths in prose the setup wrote earlier
+   (the `## Katana skills` block).
 2. Remove each unselected skill with `apm uninstall Meito-ai/katana-sdlc-skills/src/skills/<path>`.
 3. For each local skill the user agreed to remove, delete its directory, its `apm.yml` entry, and its
    deployed output (`.claude/skills/<name>/`, `.agents/skills/<name>/`). The output is generated by
