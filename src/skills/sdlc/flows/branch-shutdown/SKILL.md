@@ -262,9 +262,9 @@ this one retires them. Each works installed alone.
 dependencies:
   apm:
     - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/flows/bare-clone-workflow
-      ref: "^0.3.0"
+      ref: "^0.4.0"
     - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/flows/branch-shutdown
-      ref: "^0.3.0"
+      ref: "^0.4.0"
 ```
 
 Without `gh` installed and authenticated, step 2c and case 1 of step 2d are unavailable. Verdicts then
