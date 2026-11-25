@@ -18,8 +18,8 @@ describe('skill vocabulary', () => {
 
   test('every skill that sorts scored from unscored items applies wsjf\'s value test', () => {
     const read = (path) => markdown.find((file) => file.path === path).text;
-    assert.match(read('sdlc/feature-management/wsjf/SKILL.md'), /\*\*value test\*\*/);
-    for (const path of ['sdlc/feature-management/build-up-spec/SKILL.md', 'sdlc/feature-management/slice-spec/SKILL.md']) {
+    assert.match(read('sdlc/flows/wsjf/SKILL.md'), /\*\*value test\*\*/);
+    for (const path of ['sdlc/flows/build-up-spec/SKILL.md', 'sdlc/flows/slice-spec/SKILL.md']) {
       assert.match(read(path), /`wsjf`'s value test/, `${path} does not apply the value test`);
     }
   });

@@ -53,16 +53,16 @@ devDependencies:
     # Without an entry here a skill under src/skills/ is still published to
     # consumers, but is NOT installed into this repo's .claude/skills/, so you
     # cannot use it while authoring. One line per skill; CI enforces the pairing.
-    - ./src/skills/sdlc/branch-management/bare-clone-workflow
-    - ./src/skills/sdlc/branch-management/branch-shutdown
-    - ./src/skills/sdlc/code-review/visual-pr
-    - ./src/skills/sdlc/feature-management/outcome-framing
-    - ./src/skills/sdlc/feature-management/wsjf
-    - ./src/skills/sdlc/feature-management/build-up-spec
-    - ./src/skills/sdlc/feature-management/slice-spec
-    - ./src/skills/sdlc/feature-management/bug-intake
-    - ./src/skills/sdlc/feature-management/issue-tracker
-    - ./src/skills/sdlc/implementation/implement-issue
+    - ./src/skills/sdlc/flows/bare-clone-workflow
+    - ./src/skills/sdlc/flows/branch-shutdown
+    - ./src/skills/sdlc/flows/visual-pr
+    - ./src/skills/sdlc/flows/outcome-framing
+    - ./src/skills/sdlc/flows/wsjf
+    - ./src/skills/sdlc/flows/build-up-spec
+    - ./src/skills/sdlc/flows/slice-spec
+    - ./src/skills/sdlc/flows/bug-intake
+    - ./src/skills/sdlc/flows/issue-tracker
+    - ./src/skills/sdlc/flows/implement-issue
     - ./src/skills/setup-katana-skills
     - ./src/skills/paas/paas-pulumi-infra-setup
 

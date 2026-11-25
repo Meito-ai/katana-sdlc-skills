@@ -6,9 +6,9 @@ import { join } from 'node:path';
 import { describe, test } from 'node:test';
 import { promisify } from 'node:util';
 
-import { planLabels } from '../../src/skills/sdlc/feature-management/build-up-spec/scripts/labels.mjs';
+import { planLabels } from '../../src/skills/sdlc/flows/build-up-spec/scripts/labels.mjs';
 
-const CLI_PATH = new URL('../../src/skills/sdlc/feature-management/build-up-spec/scripts/labels.mjs', import.meta.url).pathname;
+const CLI_PATH = new URL('../../src/skills/sdlc/flows/build-up-spec/scripts/labels.mjs', import.meta.url).pathname;
 const run = promisify(execFile);
 
 const TEAM = ['Epic', 'ready-for-agent', 'needs-info', 'needs-design', 'Tech'];

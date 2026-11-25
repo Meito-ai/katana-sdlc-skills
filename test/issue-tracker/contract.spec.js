@@ -6,7 +6,7 @@ import { describe, test } from 'node:test';
 // every shipped adapter answers every operation of the contract.
 
 const SKILLS = new URL('../../src/skills/', import.meta.url);
-const ISSUE_TRACKER = new URL('sdlc/feature-management/issue-tracker/', SKILLS);
+const ISSUE_TRACKER = new URL('sdlc/flows/issue-tracker/', SKILLS);
 const read = (url) => readFileSync(url, 'utf8');
 
 const OPERATIONS = [

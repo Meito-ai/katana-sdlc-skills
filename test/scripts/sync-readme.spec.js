@@ -7,7 +7,7 @@ const SKILL_MD = (description) => `---\nname: wsjf\ndescription: "${description}
 const APM_YML = (version, ref) =>
   `# A comment\nname: thing\nversion: ${version}\ndependencies:\n  apm:\n    - git: owner/repo\n      ref: "${ref}"  # why\n`;
 
-const WSJF = 'src/skills/sdlc/feature-management/wsjf';
+const WSJF = 'src/skills/sdlc/flows/wsjf';
 const PAAS = 'src/skills/paas/paas-pulumi-infra-setup';
 
 function readme({ rows, flow = 'wsjf' }) {

@@ -8,7 +8,7 @@ import { describe, test } from 'node:test';
 // The design placeholders, as MEI-194 names them.
 const DESIGN_PLACEHOLDERS = ['[add testing seams]', '[add implementation decisions]', '[add key interfaces]'];
 
-const read = (path) => readFileSync(new URL(`../../src/skills/sdlc/feature-management/${path}`, import.meta.url), 'utf8');
+const read = (path) => readFileSync(new URL(`../../src/skills/sdlc/flows/${path}`, import.meta.url), 'utf8');
 
 /** A `## <n>. <title>` step of a SKILL.md, up to the next `## ` heading. */
 function step(markdown, title) {

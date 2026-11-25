@@ -261,9 +261,9 @@ this one retires them. Each works installed alone.
 # apm.yml
 dependencies:
   apm:
-    - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/branch-management/bare-clone-workflow
+    - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/flows/bare-clone-workflow
       ref: "^0.3.0"
-    - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/branch-management/branch-shutdown
+    - git: Meito-ai/katana-sdlc-skills/src/skills/sdlc/flows/branch-shutdown
       ref: "^0.3.0"
 ```
 
