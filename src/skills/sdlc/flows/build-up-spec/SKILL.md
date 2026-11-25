@@ -156,9 +156,9 @@ Draft all of the following from what grilling settled. The user checks it in ste
 - **A formal model**, when the change involves concurrency, distributed state, a protocol or a state
   machine whose invariants tests can't cover well: draft it in the tool the `Formal model:` line names
   and check it before the preview. A passing check adds a requirement for each invariant, covered by a
-  property test at its seam. A counterexample revises the design before the preview; the preview shows
-  it only when the revision is still open. With no `Formal model:` line, the tool is a question for the
-  preview.
+  property test at its seam. A counterexample is shown in the preview, and the design revised before the
+  user publishes. With no `Formal model:` line, sketch the invariants in prose, and ask for the tool in
+  the preview.
 - **Design deferred**: draft no formal model, seams, implementation decisions or key interfaces. Write
   `[add testing seams]` under `## Testing seams`, `[add implementation decisions]` under an epic PRD's
   `## Implementation decisions`, and `[add key interfaces]` under an issue's `## Key interfaces`.
@@ -238,8 +238,9 @@ Done when the item has a WSJF block, with each input's rationale and the rank, o
    - Leave the tracker's own priority field unchanged: the WSJF block is the ranking.
 4. **Preview.** This is the one check of the finished item. Open with what needs the user's judgement:
    the corrections grounding made, the formal model with its check's result or counterexample (with no
-   `Formal model:` line, ask for the tool and record the line as the `Backlog:` line is recorded), `outcome-framing`'s `Changed` list, the open placeholders, and the
-   labels offered for creation. Then show exactly what will be written: the title; the card and PRD,
+   `Formal model:` line, ask for the tool, draft and check the model in it, and record the line under
+   `### Implementation` in the block as `implement-issue` records `Checks:`), `outcome-framing`'s
+   `Changed` list, the open placeholders, and the labels offered for creation. Then show exactly what will be written: the title; the card and PRD,
    or the issue body; the labels, parent, related and duplicate links, and every text fallback the
    adapter applies to them; the target; any PRD amendment; and, for an item refined in place, what
    changes and what stays. Where the adapter declares a body limit, warn when a body exceeds it. Last,

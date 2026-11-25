@@ -144,8 +144,8 @@ line names, and check the model before the gate. Then:
   numbers, each covered by a property test at the issue's seam.
 - The check finds a counterexample: show it at the gate and revise the design before approval; the
   gate does not close on a model that fails.
-- There is no `Formal model:` line: ask for the tool at the gate and record the line as step 4 records
-  `Checks:`, once the user approves.
+- There is no `Formal model:` line: sketch the invariants in prose, ask for the tool at the gate, draft
+  and check the model in it before approval, and record the line as step 4 records `Checks:`.
 
 The gate shows the model, the check's result and the criteria they add.
 

@@ -74,11 +74,11 @@ dependencies:
   - .claude/skills/build-up-spec/scripts/labels.mjs
   - .claude/skills/build-up-spec/templates.md
   deployed_file_hashes:
-    .agents/skills/build-up-spec/SKILL.md: sha256:a7d2bf353f7f1450272ee8e27ffd36a0fac9ca338bcb07b91e270a91961c77c4
+    .agents/skills/build-up-spec/SKILL.md: sha256:67c335f0e1c8a131d742f9a8f14cb4ba7c950bc33c26064feb6645ea738fa419
     .agents/skills/build-up-spec/apm.yml: sha256:b0259adeb4e7dd13ce2c87c3e9762854fb356eded718b56084a094468bdfc5b1
     .agents/skills/build-up-spec/scripts/labels.mjs: sha256:7f07cdbe323fc5543fcdc854af0586da97350407f570fe487e7f3981ba38789e
     .agents/skills/build-up-spec/templates.md: sha256:3eabd6801d61ab77b3f847741cbefab130288491613d1cf6e2267fbd2f9a9e25
-    .claude/skills/build-up-spec/SKILL.md: sha256:a7d2bf353f7f1450272ee8e27ffd36a0fac9ca338bcb07b91e270a91961c77c4
+    .claude/skills/build-up-spec/SKILL.md: sha256:67c335f0e1c8a131d742f9a8f14cb4ba7c950bc33c26064feb6645ea738fa419
     .claude/skills/build-up-spec/apm.yml: sha256:b0259adeb4e7dd13ce2c87c3e9762854fb356eded718b56084a094468bdfc5b1
     .claude/skills/build-up-spec/scripts/labels.mjs: sha256:7f07cdbe323fc5543fcdc854af0586da97350407f570fe487e7f3981ba38789e
     .claude/skills/build-up-spec/templates.md: sha256:3eabd6801d61ab77b3f847741cbefab130288491613d1cf6e2267fbd2f9a9e25
@@ -101,10 +101,10 @@ dependencies:
   - .claude/skills/implement-issue/apm.yml
   deployed_file_hashes:
     .agents/skills/implement-issue/LICENSE-mattpocock-skills: sha256:7633a2c99f37753b7aa18119e604743f2bbbeb838b719d530e6e9565eb3c99f5
-    .agents/skills/implement-issue/SKILL.md: sha256:9cecfd0a3357eb2c9dc62104d185530c2279c895e260225601a97a414fcfd046
+    .agents/skills/implement-issue/SKILL.md: sha256:21e72c9d2c4e78c189f6ec689c449c33341258b9d1bce176b0be7bc1a7d2ea75
     .agents/skills/implement-issue/apm.yml: sha256:2bb82de7f9ab75913c82ece7d7b5d4419819fd159f24dd18b7cd0fafb99c1176
     .claude/skills/implement-issue/LICENSE-mattpocock-skills: sha256:7633a2c99f37753b7aa18119e604743f2bbbeb838b719d530e6e9565eb3c99f5
-    .claude/skills/implement-issue/SKILL.md: sha256:9cecfd0a3357eb2c9dc62104d185530c2279c895e260225601a97a414fcfd046
+    .claude/skills/implement-issue/SKILL.md: sha256:21e72c9d2c4e78c189f6ec689c449c33341258b9d1bce176b0be7bc1a7d2ea75
     .claude/skills/implement-issue/apm.yml: sha256:2bb82de7f9ab75913c82ece7d7b5d4419819fd159f24dd18b7cd0fafb99c1176
   source: local
   local_path: ./src/skills/sdlc/flows/implement-issue
@@ -615,7 +615,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/flows/build-up-spec
   active_owner: ./src/skills/sdlc/flows/build-up-spec
-  content_hash: sha256:a7d2bf353f7f1450272ee8e27ffd36a0fac9ca338bcb07b91e270a91961c77c4
+  content_hash: sha256:67c335f0e1c8a131d742f9a8f14cb4ba7c950bc33c26064feb6645ea738fa419
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/build-up-spec/apm.yml
@@ -831,7 +831,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/flows/implement-issue
   active_owner: ./src/skills/sdlc/flows/implement-issue
-  content_hash: sha256:9cecfd0a3357eb2c9dc62104d185530c2279c895e260225601a97a414fcfd046
+  content_hash: sha256:21e72c9d2c4e78c189f6ec689c449c33341258b9d1bce176b0be7bc1a7d2ea75
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/implement-issue/apm.yml
@@ -1524,7 +1524,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/flows/build-up-spec
   active_owner: ./src/skills/sdlc/flows/build-up-spec
-  content_hash: sha256:a7d2bf353f7f1450272ee8e27ffd36a0fac9ca338bcb07b91e270a91961c77c4
+  content_hash: sha256:67c335f0e1c8a131d742f9a8f14cb4ba7c950bc33c26064feb6645ea738fa419
 - kind: project-relative
   target: claude
   value: .claude/skills/build-up-spec/apm.yml
@@ -1740,7 +1740,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/flows/implement-issue
   active_owner: ./src/skills/sdlc/flows/implement-issue
-  content_hash: sha256:9cecfd0a3357eb2c9dc62104d185530c2279c895e260225601a97a414fcfd046
+  content_hash: sha256:21e72c9d2c4e78c189f6ec689c449c33341258b9d1bce176b0be7bc1a7d2ea75
 - kind: project-relative
   target: claude
   value: .claude/skills/implement-issue/apm.yml
