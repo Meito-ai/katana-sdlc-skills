@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
 
-import { BLOCK_END, BLOCK_START } from '../../src/skills/sdlc/flows/visual-pr/scripts/contract.mjs';
-import { assertHeadMatchesPullRequest, findBlock, upsertBlock } from '../../src/skills/sdlc/flows/visual-pr/scripts/description.mjs';
+import { BLOCK_END, BLOCK_START } from '../../src/skills/sdlc/atomic/visual-pr/scripts/contract.mjs';
+import { assertHeadMatchesPullRequest, findBlock, upsertBlock } from '../../src/skills/sdlc/atomic/visual-pr/scripts/description.mjs';
 
 const OLD_BLOCK = `${BLOCK_START}\n## Summary\nstale\n${BLOCK_END}`;
 const NEW_BLOCK = `${BLOCK_START}\n## Summary\nfresh\n${BLOCK_END}`;

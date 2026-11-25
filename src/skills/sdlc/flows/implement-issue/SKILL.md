@@ -186,7 +186,8 @@ reachable, the approved design. Where the adapter puts the link in the title too
 it as the adapter says. Where the adapter says merging on that code host cannot close the item, the
 description ends with `Close <id> on merge`.
 
-- **GitHub**: open the PR against the base, and write its description with `visual-pr` when installed,
+- **GitHub**: open the PR against the base, and write its description with `visual-pr` when installed (pass it a run directory, e.g. a `katana` folder inside
+  `git rev-parse --git-dir`),
   else with `gh pr create`.
 - **GitLab**: open a merge request against the base with
   `glab mr create --target-branch <base> --title <title> --description <description> --yes`. When it

@@ -101,10 +101,10 @@ dependencies:
   - .claude/skills/implement-issue/apm.yml
   deployed_file_hashes:
     .agents/skills/implement-issue/LICENSE-mattpocock-skills: sha256:7633a2c99f37753b7aa18119e604743f2bbbeb838b719d530e6e9565eb3c99f5
-    .agents/skills/implement-issue/SKILL.md: sha256:b6bff4b13d483ea4a7d5cbdfa9aae0557801a6d1a294733c49c06de2c5d7c387
+    .agents/skills/implement-issue/SKILL.md: sha256:48d18eccd5c6b779357f52ef46dcb8c36a13d97fea36c3ca92af5bf160ef80e6
     .agents/skills/implement-issue/apm.yml: sha256:2bb82de7f9ab75913c82ece7d7b5d4419819fd159f24dd18b7cd0fafb99c1176
     .claude/skills/implement-issue/LICENSE-mattpocock-skills: sha256:7633a2c99f37753b7aa18119e604743f2bbbeb838b719d530e6e9565eb3c99f5
-    .claude/skills/implement-issue/SKILL.md: sha256:b6bff4b13d483ea4a7d5cbdfa9aae0557801a6d1a294733c49c06de2c5d7c387
+    .claude/skills/implement-issue/SKILL.md: sha256:48d18eccd5c6b779357f52ef46dcb8c36a13d97fea36c3ca92af5bf160ef80e6
     .claude/skills/implement-issue/apm.yml: sha256:2bb82de7f9ab75913c82ece7d7b5d4419819fd159f24dd18b7cd0fafb99c1176
   source: local
   local_path: ./src/skills/sdlc/flows/implement-issue
@@ -252,10 +252,10 @@ dependencies:
   - .claude/skills/setup-katana-skills/SKILL.md
   - .claude/skills/setup-katana-skills/agents-block.md
   deployed_file_hashes:
-    .agents/skills/setup-katana-skills/SKILL.md: sha256:e537639562336b51dad0f891c23656df24c097381a2e83d5d375cfc0a27c4387
-    .agents/skills/setup-katana-skills/agents-block.md: sha256:897a81eb964741cbffd1d441d9af865072a92eed1000a4f3017b86dc760deacf
-    .claude/skills/setup-katana-skills/SKILL.md: sha256:e537639562336b51dad0f891c23656df24c097381a2e83d5d375cfc0a27c4387
-    .claude/skills/setup-katana-skills/agents-block.md: sha256:897a81eb964741cbffd1d441d9af865072a92eed1000a4f3017b86dc760deacf
+    .agents/skills/setup-katana-skills/SKILL.md: sha256:d83fd35909fa17e5f4174a298614bcb9c8b3e266f1517ecd6120b23cb95afe8e
+    .agents/skills/setup-katana-skills/agents-block.md: sha256:ce2768c64fd8d6bb8c2cad3a55580ce54eed1e5b2b490fdde223a82e3764c89b
+    .claude/skills/setup-katana-skills/SKILL.md: sha256:d83fd35909fa17e5f4174a298614bcb9c8b3e266f1517ecd6120b23cb95afe8e
+    .claude/skills/setup-katana-skills/agents-block.md: sha256:ce2768c64fd8d6bb8c2cad3a55580ce54eed1e5b2b490fdde223a82e3764c89b
   source: local
   local_path: ./src/skills/setup-katana-skills
   is_dev: true
@@ -307,19 +307,19 @@ dependencies:
   - .claude/skills/visual-pr/scripts/hook.mjs
   deployed_file_hashes:
     .agents/skills/visual-pr/LICENSE-mattpocock-skills: sha256:99bcfdfc48355a918bd3137f3300c220705f1c947d755143feb2855d99152ade
-    .agents/skills/visual-pr/SKILL.md: sha256:05f0799aeb5cbbf56288d4575aaa33b89cbf58c5468ed0cab4cc9871034f7bbd
-    .agents/skills/visual-pr/scripts/cli.mjs: sha256:a569f12b020fefbb4ffd5990ed1b615592680fbdad585683ef1acb93fdab3cdf
+    .agents/skills/visual-pr/SKILL.md: sha256:e128809257c0772d8d0e88f5c6f504afd4b7e2cbe37dc05a7064b8e420063619
+    .agents/skills/visual-pr/scripts/cli.mjs: sha256:e902b797ec4f07b17d820a038015be4cad8e46427805793c3d855c813c1d3405
     .agents/skills/visual-pr/scripts/contract.mjs: sha256:e8655948b097e92cbcf68f728dd866906abe89d60a7ed2444041a6b9e329021b
     .agents/skills/visual-pr/scripts/description.mjs: sha256:cfc1d7ca26feb604a09da606b1bbcd6bae3978d9fcd4ab2d01e96d4d0163804c
     .agents/skills/visual-pr/scripts/hook.mjs: sha256:182b03af9f166a9cad3efdb1eb122eaa57c4dae3ff20a4fec9f30e90ddf43429
     .claude/skills/visual-pr/LICENSE-mattpocock-skills: sha256:99bcfdfc48355a918bd3137f3300c220705f1c947d755143feb2855d99152ade
-    .claude/skills/visual-pr/SKILL.md: sha256:05f0799aeb5cbbf56288d4575aaa33b89cbf58c5468ed0cab4cc9871034f7bbd
-    .claude/skills/visual-pr/scripts/cli.mjs: sha256:a569f12b020fefbb4ffd5990ed1b615592680fbdad585683ef1acb93fdab3cdf
+    .claude/skills/visual-pr/SKILL.md: sha256:e128809257c0772d8d0e88f5c6f504afd4b7e2cbe37dc05a7064b8e420063619
+    .claude/skills/visual-pr/scripts/cli.mjs: sha256:e902b797ec4f07b17d820a038015be4cad8e46427805793c3d855c813c1d3405
     .claude/skills/visual-pr/scripts/contract.mjs: sha256:e8655948b097e92cbcf68f728dd866906abe89d60a7ed2444041a6b9e329021b
     .claude/skills/visual-pr/scripts/description.mjs: sha256:cfc1d7ca26feb604a09da606b1bbcd6bae3978d9fcd4ab2d01e96d4d0163804c
     .claude/skills/visual-pr/scripts/hook.mjs: sha256:182b03af9f166a9cad3efdb1eb122eaa57c4dae3ff20a4fec9f30e90ddf43429
   source: local
-  local_path: ./src/skills/sdlc/flows/visual-pr
+  local_path: ./src/skills/sdlc/atomic/visual-pr
   is_dev: true
 - repo_url: _local/wsjf
   name: wsjf
@@ -831,7 +831,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/flows/implement-issue
   active_owner: ./src/skills/sdlc/flows/implement-issue
-  content_hash: sha256:b6bff4b13d483ea4a7d5cbdfa9aae0557801a6d1a294733c49c06de2c5d7c387
+  content_hash: sha256:48d18eccd5c6b779357f52ef46dcb8c36a13d97fea36c3ca92af5bf160ef80e6
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/implement-issue/apm.yml
@@ -1200,7 +1200,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:e537639562336b51dad0f891c23656df24c097381a2e83d5d375cfc0a27c4387
+  content_hash: sha256:d83fd35909fa17e5f4174a298614bcb9c8b3e266f1517ecd6120b23cb95afe8e
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/setup-katana-skills/agents-block.md
@@ -1209,7 +1209,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:897a81eb964741cbffd1d441d9af865072a92eed1000a4f3017b86dc760deacf
+  content_hash: sha256:ce2768c64fd8d6bb8c2cad3a55580ce54eed1e5b2b490fdde223a82e3764c89b
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/slice-spec
@@ -1306,8 +1306,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/sdlc/flows/visual-pr
-  active_owner: ./src/skills/sdlc/flows/visual-pr
+  - ./src/skills/sdlc/atomic/visual-pr
+  active_owner: ./src/skills/sdlc/atomic/visual-pr
   content_hash: null
 - kind: project-relative
   target: agent-skills
@@ -1315,8 +1315,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/sdlc/flows/visual-pr
-  active_owner: ./src/skills/sdlc/flows/visual-pr
+  - ./src/skills/sdlc/atomic/visual-pr
+  active_owner: ./src/skills/sdlc/atomic/visual-pr
   content_hash: sha256:99bcfdfc48355a918bd3137f3300c220705f1c947d755143feb2855d99152ade
 - kind: project-relative
   target: agent-skills
@@ -1324,26 +1324,26 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/sdlc/flows/visual-pr
-  active_owner: ./src/skills/sdlc/flows/visual-pr
-  content_hash: sha256:05f0799aeb5cbbf56288d4575aaa33b89cbf58c5468ed0cab4cc9871034f7bbd
+  - ./src/skills/sdlc/atomic/visual-pr
+  active_owner: ./src/skills/sdlc/atomic/visual-pr
+  content_hash: sha256:e128809257c0772d8d0e88f5c6f504afd4b7e2cbe37dc05a7064b8e420063619
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/visual-pr/scripts/cli.mjs
   runtime: null
   scope: project
   owners:
-  - ./src/skills/sdlc/flows/visual-pr
-  active_owner: ./src/skills/sdlc/flows/visual-pr
-  content_hash: sha256:a569f12b020fefbb4ffd5990ed1b615592680fbdad585683ef1acb93fdab3cdf
+  - ./src/skills/sdlc/atomic/visual-pr
+  active_owner: ./src/skills/sdlc/atomic/visual-pr
+  content_hash: sha256:e902b797ec4f07b17d820a038015be4cad8e46427805793c3d855c813c1d3405
 - kind: project-relative
   target: agent-skills
   value: .agents/skills/visual-pr/scripts/contract.mjs
   runtime: null
   scope: project
   owners:
-  - ./src/skills/sdlc/flows/visual-pr
-  active_owner: ./src/skills/sdlc/flows/visual-pr
+  - ./src/skills/sdlc/atomic/visual-pr
+  active_owner: ./src/skills/sdlc/atomic/visual-pr
   content_hash: sha256:e8655948b097e92cbcf68f728dd866906abe89d60a7ed2444041a6b9e329021b
 - kind: project-relative
   target: agent-skills
@@ -1351,8 +1351,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/sdlc/flows/visual-pr
-  active_owner: ./src/skills/sdlc/flows/visual-pr
+  - ./src/skills/sdlc/atomic/visual-pr
+  active_owner: ./src/skills/sdlc/atomic/visual-pr
   content_hash: sha256:cfc1d7ca26feb604a09da606b1bbcd6bae3978d9fcd4ab2d01e96d4d0163804c
 - kind: project-relative
   target: agent-skills
@@ -1360,8 +1360,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/sdlc/flows/visual-pr
-  active_owner: ./src/skills/sdlc/flows/visual-pr
+  - ./src/skills/sdlc/atomic/visual-pr
+  active_owner: ./src/skills/sdlc/atomic/visual-pr
   content_hash: sha256:182b03af9f166a9cad3efdb1eb122eaa57c4dae3ff20a4fec9f30e90ddf43429
 - kind: project-relative
   target: agent-skills
@@ -1740,7 +1740,7 @@ deployments:
   owners:
   - ./src/skills/sdlc/flows/implement-issue
   active_owner: ./src/skills/sdlc/flows/implement-issue
-  content_hash: sha256:b6bff4b13d483ea4a7d5cbdfa9aae0557801a6d1a294733c49c06de2c5d7c387
+  content_hash: sha256:48d18eccd5c6b779357f52ef46dcb8c36a13d97fea36c3ca92af5bf160ef80e6
 - kind: project-relative
   target: claude
   value: .claude/skills/implement-issue/apm.yml
@@ -2109,7 +2109,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:e537639562336b51dad0f891c23656df24c097381a2e83d5d375cfc0a27c4387
+  content_hash: sha256:d83fd35909fa17e5f4174a298614bcb9c8b3e266f1517ecd6120b23cb95afe8e
 - kind: project-relative
   target: claude
   value: .claude/skills/setup-katana-skills/agents-block.md
@@ -2118,7 +2118,7 @@ deployments:
   owners:
   - ./src/skills/setup-katana-skills
   active_owner: ./src/skills/setup-katana-skills
-  content_hash: sha256:897a81eb964741cbffd1d441d9af865072a92eed1000a4f3017b86dc760deacf
+  content_hash: sha256:ce2768c64fd8d6bb8c2cad3a55580ce54eed1e5b2b490fdde223a82e3764c89b
 - kind: project-relative
   target: claude
   value: .claude/skills/slice-spec
@@ -2215,8 +2215,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/sdlc/flows/visual-pr
-  active_owner: ./src/skills/sdlc/flows/visual-pr
+  - ./src/skills/sdlc/atomic/visual-pr
+  active_owner: ./src/skills/sdlc/atomic/visual-pr
   content_hash: null
 - kind: project-relative
   target: claude
@@ -2224,8 +2224,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/sdlc/flows/visual-pr
-  active_owner: ./src/skills/sdlc/flows/visual-pr
+  - ./src/skills/sdlc/atomic/visual-pr
+  active_owner: ./src/skills/sdlc/atomic/visual-pr
   content_hash: sha256:99bcfdfc48355a918bd3137f3300c220705f1c947d755143feb2855d99152ade
 - kind: project-relative
   target: claude
@@ -2233,26 +2233,26 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/sdlc/flows/visual-pr
-  active_owner: ./src/skills/sdlc/flows/visual-pr
-  content_hash: sha256:05f0799aeb5cbbf56288d4575aaa33b89cbf58c5468ed0cab4cc9871034f7bbd
+  - ./src/skills/sdlc/atomic/visual-pr
+  active_owner: ./src/skills/sdlc/atomic/visual-pr
+  content_hash: sha256:e128809257c0772d8d0e88f5c6f504afd4b7e2cbe37dc05a7064b8e420063619
 - kind: project-relative
   target: claude
   value: .claude/skills/visual-pr/scripts/cli.mjs
   runtime: null
   scope: project
   owners:
-  - ./src/skills/sdlc/flows/visual-pr
-  active_owner: ./src/skills/sdlc/flows/visual-pr
-  content_hash: sha256:a569f12b020fefbb4ffd5990ed1b615592680fbdad585683ef1acb93fdab3cdf
+  - ./src/skills/sdlc/atomic/visual-pr
+  active_owner: ./src/skills/sdlc/atomic/visual-pr
+  content_hash: sha256:e902b797ec4f07b17d820a038015be4cad8e46427805793c3d855c813c1d3405
 - kind: project-relative
   target: claude
   value: .claude/skills/visual-pr/scripts/contract.mjs
   runtime: null
   scope: project
   owners:
-  - ./src/skills/sdlc/flows/visual-pr
-  active_owner: ./src/skills/sdlc/flows/visual-pr
+  - ./src/skills/sdlc/atomic/visual-pr
+  active_owner: ./src/skills/sdlc/atomic/visual-pr
   content_hash: sha256:e8655948b097e92cbcf68f728dd866906abe89d60a7ed2444041a6b9e329021b
 - kind: project-relative
   target: claude
@@ -2260,8 +2260,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/sdlc/flows/visual-pr
-  active_owner: ./src/skills/sdlc/flows/visual-pr
+  - ./src/skills/sdlc/atomic/visual-pr
+  active_owner: ./src/skills/sdlc/atomic/visual-pr
   content_hash: sha256:cfc1d7ca26feb604a09da606b1bbcd6bae3978d9fcd4ab2d01e96d4d0163804c
 - kind: project-relative
   target: claude
@@ -2269,8 +2269,8 @@ deployments:
   runtime: null
   scope: project
   owners:
-  - ./src/skills/sdlc/flows/visual-pr
-  active_owner: ./src/skills/sdlc/flows/visual-pr
+  - ./src/skills/sdlc/atomic/visual-pr
+  active_owner: ./src/skills/sdlc/atomic/visual-pr
   content_hash: sha256:182b03af9f166a9cad3efdb1eb122eaa57c4dae3ff20a4fec9f30e90ddf43429
 - kind: project-relative
   target: claude

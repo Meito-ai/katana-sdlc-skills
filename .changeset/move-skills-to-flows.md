@@ -13,7 +13,7 @@ it and sets its `ref:` to the release you pinned for setup. Or edit the paths by
 |---|---|
 | `sdlc/branch-management/bare-clone-workflow` | `sdlc/flows/bare-clone-workflow` |
 | `sdlc/branch-management/branch-shutdown` | `sdlc/flows/branch-shutdown` |
-| `sdlc/code-review/visual-pr` | `sdlc/flows/visual-pr` |
+| `sdlc/code-review/visual-pr` | `sdlc/atomic/visual-pr` |
 | `sdlc/feature-management/outcome-framing` | `sdlc/flows/outcome-framing` |
 | `sdlc/feature-management/issue-tracker` | `sdlc/flows/issue-tracker` |
 | `sdlc/feature-management/wsjf` | `sdlc/flows/wsjf` |

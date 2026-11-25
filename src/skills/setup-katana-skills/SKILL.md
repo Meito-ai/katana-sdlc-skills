@@ -23,7 +23,7 @@ The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/sk
 |---|---|---|---|
 | `bare-clone-workflow` | `sdlc/flows/bare-clone-workflow` | worktree rules, bootstrap commands, the layout itself | always |
 | `branch-shutdown` | `sdlc/flows/branch-shutdown` | one rule naming the default branch | always |
-| `visual-pr` | `sdlc/flows/visual-pr` | the PR description rule | `origin` is on GitHub |
+| `visual-pr` | `sdlc/atomic/visual-pr` | the PR description rule | `origin` is on GitHub |
 | `outcome-framing` | `sdlc/flows/outcome-framing` | none: invoked on demand or by `build-up-spec` | always |
 | `issue-tracker` | `sdlc/flows/issue-tracker` | the tracker line, and where the tracker lines live | always |
 | `wsjf` | `sdlc/flows/wsjf` | the default comparison scope; needs `issue-tracker` | always |
@@ -42,7 +42,7 @@ longer exists at the new tags:
 |---|---|
 | `sdlc/branch-management/bare-clone-workflow` | `sdlc/flows/bare-clone-workflow` |
 | `sdlc/branch-management/branch-shutdown` | `sdlc/flows/branch-shutdown` |
-| `sdlc/code-review/visual-pr` | `sdlc/flows/visual-pr` |
+| `sdlc/code-review/visual-pr` | `sdlc/atomic/visual-pr` |
 | `sdlc/feature-management/outcome-framing` | `sdlc/flows/outcome-framing` |
 | `sdlc/feature-management/issue-tracker` | `sdlc/flows/issue-tracker` |
 | `sdlc/feature-management/wsjf` | `sdlc/flows/wsjf` |
@@ -161,7 +161,8 @@ recommended answer so the user can accept it in a word. Skip a question explorat
    Per file, propose copy or symlink (symlink for a symlink candidate), and add any condition the user
    names on a copy.
 6. **PR workflow line** (`visual-pr` picked, a PR workflow doc found). Recommend adding one line to
-   it: write the PR description with `visual-pr`, and refresh it after each push.
+   it: open the PR, then write its description with `visual-pr` (it needs the PR to exist and a run
+   directory to write to), and refresh it after each push.
 7. **Refresh hook** (`visual-pr` picked, the team uses Claude Code). Recommend yes: model invocation
    reliably covers opening a PR but not refreshing it after a later push, and the hook reminds the agent
    whenever a push leaves the description's stamp behind `HEAD`. Other agents ignore the file.

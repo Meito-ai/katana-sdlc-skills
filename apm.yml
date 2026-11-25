@@ -55,7 +55,7 @@ devDependencies:
     # cannot use it while authoring. One line per skill; CI enforces the pairing.
     - ./src/skills/sdlc/flows/bare-clone-workflow
     - ./src/skills/sdlc/flows/branch-shutdown
-    - ./src/skills/sdlc/flows/visual-pr
+    - ./src/skills/sdlc/atomic/visual-pr
     - ./src/skills/sdlc/flows/outcome-framing
     - ./src/skills/sdlc/flows/wsjf
     - ./src/skills/sdlc/flows/build-up-spec
