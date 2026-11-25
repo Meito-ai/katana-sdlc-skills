@@ -2,7 +2,7 @@
 "katana-sdlc-skills": minor
 ---
 
-Every SDLC skill moved into `src/skills/sdlc/flows/`; the area folders are gone. The paas skills
+`setup-katana-skills` now rewrites old paths: every SDLC skill moved into `src/skills/sdlc/flows/` and the area folders are gone. The paas skills
 and `setup-katana-skills` keep their paths. The old paths do not exist at this release, so an `apm.yml`
 entry that pins one fails to install.
 

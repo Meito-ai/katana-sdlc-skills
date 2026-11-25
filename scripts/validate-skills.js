@@ -102,7 +102,8 @@ for (const dir of skillDirs) {
     }
   }
 
-  const rel = relative(ROOT, dir).split(sep).join("/");
+  const refPath = relative(".", dir).split(sep).join("/");
+  const rel = refPath.slice(ROOT.length + 1);
   if (/^sdlc(\/|$)/.test(rel) && !/^sdlc\/(flows|atomic)\/[^/]+$/.test(rel)) {
     errors.push(
       `${dir} is an SDLC skill outside the atomic and flows folders.\n` +
@@ -110,7 +111,6 @@ for (const dir of skillDirs) {
     );
   }
 
-  const refPath = relative(".", dir).split(sep).join("/");
   if (!selfRefs.has(refPath)) {
     errors.push(
       `${dir} has no self-reference in ${APM_YML}.\n` +
