@@ -63,6 +63,18 @@ skills you want explicitly.
 - Commit your `apm.lock.yaml` and run `apm install --frozen` in CI, so a new upstream tag can never
   enter a build without a visible lockfile diff.
 
+## Atomic skills and flows
+
+The skills under `src/skills/sdlc/` come in two kinds, and the folder says which:
+
+- **`atomic/`** skills do one step. They never ask you anything, never touch your tracker and never
+  call a flow. They take every input explicitly and end with exactly one result: `done` (with the
+  paths or URL they produced), `decision needed` (a question, options and a recommendation) or
+  `blocked` (a reason, such as `blocked: missing <input>`). Call one directly and the agent shows you
+  its `decision needed` and runs it again with your answer. An orchestrator of your own can chain them
+  unattended, keeping its gates and loops in its own definition. Today: `visual-pr`.
+- **`flows/`** skills combine steps with gates and loops, and ask you where a decision is yours.
+
 ## How the skills fit together
 
 The skills under [`src/skills/sdlc/`](./src/skills/sdlc) form one flow, from an idea or a bug report to
@@ -153,7 +165,7 @@ Each skill lives at [`src/skills/`](./src/skills).
 |---|---|
 | [`bare-clone-workflow`](./src/skills/sdlc/flows/bare-clone-workflow) <!-- stamp: 1ba92cc3581b --> | Git bare-clone worktree layouts: a container directory holding `.bare`, one sibling worktree per branch, no primary checkout. Clones into the layout, converts an existing clone, adds worktrees. |
 | [`branch-shutdown`](./src/skills/sdlc/flows/branch-shutdown) <!-- stamp: f122a7c7da68 --> | Retires a merged or abandoned branch. Fetches from the remote and proves the work survives on the default branch — including squash-merges — before deleting the worktree, the local branch or the remote branch. |
-| [`visual-pr`](./src/skills/sdlc/flows/visual-pr) <!-- stamp: ca986d3a46a4 --> | Writes the PR description a reviewer reads first: a visual of the change (a Mermaid diagram, a control-flow or file-tree diff), before/after evidence, and merge danger. Kept in one marked block stamped with the PR head sha and refreshed after every push; text outside the block is left alone. A bundled Claude Code hook flags a description left stale by a push. Inspired by the [`pr` skill](https://github.com/mattpocock/skills/tree/v1.3.1/skills/engineering/pr) in `mattpocock/skills`. GitHub only; needs `gh` and Node.js >= 20 on the machine, but not a Node repo. |
+| [`visual-pr`](./src/skills/sdlc/atomic/visual-pr) <!-- stamp: c4ca6cb6e6f3 --> | Writes the PR description a reviewer reads first: a visual of the change (a Mermaid diagram, a control-flow or file-tree diff), before/after evidence, and merge danger. An atomic skill: it takes a run directory (and optionally the PR number) for an open PR, and ends `done` with the PR URL or `blocked` with a reason, such as a broken marker, never asking you anything. Kept in one marked block stamped with the PR head sha and refreshed after every push; text outside the block is left alone. A bundled Claude Code hook flags a description left stale by a push. Inspired by the [`pr` skill](https://github.com/mattpocock/skills/tree/v1.3.1/skills/engineering/pr) in `mattpocock/skills`. GitHub only; needs `gh` and Node.js >= 20 on the machine, but not a Node repo. |
 | [`outcome-framing`](./src/skills/sdlc/flows/outcome-framing) <!-- stamp: 29957d7a9fd8 --> | Refines an epic into outcome framing: classifies it as product, tech or compliance and on the Input-to-Impact ladder, flags prescriptive language, and rewrites its title and description around a measurable result (a KPI, a DORA metric, a fitness function, or a met obligation), confirmed with you in one round. |
 | [`issue-tracker`](./src/skills/sdlc/flows/issue-tracker) <!-- stamp: 43f49f896fab --> | The one way the SDLC skills read and write your tracker: eleven operations (fetch, search, create, update, comment, labels, the epic's PRD, close as duplicate, the frontier, the PR link), each with a text fallback such as `Blocked by:` lines or a `# Spec` section where the tracker lacks it. Ships adapters for Linear, GitHub, Jira Cloud and GitLab (Free and Premium); `setup-katana-skills` writes one for any other tracker. Keeps the tracker's coordinates out of a public repo's committed files. |
 | [`wsjf`](./src/skills/sdlc/flows/wsjf) <!-- stamp: 6c92a4628f57 --> | Scores and ranks epics and issues (product, tech, compliance and bug fixes) by WSJF: cost of delay ((value + risk reduction/opportunity enablement) × time criticality) over job size, each a Fibonacci score relative to already-scored items. Calibrates a reference set on a cold start, ranks with a bundled dependency-free script, and writes a `## WSJF` block back to the tracker after one round of verification. When another skill is drafting the item, the block goes back to it unverified and that skill's preview shows the reasons instead, so you are asked once. Needs `issue-tracker`. |

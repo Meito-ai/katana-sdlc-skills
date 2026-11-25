@@ -23,7 +23,7 @@ The skills this setup manages, all from `Meito-ai/katana-sdlc-skills` at `src/sk
 |---|---|---|---|
 | `bare-clone-workflow` | `sdlc/flows/bare-clone-workflow` | worktree rules, bootstrap commands, the layout itself | always |
 | `branch-shutdown` | `sdlc/flows/branch-shutdown` | one rule naming the default branch | always |
-| `visual-pr` | `sdlc/flows/visual-pr` | the PR description rule | `origin` is on GitHub |
+| `visual-pr` | `sdlc/atomic/visual-pr` | the PR description rule | `origin` is on GitHub |
 | `outcome-framing` | `sdlc/flows/outcome-framing` | none: invoked on demand or by `build-up-spec` | always |
 | `issue-tracker` | `sdlc/flows/issue-tracker` | the tracker line, and where the tracker lines live | always |
 | `wsjf` | `sdlc/flows/wsjf` | the default comparison scope; needs `issue-tracker` | always |
@@ -42,7 +42,7 @@ longer exists at the new tags:
 |---|---|
 | `sdlc/branch-management/bare-clone-workflow` | `sdlc/flows/bare-clone-workflow` |
 | `sdlc/branch-management/branch-shutdown` | `sdlc/flows/branch-shutdown` |
-| `sdlc/code-review/visual-pr` | `sdlc/flows/visual-pr` |
+| `sdlc/code-review/visual-pr` | `sdlc/atomic/visual-pr` |
 | `sdlc/feature-management/outcome-framing` | `sdlc/flows/outcome-framing` |
 | `sdlc/feature-management/issue-tracker` | `sdlc/flows/issue-tracker` |
 | `sdlc/feature-management/wsjf` | `sdlc/flows/wsjf` |

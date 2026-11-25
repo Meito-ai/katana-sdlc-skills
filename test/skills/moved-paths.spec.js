@@ -9,11 +9,12 @@ const setup = readFileSync(new URL('setup-katana-skills/SKILL.md', SKILLS), 'utf
 const oldToNewPaths = [...setup.matchAll(/^\| `(sdlc\/[^`]+)` \| `(sdlc\/[^`]+)` \|$/gm)].map(([, from, to]) => ({ from, to }));
 
 describe('setup-katana-skills moved paths', () => {
-  test('maps every old area path to a skill that exists under sdlc/flows', () => {
+  test('maps every old area path to a skill that exists under sdlc/flows or sdlc/atomic', () => {
     assert.ok(oldToNewPaths.length > 0);
     for (const { from, to } of oldToNewPaths) {
       assert.match(from, /^sdlc\/(branch-management|code-review|feature-management|implementation)\//);
-      assert.equal(to, `sdlc/flows/${from.split('/').pop()}`);
+      const name = from.split('/').pop();
+      assert.equal(to, `sdlc/${name === 'visual-pr' ? 'atomic' : 'flows'}/${name}`);
       assert.ok(existsSync(new URL(`${to}/SKILL.md`, SKILLS)), `${to} does not exist`);
       assert.ok(!existsSync(new URL(from, SKILLS)), `${from} still exists`);
     }
@@ -39,8 +40,8 @@ describe('the release that moves the skills', () => {
     const changeset = readdirSync(dir)
       .filter((f) => f.endsWith('.md') && f !== 'README.md')
       .map((f) => readFileSync(new URL(f, dir), 'utf8'))
-      .find((t) => t.includes('sdlc/flows/'));
-    assert.ok(changeset, 'no changeset mentions sdlc/flows');
+      .find((t) => t.includes('sdlc/branch-management/'));
+    assert.ok(changeset, 'no changeset carries the old-to-new path table');
     for (const { from, to } of oldToNewPaths) {
       assert.match(changeset, new RegExp(`\\| \`${from}\` \\| \`${to}\` \\|`));
     }

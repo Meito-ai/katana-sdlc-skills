@@ -3,12 +3,21 @@
 // Writes (or refreshes) the visual-pr block in a PR description. Runs locally,
 // once the PR exists and HEAD is pushed. The content is composed by the
 // visual-pr skill; this only guards the contract and owns the block mechanics.
+//
+// Reads <run-dir>/visual-pr/content.md and writes nothing but the PR description.
+// Ends with one result: `done: <PR url>` on stdout, or `blocked: <reason>` on stderr
+// when a precondition the caller owns does not hold. Any other error is a defect in
+// the content (fix it and rerun) or in the environment, and carries no prefix.
 
 import { spawn } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import process from 'node:process';
 import { buildBlock } from './contract.mjs';
 import { assertHeadMatchesPullRequest, upsertBlock } from './description.mjs';
+
+// A stop the caller can resolve: a missing input, an unpushed head, a broken marker.
+class Blocked extends Error {}
 
 // Only commands given `input` get a stdin pipe: writing to the pipe of a child
 // that already exited raises EPIPE, which crashes the process when unhandled.
@@ -68,25 +77,52 @@ async function readLocalHeadSha() {
 
 async function readPullRequest(prNumber) {
   const selector = prNumber ? [prNumber] : [];
-  const stdout = await run('gh', ['pr', 'view', ...selector, '--json', 'body,headRefOid,number,url']);
-  return JSON.parse(stdout);
+  try {
+    const stdout = await run('gh', ['pr', 'view', ...selector, '--json', 'body,headRefOid,number,url']);
+    return JSON.parse(stdout);
+  } catch (error) {
+    if (/no pull requests? found/i.test(error.message)) {
+      throw new Blocked('missing pull request (none for the current branch; pass --pr <number>)');
+    }
+    throw error;
+  }
+}
+
+async function readContent(runDir) {
+  const path = join(runDir, 'visual-pr', 'content.md');
+  try {
+    return await readFile(path, 'utf8');
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      throw new Blocked(`missing ${path}`);
+    }
+    throw error;
+  }
+}
+
+function guarded(check) {
+  try {
+    return check();
+  } catch (error) {
+    throw new Blocked(error.message);
+  }
 }
 
 async function runWrite(options) {
-  if (!options.body) {
-    throw new Error('Missing required option: --body <file>');
+  if (!options['run-dir']) {
+    throw new Blocked('missing run-dir');
   }
-  const content = await readFile(options.body, 'utf8');
+  const content = await readContent(options['run-dir']);
 
   const pullRequest = await readPullRequest(options.pr);
   const localSha = await readLocalHeadSha();
-  assertHeadMatchesPullRequest({ localSha, pullRequestHeadSha: pullRequest.headRefOid });
+  guarded(() => assertHeadMatchesPullRequest({ localSha, pullRequestHeadSha: pullRequest.headRefOid }));
 
   const block = buildBlock({ content, sha: pullRequest.headRefOid });
-  const { action, body } = upsertBlock(pullRequest.body, block);
+  const { action, body } = guarded(() => upsertBlock(pullRequest.body, block));
   await run('gh', ['pr', 'edit', String(pullRequest.number), '--body-file', '-'], body);
 
-  process.stdout.write(`${action} visual-pr block on PR #${pullRequest.number}: ${pullRequest.url}\n`);
+  process.stdout.write(`done: ${pullRequest.url} (${action} the visual-pr block)\n`);
 }
 
 async function main() {
@@ -94,10 +130,11 @@ async function main() {
   if (command === 'write') {
     return runWrite(options);
   }
-  throw new Error('Usage: cli.mjs write --body <file> [--pr <number>]');
+  throw new Error('Usage: cli.mjs write --run-dir <dir> [--pr <number>]');
 }
 
 main().catch((error) => {
-  process.stderr.write(`visual-pr: ${error.message}\n`);
+  const prefix = error instanceof Blocked ? 'blocked: ' : '';
+  process.stderr.write(`visual-pr: ${prefix}${error.message}\n`);
   process.exitCode = 1;
 });

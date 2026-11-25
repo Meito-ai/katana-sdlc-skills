@@ -1,6 +1,6 @@
 ---
 name: visual-pr
-description: "Write a GitHub PR description that is fast to review: a visual of the change, before/after evidence and merge danger, kept in one marked block stamped with the PR head commit. Use when opening a PR, writing a PR description, or after pushing to a branch with an open PR."
+description: "Write a GitHub PR description that is fast to review: a visual of the change, before/after evidence and merge danger, kept in one marked block stamped with the PR head commit. Use when writing the description of an open PR, or after pushing to a branch with an open PR."
 metadata:
   adapted-from: "https://github.com/mattpocock/skills/tree/v1.3.1/skills/engineering/pr"
   adapted-license: "MIT, Matt Pocock; see LICENSE-mattpocock-skills"
@@ -22,6 +22,28 @@ Inspired by the [`pr` skill](https://github.com/mattpocock/skills/tree/v1.3.1/sk
 of `mattpocock/skills` v1.3.1: the sections and the merge-danger vocabulary come from it
 ([licence](LICENSE-mattpocock-skills)). The block, the stamp, the refresh and the contract are additions.
 
+## Inputs
+
+- **`run-dir`** (required): the directory the caller passes for this skill's files. The skill writes its
+  content to `<run-dir>/visual-pr/content.md` and nowhere else.
+- **`pr`** (optional): the PR number. Without it, the PR of the current branch.
+
+The PR must already exist and local `HEAD` must be pushed to it: the stamp names the commit the content
+was derived from, and the CLI refuses to write otherwise. The skill never opens a PR and never pushes.
+
+## Results
+
+The skill ends with exactly one result, the CLI's last line.
+
+- `done`: `done: <PR url>`. The block is written for the current head.
+- `decision needed`: never returned. The content follows from the diff, so there is no choice to hand back.
+- `blocked`: `blocked: <reason>`, from the CLI: `missing run-dir`, `missing pull request`, a head that
+  is not the PR head, or a broken marker. Return the CLI's reason as it is. A `missing <input>` is
+  returned the same way when the caller omits a required input.
+
+A content error (a missing section, a cap, a Mermaid typo) is not `blocked`: the CLI prints what to fix,
+and the skill fixes the content and runs it again.
+
 ## Requirements
 
 - **GitHub only.** The CLI talks to the PR through `gh`, which must be installed and authenticated
@@ -31,29 +53,26 @@ of `mattpocock/skills` v1.3.1: the sections and the merge-danger vocabulary come
 
 ## Workflow
 
-`<skill-dir>` below is the directory holding this `SKILL.md` (e.g. `.claude/skills/visual-pr`).
+`<skill-dir>` below is the directory holding this `SKILL.md`, wherever the harness installed it.
 
-1. **Push.** Local `HEAD` must be the PR head: the stamp names the commit the content was derived from,
-   and the CLI refuses to write otherwise.
-2. **Open the PR** when there is none: `gh pr create --title "<title>" --body ""`. When the repo has a PR
-   template, fill the template's sections that the block does not cover and pass them as `--body`
-   instead; they stay below the block, as the author's text.
-3. **Read the change**: the diff against the merge-base and the commits. On a refresh, also read the
+1. **Check the inputs.** A missing `run-dir` is `blocked: missing run-dir`.
+2. **Read the change**: the diff against the merge-base and the commits. On a refresh, also read the
    current block (`gh pr view --json body`).
-4. **Write the content** (below) to a scratch file outside the repo, never committed.
-5. **Write the block**:
+3. **Write the content** (below) to `<run-dir>/visual-pr/content.md`.
+4. **Write the block**:
 
    ```bash
-   node <skill-dir>/scripts/cli.mjs write --body <scratch-file>
+   node <skill-dir>/scripts/cli.mjs write --run-dir <run-dir>
    ```
 
-   Add `--pr <number>` when the current branch is not the PR's head branch.
-6. Report the PR URL.
+   Add `--pr <number>` when `pr` was passed.
+5. **Return the result**: the CLI's `done: <PR url>` or `blocked: <reason>`.
 
-Done when the CLI reports the block written for the current head.
-
-**Refresh** after every push to the PR: steps 3 to 5 again. Derive Summary and Evidence afresh from the
+**Refresh** after every push to the PR: steps 2 to 4 again. Derive Summary and Evidence afresh from the
 whole diff. Carry Merge Danger over unless the new commits change the door or the blast radius.
+
+**Side effects.** The only thing this skill writes outside the run directory is the PR description, and
+inside it only the block. It makes no commit, no push and no other call that changes the PR.
 
 In Claude Code, `scripts/hook.mjs` is a `PostToolUse` hook on `Bash` that catches a missed refresh:
 after a `gh pr create` or `git push`, it tells the agent when the PR's stamp is not `HEAD`.
@@ -134,6 +153,7 @@ pseudocode), or command output.
   block only through the CLI. A human edit inside the block is overwritten on the next refresh, and the
   stamp line says so.
 - **Markers are the CLI's.** Leave them out of the content; the contract rejects them. A description
-  with a lone or repeated marker stops the CLI: fix the markers on GitHub by hand, then rerun it.
+  with a lone or repeated marker stops the CLI with `blocked`: the caller repairs the markers, then
+  runs the skill again.
 - **Markdown and Mermaid only.** GitHub sanitizes HTML in descriptions, and private-repo images do not
   render through its image proxy, so they are the only formats that need no hosting.

@@ -68,7 +68,7 @@ pick an issue up.
 
 ### PR descriptions
 
-Write every PR description with the `visual-pr` skill, and refresh it after each push to a branch with
-an open PR.
+Open the PR, then write its description with the `visual-pr` skill, and refresh it after each push to a
+branch with an open PR.
 <!-- katana-skills:end -->
 ````

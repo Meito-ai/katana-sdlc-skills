@@ -11,7 +11,7 @@ import {
   renderStampLine,
   splitSections,
   toShortSha,
-} from '../../src/skills/sdlc/flows/visual-pr/scripts/contract.mjs';
+} from '../../src/skills/sdlc/atomic/visual-pr/scripts/contract.mjs';
 
 const SHA = 'a1b2c3d4e5f60718293a4b5c6d7e8f9012345678';
 

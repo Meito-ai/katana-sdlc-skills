@@ -212,6 +212,38 @@ in the skill's own directory (`name`, `version` equal to `package.json`, `descri
 `devDependencies:` — it exists only so the skill loads locally.) If it calls another katana skill,
 say so in its `SKILL.md` and in `setup-katana-skills`, never in its `apm.yml` (see the traps above).
 
+### Atomic skills
+
+Skills are filed by kind. **`src/skills/sdlc/atomic/<name>`** holds the skills that do one step and can
+run unattended, as a step in someone else's orchestrator. **`src/skills/sdlc/flows/<name>`** holds the
+skills that combine steps with gates and loops. The folder states the kind, so a skill carries no kind
+metadata. A skill moves to `atomic/` only when it meets the contract below; `npm test` enforces it.
+
+An atomic skill:
+
+- **Takes every input explicitly**, in an `## Inputs` section: one list item per input, each marked
+  **required** or **optional**. It never infers a missing required input, never asks for it, and ends
+  `blocked: missing <input>`. Whatever a tracker would supply arrives as a file in the run directory.
+- **Ends with exactly one result**, named in a `## Results` section:
+  - `done`, with the paths of its outputs (or the URL its job produces);
+  - `decision needed`, with a question, its options and a recommendation;
+  - `blocked`, with a reason.
+
+  A skill that can never need a decision says so under `decision needed` rather than leaving it out.
+- **Never**: asks the user, waits for approval or asks for confirmation; names `issue-tracker`, the
+  tracker or one of its operations; calls a flow; calls a skill by slash command; reads skills from one
+  harness's directory only (`.claude/skills/…`, `.codex/…`). It may call other atomic skills. When
+  someone calls it directly, the calling agent shows them its `decision needed` and runs it again with
+  their answer. Gates, loops and round limits belong to the flow or orchestrator that calls it.
+- **Writes only into the run directory its caller passes**, apart from the side effect its job names,
+  such as a commit or a PR description. The caller chooses the run directory, so the skill takes it as a
+  required input and never picks a location of its own.
+
+`test/skills/atomic-contract.spec.js` reads the text of every skill in `atomic/` and fails, naming the
+skill and the wording, on a question or gate, a tracker mention, a flow call, a slash command, a
+harness-only path, or a missing Inputs or Results section. Words that negate the wording ("never asks
+the user") pass. `visual-pr` is the reference: its CLI returns `done: <PR url>` or `blocked: <reason>`.
+
 ### Keeping the README in step
 
 `README.md` carries one row per skill and, for the skills under `src/skills/sdlc/`, a flow diagram.
