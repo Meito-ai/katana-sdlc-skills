@@ -161,7 +161,8 @@ recommended answer so the user can accept it in a word. Skip a question explorat
    Per file, propose copy or symlink (symlink for a symlink candidate), and add any condition the user
    names on a copy.
 6. **PR workflow line** (`visual-pr` picked, a PR workflow doc found). Recommend adding one line to
-   it: write the PR description with `visual-pr`, and refresh it after each push.
+   it: open the PR, then write its description with `visual-pr` (it needs the PR to exist and a run
+   directory to write to), and refresh it after each push.
 7. **Refresh hook** (`visual-pr` picked, the team uses Claude Code). Recommend yes: model invocation
    reliably covers opening a PR but not refreshing it after a later push, and the hook reminds the agent
    whenever a push leaves the description's stamp behind `HEAD`. Other agents ignore the file.

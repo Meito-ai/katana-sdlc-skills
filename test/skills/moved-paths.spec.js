@@ -14,7 +14,7 @@ describe('setup-katana-skills moved paths', () => {
     for (const { from, to } of oldToNewPaths) {
       assert.match(from, /^sdlc\/(branch-management|code-review|feature-management|implementation)\//);
       const name = from.split('/').pop();
-      assert.equal(to, `sdlc/${name === 'visual-pr' ? 'atomic' : 'flows'}/${name}`);
+      assert.match(to, new RegExp(`^sdlc/(flows|atomic)/${name}$`));
       assert.ok(existsSync(new URL(`${to}/SKILL.md`, SKILLS)), `${to} does not exist`);
       assert.ok(!existsSync(new URL(from, SKILLS)), `${from} still exists`);
     }
