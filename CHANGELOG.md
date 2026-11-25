@@ -1,5 +1,42 @@
 # katana-sdlc-skills
 
+## 0.4.0
+
+### Minor Changes
+
+- [#27](https://github.com/Meito-ai/katana-sdlc-skills/pull/27) - `visual-pr` is now an **atomic skill**, and the atomic contract is written down in `AGENTS.md`: an atomic
+  skill never asks you anything, never touches the tracker and never calls a flow, takes every input
+  explicitly, and ends with one result: `done`, `decision needed` or `blocked`. CI fails when a skill in
+  `src/skills/sdlc/atomic/` breaks it.
+  
+  - **New path:** `sdlc/atomic/visual-pr` (was `sdlc/flows/visual-pr`, and `sdlc/code-review/visual-pr`
+    before that). **Rerun `/setup-katana-skills`**, or edit the path in your `apm.yml` by hand.
+  - **New invocation:** `node <skill-dir>/scripts/cli.mjs write --run-dir <dir> [--pr <number>]` reads the
+    content from `<dir>/visual-pr/content.md`. The `--body <file>` option is gone.
+  - **The PR must already exist.** `visual-pr` no longer opens one; open it, then write its description.
+  - **Results:** the CLI prints `done: <PR url>`, or `blocked: <reason>` for a missing run directory or PR,
+    a head that is not pushed, or a broken marker. Repair what it names and run it again.
+
+- [#25](https://github.com/Meito-ai/katana-sdlc-skills/pull/25) - `setup-katana-skills` now rewrites old paths: every SDLC skill moved into `src/skills/sdlc/flows/` and the area folders are gone. The paas skills
+  and `setup-katana-skills` keep their paths. The old paths do not exist at this release, so an `apm.yml`
+  entry that pins one fails to install.
+  
+  **Rerun `/setup-katana-skills`.** It lists each entry at an old path with its new one, then rewrites
+  it and sets its `ref:` to the release you pinned for setup. Or edit the paths by hand:
+  
+  | Old path | New path |
+  |---|---|
+  | `sdlc/branch-management/bare-clone-workflow` | `sdlc/flows/bare-clone-workflow` |
+  | `sdlc/branch-management/branch-shutdown` | `sdlc/flows/branch-shutdown` |
+  | `sdlc/code-review/visual-pr` | `sdlc/atomic/visual-pr` |
+  | `sdlc/feature-management/outcome-framing` | `sdlc/flows/outcome-framing` |
+  | `sdlc/feature-management/issue-tracker` | `sdlc/flows/issue-tracker` |
+  | `sdlc/feature-management/wsjf` | `sdlc/flows/wsjf` |
+  | `sdlc/feature-management/build-up-spec` | `sdlc/flows/build-up-spec` |
+  | `sdlc/feature-management/slice-spec` | `sdlc/flows/slice-spec` |
+  | `sdlc/feature-management/bug-intake` | `sdlc/flows/bug-intake` |
+  | `sdlc/implementation/implement-issue` | `sdlc/flows/implement-issue` |
+
 ## 0.3.0
 
 ### Minor Changes
